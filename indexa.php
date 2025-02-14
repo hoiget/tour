@@ -11,6 +11,7 @@ if (isset($_SESSION['Admin_name'])) {
    setcookie('login_cookie', $username, 0, "/"); // Cookie phiên
 
    if (!isset($_SESSION['login_time'])) {
+
        $_SESSION['login_time'] = time();
    }
    
