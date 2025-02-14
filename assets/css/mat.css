@@ -1,0 +1,18 @@
+.password-container {
+    position: relative;
+    width: 100%; /* Đảm bảo khớp với kích thước của input */
+}
+
+.password-container input {
+    width: 91%;
+    padding-right: 40px; /* Chừa khoảng trống cho biểu tượng mắt */
+}
+
+.password-container i {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #888; /* Màu sắc của biểu tượng */
+}
