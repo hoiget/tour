@@ -7,62 +7,7 @@ include_once("connect.php");
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $action = $_POST['action'];
 
-    if ($action == "login") {
-        $loginInput = $_POST['name']; // Có thể là email hoặc số điện thoại
-        $password = $_POST['password'];
-
-
-
-
-        // Truy vấn kiểm tra email hoặc số điện thoại và mật khẩu đã được mã hóa MD5
-        $sql = "SELECT * FROM admin WHERE Admin_name = ? AND Admin_password = MD5(?)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ss", $loginInput, $password); // Bind cả email và số điện thoại
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result->num_rows == 1) {
-            $user = $result->fetch_assoc();
-
-            // Lưu thông tin vào session
-            $_SESSION['Sr_no'] = $user['Sr_no'];
-            $_SESSION['Admin_name'] = $user['Admin_name']; // Lưu tên người dùng
-
-            echo 'success';
-        } else {
-            echo 'error';
-        }
-    } elseif ($action == "loginnv") {
-        $loginInput = $_POST['name']; // Có thể là email hoặc số điện thoại
-        $password = $_POST['password'];
-
-        // Truy vấn kiểm tra email hoặc số điện thoại và mật khẩu đã được mã hóa MD5
-        $sql = "SELECT * FROM employees WHERE (Email = ? OR Phone_number = ?) AND Password = MD5(?)";
-
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sss", $loginInput, $loginInput, $password); // Bind cả email và số điện thoại
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result->num_rows == 1) {
-            $user = $result->fetch_assoc();
-
-            // Lưu thông tin vào session
-            $_SESSION['id'] = $user['id'];
-            $_SESSION['Employee_code'] = $user['Employee_code']; // Mã nhân viên
-            $_SESSION['Name'] = $user['Name']; // Tên người dùng
-            $_SESSION['Username'] = $user['Username']; // Tên đăng nhập
-            $_SESSION['Email'] = $user['Email']; // Email
-            $_SESSION['Phone_number'] = $user['Phone_number']; // Số điện thoại
-            $_SESSION['Address'] = $user['Address']; // Địa chỉ
-            $_SESSION['Permissions'] = $user['Permissions']; // Quyền hạn (QL, CSKH, HDV)
-            $_SESSION['Created_at'] = $user['Created_at']; // Ngày tạo tài khoản
-
-            echo 'success';
-        } else {
-            echo 'error';
-        }
-    } elseif ($action == "updatettcnnv") {
+    if ($action == "updatettcnnv") {
         $username = $_POST['name']; // Tên tài khoản
         $email = $_SESSION['Email']; // Lấy email từ session
         $phone = $_SESSION['Phone_number'];  // Lấy số điện thoại từ session
@@ -411,7 +356,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $timetour = $_POST['no'];
         $discount = $_POST['gg'];
         $vehicle = $_POST['PT'];
-
+        $vung = $_POST['vung'];
         $conn->begin_transaction();
 
         try {
@@ -420,11 +365,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 UPDATE tour 
                 SET Name = ?, Style = ?, Price = ?, Child_price_percen = ?, Max_participant = ?, Min_participant = ?, 
                     Description = ?, Status = ?, Depart = ?, DepartureLocation = ?, Itinerary = ?, employeesId = ?, 
-                    type = ?, timetour = ?, discount = ?, vehicle = ?
+                    type = ?, timetour = ?, discount = ?, vehicle = ?,vung = ?
                 WHERE id = ?";
             $stmt_tour = $conn->prepare($update_tour_query);
             $stmt_tour->bind_param(
-                "ssissssssssissisi",
+                "ssissssssssississi",
                 $name,
                 $style,
                 $price,
@@ -441,6 +386,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $timetour,
                 $discount,
                 $vehicle,
+                $vung,
                 $id
             );
             $stmt_tour->execute();
@@ -507,6 +453,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $timetour = $_POST['no']; // Ngày ở
         $discount = $_POST['gg']; // Giảm giá
         $vehicle = $_POST['PT']; // Phương tiện
+        $vung = $_POST['vung']; // Phương tiện
         $order = 0;
         // Bắt đầu kiểm tra và xử lý ảnh
         if (isset($_FILES['anh']) && $_FILES['anh']['error'] == 0) {
@@ -529,11 +476,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     // Thêm dữ liệu vào bảng tour
                     $insert_tour_query = "
                         INSERT INTO tour (Name, Style, Price, Child_price_percen, Max_participant, Min_participant, 
-                        Description, Status, Depart, DepartureLocation, Itinerary, employeesId, type, timetour, discount, vehicle) 
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        Description, Status, Depart, DepartureLocation, Itinerary, employeesId, type, timetour, discount, vehicle,vung) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
                     $stmt_tour = $conn->prepare($insert_tour_query);
                     $stmt_tour->bind_param(
-                        "ssissssssssissis",
+                        "ssissssssssississ",
                         $name,
                         $style,
                         $price,
@@ -549,7 +496,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $type,
                         $timetour,
                         $discount,
-                        $vehicle
+                        $vehicle,
+                        $vung
                     );
                     $stmt_tour->execute();
 
@@ -592,11 +540,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Nhận dữ liệu từ form
         $id = $_POST['id'];
         $name = $_POST['ten'];
+        $diadiem = $_POST['ddd'];
         $area = $_POST['dt'];
         $price = $_POST['price'];
         $status = $_POST['status'];
         $adult = $_POST['td'];
         $children = $_POST['tt'];
+        $ngaynhan= $_POST['ngaynhan'];   
+        $ngaytra = $_POST['ngaytra'];
         $description = $_POST['dereption'];
         $feature_id = $_POST['dd'];
         $facility_id = $_POST['ti'];
@@ -628,17 +579,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     exit;
                 }
             }
+            if ($ngaynhan >= $ngaytra) {
+                echo 'error day';
+                exit;
+            }
 
             // Cập nhật bảng `room`
             $update_room_query = "
                 UPDATE rooms 
-                SET Name = ?, Area = ?, Price = ?, Adult = ?, Children = ?, Status = ?, 
+                SET Name = ?,Diadiem = ?,Ngaynhan = ?,Ngaytra = ?, Area = ?, Price = ?, Adult = ?, Children = ?, Status = ?, 
                     Removed = ?, employeesId = ?
                 WHERE id = ?";
             $stmt_room = $conn->prepare($update_room_query);
             $stmt_room->bind_param(
-                "ssissssii",
+                "sssssissssii",
                 $name,
+                $diadiem,
+                $ngaynhan,
+                $ngaytra,
                 $area,
                 $price,
                 $adult,
@@ -681,6 +639,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } elseif ($action == "themroom") {
         // Nhận dữ liệu từ form
         $name = $_POST['ten'];
+        $diadiem = $_POST['ddd'];
+        $ngaytra = $_POST['ngaytra'];   
+        $ngaynhan = $_POST['ngaynhan']; 
         $area = $_POST['dt'];
         $price = $_POST['price'];
         $status = $_POST['status'];
@@ -717,15 +678,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     exit;
                 }
             }
+            if ($ngaynhan >= $ngaytra) {
+                echo 'error day';
+                exit;
+            }
 
             // Thêm mới vào bảng `rooms`
             $insert_room_query = "
-                INSERT INTO rooms (Name, Area, Price, Adult, Children, Status, Removed, employeesId)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                INSERT INTO rooms (Name,Diadiem,Ngaynhan,Ngaytra, Area, Price, Adult, Children, Status, Removed, employeesId)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt_room = $conn->prepare($insert_room_query);
             $stmt_room->bind_param(
-                "ssissssi",
+                "sssssissssi",
                 $name,
+                $diadiem,
+                $ngaynhan,  
+                $ngaytra,
                 $area,
                 $price,
                 $adult,

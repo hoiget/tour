@@ -210,6 +210,13 @@
                         </div>
                         <div class="form-group">
                             <div>
+                                <label for="ten">Địa điểm:</label>
+                                <input type="text" id="ddd" name="ddd">
+                            </div>
+                    
+                        </div>
+                        <div class="form-group">
+                            <div>
                                 <label for="price">Gía phòng:</label>
                                 <input type="number" id="price" name="price" >
                             </div>
@@ -236,6 +243,16 @@
                             <div>
                                 <label for="tt">Trẻ em:</label>
                                 <input type="number" id="tt" name="tt" >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                <label for="dereption">Ngày nhận:</label>
+                               <input type="date" id="ngaynhan" name="ngaynhan" >
+                            </div>
+                            <div>
+                                <label for="emid">Ngày trả:</label>
+                                <input type="date" id="ngaytra" name="ngaytra">
                             </div>
                         </div>
                         <div class="form-group">
@@ -279,6 +296,7 @@
             <tr>
                 <th>ID</th>
                 <th>Tên phòng</th>
+                <th>Địa điểm</th>
                 <th>Diện tích</th>
                 <th>Gía</th>
                 <th>Ảnh</th>
@@ -287,6 +305,8 @@
                 <th>Status</th>
                 <th>Đặc điểm phòng</th>
                 <th>Tiện nghi phòng</th>
+                <th>Ngày nhận</th>
+                <th>Ngày trả</th>   
                 <th>Nội dung</th>
                 <th>Người tạo</th>
                 <th>Action</th>
@@ -314,6 +334,7 @@
                       <tr>
                     <td>${event.idroom}</td>
                     <td>${event.room_name}</td>
+                    <td>${event.Diadiem}</td>
                     <td>${event.Area}</td>
                     <td>${event.Price}</td>
                     <td><img style="width:50px;height:50px;" src="./assets/img/KS/${event.Image}" alt="${event.Thumb}" class="card-img-top"></td>
@@ -322,6 +343,8 @@
                     <td>${event.Status}</td>
                     <td>${event.feature_name}</td>
                     <td>${event.facility_name}</td>
+                    <td>${event.Ngaynhan}</td>
+                   <td>${event.Ngaytra}</td>
                     <td class="description">${event.Description}</td>
                     <td>${event.tennhanvien}</td>
                    `;
@@ -391,6 +414,13 @@ function openRatingModal(Id) {
                                 <input type="text" id="dt" name="dt" value="${room.Area}">
                             </div>
                         </div>
+                         <div class="form-group">
+                            <div>
+                                <label for="ten">Địa điểm:</label>
+                                <input type="text" id="ddd" name="ddd" value="${room.Diadiem}">
+                            </div>
+                    
+                        </div>
                         <div class="form-group">
                             <div>
                                 <label for="price">Gía phòng:</label>
@@ -425,6 +455,16 @@ function openRatingModal(Id) {
                             <div>
                                 <label for="tt">Trẻ em:</label>
                                 <input type="number" id="tt" name="tt" value="${room.Children}">
+                            </div>
+                        </div>
+                         <div class="form-group">
+                            <div>
+                                <label for="dereption">Ngày nhận:</label>
+                               <input type="date" id="ngaynhan" name="ngaynhan" value="${room.Ngaynhan}">
+                            </div>
+                            <div>
+                                <label for="emid">Ngày trả:</label>
+                                <input type="date" id="ngaytra" name="ngaytra" value="${room.Ngaytra}">
                             </div>
                         </div>
                         <div class="form-group">
@@ -569,6 +609,8 @@ function capnhatroom() {
                     openPopup('Thông báo', 'Không upload ảnh được');
                 }else if (response === 'upload_error') {
                     openPopup('Thông báo', 'Không upload ảnh được');
+                }else if (response === 'error day') {
+                    openPopup('Thông báo', 'Ngày nhận phải trước ngày trả');
                 }
             },
             error: function (xhr, status, error) {
@@ -605,6 +647,8 @@ function themroom() {
                     openPopup('Thông báo', 'Cập nhật không thành công');
                 } else if (response === 'upload_error') {
                     openPopup('Thông báo', 'Không upload ảnh được');
+                }else if (response === 'error day') {
+                    openPopup('Thông báo', 'Ngày nhận phải trước ngày trả');
                 }
             },
             error: function (xhr, status, error) {
@@ -640,6 +684,7 @@ function searchroom(event) {
                      <tr>
                    <td>${event.idroom}</td>
                    <td>${event.room_name}</td>
+                     <td>${event.Diadiem}</td>
                    <td>${event.Area}</td>
                    <td>${event.Price}</td>
                    <td><img style="width:50px;height:50px;" src="./assets/img/KS/${event.Image}" alt="${event.Thumb}" class="card-img-top"></td>
@@ -648,6 +693,8 @@ function searchroom(event) {
                    <td>${event.Status}</td>
                    <td>${event.feature_name}</td>
                    <td>${event.facility_name}</td>
+                   <td>${event.Ngaynhan}</td>
+                   <td>${event.Ngaytra}</td>
                    <td class="description">${event.Description}</td>
                    <td>${event.tennhanvien}</td>
                   `;

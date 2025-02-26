@@ -76,39 +76,41 @@ function closePopup() {
 }
 
 
-
 function showlogio() {
     let email = document.getElementById('email').value;
     let password = document.getElementById('password').value;
 
     if (email === "" || password === "") {
-        openPopup('Vui lòng điền đầy đủ thông tin.', '');
+        openPopup('Lỗi', 'Vui lòng điền đầy đủ thông tin.');
         return;
     }
 
     $(document).ready(function() {
         $('#loginform').submit(function(e) {
-            e.preventDefault(); // Prevents the form from submitting the traditional way
+            e.preventDefault();
             $.ajax({
                 type: 'POST',
                 url: './api/api.php',
                 data: $(this).serialize(),
                 success: function(response) {
-                    if (response === 'success') {
-                        openPopup('Đăng nhập Thành công', '');
-                        window.location.href = 'index.php'; // Redirect after successful login
+                    if (response === 'customer') {
+                        openPopup('Đăng nhập thành công', '');
+                        window.location.href = 'index.php'; // Điều hướng khách hàng
+                    } else if (response === 'staff' || response === 'admin') {
+                        openPopup('Đăng nhập thành công', '');
+                        window.location.href = 'indexa.php'; // Điều hướng nhân viên & admin
                     } else {
-                        
-                        openPopup('Đăng nhập thất bại', 'Thông tin không đúng.');
+                        openPopup('Đăng nhập thất bại', 'Thông tin không chính xác.');
                     }
                 },
                 error: function() {
-                    openPopup('Lỗi kết nối', 'Có lỗi xảy ra. Vui lòng thử lại.');
+                    openPopup('Lỗi kết nối', 'Không thể kết nối đến server.');
                 }
             });
         });
     });
 }
+
 function togglePasswordVisibility(inputId, iconId) {
     let passwordInput = document.getElementById(inputId);
     let eyeIcon = document.getElementById(iconId);

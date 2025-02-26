@@ -149,7 +149,7 @@ a{
         <div class="container-layout">
     <!-- Sidebar -->
 <div class="sidebar">
-    <h5>Bạn muốn khởi hành từ đâu?</h5>
+    <h5>Loại tour bạn muốn đi?</h5>
     <div>
         <input type="radio" id="family" name="type" value="Gia đình">
         <label for="family">Gia đình</label>
@@ -188,7 +188,10 @@ function xemtour() {
         url: './api/api.php?action=xemtour',
         type: 'GET',
         dataType: 'json', // Tự động phân tích chuỗi JSON thành object/mảng
+        cache: false,
         success: function(response) {
+            $('#xemtour').html('');  // 🔥 Xóa hết nội dung cũ trước khi cập nhật
+            $('.tour-cards').remove(); 
             
             if (Array.isArray(response) && response.length > 0) {
                 var events = response;
@@ -203,11 +206,7 @@ function xemtour() {
                             <a href="index.php?idtour=${event.id}&xemdanhgiatour=${event.id}&xemdanhgiarating=${event.id}"><p>${event.Name}<br>${event.Thumb}</p></a>
                          
                          `;
-                        if(event.Status == 'Active'){
-                            eventHtml += '<p style="color:green">Còn chỗ</p>';
-                        }else{
-                            eventHtml += '<p style="color:red">Hết chỗ</p>';
-                        }
+                        
                        
                      eventHtml += `</div>`;
                     if ((index + 1) % 3 === 0 || (index + 1) === events.length) {
@@ -225,13 +224,56 @@ function xemtour() {
         }
     });
 }
+
+function xemtourtheomien(mien) {
+    $.ajax({
+        url: `./api/api.php?action=xemtourtheomien&mien=${mien}`,
+        type: 'GET',
+        dataType: 'json',
+        cache: false,
+        success: function(response) {
+            $('#xemtour').html('');  // 🔥 Xóa hết nội dung cũ trước khi cập nhật
+            $('.tour-cards').remove(); 
+            if (Array.isArray(response) && response.length > 0) {
+                var eventHtml = '';
+                response.forEach(function(event, index) {
+                    if (index % 3 === 0) eventHtml += '<div class="tour-cards">';
+                    
+                    eventHtml += `
+                        <div class="tour-card">
+                            <a href="index.php?idtour=${event.id}&xemdanhgiatour=${event.id}&xemdanhgiarating=${event.id}">
+                                <img src="./assets/img/tour/${event.Image}" alt="">
+                            </a>
+                            <a href="index.php?idtour=${event.id}&xemdanhgiatour=${event.id}&xemdanhgiarating=${event.id}">
+                                <p>${event.Name}<br>${event.Thumb}</p>
+                            </a>
+                           
+                        </div>`;
+
+                    if ((index + 1) % 3 === 0 || (index + 1) === response.length) {
+                        eventHtml += '</div>';
+                    }
+                });
+                $('#xemtour').html(eventHtml);
+            } else {
+                $('#xemtour').html('<div class="col">Không có tour nào.</div>');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Lỗi khi lấy thông tin:', error);
+            $('#xemtour').html('<div class="col">Lỗi tải tour.</div>');
+        }
+    });
+}
 function timKiemTourtype(type) {
     $.ajax({
         url: `./api/api.php?action=timkiemtheotype&type=${type}`,
         type: 'GET',
         dataType: 'json',
+        cache: false,
         success: function (response) {
-            
+            $('#xemtour').html('');  // 🔥 Xóa hết nội dung cũ trước khi cập nhật
+            $('.tour-cards').remove(); 
             if (Array.isArray(response) && response.length > 0) {
                 var tours = response;
                 var tourHtml = '';
@@ -248,11 +290,7 @@ function timKiemTourtype(type) {
                                 <p>${tour.Name}<br>${tour.Thumb}</p>
                             </a>
                             `
-                         if(tour.Status == 'Active'){
-                            tourHtml += '<p style="color:green">Còn chỗ</p>';
-                        }else{
-                            tourHtml += '<p style="color:red">Hết chỗ</p>';
-                        } 
+                        
                          tourHtml += `</div>`;
                     if ((index + 1) % 3 === 0 || (index + 1) === tours.length) {
                         tourHtml += '</div>';
@@ -270,13 +308,17 @@ function timKiemTourtype(type) {
     });
 }
 
-function timKiemThongTin(name, date, budget, type) {
+function timKiemThongTin(name, date, budget) {
+
+
     $.ajax({
-        url: `./api/api.php?action=timkiemtheothongtin&name=${name}&date=${date}&budget=${budget}&type=${type}`,
+        url: `./api/api.php?action=timkiemtheothongtin&name=${name}&date=${date}&budget=${budget}`,
         type: 'GET',
         dataType: 'json',
+        cache: false,
         success: function (response) {
-            
+            $('#xemtour').html('');  // 🔥 Xóa hết nội dung cũ trước khi cập nhật
+            $('.tour-cards').remove(); 
             if (Array.isArray(response) && response.length > 0) {
                 var tours = response;
                 var tourHtml = '';
@@ -294,11 +336,7 @@ function timKiemThongTin(name, date, budget, type) {
                             </a>
                             
                           `
-                         if(tour.Status == 'Active'){
-                            tourHtml += '<p style="color:green">Còn chỗ</p>';
-                        }else{
-                            tourHtml += '<p style="color:red">Hết chỗ</p>';
-                        } 
+                         
                          tourHtml += `
                         </div>`;
                     if ((index + 1) % 3 === 0 || (index + 1) === tours.length) {
@@ -318,21 +356,57 @@ function timKiemThongTin(name, date, budget, type) {
 }
 
 
-$(document).ready(function() {
+$(document).ready(function () {
+    console.log("Trang xemtour.php đã load!"); // Kiểm tra xem script có chạy không
+   
+   
     xemtour();
+    let urlParams = new URLSearchParams(window.location.search);
 
+if (urlParams.has('tour')) {
+  
+    let name = urlParams.get('name') || '';
+    let date = urlParams.get('date') || '';
+    let budget = urlParams.get('budget') || '';
+    
+
+    console.log("Tìm kiếm với:", name, date, budget);
+
+    // Gán lại giá trị vào ô tìm kiếm
+    $('.search-input').val(name);
+    $('.date-input').val(date);
+    $('.budget-select').val(budget);
+   
+
+    // Gọi API tìm kiếm
+    timKiemThongTin(name, date, budget);
+}
+
+if(urlParams.has('mien')) {
+   
+        let selectedMien = urlParams.get('mien');
+        console.log("Lọc theo miền:", selectedMien);
+        xemtourtheomien(selectedMien);
+}
+
+    // Xử lý sự kiện khi chọn radio button lọc theo loại tour
     $('.sidebar input[type="radio"]').change(function () {
-        var selectedType = $(this).val(); // Lấy giá trị từ radio button
-        timKiemTourtype(selectedType); // Gọi hàm tìm kiếm tour theo type
+        var selectedType = $(this).val();
+        console.log("Lọc theo loại tour:", selectedType);
+        timKiemTourtype(selectedType);
     });
 
+    // Xử lý sự kiện khi nhấn nút tìm kiếm
     $('.search-button').click(function () {
-        var name = $('.search-input').val(); // Lấy giá trị từ input name
-        var date = $('.date-input').val(); // Lấy giá trị từ input date
-        var budget = $('.budget-select').val(); // Lấy giá trị từ select budget
-        var type = $('input[name="type"]:checked').val(); // Lấy giá trị type (radio button hoặc checkbox)
+        event.preventDefault();  // 🚀 Chặn load lại trang
+        var name = $('.search-input').val();
+        var date = $('.date-input').val();
+        var budget = $('.budget-select').val();
+        var type = $('input[name="type"]:checked').val();
 
-        timKiemThongTin(name, date, budget, type); // Gọi hàm tìm kiếm với các tham số
+        console.log("Tìm kiếm với:", name, date, budget, type);
+        timKiemThongTin(name, date, budget, type);
     });
-    });
+});
+
 </script>

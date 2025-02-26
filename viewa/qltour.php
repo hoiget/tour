@@ -313,6 +313,22 @@
                             </div>
                             
                         </div>
+                        <div class="form-group">
+                           
+                             <div>
+                                <label for="Title">Vùng:</label>
+                                <select name="vung">
+                             
+                             <option value="Nam">Miền Nam</option>
+                             <option value="Bắc" >Miền Bắc</option>
+                             <option value="Tây" >Miền Tây</option>
+                             <option value="Trung" >Miền Trung</option>
+                             <option value="Ngoài nước" >Nước ngoài</option>
+                             </select>
+                              
+                            </div>
+                            
+                        </div>
                         <center><button type="submit" class="submit-btn">Thêm</button></center>
                     </form>
                     </div>
@@ -345,6 +361,7 @@
                 <th>Ngày ở</th>
                 <th>Giảm giá</th>
                 <th>Phương tiện</th>
+                <th>Vùng</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -385,7 +402,8 @@
                     <td>${event.type}</td>
                     <td>${event.timetour}</td>
                     <td>${event.discount}</td>
-                    <td>${event.vehicle}</td>`;
+                    <td>${event.vehicle}</td>
+                    <td>${event.vung}</td>`;
                 
                     
                      eventHtml +=`<td>
@@ -564,6 +582,21 @@ function openRatingModal(Id) {
                               
                            
                             </div>
+                            
+                        </div>
+                           <div class="form-group">
+                            <div>
+                                <label for="Title">Vùng:</label>
+                                <select name="vung">
+                                <option value="${data[0].vung}" selected>${data[0].vung}</option>
+                               <option value="Nam">Miền Nam</option>
+                                <option value="Bắc" >Miền Bắc</option>
+                                <option value="Tây" >Miền Tây</option>
+                                <option value="Trung" >Miền Trung</option>
+                                <option value="Ngoài nước" >Nước ngoài</option>
+                                </select>
+                            </div>
+                           
                             
                         </div>
                         <center><button type="submit" class="submit-btn">Cập nhật</button></center>

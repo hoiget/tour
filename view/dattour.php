@@ -63,7 +63,10 @@ button:hover {
 .form-row label {
   margin-bottom: 5px; /* Căn chỉnh khoảng cách giữa label và input */
 }
-
+#totalchild,#totalad{
+  border: none;
+  background-color: white;
+}
 </style>
 <br><br>
 <div class="container4">
@@ -95,10 +98,12 @@ button:hover {
         <div>
           <label for="adults">Người lớn :</label>
           <input type="number" id="adults" name="adults" value="1" min="0" oninput="calculateTotal()">
+          <span id="totalad">0</span> VNĐ
         </div>
         <div>
-          <label for="children">Trẻ em :</label>
+          <label for="children">Trẻ em (dưới 11 tuổi):</label>
           <input type="number" id="children" name="children" value="0" min="0" oninput="calculateTotal()">
+          <span id="totalchild">0</span> VNĐ
         </div>
       </div>
 
@@ -106,8 +111,9 @@ button:hover {
         
         <div>
           <label for="babies">Em bé (dưới 2 tuổi, miễn phí):</label>
-          <input type="number" id="babies" name="babies" value="0" min="0" oninput="calculateTotal()">
+          <input type="number" id="babies" name="babies" value="0" min="0"  oninput="calculateTotal()">
         </div>
+        
       </div>
 
       <div class="form-row">
@@ -118,13 +124,13 @@ button:hover {
           <div id="xemtour1"></div>
         </div>
       </div>
-   
+    
   </div>
 
   <!-- Nút -->
   <br>
   <center>
-    <button id="book-button">Thanh toán online</button>
+  
    
     <button type="submit" id="book-button" onclick="dattourfull()">Đặt giữ chỗ</button>
   </center>
@@ -215,7 +221,7 @@ function xemdattour() {
       <div class="form-row">
         <div>
           <label for="departure-date">Thời gian khởi hành:</label>
-          <input type="date" id="ns" name="ns" value="${event.Depart}">
+          <input type="date" id="ns" name="ns" value="${event.Depart}" readonly>
         </div>
         <div>
           <label for="duration">Thời gian diễn ra tour (ngày):</label>
@@ -256,12 +262,27 @@ function xemdattour() {
       
         if (Array.isArray(response) && response.length > 0) {
           const event = response[0]; // Lấy phần tử đầu tiên
-          const eventHtml = `
-          <input type="number" hidden name="child" id="child" value="${event.Child_price_percen}" min="0">
+          let eventHtml = ``;
+          if (parseInt(event.discount)==0) {
+            eventHtml +=`
+            <input type="text" hidden name="max" id="max" value="${event.Max_participant}">
+              <input type="text"  hidden name="order" id="order" value="${event.Order}">
+            <input type="number" hidden name="child" id="child" value="${event.Child_price_percen}" min="0">
+            <input type="number" hidden id="price" name="price" value="${event.Price}" readonly>
+            <input type="text" hidden id="price1" name="price1" value="${event.Price}" readonly>
+            <input type="text" id="total-price" name="total-price" value="`+event.Price+`" readonly>
+          `;
+          }else if(parseInt(event.discount) > 0){
+            eventHtml +=`
+             <input type="text"  hidden name="max" id="max" value="${event.Max_participant}">
+             <input type="text"  hidden name="order" id="order" value="${event.Orders}">
+            <input type="number" hidden name="child" id="child" value="${event.Child_price_percen}" min="0">
             <input type="number" hidden id="price" name="price" value="${event.discount}" readonly>
             <input type="text" hidden id="price1" name="price1" value="${event.discount}" readonly>
             <input type="text" id="total-price" name="total-price" value="`+event.discount+`" readonly>
-          `;
+          `;}
+          
+          
           $('#xemtour1').html(eventHtml);
         } else {
           $('#xemtour1').html('Không tìm thấy tour với ID ' + idtour);
@@ -304,7 +325,11 @@ function xemdattour() {
                         openPopup('Lỗi', 'lỗi không thêm dược detail');
                     }else if (response === 'insert_order_error') {
                         openPopup('Lỗi', 'lỗi không thêm được order');
-                    }else{
+                    }else if (response.startsWith('quaso|')) {
+                    let messageParts = response.split('|');
+                    openPopup('Cảnh báo',messageParts[1]+'\n');
+                } 
+                    else{
                       openPopup('Lỗi', 'lỗi');
                     }   
                     
@@ -335,6 +360,13 @@ $(document).ready(function() {
 </script>
 <script>
 function calculateTotal() {
+  const priceInput = document.getElementById("price");
+    const childInput = document.getElementById("child");
+
+    if (!priceInput || !childInput) {
+        console.warn("Giá tour chưa được tải, không thể tính tổng.");
+        return;
+    }
   const adultPrice = document.getElementById("price").value; // Giá người lớn
   const childRate = document.getElementById("child").value / 100; // Tỷ lệ giá trẻ em (5-11 tuổi)
   const babyPrice = 0; // Em bé miễn phí
@@ -343,7 +375,9 @@ function calculateTotal() {
   const adults = document.getElementById("adults").value || 0;
   const children = document.getElementById("children").value || 0;
   const babies = document.getElementById("babies").value || 0;
-
+  const totalAdult = adults * adultPrice;
+  const totalChild = children * (adultPrice * childRate);
+  
   // Tính tiền
   const total =
     adults * adultPrice +
@@ -352,11 +386,12 @@ function calculateTotal() {
 
   // Hiển thị tổng tiền (không có dấu chấm)
   document.getElementById("total-price").value = total.toLocaleString('vi-VN').replace(/\./g, '');
+  document.getElementById("totalad").innerText = totalAdult.toLocaleString('vi-VN');
+  document.getElementById("totalchild").innerText = totalChild.toLocaleString('vi-VN');
 }
 
 // Tính tiền ngay khi trang được tải lần đầu
 window.onload = calculateTotal;
-
 
 
 </script>

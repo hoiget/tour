@@ -195,12 +195,17 @@ function xemdanhgiarating() {
                                 <li><strong>Xuất phát:</strong> ${event.DepartureLocation}</li>
                                 <li><strong>Lịch trình:</strong> ${event.Itinerary}</li>
                             </ul>
-                            <div class="details1">
+                            <div class="details1">`
+                            if (parseInt(event.discount)==0) {
+                                eventHtml+= `<strong>Giá tour:</strong> `+ parseInt(event.Price).toLocaleString('vi-VN') + ` VNĐ `
+                            }else if(parseInt(event.discount) > 0){
+                             eventHtml+=`
                                 <strong>Giá tour:</strong> `+ parseInt(event.discount).toLocaleString('vi-VN') + ` VNĐ - 
                                 <del style="color:white">`+ parseInt(event.Price).toLocaleString('vi-VN') + ` VNĐ</del>
+                            `}
+                            eventHtml+=`
                             </div>
                             <center>
-                            
                             `
                             
                                 if (parseInt(event.Orders) >= parseInt(event.Max_participant)) {

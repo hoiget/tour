@@ -8,13 +8,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $action = $_POST['action'];
 
     if ($action == "login") {
-        $loginInput = $_POST['email']; // Có thể là email hoặc số điện thoại
+        $loginInput = $_POST['email']; // Email hoặc số điện thoại
         $password = $_POST['password'];
 
-        // Truy vấn kiểm tra email hoặc số điện thoại và mật khẩu đã được mã hóa MD5
+        // Kiểm tra trong bảng user_credit (Khách hàng)
         $sql = "SELECT * FROM user_credit WHERE (Email = ? OR sdt = ?) AND Password = MD5(?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sss", $loginInput, $loginInput, $password); // Bind cả email và số điện thoại
+        $stmt->bind_param("sss", $loginInput, $loginInput, $password);
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -23,18 +23,65 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Lưu thông tin vào session
             $_SESSION['id'] = $user['id'];
-            $_SESSION['Name'] = $user['Name']; // Lưu tên người dùng
-            $_SESSION['Email'] = $user['Email']; // Lưu email
-            $_SESSION['sdt'] = $user['sdt']; // Lưu số điện thoại
-            $_SESSION['Address'] = $user['Address']; // Lưu địa chỉ
-            $_SESSION['profile'] = $user['profile']; // Lưu đường dẫn ảnh đại diện (nếu có)
-            $_SESSION['Datetime'] = $user['Datetime']; // Lưu ngày giờ tạo tài khoản
+            $_SESSION['Name'] = $user['Name'];
+            $_SESSION['Email'] = $user['Email'];
+            $_SESSION['sdt'] = $user['sdt'];
+            $_SESSION['Address'] = $user['Address'];
+            $_SESSION['profile'] = $user['profile'];
+            $_SESSION['Datetime'] = $user['Datetime'];
+            $_SESSION['role'] = 'customer'; // Đánh dấu là khách hàng
 
-            echo 'success';
-        } else {
-            echo 'error';
+            echo 'customer'; // Điều hướng đến index.php
+            exit();
         }
-    } elseif ($action == "register") {
+
+        // Kiểm tra trong bảng employees (Nhân viên)
+        $sql = "SELECT * FROM employees WHERE (Email = ? OR Phone_number = ?) AND Password = MD5(?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("sss", $loginInput, $loginInput, $password);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows == 1) {
+            $employee = $result->fetch_assoc();
+
+            $_SESSION['id'] = $employee['id'];
+            $_SESSION['Employee_code'] = $employee['Employee_code']; // Mã nhân viên
+            $_SESSION['Name'] = $employee['Name']; // Tên người dùng
+            $_SESSION['Username'] = $employee['Username']; // Tên đăng nhập
+            $_SESSION['Email'] = $employee['Email']; // Email
+            $_SESSION['Phone_number'] = $employee['Phone_number']; // Số điện thoại
+            $_SESSION['Address'] = $employee['Address']; // Địa chỉ
+            $_SESSION['Permissions'] = $employee['Permissions']; // Quyền hạn (QL, CSKH, HDV)
+            $_SESSION['Created_at'] = $employee['Created_at']; // Ngày tạo tài khoản
+
+            echo 'staff'; // Điều hướng đến indexa.php
+            exit();
+        }
+
+        // Kiểm tra trong bảng admin (Quản trị viên)
+        $sql = "SELECT * FROM admin WHERE Admin_name = ? AND Admin_password = MD5(?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ss", $loginInput, $password);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows == 1) {
+            $admin = $result->fetch_assoc();
+
+            // Sửa lỗi: Dùng biến đúng ($admin thay vì $user)
+            $_SESSION['Sr_no'] = $admin['Sr_no'];
+            $_SESSION['Admin_name'] = $admin['Admin_name']; // Lưu tên admin
+
+            echo 'admin'; // Điều hướng đến indexa.php
+            exit();
+        }
+
+        // Nếu không tìm thấy tài khoản
+        echo 'error';
+        exit();
+    }
+     elseif ($action == "register") {
         $username = $_POST['name']; // Tên tài khoản
         $email = $_POST['email'];
         $phone = $_POST['sdt'];
@@ -165,21 +212,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $refund = 0;
         $datetime = date("Y-m-d");
         $participants = $_POST['adults'] + $_POST['children'] + $_POST['babies'];
-
+        $order= $_POST['order'];
         $tour_name = $_POST['tour_name'];
         $price = $_POST['price1'];
         $total_pay = $_POST['total-price'];
         $user_name = $_POST['fullname'];
         $phone_num = $_POST['phone'];
         $address = $_POST['address'];
-
-
+        $max = $_POST['max'];
+        $soluong=$max - $order;
+        
         // Kiểm tra nếu các trường bắt buộc rỗng
         if (empty($user_id) || empty($tour_id) || empty($tour_name) || empty($price)) {
             echo 'missing_data';
             exit;
         }
-
+        if($participants > $order){
+            echo 'quaso|quá số lượng chỉ còn '.$soluong.' vé';
+            exit;
+        }
         // 1. Thêm vào bảng booking_ordertour
         $insert_order_query = "INSERT INTO booking_ordertour (
             User_id, Tour_id, Departure_id, Arrival, Booking_status, Payment_status, refund, Datetime, participants
@@ -232,6 +283,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if ($stmt_detail->execute()) {
                 // 3. Cập nhật orders trong bảng departure_time
+
                 $update_departure_query = "UPDATE departure_time SET Orders = Orders + ? WHERE id_tour = ?";
                 $stmt_departure = $conn->prepare($update_departure_query);
 
@@ -465,7 +517,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->close();
     }
 
+    elseif ($action == "guitouryeucau") {
+        $user_id = $_POST['user_id'];
+        $customer_name = $_POST['customer_name'];
+        $tour_name = $_POST['tour_name'];
+        $departure_date = $_POST['departure_date'];
+        $tour_price = $_POST['tour_price'];
+        $itinerary = $_POST['itinerary'];
+        $tour_duration = $_POST['tour_duration'];
+        $phuongtien = $_POST['phuongtien'];
 
+       
+        // Chèn dữ liệu vào bảng feedback
+        $sql = "INSERT INTO request_tour(user_id, customer_name, tour_name, departure_date, tour_price, itinerary, tour_duration,phuongtien)
+        VALUES (?, ?, ?, ?, ?, ?, ?,?)";
+
+       
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("isssisss", $user_id, $customer_name, $tour_name, $departure_date, $tour_price, $itinerary, $tour_duration, $phuongtien);
+
+        if ($stmt->execute()) {
+            echo "Phản hồi của bạn đã được gửi thành công!";
+        } else {
+            echo "Có lỗi xảy ra:" . $conn->error;
+        }
+        $stmt->close();
+    }
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -544,7 +621,23 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
         echo json_encode($res); // Trả về JSON
         exit;
-    } elseif ($action == "xemlayout") {
+    }elseif ($action == "xemtourtheomien") {
+        $mien = $_GET['mien'];
+        $query = "SELECT * FROM tour INNER JOIN tour_images ON tour.id = tour_images.id_tour where vung = '$mien'";
+
+        $result = $conn->query($query);
+
+        $res = [];
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $res[] = $row; // Lưu từng bản ghi vào mảng
+            }
+        }
+
+        echo json_encode($res); // Trả về JSON
+        exit;
+    }  
+    elseif ($action == "xemlayout") {
         $query = "SELECT * FROM tour INNER JOIN tour_images ON tour.id = tour_images.id_tour LIMIT 6";
 
         $result = $conn->query($query);
@@ -618,7 +711,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $name = isset($_GET['name']) ? $_GET['name'] : '';
         $date = isset($_GET['date']) ? $_GET['date'] : '';
         $budget = isset($_GET['budget']) ? $_GET['budget'] : '';
-        $type = isset($_GET['type']) ? $_GET['type'] : '';
+    
         // Tạo câu truy vấn động
         $query = "SELECT * FROM tour INNER JOIN tour_images ON tour.id = tour_images.id_tour WHERE 1=1";
 
@@ -638,9 +731,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 $query .= " AND tour.price > 10000000";
             }
         }
-        if (!empty($type)) {
-            $query .= " AND tour.type = '$type'";
-        }
+       
         $result = $conn->query($query);
         $res = [];
         if ($result && $result->num_rows > 0) {
@@ -711,41 +802,67 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             echo json_encode(['error' => 'Không tìm thấy dữ liệu.']);
         }
         exit;
-    } elseif ($action == "timkiemtheothongtinks") {
+    }elseif ($action == "timkiemtheothongtinks") {
         // Lấy dữ liệu từ form hoặc URL
         $name = isset($_GET['name']) ? $_GET['name'] : '';
         $area = isset($_GET['area']) ? $_GET['area'] : '';
         $price = isset($_GET['price']) ? $_GET['price'] : '';
         $adult = isset($_GET['adult']) ? $_GET['adult'] : '';
         $children = isset($_GET['children']) ? $_GET['children'] : '';
-
+        $checkin = isset($_GET['checkin']) ? $_GET['checkin'] : '';
+        $checkout = isset($_GET['checkout']) ? $_GET['checkout'] : '';
+    
+        // Kiểm tra ngày nhận phải trước ngày trả
+       
         // Xây dựng câu truy vấn SQL
         $query = "
-    SELECT rooms.*, rooms_images.Image,rooms_images.Thumb
-    FROM rooms
-    INNER JOIN rooms_images ON rooms.id = rooms_images.Room_id
-    WHERE 1=1";
-
-        // Điều kiện tìm kiếm
+            SELECT rooms.*, rooms_images.Image, rooms_images.Thumb
+            FROM rooms
+            INNER JOIN rooms_images ON rooms.id = rooms_images.Room_id
+            WHERE 1=1";
+    
+        // Điều kiện tìm kiếm theo tên hoặc địa điểm
         if (!empty($name)) {
-            $query .= " AND rooms.Name LIKE '%$name%'";
+            $query .= " AND (rooms.Name LIKE '%$name%' OR rooms.Diadiem LIKE '%$name%')";
         }
+    
+        // Lọc theo ngày nhận và ngày trả (không kiểm tra phòng đã đặt trước)
+    
+        // Điều kiện số người lớn
         if (!empty($adult)) {
             $query .= " AND rooms.Adult = '$adult'";
         }
+        if (!empty($checkin) && !empty($checkout)) {
+            if (strtotime($checkin) >= strtotime($checkout)) {
+                echo json_encode(['error' => 'Ngày nhận phải trước ngày trả!']);
+                exit;
+            }
+        
+            // Sửa điều kiện lọc ngày nhận và ngày trả
+            $query .= " AND ('$checkin' BETWEEN rooms.Ngaynhan AND rooms.Ngaytra 
+                            OR '$checkout' BETWEEN rooms.Ngaynhan AND rooms.Ngaytra 
+                            OR (rooms.Ngaynhan <= '$checkin' AND rooms.Ngaytra >= '$checkout'))";
+        }
+      
+      
+    
+        // Điều kiện số trẻ em
         if (!empty($children)) {
             $query .= " AND rooms.Children = '$children'";
         }
+    
+        // Điều kiện diện tích
         if (!empty($area)) {
             if ($area == 'Small') {
-                $query .= " AND Area < 30"; // Diện tích nhỏ dưới 30m²
+                $query .= " AND rooms.Area < 30";
             } elseif ($area == 'Medium') {
-                $query .= " AND Area BETWEEN 30 AND 50"; // Diện tích từ 30m² đến 50m²
+                $query .= " AND rooms.Area BETWEEN 30 AND 50";
             } elseif ($area == 'Large') {
-                $query .= " AND Area > 50"; // Diện tích lớn trên 50m²
+                $query .= " AND rooms.Area > 50";
             }
         }
-
+    
+        // Điều kiện giá
         if (!empty($price)) {
             if ($price == 'low') {
                 $query .= " AND rooms.Price < 1000000";
@@ -759,20 +876,28 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 $query .= " AND rooms.Price > 4000000";
             }
         }
-
+    
+        // Sắp xếp theo giá tăng dần
+        $query .= " ORDER BY rooms.Price ASC";
+    
         // Thực hiện truy vấn
         $result = $conn->query($query);
-
+    
         $res = [];
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
+                $row['Checkin'] = $checkin;
+                $row['Checkout'] = $checkout;
                 $res[] = $row;
             }
             echo json_encode($res); // Trả về JSON
         } else {
             echo json_encode(['error' => 'Không tìm thấy phòng phù hợp.']);
         }
-    } elseif ($action == "timkiemtheotypeks") {
+    }
+    
+    
+    elseif ($action == "timkiemtheotypeks") {
         $type = $_GET['area'];
         // Kiểm tra nếu giá trị type hợp lệ
 
@@ -1342,7 +1467,36 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             echo json_encode($res); // Trả về dữ liệu dạng JSON
         }
         exit;
-    }
+    } if ($action == "xemhot") {
+
+        $query = "SELECT * FROM tour INNER JOIN tour_images ON tour.id = tour_images.id_tour WHERE discount > 0";
+        $result = $conn->query($query);
+
+        $users = [];
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $users[] = $row; // Lưu từng bản ghi vào mảng
+            }
+        }
+
+        echo json_encode($users); // Trả về JSON
+        exit;
+    } 
+    if ($action == "xemyeuthich") {
+
+        $query = "SELECT departure_time.*,tour_images.*,tour.*,tour.id AS tourid FROM tour INNER JOIN tour_images ON tour.id = tour_images.id_tour LEFT JOIN departure_time ON tour.id = departure_time.id_tour  WHERE Orders > 10 LIMIT 10";
+        $result = $conn->query($query);
+
+        $users = [];
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $users[] = $row; // Lưu từng bản ghi vào mảng
+            }
+        }
+
+        echo json_encode($users); // Trả về JSON
+        exit;
+    } 
 
 
 }

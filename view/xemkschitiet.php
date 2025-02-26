@@ -179,6 +179,9 @@ function xemdanhgiaratingks() {
                     <li><strong>Diện tích:</strong> ${event.Area}</li>
                     <li><strong>Người lớn:</strong> ${event.Adult} người</li>
                     <li><strong>Trẻ em:</strong> ${event.Children} người</li>
+                    <li><strong>Địa điểm:</strong> ${event.Diadiem}</li>
+                     <li><strong>Ngày nhận:</strong> ${event.Ngaynhan}</li>
+                      <li><strong>Ngày trả:</strong> ${event.Ngaytra}</li>
                     <li><strong>Đặc điểm phòng:</strong> ${event.feature_name || 'Chưa có tính năng'}</li>
                     <li><strong>Tiện ích phòng:</strong> ${event.facility_name || 'Chưa có tiện nghi'}</li>
                   </ul>

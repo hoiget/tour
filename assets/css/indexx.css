@@ -465,49 +465,111 @@ h6 {
 # Global Footer
 --------------------------------------------------------------*/
 .footer {
-  --background-color: color-mix(in srgb, var(--default-color), transparent 95%);
-  border-top: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
-  color: var(--default-color);
-  background-color: var(--background-color);
+  background-color: #111;
+  color: #fff;
   font-size: 14px;
-  padding: 40px 0;
-  position: relative;
+  padding: 40px 20px;
 }
 
-.footer .copyright p {
-  margin-bottom: 0;
+.footer .container {
+  max-width: 1200px;
+  margin: auto;
 }
 
-.footer .social-links {
-  margin-top: 20px;
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
-.footer .social-links a {
+.footer-left,
+.footer-right {
+  flex: 1;
+  min-width: 300px;
+}
+
+.footer-left {
+  text-align: left;
+}
+
+.footer-right {
+  text-align: right;
+}
+
+.footer-nav {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.footer-nav li {
+  margin-bottom: 8px;
+}
+
+.footer-nav a {
+  color: #4caf50;
+  text-decoration: none;
+}
+
+.footer-nav a:hover {
+  text-decoration: underline;
+}
+
+.contact-info p {
+  margin: 5px 0;
+}
+
+.social-links {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.social-links a {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 1px solid color-mix(in srgb, var(--default-color), transparent 50%);
+  background: rgba(255, 255, 255, 0.1);
   font-size: 16px;
-  color: color-mix(in srgb, var(--default-color), transparent 50%);
-  margin: 0 5px;
+  color: #fff;
   transition: 0.3s;
 }
 
-.footer .social-links a:hover {
-  color: var(--accent-color);
-  border-color: var(--accent-color);
+.social-links a:hover {
+  background: #ff6b6b;
 }
 
-.footer .credits {
-  margin-top: 10px;
-  font-size: 13px;
-  text-align: center;
+.newsletter {
+  margin-top: 20px;
 }
 
+.newsletter input {
+  padding: 8px;
+  width: 250px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
 
+.newsletter button {
+  padding: 8px 12px;
+  border: none;
+  background: #4caf50;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.newsletter button:hover {
+  background: #388e3c;
+}
+
+.footer-logo img {
+  max-width: 120px;
+  margin-top: 15px;
+}
 
 @keyframes lineincrease {
   0% {
@@ -714,6 +776,7 @@ section,
   font-size: 38px;
   font-weight: 700;
   color: black;
+  font-family: Arial, sans-serif; /* Hoặc font khác để kiểm tra */
 }
 
 .hero h2 .underlight {
@@ -740,6 +803,7 @@ section,
   margin-bottom: 30px;
   font-size: 18px;
   color: black;
+ 
 }
 
 @media (max-width: 768px) {

@@ -56,7 +56,7 @@ console.log("Session ID:", sessionId); // Kiểm tra giá trị
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Index - PhotoFolio Bootstrap Template</title>
+    <title>Hệ thống đăth tour/khách sạn trực tuyến</title>
     <meta name="description" content="">
     <meta name="keywords" content="">
 
@@ -79,7 +79,7 @@ console.log("Session ID:", sessionId); // Kiểm tra giá trị
     <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
     <!-- Main CSS File -->
-    <link href="assets/css/index.css" rel="stylesheet">
+    <link href="assets/css/indexx.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/popup.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -127,7 +127,20 @@ console.log("Session ID:", sessionId); // Kiểm tra giá trị
                     <li class="dropdown"><a href="#"><span>Dịch vụ</span> <i
                                 class="bi bi-chevron-down toggle-dropdown"></i></a>
                         <ul>
-                            <li><a href="index.php?tour">Đặt tour</a></li>
+                            <li class="dropdown">
+                                <a href="index.php?tour"><span>Đặt tour</span> <i class="bi bi-chevron-right toggle-dropdown"></i></a>
+                                <ul class="submenu-right">
+                                    <li><a href="index.php?tour&mien=Nam">Tour miền nam</a></li>
+                                    <li><a href="index.php?tour&mien=Bắc">Tour miền bắc</a></li>
+                                    <li><a href="index.php?tour&mien=Trung">Tour miền trung</a></li>
+                                    <li><a href="index.php?tour&mien=Tây">Tour miền tây</a></li>
+                                    <li><a href="index.php?tour&mien=Ngoài nước">Tour nước ngoài</a></li>
+                                    <?php if(isset($_SESSION['Email']) && isset($_SESSION['sdt'])) { ?>
+                                    <li><a href="index.php?custom_tour">Tour theo yêu cầu</a></li>
+                                    <?php }?>
+
+                                </ul>          
+                            </li>
                             <li><a href="index.php?ks">Khách sạn</a></li>
                             <?php if(isset($_SESSION['Email']) && isset($_SESSION['sdt'])) { ?>
                             <li><a href="index.php?xemdattour">Xem đơn đặt tour</a></li>
@@ -141,14 +154,7 @@ console.log("Session ID:", sessionId); // Kiểm tra giá trị
                     <?php
 if (!isset($_SESSION['Email']) && !isset($_SESSION['sdt'])) {
 ?>
-                    <li class="dropdown"><a href="#"><i class="fas fa-user"></i><span>Đăng nhập</span></a>
-                        <ul>
-                            <li><a href="dangnhap.php"> <i class="fas fa-sign-in-alt"></i>Đăng nhập khách hàng</a></li>
-
-                            <li><a href="a-login.php"> <i class="fas fa-sign-in-alt"></i>Đăng nhập quản trị viên</a>
-                            </li>
-                        </ul>
-                    </li>
+                    <li><a href="dangnhap.php"> <i class="fas fa-user"></i>Đăng nhập</a></li>
                     <li><a href="dangky.php"><i class="fas fa-user-plus"></i>ĐĂNG KÝ</a></li>
                     <?php }elseif(isset($_SESSION['Email']) && isset($_SESSION['sdt'])) {?>
                     <?php
@@ -247,6 +253,10 @@ if(isset($_REQUEST['dattour'])){
   $show = false;
   include_once("view/vnpay_returnks.php");
 }
+if(isset($_REQUEST['custom_tour'])){
+    $show = false;
+    include_once("view/themtouryeucau.php");
+ }
 include_once("view/message.php");
 }
 if($show){
@@ -258,26 +268,95 @@ if($show){
 
     </main>
 
-    <footer id="footer" class="footer">
+    <footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-left">
+              
+                <ul class="footer-nav">
+                    <li><a href="index.php">Trang chủ</a></li>
+                    <li><a href="index.php?about">Giới thiệu</a></li>
+                   
+                    <li><a href="index.php?contact">Liên hệ</a></li>
+                    <li><a href="index.php?tintuc">Tin tức</a></li>
 
-        <div class="container">
-            <div class="copyright text-center ">
+                    <li>   <a style='text-decoration: none;' href="#" class="site-footer-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Chính sách bảo mật</a></li>
+                 
 
-                <p>© <span>Copyright</span> <strong class="px-1 sitename">2025 GoWander.</strong> <span>All Rights
-                        Reserved</span></p>
+
+<div style="width:900px" class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+  <div class="offcanvas-header">
+    <h5 id="offcanvasRightLabel">Chính sách bảo mật</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+<p style="color:black;text-align:justify;white-space:pre-line;font-size:20px"><b>1. Giới thiệu
+
+Chúng tôi,GoWander, cam kết bảo vệ quyền riêng tư và dữ liệu cá nhân của khách hàng khi sử dụng dịch vụ đặt tour và khách sạn trực tuyến. Chính sách bảo mật này giải thích cách chúng tôi thu thập, sử dụng và bảo vệ thông tin<br>
+2. Thông tin thu thập
+- Khi sử dụng hệ thống, chúng tôi có thể thu thập các loại thông tin sau:
+- Thông tin cá nhân: Họ tên, email, số điện thoại, địa chỉ.
+- Thông tin thanh toán: Số thẻ tín dụng/ghi nợ (được mã hóa), phương thức thanh toán.
+- Thông tin đặt chỗ: Ngày đặt tour, khách sạn, số lượng khách.
+- Thông tin thiết bị: Địa chỉ IP, trình duyệt, hệ điều hành.<br>
+3. Mục đích sử dụng thông tin
+- Chúng tôi sử dụng thông tin thu thập được để:
+- Xử lý và xác nhận đơn đặt chỗ.
+- Cung cấp dịch vụ hỗ trợ khách hàng.
+- Gửi thông tin khuyến mãi, ưu đãi (nếu khách hàng đồng ý).
+- Cải thiện chất lượng dịch vụ và trải nghiệm người dùng.<br>
+4. Chia sẻ thông tin
+Chúng tôi cam kết không bán, trao đổi thông tin cá nhân của bạn cho bên thứ ba. Tuy nhiên, chúng tôi có thể chia sẻ thông tin với:
+-Nhà cung cấp dịch vụ khách sạn, tour du lịch để xử lý đặt chỗ.
+-Đối tác thanh toán để thực hiện giao dịch.
+-Cơ quan pháp luật khi có yêu cầu hợp pháp.<br>
+5. Bảo mật thông tin
+Chúng tôi áp dụng các biện pháp bảo mật như mã hóa dữ liệu, tường lửa và kiểm soát truy cập để bảo vệ thông tin khách hàng khỏi rủi ro truy cập trái phép.<br>
+6. Quyền lợi khách hàng
+Khách hàng có quyền:
+- Yêu cầu xem, chỉnh sửa hoặc xóa thông tin cá nhân của mình.
+- Hủy đăng ký nhận email quảng cáo.
+- Khiếu nại nếu phát hiện hành vi vi phạm bảo mật.<br>
+7. Thời gian lưu trữ
+Thông tin cá nhân của khách hàng sẽ được lưu trữ trong thời gian cần thiết để cung cấp dịch vụ, hoặc theo quy định pháp luật.
+</b></p>
+
+  </div>
+</div>
+                </ul>
+                <div class="contact-info">
+                    <p>📍 123 Đường ABC, Quận 1, TP.HCM</p>
+                    <p>📧 contact@gowander.com</p>
+                    <p>📞 0123-456-789</p>
+                </div>
             </div>
-            <div class="social-links d-flex justify-content-center">
-                <a href=""><i class="bi bi-twitter-x"></i></a>
-                <a href=""><i class="bi bi-facebook"></i></a>
-                <a href=""><i class="bi bi-instagram"></i></a>
-                <a href=""><i class="bi bi-linkedin"></i></a>
-            </div>
-            <div class="credits">
 
+            <div class="footer-right">
+                <div class="social-links">
+                    <a href="#"><i class="bi bi-twitter-x"></i></a>
+                    <a href="#"><i class="bi bi-facebook"></i></a>
+                    <a href="#"><i class="bi bi-instagram"></i></a>
+                    <a href="#"><i class="bi bi-linkedin"></i></a>
+                </div>
+                <div class="newsletter">
+                    <p>Nhận tin khuyến mãi & ưu đãi:</p>
+                    <input type="email" placeholder="Nhập email của bạn">
+                    <button>Đăng ký</button>
+                </div>
+                <div class="footer-logo">
+                    <img src="assets/img/logo.png" width=80px height=80px alt="GoWander Logo">
+                    GoWander
+                </div>
             </div>
         </div>
+    </div>
+    <center><p> © 2025 <strong>GoWander</strong>. All Rights Reserved</p></center>
+</footer>
 
-    </footer>
+<script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
 
     <!-- Scroll Top -->
     <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i

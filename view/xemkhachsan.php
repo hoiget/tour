@@ -108,7 +108,7 @@
 
 .tour-card img {
     width: 60%;
-    height: 200px;
+    height: 220px;
     object-fit: cover;
     float: left;
 }
@@ -130,6 +130,44 @@ a{
 label{
  font-size:14px;
 }
+.input-container {
+  display: flex;
+  align-items: center;
+}
+
+.label-text {
+  margin-right: 8px;
+  font-weight: bold;
+}
+.date-input-container {
+    position: relative;
+    display: flex;
+    gap: 10px;
+}
+
+.date-input-wrapper {
+    position: relative;
+    display: inline-block;
+}
+.date-input {
+   height: 50px;
+    
+}
+.date-input-wrapper::before {
+    content: attr(data-label);
+    position: absolute;
+    top: -25px;
+    left: 5px;
+    font-size: 14px;
+    color:black;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.date-input-wrapper:hover::before {
+    opacity: 1;
+}
+
 
 </style>
     <div class="container2">
@@ -143,11 +181,18 @@ label{
 
         <!-- Search Bar -->
         <div class="search-bar">
-            <input type="text" name="name" placeholder="Nhập tên phòng" class="search-input">
-           
+            <input type="text" name="name" placeholder="Nhập tên phòng/Địa điểm" class="search-input">
+            <div class="date-input-container">
+                <div class="date-input-wrapper" data-label="Ngày nhận">
+                    <input type="date" id="ngay-nhan" class="date-input" name="checkin">
+                </div>
+                <div class="date-input-wrapper" data-label="Ngày trả">
+                    <input type="date" id="ngay-tra" class="date-input" name="checkout">
+                </div>
+            </div>
             <input type="number" id="adult" name="adult" placeholder="Số người lớn">
+            
 
-           
             <input type="number" name="children" id="children"  placeholder="Số trẻ em">
 
             <select name="price" id="price">
@@ -221,13 +266,9 @@ label{
                     eventHtml += `
                             <div class="tour-card">
                             <a href="index.php?idks=${event.id}&xemdanhgiaks=${event.id}&xemdanhgiaratingks=${event.id}"><img src="./assets/img/ks/${event.Image}" alt=""> </a>
-                            <a href="index.php?idks=${event.id}&xemdanhgiaks=${event.id}&xemdanhgiaratingks=${event.id}"><p>${event.Name}<br>${event.Thumb}<br><br>
+                            <a href="index.php?idks=${event.id}&xemdanhgiaks=${event.id}&xemdanhgiaratingks=${event.id}"><p>${event.Name}<br>${event.Thumb}<br><br>${event.Diadiem}<br><br>
+                            
                             `;
-                            if(event.Status == 'Hoạt động'){
-                                eventHtml +=  ` <span style="color:green">${event.Status}<span></p></a> `;
-                            }else{
-                                eventHtml +=  ` <span style="color:red">${event.Status}<span></p></a> `;
-                            }
                            
                             
                            
@@ -264,13 +305,9 @@ function timKiemKStype(type) {
                         tourHtml  += `
                             <div class="tour-card">
                             <a href="index.php?idks=${tour.id}&xemdanhgiaks=${tour.id}&xemdanhgiaratingks=${tour.id}"><img src="./assets/img/ks/${tour.Image}" alt=""> </a>
-                            <a href="index.php?idks=${tour.id}&xemdanhgiaks=${tour.id}&xemdanhgiaratingks=${tour.id}"><p>${tour.Name}<br>${tour.Thumb}<br><br>
+                            <a href="index.php?idks=${tour.id}&xemdanhgiaks=${tour.id}&xemdanhgiaratingks=${tour.id}"><p>${tour.Name}<br>${tour.Thumb}<br><br>${tour.Diadiem}<br><br>
                             `;
-                            if(tour.Status == 'Hoạt động'){
-                                tourHtml +=  ` <span style="color:green">${tour.Status}<span></p></a> `;
-                            }else{
-                                tourHtml +=  ` <span style="color:red">${tour.Status}<span></p></a> `;
-                            }
+                           
                            
                             
                            
@@ -291,38 +328,43 @@ function timKiemKStype(type) {
     });
 }
 
-function timKiemThongTinks(name,price, area, adult, children) {
+function timKiemThongTinks(name, price, area, adult, children, checkin, checkout) {
+    // Kiểm tra và thay thế giá trị rỗng thành chuỗi trống ''
+    name = name ? encodeURIComponent(name) : '';
+    price = price ? encodeURIComponent(price) : '';
+    area = area ? encodeURIComponent(area) : '';
+    adult = adult ? encodeURIComponent(adult) : '';
+    children = children ? encodeURIComponent(children) : '';
+    checkin = checkin ? encodeURIComponent(checkin) : '';
+    checkout = checkout ? encodeURIComponent(checkout) : '';
+
+    // Kiểm tra nếu ngày nhận >= ngày trả thì báo lỗi và không gửi request
+    if (checkin && checkout && new Date(checkin) >= new Date(checkout)) {
+        alert('Ngày nhận phải trước ngày trả!');
+        return;
+    }
+
     $.ajax({
-        url: `./api/api.php?action=timkiemtheothongtinks&name=${name}&price=${price}&area=${area}&adult=${adult}&children=${children}`,
+        url: `./api/api.php?action=timkiemtheothongtinks&name=${name}&price=${price}&area=${area}&adult=${adult}&children=${children}&checkin=${checkin}&checkout=${checkout}`,
         type: 'GET',
         dataType: 'json',
         success: function (response) {
-            
+            console.log(response);
             if (Array.isArray(response) && response.length > 0) {
-                var tours = response;
-                var tourHtml = '';
-                tours.forEach(function (tour, index) {
-                   
-                        tourHtml += '<div class="tour-cards">';
-                    
-                    tourHtml  += `
-                            <div class="tour-card">
-                            <a href="index.php?idks=${tour.id}&xemdanhgiaks=${tour.id}&xemdanhgiaratingks=${tour.id}"><img src="./assets/img/ks/${tour.Image}" alt=""> </a>
-                            <a href="index.php?idks=${tour.id}&xemdanhgiaks=${tour.id}&xemdanhgiaratingks=${tour.id}"><p>${tour.Name}<br>${tour.Thumb}<br><br>
-                            `;
-                            if(tour.Status == 'Hoạt động'){
-                                tourHtml +=  ` <span style="color:green">${tour.Status}<span></p></a> `;
-                            }else{
-                                tourHtml +=  ` <span style="color:red">${tour.Status}<span></p></a> `;
-                            }
-                           
-                            
-                           
-                    tourHtml += `</div>`;
-                  
-                        tourHtml += '</div>';
-                    
-                });
+                var tourHtml = response.map(tour => `
+                    <div class="tour-cards">
+                        <div class="tour-card">
+                            <a href="index.php?idks=${tour.id}&xemdanhgiaks=${tour.id}&xemdanhgiaratingks=${tour.id}">
+                                <img src="./assets/img/ks/${tour.Image}" alt="">
+                            </a>
+                            <a href="index.php?idks=${tour.id}&xemdanhgiaks=${tour.id}&xemdanhgiaratingks=${tour.id}">
+                                <p>${tour.Name}<br>${tour.Thumb}<br><br>${tour.Diadiem}<br><br>
+                              
+                            </a>
+                        </div>
+                    </div>
+                `).join('');
+
                 $('#xemks').html(tourHtml);
             } else {
                 $('#xemks').html('<div class="col">Không tìm thấy tour nào.</div>');
@@ -335,8 +377,35 @@ function timKiemThongTinks(name,price, area, adult, children) {
     });
 }
 
+
 $(document).ready(function() {
+    console.log("Trang đã load!"); // Kiểm tra xem script có chạy không
     xemks();
+    let urlParams = new URLSearchParams(window.location.search);
+
+if (urlParams.has('ks')) {
+    let name = urlParams.get('name') || '';
+    let price = urlParams.get('price') || '';
+    let area = urlParams.get('area') || '';
+    let adult = urlParams.get('adult') || '';
+    let children = urlParams.get('children') || '';
+    let checkin = urlParams.get('checkin') || '';
+    let checkout = urlParams.get('checkout') || '';
+
+    console.log("Tìm kiếm với:", name, price, area, adult, children, checkin, checkout);
+
+    // Gán lại giá trị vào ô tìm kiếm
+    $('.search-input').val(name);
+    $('#price').val(price);
+    $('input[name="area"][value="' + area + '"]').prop('checked', true);
+    $('#adult').val(adult);
+    $('#children').val(children);
+    $('#ngay-nhan').val(checkin);
+    $('#ngay-tra').val(checkout);
+
+    // Gọi API tìm kiếm khách sạn
+    timKiemThongTinks(name, price, area, adult, children, checkin, checkout);
+}
     $('.sidebar input[type="radio"]').change(function () {
         var selectedType = $(this).val(); // Lấy giá trị từ radio button
         timKiemKStype(selectedType); // Gọi hàm tìm kiếm tour theo type
@@ -347,8 +416,11 @@ $(document).ready(function() {
         var area = $('input[name="area"]:checked').val();  // Lấy giá trị diện tích đã chọn
         var adult = $('#adult').val();  // Số người lớn
         var children = $('#children').val();  // Số trẻ em
+        
+        var checkin = $('#ngay-nhan').val();  // Ngày nhận
+        var checkout = $('#ngay-tra').val();  // Ngày trả   
 
-        timKiemThongTinks(name, price, area, adult, children);  // Gọi hàm tìm kiếm
+        timKiemThongTinks(name, price, area, adult, children,checkin,checkout);  // Gọi hàm tìm kiếm
     });
 });
 

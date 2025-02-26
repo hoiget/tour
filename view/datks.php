@@ -99,7 +99,7 @@ button:hover {
   <!-- Nút -->
   <br>
   <center>
-    <button id="book-button">Thanh toán online</button>
+    
    
     <button type="submit" id="book-button" onclick="datksfull()">Đặt giữ chỗ</button>
   </center>
@@ -190,11 +190,11 @@ function xemks() {
       <div class="form-row">
         <div>
           <label for="departure-date">Thời gian vào ở:</label>
-          <input type="date" id="ns" name="ns" >
+          <input type="date" id="ns" name="ns" value="${event.Ngaynhan}" >
         </div>
        <div>
           <label for="departure-date">Thời gian vào kết thúc:</label>
-          <input type="date" id="ns1" name="ns1" >
+          <input type="date" id="ns1" name="ns1" value="${event.Ngaytra}" >
         </div>
       </div>
       `;
