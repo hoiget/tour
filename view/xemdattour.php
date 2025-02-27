@@ -480,7 +480,7 @@ function view_news_details(id) {
       <div class="form-row">
         <div>
           <label for="departure-date">Thời gian khởi hành:</label>
-          <input type="date" id="ns" name="ns" value="${item.Datetime}">
+          <input type="date" id="ns" name="ns" value="${item.Datetime}" readonly>
         </div>
         <div>
           <label for="duration">Thời gian diễn ra tour (ngày):</label>
