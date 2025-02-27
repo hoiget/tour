@@ -1,17 +1,35 @@
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
 <style>
     .main{
         background:grey;
         color:black;
     }
+    .container-wrapper {
+  display: flex; /* Sử dụng Flexbox */
+  gap: 20px; /* Khoảng cách giữa hai phần tử */
+  justify-content: center; /* Căn giữa nội dung */
+  align-items: flex-start; /* Căn các phần tử theo chiều trên/dưới */
+  flex-wrap: wrap; /* Đảm bảo không bị tràn trên màn hình nhỏ */
+}
+
 .container4 {
-  max-width: 800px;
-  margin: 0 auto;
+  flex: 1; /* Để container4 mở rộng linh hoạt */
+  max-width: 800px; /* Giữ nguyên kích thước của container */
   font-family: Arial, sans-serif;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
   background:white;
 }
+
+#calendar {
+  flex: 1; /* Để lịch mở rộng linh hoạt */
+  max-width: 800px;
+  height: 500px;
+  font-family: Arial, sans-serif;
+  background:white;
+}
+
 
 h2, h3 {
   text-align: center;
@@ -67,8 +85,11 @@ button:hover {
   border: none;
   background-color: white;
 }
+
 </style>
 <br><br>
+<div class="container-wrapper">
+<div id="calendar"></div>
 <div class="container4">
   <h2>THÔNG TIN ĐẶT TOUR</h2>
 
@@ -136,6 +157,63 @@ button:hover {
   </center>
   </form>
 </div>
+
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', async function () {
+    let calendarEl = document.getElementById('calendar');
+
+    // Kiểm tra xem FullCalendar có thực sự được load không
+    if (typeof FullCalendar === 'undefined') {
+        console.error("Lỗi: FullCalendar chưa được load đúng cách!");
+        return;
+    }
+
+    let calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        locale: 'vi', // Set ngôn ngữ tiếng Việt
+        selectable: true,
+        events: async function (fetchInfo, successCallback, failureCallback) {
+            try {
+              const urlParams = new URLSearchParams(window.location.search);
+              const idtour = urlParams.get('dattour'); // Lấy ID từ URL
+                let response = await fetch('./api/api.php?action=xemdattour&dattour=' + idtour);
+                if (!response.ok) {
+                    throw new Error("Lỗi khi tải dữ liệu từ API");
+                }
+                let data = await response.json();
+
+                let events = data.map(item => ({
+                    title: item.Price.toLocaleString() + "₫",
+                    start: item.departure_date,
+                    color: item.is_available ? '#ff0000' : '#cccccc',
+                    textColor: item.is_available ? '#ffffff' : '#666666',
+                    extendedProps: {
+                        isAvailable: item.is_available
+                    }
+                }));
+
+                successCallback(events);
+            } catch (error) {
+                console.error("Lỗi tải dữ liệu:", error);
+                failureCallback(error);
+            }
+        },
+        dateClick: function (info) {
+            let selectedEvent = calendar.getEvents().find(event => event.startStr === info.dateStr);
+            if (selectedEvent && selectedEvent.extendedProps.isAvailable) {
+                // Cập nhật giá trị ngày khởi hành vào input
+                document.getElementById('ns').value = info.dateStr;
+                alert("Bạn đã chọn ngày khởi hành: " + info.dateStr);
+            } else {
+                alert("Ngày này không khả dụng!");
+            }
+        }
+    });
+
+    calendar.render();
+});
+</script>
 <br><br>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
@@ -305,7 +383,7 @@ function xemdattour() {
                 url: './api/api.php',
                 data: $(this).serialize(),
                 success: function(response) {
-                
+                console.log(response);
                     if (response === 'insert_success') {
                         openPopup('Thông báo', 'Đặt thành công!');
                         setTimeout(function() {

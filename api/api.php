@@ -210,24 +210,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $booking_status = '1';
         $payment_status = '1';
         $refund = 0;
-        $datetime = date("Y-m-d");
+        $datetime = $_POST['ns'];
         $participants = $_POST['adults'] + $_POST['children'] + $_POST['babies'];
-        $order= $_POST['order'];
+        
         $tour_name = $_POST['tour_name'];
         $price = $_POST['price1'];
         $total_pay = $_POST['total-price'];
         $user_name = $_POST['fullname'];
         $phone_num = $_POST['phone'];
         $address = $_POST['address'];
-        $max = $_POST['max'];
-        $soluong=$max - $order;
-        
+        $max = (int)$_POST['max']; 
+        $order = (int)$_POST['order']; 
+        $soluong = $max - $order;
         // Kiểm tra nếu các trường bắt buộc rỗng
         if (empty($user_id) || empty($tour_id) || empty($tour_name) || empty($price)) {
             echo 'missing_data';
             exit;
         }
-        if($participants > $order){
+        if($participants > $max){
             echo 'quaso|quá số lượng chỉ còn '.$soluong.' vé';
             exit;
         }
@@ -608,7 +608,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         echo json_encode($users); // Trả về JSON
         exit;
     } elseif ($action == "xemtour") {
-        $query = "SELECT * FROM tour INNER JOIN tour_images ON tour.id = tour_images.id_tour";
+        $query = "SELECT departure_time.*,tour_images.*,tour.*,tour.id AS tourid FROM tour INNER JOIN tour_images ON tour.id = tour_images.id_tour LEFT JOIN departure_time ON tour.id = departure_time.id_tour  WHERE Orders < Max_participant";
+    
 
         $result = $conn->query($query);
 
@@ -622,8 +623,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         echo json_encode($res); // Trả về JSON
         exit;
     }elseif ($action == "xemtourtheomien") {
+
         $mien = $_GET['mien'];
-        $query = "SELECT * FROM tour INNER JOIN tour_images ON tour.id = tour_images.id_tour where vung = '$mien'";
+        $query = "SELECT departure_time.*,tour_images.*,tour.*,tour.id AS tourid FROM tour INNER JOIN tour_images ON tour.id = tour_images.id_tour LEFT JOIN departure_time ON tour.id = departure_time.id_tour  WHERE Orders < Max_participant AND vung = '$mien'";
+
+       
 
         $result = $conn->query($query);
 
@@ -638,7 +642,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         exit;
     }  
     elseif ($action == "xemlayout") {
-        $query = "SELECT * FROM tour INNER JOIN tour_images ON tour.id = tour_images.id_tour LIMIT 6";
+        $query = "SELECT departure_time.*,tour_images.*,tour.*,tour.id AS tourid FROM tour INNER JOIN tour_images ON tour.id = tour_images.id_tour LEFT JOIN departure_time ON tour.id = departure_time.id_tour  WHERE Orders < Max_participant LIMIT 6";
+
+       
 
         $result = $conn->query($query);
 
@@ -693,8 +699,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             echo json_encode(["error" => "Invalid type"]);
             exit;
         }
+        $query = "SELECT departure_time.*,tour_images.*,tour.*,tour.id AS tourid FROM tour INNER JOIN tour_images ON tour.id = tour_images.id_tour LEFT JOIN departure_time ON tour.id = departure_time.id_tour  WHERE Orders < Max_participant AND tour.type = '$type'";
 
-        $query = "SELECT * FROM tour INNER JOIN tour_images ON tour.id = tour_images.id_tour WHERE tour.type = '$type'";
+       
         $result = $conn->query($query);
 
         $res = [];
@@ -713,7 +720,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $budget = isset($_GET['budget']) ? $_GET['budget'] : '';
     
         // Tạo câu truy vấn động
-        $query = "SELECT * FROM tour INNER JOIN tour_images ON tour.id = tour_images.id_tour WHERE 1=1";
+        $query = "SELECT departure_time.*,tour_images.*,tour.*,tour.id AS tourid FROM tour INNER JOIN tour_images ON tour.id = tour_images.id_tour LEFT JOIN departure_time ON tour.id = departure_time.id_tour  WHERE Orders < Max_participant AND 1=1";
+
+       
 
         // Thêm điều kiện tìm kiếm
         if (!empty($name)) {
@@ -967,14 +976,16 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         tour.id AS idtour, 
         tour_images.*,
         departure_time.id AS iddeparture,
-        departure_time.*
-      
+        departure_time.*,
+        departure_dates.*
     FROM 
         tour 
     LEFT JOIN 
         tour_images ON tour.id = tour_images.id_tour 
     LEFT JOIN 
         departure_time ON tour.id = departure_time.id_tour 
+    LEFT JOIN 
+        departure_dates ON tour.id = departure_dates.tour_id
     WHERE 
         tour.id = '$id'
 ";
@@ -1468,8 +1479,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         }
         exit;
     } if ($action == "xemhot") {
+        $query = "SELECT departure_time.*,tour_images.*,tour.*,tour.id AS tourid FROM tour INNER JOIN tour_images ON tour.id = tour_images.id_tour LEFT JOIN departure_time ON tour.id = departure_time.id_tour  WHERE Orders < Max_participant AND discount > 0";
 
-        $query = "SELECT * FROM tour INNER JOIN tour_images ON tour.id = tour_images.id_tour WHERE discount > 0";
+      
         $result = $conn->query($query);
 
         $users = [];
@@ -1484,7 +1496,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     } 
     if ($action == "xemyeuthich") {
 
-        $query = "SELECT departure_time.*,tour_images.*,tour.*,tour.id AS tourid FROM tour INNER JOIN tour_images ON tour.id = tour_images.id_tour LEFT JOIN departure_time ON tour.id = departure_time.id_tour  WHERE Orders > 10 LIMIT 10";
+        $query = "SELECT departure_time.*,tour_images.*,tour.*,tour.id AS tourid FROM tour LEFT JOIN tour_images ON tour.id = tour_images.id_tour LEFT JOIN departure_time ON tour.id = departure_time.id_tour  WHERE Orders < Max_participant AND Orders > 1 LIMIT 10";
         $result = $conn->query($query);
 
         $users = [];

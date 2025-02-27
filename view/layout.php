@@ -472,12 +472,15 @@
                                 <div class="tour-meta">Ngày khởi hành: <b>${tour.Depart}</b></div>
                                 <div class="tour-meta">Thời gian: <b>${tour.timetour}</b></div>
                                 `
-                                 if (parseInt(tour.discount)==0) {
-                                  eventHtmls+= ` <div class="price">`+ parseInt(tour.Price).toLocaleString('vi-VN') + ` VNĐ /div>`
+                                 if (parseInt(tour.discount) == 0) {
+                                  eventHtml+= ` <span style="color:black">Chỉ với:</span>
+                                  <div class="price">`+ parseInt(tour.Price).toLocaleString('vi-VN') + ` VNĐ </div>
+                                  
+                                  `
                                 }else if(parseInt(tour.discount) > 0){
                                 eventHtml+=`
-                                    <del style="color:black">Gía từ`+ parseInt(tour.Price).toLocaleString('vi-VN') + ` VNĐ</del>
-                                    <div class="price">`+ parseInt(tour.discount).toLocaleString('vi-VN') + ` VNĐ </div>- 
+                                    <del style="color:black">Gía từ: `+ parseInt(tour.Price).toLocaleString('vi-VN') + ` VNĐ</del>
+                                    <div class="price">`+ parseInt(tour.discount).toLocaleString('vi-VN') + ` VNĐ </div>
                                   
                                 `}
                             eventHtml+= `<a href="index.php?idtour=${tour.tourid}" class="btn-book">Đặt ngay</a>

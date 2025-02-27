@@ -202,8 +202,8 @@ function xemtour() {
                     }
                     eventHtml += `
                             <div class="tour-card">
-                            <a href="index.php?idtour=${event.id}&xemdanhgiatour=${event.id}&xemdanhgiarating=${event.id}"><img src="./assets/img/tour/${event.Image}" alt=""> </a>
-                            <a href="index.php?idtour=${event.id}&xemdanhgiatour=${event.id}&xemdanhgiarating=${event.id}"><p>${event.Name}<br>${event.Thumb}</p></a>
+                            <a href="index.php?idtour=${event.tourid}&xemdanhgiatour=${event.tourid}&xemdanhgiarating=${event.tourid}"><img src="./assets/img/tour/${event.Image}" alt=""> </a>
+                            <a href="index.php?idtour=${event.tourid}&xemdanhgiatour=${event.tourid}&xemdanhgiarating=${event.tourid}"><p>${event.Name}<br>${event.Thumb}</p></a>
                          
                          `;
                         
@@ -241,10 +241,10 @@ function xemtourtheomien(mien) {
                     
                     eventHtml += `
                         <div class="tour-card">
-                            <a href="index.php?idtour=${event.id}&xemdanhgiatour=${event.id}&xemdanhgiarating=${event.id}">
+                            <a href="index.php?idtour=${event.tourid}&xemdanhgiatour=${event.tourid}&xemdanhgiarating=${event.tourid}">
                                 <img src="./assets/img/tour/${event.Image}" alt="">
                             </a>
-                            <a href="index.php?idtour=${event.id}&xemdanhgiatour=${event.id}&xemdanhgiarating=${event.id}">
+                            <a href="index.php?idtour=${event.tourid}&xemdanhgiatour=${event.tourid}&xemdanhgiarating=${event.tourid}">
                                 <p>${event.Name}<br>${event.Thumb}</p>
                             </a>
                            
@@ -283,10 +283,10 @@ function timKiemTourtype(type) {
                     }
                     tourHtml += `
                         <div class="tour-card">
-                            <a href="index.php?idtour=${tour.id}&xemdanhgiatour=${tour.id}&xemdanhgiarating=${tour.id}">
+                            <a href="index.php?idtour=${tour.tourid}&xemdanhgiatour=${tour.tourid}&xemdanhgiarating=${tour.tourid}">
                                 <img src="./assets/img/tour/${tour.Image}" alt="Tour Image">
                             </a>
-                            <a href="index.php?idtour=${tour.id}&xemdanhgiatour=${tour.id}&xemdanhgiarating=${tour.id}">
+                            <a href="index.php?idtour=${tour.tourid}&xemdanhgiatour=${tour.tourid}&xemdanhgiarating=${tour.tourid}">
                                 <p>${tour.Name}<br>${tour.Thumb}</p>
                             </a>
                             `
@@ -328,10 +328,10 @@ function timKiemThongTin(name, date, budget) {
                     }
                     tourHtml += `
                         <div class="tour-card">
-                            <a href="index.php?idtour=${tour.id}&xemdanhgiatour=${tour.id}&xemdanhgiarating=${tour.id}">
+                            <a href="index.php?idtour=${tour.tourid}&xemdanhgiatour=${tour.tourid}&xemdanhgiarating=${tour.tourid}">
                                 <img src="./assets/img/tour/${tour.Image}" alt="Tour Image">
                             </a>
-                            <a href="index.php?idtour=${tour.id}&xemdanhgiatour=${tour.id}&xemdanhgiarating=${tour.id}">
+                            <a href="index.php?idtour=${tour.tourid}&xemdanhgiatour=${tour.tourid}&xemdanhgiarating=${tour.tourid}">
                                 <p>${tour.Name} <br>${tour.Thumb}</p>
                             </a>
                             

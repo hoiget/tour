@@ -357,6 +357,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $discount = $_POST['gg'];
         $vehicle = $_POST['PT'];
         $vung = $_POST['vung'];
+        $departure_dates = json_decode($_POST["departure_dates"], true);
         $conn->begin_transaction();
 
         try {
@@ -394,7 +395,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Cập nhật thông tin thời gian khởi hành
             $update_depart_query = "UPDATE departure_time SET Day_depart = ? WHERE id_tour = ?";
             $stmt_depart = $conn->prepare($update_depart_query);
-            $stmt_depart->bind_param("si", $depart, $id);
+            $stmt_depart->bind_param("si", $timetour, $id);
             $stmt_depart->execute();
 
             // Cập nhật thông tin lịch trình
@@ -402,6 +403,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt_schedule = $conn->prepare($update_schedule_query);
             $stmt_schedule->bind_param("ssssi", $name, $depart, $timetour, $departure_location, $id);
             $stmt_schedule->execute();
+        if($departure_dates){
+            $update_date = "INSERT INTO departure_dates (tour_id, departure_date) VALUES (?, ?)";
+            $stmt_date = $conn->prepare($update_date);
+            
+            // Duyệt mảng ngày khởi hành và thêm vào database
+            foreach ($departure_dates as $date) {
+                $stmt_date->bind_param("is", $id, $date);
+                $stmt_date->execute();
+            }
+        }
 
             // Xử lý ảnh nếu có
             if (isset($_FILES['anh']) && $_FILES['anh']['error'] == 0) {
@@ -454,6 +465,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $discount = $_POST['gg']; // Giảm giá
         $vehicle = $_POST['PT']; // Phương tiện
         $vung = $_POST['vung']; // Phương tiện
+        $departure_dates = json_decode($_POST["departure_dates"], true);
         $order = 0;
         // Bắt đầu kiểm tra và xử lý ảnh
         if (isset($_FILES['anh']) && $_FILES['anh']['error'] == 0) {
@@ -521,6 +533,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $stmt_schedule->bind_param("issss", $new_tour_id, $name, $depart, $timetour, $departure_location);
                     $stmt_schedule->execute();
 
+                    if($departure_dates){
+                        $update_date = "INSERT INTO departure_dates (tour_id, departure_date) VALUES (?, ?)";
+                        $stmt_date = $conn->prepare($update_date);
+                        
+                        // Duyệt mảng ngày khởi hành và thêm vào database
+                        foreach ($departure_dates as $date) {
+                            $stmt_date->bind_param("is", $new_tour_id, $date);
+                            $stmt_date->execute();
+                        }
+                    }
                     // Commit giao dịch nếu không có lỗi
                     $conn->commit();
                     echo 'insert_success';
@@ -1498,17 +1520,30 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
     } elseif ($action == "xemtour") {
 
-        $query = "SELECT tour.*,tour.id AS idtour,tour_images.*,departure_time.*,departure_time.id AS iddepart,employees.Name AS tennhanvien,employees.id FROM tour 
-        LEFT JOIN tour_images ON tour.id = tour_images.id_tour
-        LEFT JOIN departure_time ON tour.id = departure_time.id_tour
-        LEFT JOIN employees ON tour.employeesId = employees.id
+        $query = "SELECT 
+            tour.*, 
+            tour.id AS idtour, 
+            tour_images.*, 
+            departure_time.*, 
+            departure_time.id AS iddepart, 
+            employees.Name AS tennhanvien, 
+            employees.id, 
+            GROUP_CONCAT(departure_dates.departure_date ORDER BY departure_dates.departure_date ASC) AS departure_dates
+        FROM tour 
+        LEFT JOIN tour_images ON tour.id = tour_images.id_tour 
+        LEFT JOIN departure_time ON tour.id = departure_time.id_tour 
+        LEFT JOIN employees ON tour.employeesId = employees.id 
+        LEFT JOIN departure_dates ON tour.id = departure_dates.tour_id
+        GROUP BY tour.id
         
         ";
+    
         $result = $conn->query($query);
 
         $users = [];
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
+                $row['departure_dates'] = $row['departure_dates'] ? explode(",", $row['departure_dates']) : [];
                 $users[] = $row; // Lưu từng bản ghi vào mảng
             }
         }
@@ -1517,24 +1552,41 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         exit;
     } elseif ($action == "xemtour1") {
         $id = $_GET['id'];
-        $query = "SELECT tour.*,tour.id AS idtour,tour_images.*,departure_time.*,departure_time.id AS iddepart,employees.Name AS tennhanvien,employees.id FROM tour 
-        LEFT JOIN tour_images ON tour.id = tour_images.id_tour
-        LEFT JOIN departure_time ON tour.id = departure_time.id_tour
-        LEFT JOIN employees ON tour.employeesId = employees.id
-        WHERE tour.id='$id'
+    
+        $query = "
+            SELECT 
+                tour.*, 
+                tour.id AS idtour, 
+                tour_images.*, 
+                departure_time.*, 
+                departure_time.id AS iddepart, 
+                employees.Name AS tennhanvien, 
+                employees.id, 
+                GROUP_CONCAT(departure_dates.departure_date ORDER BY departure_dates.departure_date ASC) AS departure_dates
+            FROM tour 
+            LEFT JOIN tour_images ON tour.id = tour_images.id_tour 
+            LEFT JOIN departure_time ON tour.id = departure_time.id_tour 
+            LEFT JOIN employees ON tour.employeesId = employees.id 
+            LEFT JOIN departure_dates ON tour.id = departure_dates.tour_id
+            WHERE tour.id = '$id'  -- ✅ Đưa WHERE lên trước GROUP BY
+            GROUP BY tour.id
         ";
+    
         $result = $conn->query($query);
-
+    
         $users = [];
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                $users[] = $row; // Lưu từng bản ghi vào mảng
+                // Chuyển danh sách ngày từ chuỗi thành mảng
+                $row['departure_dates'] = $row['departure_dates'] ? explode(",", $row['departure_dates']) : [];
+                $users[] = $row;
             }
         }
-
+    
         echo json_encode($users); // Trả về JSON
         exit;
-    } elseif ($action == "xoatour") {
+    }
+     elseif ($action == "xoatour") {
 
         $id = $_GET['id'];
 

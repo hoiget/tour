@@ -256,6 +256,10 @@
                                 <label for="Title">Ngày khởi hành:</label>
                                
                                 <input type="date" id="nkh" name="nkh" value="">
+                                <input type="date" id="departure_date">
+                                <button type="button" onclick="addDate()">Thêm ngày</button>
+                                <ul id="dateList"></ul>
+                                <input type="hidden" name="departure_dates" id="departure_dates">
                             </div>
                              <div>
                                 <label for="Title">Địa điểm khởi hành:</label>
@@ -370,7 +374,31 @@
 </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+    let departureDates = [];
 
+    function addDate() {
+        let dateInput = document.getElementById("departure_date");
+        let dateList = document.getElementById("dateList");
+
+        if (dateInput.value && !departureDates.includes(dateInput.value)) {
+            departureDates.push(dateInput.value);
+            let listItem = document.createElement("li");
+            listItem.textContent = dateInput.value;
+            dateList.appendChild(listItem);
+        }
+
+        document.getElementById("departure_dates").value = JSON.stringify(departureDates);
+        dateInput.value = ""; // Xóa input sau khi thêm
+    }
+
+    document.getElementById("departureForm").addEventListener("submit", function (event) {
+        if (departureDates.length === 0) {
+            alert("Vui lòng chọn ít nhất một ngày khởi hành!");
+            event.preventDefault();
+        }
+    });
+</script>
 <script>
       function xemtour() {
     $.ajax({
@@ -382,6 +410,7 @@
                 var events = response;
                 var eventHtml = '';
                 events.forEach(function(event) {
+                    let departureList = event.departure_dates.map(date => `<li>${date}</li>`).join("");
                     eventHtml += `
                      
                       <tr>
@@ -395,7 +424,10 @@
                     <td>${event.Min_participant}</td>
                     <td class="description">${event.Description}</td>
                     <td>${event.Status}</td>
-                    <td>${event.Depart}</td>
+                    <td>${event.Depart}
+                    <ul>${departureList}</ul>
+                    </td>
+                    
                     <td>${event.DepartureLocation}</td>
                     <td>${event.Itinerary}</td>
                     <td>${event.tennhanvien}</td>
@@ -455,6 +487,7 @@ function openRatingModal(Id) {
         .then(response => response.json())
         .then(data => {
             if (data && data[0]) {
+                let departureList = data[0].departure_dates.map(date => `<li>${date}</li>`).join("");
                 document.getElementById('xemtour').innerHTML = `
                     <div class="form-container">
                         <h2>Sửa tour</h2>
@@ -526,11 +559,17 @@ function openRatingModal(Id) {
                                 <label for="Title">Ngày khởi hành:</label>
                                
                                 <input type="date" id="nkh" name="nkh" value="${data[0].Depart}">
+                                 <input type="date" id="departure_date">
+                                <button type="button" onclick="addDate()">Thêm ngày</button>
+                                <ul id="dateList">
+                                ${departureList}</ul>
+                                <input type="hidden" name="departure_dates" id="departure_dates">
                             </div>
                              <div>
                                 <label for="Title">Địa điểm khởi hành:</label>
                                
                                 <input type="text" id="ddkh" name="ddkh" value="${data[0].DepartureLocation}">
+                               
                             </div>
                             
                         </div>
