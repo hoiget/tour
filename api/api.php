@@ -724,10 +724,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $budget = isset($_GET['budget']) ? $_GET['budget'] : '';
     
         // Tạo câu truy vấn động
-        $query = "SELECT departure_time.*,tour_images.*,tour.*,tour.id AS tourid FROM tour INNER JOIN tour_images ON tour.id = tour_images.id_tour LEFT JOIN departure_time ON tour.id = departure_time.id_tour  WHERE Orders < Max_participant AND 1=1";
-
-       
-
+        $query = "SELECT departure_time.*,tour_images.*,tour.*,tour.id AS tourid FROM tour INNER JOIN tour_images ON tour.id = tour_images.id_tour LEFT JOIN departure_time ON tour.id = departure_time.id_tour WHERE Orders < Max_participant AND 1=1";
         // Thêm điều kiện tìm kiếm
         if (!empty($name)) {
             $query .= " AND tour.Name LIKE '%$name%'";

@@ -128,7 +128,7 @@ console.log("Session ID:", sessionId); // Kiểm tra giá trị
                                 class="bi bi-chevron-down toggle-dropdown"></i></a>
                         <ul>
                             <li class="dropdown">
-                                <a href="index.php?tour"><span>Đặt tour</span> <i class="bi bi-chevron-right toggle-dropdown"></i></a>
+                                <a href="index.php?tour"><span>Đặt tour</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                                 <ul class="submenu-right">
                                     <li><a href="index.php?tour&mien=Nam">Tour miền nam</a></li>
                                     <li><a href="index.php?tour&mien=Bắc">Tour miền bắc</a></li>
@@ -214,7 +214,11 @@ if(isset($_REQUEST['about'])){
 }if(isset($_REQUEST['tour'])){
   $show = false;
   include_once("view/xemtour.php");
-}if(isset($_REQUEST['idtour'])){
+}if(isset($_REQUEST['tour1'])){
+    $show = false;
+    include_once("view/xemtour.php");
+  }
+if(isset($_REQUEST['idtour'])){
   $show = false;
   include_once("view/xemtourchitiet.php");
 }if(isset($_REQUEST['ks'])){
@@ -409,6 +413,13 @@ Thông tin cá nhân của khách hàng sẽ được lưu trữ trong thời gi
         }
     }
     </script>
+ <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+<df-messenger
+  intent="WELCOME"
+  chat-title="chat"
+  agent-id="6ba7722e-f169-4c21-a783-8bb322ff9377"
+  language-code="vi"
+></df-messenger>
 </body>
 
 </html>

@@ -267,7 +267,7 @@
         var date = $('.date-input').val();
         var budget = $('.budget-select').val();
 
-        window.location.href = `index.php?tour&name=${encodeURIComponent(name)}&date=${date}&budget=${budget}`;
+        window.location.href = `index.php?tour1&name=${encodeURIComponent(name)}&date=${date}&budget=${budget}`;
     });
 
     // Xử lý tìm kiếm Khách sạn

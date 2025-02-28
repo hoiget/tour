@@ -404,7 +404,7 @@ function xemdattour() {
                     }else if (response === 'update_departure_error') {
                         openPopup('Lỗi', 'lỗi không update dược departure');
                     }else if (response === 'insert_detail_error') {
-                        openPopup('Lỗi', 'lỗi không thêm dược detail');
+                        openPopup('Lỗi', 'litỗi không thêm dược detail');
                     }else if (response === 'insert_order_error') {
                         openPopup('Lỗi', 'lỗi không thêm được order');
                     }else if (response.startsWith('quaso|')) {

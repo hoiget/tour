@@ -363,7 +363,7 @@ $(document).ready(function () {
     xemtour();
     let urlParams = new URLSearchParams(window.location.search);
 
-if (urlParams.has('tour')) {
+if (urlParams.has('tour1')) {
   
     let name = urlParams.get('name') || '';
     let date = urlParams.get('date') || '';
