@@ -886,7 +886,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
     }
-
+    
 
 }
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -1562,6 +1562,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 departure_time.id AS iddepart, 
                 employees.Name AS tennhanvien, 
                 employees.id, 
+              
                 GROUP_CONCAT(departure_dates.departure_date ORDER BY departure_dates.departure_date ASC) AS departure_dates
             FROM tour 
             LEFT JOIN tour_images ON tour.id = tour_images.id_tour 
@@ -1579,6 +1580,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             while ($row = $result->fetch_assoc()) {
                 // Chuyển danh sách ngày từ chuỗi thành mảng
                 $row['departure_dates'] = $row['departure_dates'] ? explode(",", $row['departure_dates']) : [];
+                
                 $users[] = $row;
             }
         }

@@ -184,7 +184,8 @@ document.addEventListener('DOMContentLoaded', async function () {
                 let data = await response.json();
 
                 let events = data.map(item => ({
-                    title: item.Price.toLocaleString() + "₫",
+               
+                    title: item.Price.toLocaleString('vi-VN').replace(/\./g, '') + "₫",
                     start: item.departure_date,
                     color: item.is_available ? '#ff0000' : '#cccccc',
                     textColor: item.is_available ? '#ffffff' : '#666666',
@@ -204,9 +205,9 @@ document.addEventListener('DOMContentLoaded', async function () {
             if (selectedEvent && selectedEvent.extendedProps.isAvailable) {
                 // Cập nhật giá trị ngày khởi hành vào input
                 document.getElementById('ns').value = info.dateStr;
-                alert("Bạn đã chọn ngày khởi hành: " + info.dateStr);
+                openPopup("Bạn đã chọn ngày khởi hành: " + info.dateStr,'');
             } else {
-                alert("Ngày này không khả dụng!");
+                openPopup("Ngày này không khả dụng!",'');
             }
         }
     });
@@ -299,7 +300,7 @@ function xemdattour() {
       <div class="form-row">
         <div>
           <label for="departure-date">Thời gian khởi hành:</label>
-          <input type="date" id="ns" name="ns" value="${event.Depart}" readonly>
+          <input type="date" id="ns" name="ns"  readonly>
         </div>
         <div>
           <label for="duration">Thời gian diễn ra tour (ngày):</label>
@@ -391,7 +392,10 @@ function xemdattour() {
                         }, 2000);
                     } else if (response === 'missing_data') {
                         openPopup('Thông báo', 'Dữ liệu còn thiếu. Vui lòng kiểm tra lại!');
-                    } else if (response === 'query_error') {
+                    }else if (response === 'missing_data1') {
+                        openPopup('Thông báo', 'Vui lòng chọn ngày khởi hành ');
+                    }  
+                    else if (response === 'query_error') {
                         openPopup('Lỗi', 'Có lỗi xảy ra khi thực hiện truy vấn!');
                     } else if (response === 'invalid_date') {
                         openPopup('Lỗi', 'Có lỗi về ngày không hợp lệ');

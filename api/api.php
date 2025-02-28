@@ -223,8 +223,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $order = (int)$_POST['order']; 
         $soluong = $max - $order;
         // Kiểm tra nếu các trường bắt buộc rỗng
-        if (empty($user_id) || empty($tour_id) || empty($tour_name) || empty($price)) {
+        if (empty($user_id) || empty($tour_id) || empty($tour_name) || empty($price)){
             echo 'missing_data';
+            exit;
+        }
+        if (empty($datetime)){
+            echo 'missing_data1';
             exit;
         }
         if($participants > $max){

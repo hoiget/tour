@@ -559,11 +559,15 @@ function openRatingModal(Id) {
                                 <label for="Title">Ngày khởi hành:</label>
                                
                                 <input type="date" id="nkh" name="nkh" value="${data[0].Depart}">
-                                 <input type="date" id="departure_date">
+                                <input type="date" id="departure_date">
                                 <button type="button" onclick="addDate()">Thêm ngày</button>
                                 <ul id="dateList">
                                 ${departureList}</ul>
-                                <input type="hidden" name="departure_dates" id="departure_dates">
+                                <input type="hidden" name="departure_dates" id="departure_dates" >
+
+                               
+                               
+                               
                             </div>
                              <div>
                                 <label for="Title">Địa điểm khởi hành:</label>
@@ -646,6 +650,7 @@ function openRatingModal(Id) {
         })
         .catch(error => console.error('Error:', error));
 }
+
 
 
 function capnhatour() {
