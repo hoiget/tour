@@ -21,9 +21,13 @@
   border-radius: 8px;
   background:white;
 }
-
-#calendar {
+#top{
   flex: 1; /* Để lịch mở rộng linh hoạt */
+  font-family: Arial, sans-serif;
+  background:white;
+}
+#calendar {
+  
   max-width: 800px;
   height: 500px;
   font-family: Arial, sans-serif;
@@ -89,7 +93,14 @@ button:hover {
 </style>
 <br><br>
 <div class="container-wrapper">
-<div id="calendar"></div>
+<div id="top">
+<h1 id="ns1" style="color:red;font-family: Arial, sans-serif;
+  background:white; text-align: right;"></h1>
+<div id="calendar">
+
+</div>
+</div>
+
 <div class="container4">
   <h2>THÔNG TIN ĐẶT TOUR</h2>
 
@@ -205,6 +216,10 @@ document.addEventListener('DOMContentLoaded', async function () {
             if (selectedEvent && selectedEvent.extendedProps.isAvailable) {
                 // Cập nhật giá trị ngày khởi hành vào input
                 document.getElementById('ns').value = info.dateStr;
+                const dateStr = info.dateStr; // Giả sử giá trị là "2025-03-08"
+                const [year, month, day] = dateStr.split("-");
+                const formattedDate = `${day}/${month}/${year}`;
+                document.getElementById('ns1').innerText =formattedDate;
                 openPopup("Bạn đã chọn ngày khởi hành: " + info.dateStr,'');
             } else {
                 openPopup("Ngày này không khả dụng!",'');
