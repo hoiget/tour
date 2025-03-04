@@ -1,4 +1,4 @@
-
+<link rel="stylesheet" href="./assets/css/form.css">
 <style>
         body {
             font-family: Arial, sans-serif;
@@ -148,6 +148,23 @@
     </style>
 
 <h1>Quản lý dịch vụ tour</h1>
+<div class="modal fade" id="ratingModal" tabindex="" aria-labelledby="ratingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg"> <!-- Thêm modal-lg ở đây -->
+        <div class="modal-content">
+            <div class="modal-header">
+               
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            <form class="capnhathoadon" id="capnhathoadon" action="./api/apia.php" method="post" enctype="multipart/form-data"> 
+            <input type="hidden" name="action" value="capnhathoadon">
+            <div id="suatour"></div>
+            <button type="submit" onclick="capnhathoadon()">Cập nhật</button>
+            </form>
+            </div>
+        </div>
+    </div>
+</div> 
 <div class="container">
     <div class="search-bar">
  
@@ -211,19 +228,22 @@
                     `;
                 if(event.refund == '1'){
                     eventHtml += '<td><span style="color:red">Hủy đơn</span>' 
-                    if(event.Payment_status =='2')[
+                    if(event.Payment_status =='2'){
                         eventHtml += '<br><span style="color:orange;">Chưa hoàn tiền</span></td>' 
-                    ]
-                }else{
-                    if(event.Booking_status == '1'){
-                     eventHtml += '<td><span style="color:green">Chưa xác nhận</span></td>' 
                     }
+                }else if(event.Booking_status == '1'){
+                    
+                     eventHtml += '<td><span style="color:green">Chưa xác nhận</span></td>' 
+                    
+                }else{
+                    eventHtml += '<td><span style="color:green">Xác nhận</span></td>' 
                 }
                     
                      eventHtml +=`<td>
                         <div class="action-buttons">
                             <button class="btn edit" onclick="xacnhan('${event.Booking_id}')">✔</button>
                             <button class="btn delete" onclick="huydon('${event.Booking_id}')">🗑</button>
+                            <button style="width:50px;height:30px" id="btn-sua" class="btn edit" data-bs-toggle="modal" data-bs-target="#ratingModal" onclick="openRatingModal1('${event.Booking_id}')">Sửa tour</button>
                         </div>
                     </td>
                 </tr> 
@@ -279,6 +299,209 @@ function huydon(id) {
                }
            })
            .catch(error => console.error('Lỗi:', error));
+}
+function openRatingModal1(Id) {
+    // Lấy thông tin tour và hiển thị trong modal
+    $.ajax({
+        url: './api/apia.php?action=xemtoursua&idt=' + Id,
+        type: 'GET',
+        dataType: 'json',
+        success: function(response) {
+            console.log(response)
+            if (response && response.length > 0) {
+                var item = response[0]; // Lấy thông tin chung từ bản ghi đầu tiên
+                var detailsHtml = `
+                   
+                    <div class="container4">
+                        <h2>THÔNG TIN ĐẶT TOUR</h2>
+            <input type="hidden" id="idtour" name="idtour" value="${item.Tour_id}" >
+                        <!-- Thông tin người đặt tour -->
+                        <div class="user-info">
+                            <h3>Thông tin người đặt</h3>
+                            <div class="form-row">
+                                <div>
+                                    <label for="fullname">Tên tài khoản:</label>
+                                    <input type="text" id="fullname" value="${item.User_name}" >
+                                </div>
+                                <div>
+                                    <label for="phone">Số điện thoại:</label>
+                                    <input type="text" id="phone" value="${item.Phone_num}" >
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div>
+                                    <label for="address">Địa chỉ:</label>
+                                    <input type="text" id="address" value="${item.Address}" >
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                        <!-- Thông tin tour -->
+                        <div class="tour-info">
+                            <h3>Thông tin tour</h3>
+                            <div class="form-row">
+                                <div>
+                                    <label for="tour-code">Mã:</label>
+                                    <input type="text" id="tour-code" name="booking_id" value="${item.Booking_id}" >
+                                </div>
+                                <div>
+                                    <label for="tour-name">Tên tour:</label>
+                                    <input type="text" id="tour-name" value="${item.Tour_name}" >
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div>
+                                    <label for="departure-date">Thời gian khởi hành:</label>
+                                    <input type="date" id="ns" value="${item.Datetime}" >
+                                </div>
+                                <div>
+                                    <label for="duration">Thời gian diễn ra tour (ngày):</label>
+                                    <input type="text" id="duration" value="${item.Day_depart}" >
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div>
+                                    <label for="arrival">Phương tiện di chuyển:</label>
+                                    <input type="text" id="arrival" value="${item.Arrival}" >
+                                </div>
+                                <div>
+                                    <label for="participants">Số lượng người:</label>
+                                    <input type="text" id="participants" name="participants" value="${item.participants}" >
+                                     
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Thông tin giá -->
+                        <div class="pricing-info">
+                            <h3>Thông tin giá</h3>
+                            <div class="form-row">
+                                <div>
+                                    <label for="price">Giá vé:</label>
+                                    <input type="text" id="adult_price" name="adult_price" value="${item.Price}" >
+                                    <input type="hidden" id="child_rate" name="child_rate" value="${item.Child_price_percen}" >
+                                </div>
+                                <div>
+                                    <label for="total-price">Tổng tiền:</label>
+                                    <input type="text" id="total-price" name="" value="${item.Total_pay}" >
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Thông tin thành viên tham gia -->
+                        <div class="participant-info">
+                            <h3>Thông tin thành viên tham gia</h3>
+                `;
+
+                // Duyệt qua danh sách tất cả thành viên
+                response.forEach((participant, index) => {
+                    
+                    detailsHtml += `
+                        <div class="form-row1">
+                            <div>
+                                <label>${participant.phanloai}:</label>
+                              <input type="hidden" name="id" value="${participant.idpar}" >
+                            </div>
+                            <div>
+                                <label>Họ tên:</label>
+                                <input type="text" name="ht" value="${participant.hoten}" >
+                            </div>
+                            <div>
+                                <label>Ngày sinh:</label>
+                                <input type="date" name="ns" value="${participant.ngaysinh}" >
+                            </div>
+                            <div>
+                                <label>Giới tính:</label>
+                               <br>
+                                <select name="gioit" style="height:40px;width:100px">
+                                    <option value="${participant.gioitinh}">${participant.gioitinh}</option>
+                                    <option value="Nam">Nam</option>
+                                    <option value="Nữ">Nữ</option>
+                                </select>
+                            </div>
+                             <div>
+                                <label>Thao tác:</label>
+                               <br>
+                                    <button type="button" class="btn btn-danger" onclick="xoapar(${participant.idpar}, ${participant.Tour_id}, ${participant.Booking_id}, ${participant.Price}, ${participant.Child_price_percen})">Xóa</button>
+                            </div>
+                        </div>
+                    <br>`;
+                });
+
+                detailsHtml += `
+                        </div> <!-- Kết thúc thông tin thành viên -->
+                    </div> <!-- Kết thúc container -->
+                `;
+
+                $('#suatour').html(detailsHtml); 
+            } else {
+                $('#suatour').html('<div class="col">Không tìm thấy dữ liệu.</div>');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Lỗi khi lấy dữ liệu:', error);
+            $('#suatour').html('<div class="col">Đã xảy ra lỗi khi tải dữ liệu.</div>');
+        }
+    });
+}
+function xoapar(id, idtour, booking_id, adult_price, child_rate) {
+    fetch(`./api/apia.php?action=xoapar&id=${id}&idtour=${idtour}&booking_id=${booking_id}&adult_price=${adult_price}&child_rate=${child_rate}`)
+        .then(response => response.text())
+        .then(data => {
+            console.log(data);
+            if (data === 'gui') {
+                openPopup('Xóa thành viên tham gia thành công', '');
+                setTimeout(() => {
+                    window.location.reload(); // Tải lại trang để cập nhật số lượng & tổng tiền
+                }, 1000);
+            } else {
+                openPopup('Cập nhật không thành công', '');
+            }
+        })
+        .catch(error => console.error('Lỗi:', error));
+}
+
+let loginForm = document.querySelector(".capnhathoadon"); 
+loginForm.addEventListener("submit", (e) => { 
+    e.preventDefault(); 
+    
+    
+});
+function capnhathoadon() {
+    let data = [];
+
+    $(".form-row1").each(function () {
+        let id = $(this).find("input[name='id']").val();
+        let hoten = $(this).find("input[name='ht']").val();
+        let ngaysinh = $(this).find("input[name='ns']").val();
+        let gioitinh = $(this).find("select[name='gioit']").val();
+
+        data.push({ id, hoten, ngaysinh, gioitinh });
+    });
+
+    $.ajax({
+        type: 'POST',
+        url: './api/apia.php',  // Không cần thêm ?action=capnhathoadon vào URL
+        data: JSON.stringify({ action: 'capnhathoadon', participants: data }), // Gửi action trong dữ liệu JSON
+        contentType: 'application/json',
+        success: function (response) {
+          
+            if (response.trim() === 'cập nhật thành công!') {
+                openPopup('Thông báo', 'Cập nhật thành công!');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+            } else {
+                openPopup('Cập nhật thành công!','');
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error('Lỗi AJAX:', status, error);
+            console.error('Chi tiết lỗi:', xhr.responseText);
+            openPopup('Lỗi', 'Không thể gửi yêu cầu. Vui lòng thử lại!');
+        }
+    });
 }
 
 $(document).ready(function() {

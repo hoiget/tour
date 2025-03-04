@@ -1,3 +1,6 @@
+<?php 
+ob_start();
+?>
 <?php
 session_start();
 date_default_timezone_set('Asia/Ho_Chi_Minh');
@@ -24,7 +27,7 @@ if (isset($_SESSION['login_time']) && ($currentTime - $_SESSION['login_time'] > 
    session_destroy();
 
    // Chuyển hướng về trang đăng nhập
-   header("Location: a-login.php"); // Chuyển hướng về trang đăng nhập
+   header("Location: dangnhap.php"); // Chuyển hướng về trang đăng nhập
    exit();}
 }elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
   $user_id=$_SESSION['id'] ;
@@ -51,7 +54,7 @@ if (isset($_SESSION['login_time']) && ($currentTime - $_SESSION['login_time'] > 
    session_destroy();
 
    // Chuyển hướng về trang đăng nhập
-   header("Location: nv-login.php"); // Chuyển hướng về trang đăng nhập
+   header("Location: dangnhap.php"); // Chuyển hướng về trang đăng nhập
    exit();
 }}
 
@@ -254,6 +257,18 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
           <span>Lịch làm việc</span>
         </a>
       </li><!-- End Dashboard Nav -->
+      <li class="nav-item">
+        <a class="nav-link " href="indexa.php?tour">
+        <i class="bi bi-calendar"></i>
+          <span>Xem tour</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+      <li class="nav-item">
+        <a class="nav-link " href="indexa.php?xemdattour">
+        <i class="bi bi-calendar"></i>
+          <span>Xem đơn đặt tour</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
       <?php } ?>
 <?php if($role == 'HDV'){?>
   <li class="nav-item">
@@ -441,6 +456,24 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
     }if(isset($_REQUEST['lichcskh'])){
       $show = false;
       include_once("viewa/lichcskh.php");
+    }if(isset($_REQUEST['tour'])){
+      $show = false;
+      include_once("viewa/xemtoura.php");
+    }if(isset($_REQUEST['tour1'])){
+        $show = false;
+        include_once("viewa/xemtoura.php");
+      }
+    if(isset($_REQUEST['idtour'])){
+      $show = false;
+      include_once("viewa/xemtourchitiet.php");
+    }if(isset($_REQUEST['dattour'])){
+      $show = false;
+      include_once("viewa/dattour.php");
+    }if(isset($_REQUEST['xemdattour'])){
+      $show = false;
+     
+      include_once("viewa/xemdattour.php");
+      
     }
     include_once("view/message.php");
     if($show){
