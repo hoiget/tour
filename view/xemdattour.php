@@ -419,7 +419,15 @@ function xemtrangthai() {
                             if (event.Payment_status == '2') {
                                 eventHtml += `<button type="button" class="btn review" data-bs-toggle="modal" data-bs-target="#ratingModal" onclick="openRatingModal(${event.Booking_id})">Đánh giá Tour</button>`;
                             } else {
+                                if(event.method == "vnpay"){
                                 eventHtml += `<button class="btn review"><a style="text-decoration:none;color:white" href="index.php?idtt=${event.Booking_id}">Thanh toán</a></button>`;
+                                }else if(event.method == "momo"){
+                                    eventHtml += `<button class="btn review"><a style="text-decoration:none;color:white" href="index.php?momo=${event.Booking_id}">Thanh toán</a></button>`;
+
+                                }else if(event.method == "cash"){
+                                    eventHtml += `<button class="btn review"><a style="text-decoration:none;color:white" href="index.php?cash=${event.Booking_id}">Thanh toán</a></button>`;
+
+                                }
                             }
                             eventHtml += `
                         <div>

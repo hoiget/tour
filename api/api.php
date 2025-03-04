@@ -230,6 +230,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $ngaysinh = $_POST['ngaysi']; // Mảng ngày sinh
         $gioitinhs = $_POST['gioit']; // Mảng giới tính
         $phanloai=$_POST['phanloai']; 
+
+
+      
+            $method = $_POST['method'] ?? '';
+    
+          
+    
+    
+    
+        
         // Kiểm tra dữ liệu
         if (empty($user_id) || empty($tour_id) || empty($tour_name) || empty($price)) {
             echo 'missing_data';
@@ -324,10 +334,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $stmt_participant->bind_param("issss", $booking_id, $name, $dob, $gender,$phan);
                             $stmt_participant->execute();
                         }
-                        $stmt_participant->close();
+                            if($stmt_participant->execute()){
+                                if (!empty($method)) {
+                                    $stmt_method = $conn->prepare("INSERT INTO payments (user_id, method) VALUES (?, ?)");
+                                    $stmt_method->bind_param("is", $user_id, $method);
+                                    
+                                    if ($stmt_method->execute()) {
+                                        echo 'insert_success';
+                                    } else {
+                                        echo "Lỗi khi lưu dữ liệu.";
+                                    }
+                                
+                                    $stmt_method->close();
+                                } else {
+                                    echo "Vui lòng chọn phương thức thanh toán.";
+                                }
+                            }
+                        
+                    }else{
+                        echo 'update_participant_error';
                     }
-    
-                    echo 'insert_success';
+                    $stmt_participant->close();
+                    
                 } else {
                     echo 'update_departure_error';
                 }
@@ -1066,19 +1094,26 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     } elseif ($action == "xemtrangthai") {
         $user_id = $_SESSION['id'];
         $query = "
-    SELECT 
+     SELECT 
         booking_ordertour.*,
         booking_detail_tour.*,
         departure_time.*,
-        booking_ordertour.created_at AS booking_time
+        booking_ordertour.created_at AS booking_time,
+        user_credit.id AS iduser,
+        payments.*,
+        payments.id AS idpayment
     FROM 
         booking_ordertour 
     LEFT JOIN 
-        booking_detail_tour ON booking_ordertour.Booking_id  = booking_detail_tour.Booking_id
+        booking_detail_tour ON booking_ordertour.Booking_id = booking_detail_tour.Booking_id
     LEFT JOIN
         departure_time ON booking_ordertour.Departure_id = departure_time.id
+    LEFT JOIN
+        user_credit ON booking_ordertour.User_id = user_credit.id 
+    LEFT JOIN
+        payments ON user_credit.id = payments.user_id
     WHERE 
-        User_id = '$user_id'
+        user_credit.id ='$user_id'
 ";
 
         // Thực hiện truy vấn

@@ -250,7 +250,14 @@ if(isset($_REQUEST['dattour'])){
 }if(isset($_REQUEST['idtt'])){
   $show = false;
   include_once("view/thanhtoan.php");
-}if(isset($_REQUEST['idttks'])){
+}if(isset($_REQUEST['momo'])){
+    $show = false;
+    include_once("view/thanhtoanmomo.php");
+  }if(isset($_REQUEST['cash'])){
+    $show = false;
+    include_once("view/tienmat.php");
+  }
+if(isset($_REQUEST['idttks'])){
   $show = false;
   include_once("view/thanhtoanks.php");
 }if(isset($_REQUEST['returnks'])){
