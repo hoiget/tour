@@ -303,7 +303,11 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
             <i class="bi bi-geo-alt"></i><span>Quản lý tour</span>
             </a>
           </li>
-         
+          <li>
+            <a href="indexa.php?touryeucau">
+            <i class="bi bi-geo-alt"></i><span>Tour theo yêu cầu</span>
+            </a>
+          </li>
           <li>
             <a href="indexa.php?qlroom">
             <i class="bi bi-house-door"></i><span>Quản lý room</span>
@@ -416,6 +420,9 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
     }if(isset($_REQUEST['lichql'])){
       $show = false;
       include_once("viewa/lichql.php");
+    }if(isset($_REQUEST['touryeucau'])){
+      $show = false;
+      include_once("viewa/xemtouryeucau.php");
     }
     if($show){
       include_once("viewa/thongke.php");

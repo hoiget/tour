@@ -159,7 +159,10 @@ h1 {
     background-color: #e74c3c;
     color: #fff;
 }
-
+#btn-sua {
+    background-color: orange;
+    color: #fff;
+}
 #btn.detail {
     background-color: #000;
     color: #fff;
@@ -239,6 +242,15 @@ button:hover {
 .form-row label {
   margin-bottom: 5px; /* Căn chỉnh khoảng cách giữa label và input */
 }
+.form-row1 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr; /* 2 cột bằng nhau */
+  gap: 10px; /* Khoảng cách giữa các cột */
+}
+
+.form-row1 label {
+  margin-bottom: 5px; /* Căn chỉnh khoảng cách giữa label và input */
+}
 h3,h5{
             color:black;
         }
@@ -271,6 +283,23 @@ h3,h5{
         }
     </style>
   <!-- Modal -->
+  <div class="modal fade" id="ratingModal" tabindex="" aria-labelledby="ratingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg"> <!-- Thêm modal-lg ở đây -->
+        <div class="modal-content">
+            <div class="modal-header">
+               
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            <form class="capnhathoadon" id="capnhathoadon" action="./api/api.php" method="post" enctype="multipart/form-data"> 
+            <input type="hidden" name="action" value="capnhathoadon">
+            <div id="suatour"></div>
+            <button type="submit" onclick="capnhathoadon()">Cập nhật</button>
+            </form>
+            </div>
+        </div>
+    </div>
+</div> 
   <div class="modal fade" id="ratingModal" tabindex="-1" aria-labelledby="ratingModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -316,86 +345,116 @@ h3,h5{
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    function xemtrangthai() {
+
+function loadBookingData(event) {
+    if (!event || !event.booking_time) return; // Kiểm tra dữ liệu hợp lệ
+
+    const bookingTime = new Date(event.booking_time); // Thời gian đặt đơn
+    const currentTime = new Date(); // Thời gian hiện tại
+    const diffInMinutes = Math.floor((currentTime - bookingTime) / 60000); // Tính số phút đã trôi qua
+    const remainingMinutes = 60 - diffInMinutes; // Số phút còn lại để hủy
+
+    let cancelButton = '';
+    let countdownText = '';
+    let suaButton = '';
+
+    if (remainingMinutes > 0 && event.refund == '0') { 
+        cancelButton = `<button style="width:340px;" class="btn cancel" onclick="huydontour(${event.Booking_id}, ${event.participants}, ${event.Tour_id})">Hủy đơn</button>`;
+
+        countdownText = `<p style="color: red; font-weight: bold;">Thời gian còn lại để hủy và sửa: ${remainingMinutes} phút</p>`;
+       
+        suaButton = `<button style="width:340px;" id="btn-sua" class="btn edit" data-bs-toggle="modal" data-bs-target="#ratingModal" onclick="openRatingModal1('${event.Booking_id}')">Sửa tour</button>`;
+    }
+
+    let detailsHtml = `
+        ${countdownText}  <!-- Hiển thị thời gian còn lại -->
+        ${cancelButton}   <!-- Chỉ hiển thị nếu còn trong 60 phút -->
+        ${suaButton}
+    `;
+
+    $('#orderDetails_' + event.Booking_id).html(detailsHtml); // Cập nhật phần tử đúng ID
+}
+
+
+function xemtrangthai() {
     $.ajax({
         url: './api/api.php?action=xemtrangthai',
         type: 'GET',
-        dataType: 'json', // Tự động phân tích chuỗi JSON thành object/mảng
+        dataType: 'json',
         success: function(response) {
-          
+            console.log(response);
             if (Array.isArray(response) && response.length > 0) {
-                var events = response;
-                var eventHtml = '';
-                events.forEach(function(event, index) {
+                let eventHtml = '';
+                response.forEach(function(event, index) {
                     if (index % 3 === 0) {
                         eventHtml += '<div class="card-container">';
                     }
+
                     eventHtml += `
                     <div class="card">
-                <h3>${event.User_name}</h3>
-                <p><strong>Tên tour:</strong> ${event.Tour_name}</p>
-                <p><strong>Giá tour:</strong> ${event.Price}</p>
-                <p><strong>Tổng tiền:</strong> ${event.Total_pay}</p>
-                <p><strong>Mã đơn:</strong> ${event.Booking_id}</p>
-                 `
-                 if(event.Payment_status == '1'){
-                    
-                    eventHtml +=' <p><strong>TT thanh toán:</strong> Chưa thanh toán</p>'
-                 }else if(event.Payment_status == '2'){
-                    eventHtml +=' <p><strong>TT thanh toán:</strong> Đã thanh toán</p>'
-                    eventHtml +='<p><strong>Thời gian thanh toán:</strong> 2024-12-04 15:45:11</p>'
-                 }
-                 
-                 if(event.refund == '0'){
-                    
-                    eventHtml +=' <button class="btn cancel" onclick="huydontour('+event.Booking_id+')">Hủy đơn</button>'
-                    if(event.Booking_status == '1'){
-                    
-                        eventHtml +=' <button class="btn review">Chưa xác nhận</button>'
-                    }else if(event.Booking_status == '2'){
-                        eventHtml +=' <button class="btn review">Đã xác nhận</button>'
-                        if(event.Payment_status == '2'){
-                          eventHtml +='<button type="button" class="btn review" data-bs-toggle="modal" data-bs-target="#ratingModal" onclick="openRatingModal('+event.Booking_id +')">Đánh giá Tour</button>'
-                   
-                 }else{
-                  eventHtml +=' <button class="btn review" ><a style="text-decoration:none;color:white" href="index.php?idtt='+event.Booking_id +'">Thanh toán</a></button>'
+                        <h3>${event.User_name}</h3>
+                        <p><strong>Tên tour:</strong> ${event.Tour_name}</p>
+                        <p><strong>Giá tour:</strong> ${event.Price}</p>
+                        <p><strong>Tổng tiền:</strong> ${event.Total_pay}</p>
+                        <p><strong>Mã đơn:</strong> ${event.Booking_id}</p>
+                        <p><strong>Thời gian đặt:</strong> ${event.booking_time}</p>
+                         <input type="hidden" id="participants" name="participants" value="${event.participants}" readonly>
+                          <input type="hidden" id="idtour" name="idtour" value="${event.Tour_id}" readonly>
+                         <!-- Thêm id duy nhất cho mỗi đơn -->
+                    `;
 
-                 }
-                eventHtml += `
+                    if (event.Payment_status == '1') {
+                        eventHtml += '<p><strong>TT thanh toán:</strong> Chưa thanh toán</p>';
+                    } else if (event.Payment_status == '2') {
+                        eventHtml += '<p><strong>TT thanh toán:</strong> Đã thanh toán</p>';
+                        eventHtml += '<p><strong>Thời gian thanh toán:</strong> 2024-12-04 15:45:11</p>';
+                    }
+
+                    if (event.refund == '0') {
+                        eventHtml += `<div  id="orderDetails_${event.Booking_id}"></div>`
+                        if (event.Booking_status == '1') {
+                            eventHtml += '<button class="btn review">Chưa xác nhận</button>';
+                        } else if (event.Booking_status == '2') {
+                            eventHtml += '<button class="btn review">Đã xác nhận</button>';
+                            if (event.Payment_status == '2') {
+                                eventHtml += `<button type="button" class="btn review" data-bs-toggle="modal" data-bs-target="#ratingModal" onclick="openRatingModal(${event.Booking_id})">Đánh giá Tour</button>`;
+                            } else {
+                                eventHtml += `<button class="btn review"><a style="text-decoration:none;color:white" href="index.php?idtt=${event.Booking_id}">Thanh toán</a></button>`;
+                            }
+                            eventHtml += `
                         <div>
                             <input type="hidden" id="bookingIdInput_${index}" value="${event.Booking_id}" readonly>
                             <button class="exportPdfBtn" data-booking-id="${event.Booking_id}">Xuất PDF</button>
                         </div>
                     `;
-
+                        }
+                    } else if (event.refund == '1') {
+                        eventHtml += '<button class="btn cancel">Đã hủy</button>';
+                        if (event.Payment_status == '2') {
+                            eventHtml += '<button class="btn review">Chưa hoàn tiền</button>';
+                        }
                     }
-                    
-                    
-                    
-                   
-                 }else if(event.refund == '1'){
-                    eventHtml +='  <button class="btn cancel">Đã hủy</button>'
-                    if(event.Payment_status == '2'){
-                        eventHtml +=' <button class="btn review">Chưa hoàn tiền</button>'
-                        
-                 }
-                 }
-              
-                eventHtml +=`
-                <a href="#" id="btn detail" class="btn btn-dark view-details" data-id="${event.Booking_id}">Xem chi tiết</a>
-            </div>
-                        
-                         `
-                    if ((index + 1) % 3 === 0 || (index + 1) === events.length) {
-                        eventHtml += '</div>';
+
+                    eventHtml += `
+                        <a href="#" id="btn detail" class="btn btn-dark view-details" data-id="${event.Booking_id}">Xem chi tiết</a>
+                    </div>`;
+
+                    if ((index + 1) % 3 === 0 || (index + 1) === response.length) {
+                        eventHtml += '</div><br>';
                     }
                 });
+
                 $('#xemtrangthai').html(eventHtml);
+
+                // Gọi loadBookingData cho từng đơn đặt tour
+                response.forEach(event => loadBookingData(event));
+
                 $('.view-details').on('click', function(e) {
                     e.preventDefault();
                     var newsId = $(this).data('id');
                     view_news_details(newsId);
                 });
+
             } else {
                 $('#xemtrangthai').html('<div class="col">Không tìm thấy thông tin người dùng.</div>');
             }
@@ -406,131 +465,360 @@ h3,h5{
         }
     });
 }
-function huydontour(idve) {
-        // Gửi yêu cầu đến api.php để cập nhật trạng thái
-        fetch('./api/api.php?action=huydontour&id=' + idve)
-            .then(response => response.text())
-            .then(data => {
-                
-                if (data === 'gui') {
-                    // Chuyển hướng người dùng sau khi cập nhật thành công
-                    openPopup('Hủy đơn thành công', '');
-                    setTimeout(function() {
-                        window.location.href = 'index.php?xemdattour';
-                    }, 1000);
-                } else {
-                    openPopup('Cập nhật không thành công','');
-                }
-            })
-            .catch(error => console.error('Lỗi:', error));
-    }
-function view_news_details(id) {
+function huydontour(idve, participants, idtour) {
+    fetch(`./api/api.php?action=huydontour&id=${idve}&participants=${participants}&idtour=${idtour}`)
+        .then(response => response.text())
+        .then(data => {
+            if (data === 'gui') {
+                openPopup('Hủy đơn thành công', '');
+                setTimeout(() => {
+                    window.location.href = 'index.php?xemdattour';
+                }, 1000);
+            } else {
+                openPopup('Cập nhật không thành công', '');
+            }
+        })
+        .catch(error => console.error('Lỗi:', error));
+}
+
+    function view_news_details(id) {
     $.ajax({
-      url: './api/api.php?action=xemtrangthaichitiet&id=' + id,
-      type: 'GET',
-      dataType: 'json',
-      success: function(response) {
-        if (response && response.length > 0) {
-          var item = response[0];
-          var detailsHtml = `
-            <a href="index.php?xemdattour" class="btn btn-secondary">Trở Lại</a>
-            <div class="container4">
-  <h2>THÔNG TIN ĐẶT TOUR</h2>
+        url: './api/api.php?action=xemtrangthaichitiet&id=' + id,
+        type: 'GET',
+        dataType: 'json',
+        success: function(response) {
+            if (response && response.length > 0) {
+                var item = response[0]; // Lấy thông tin chung từ bản ghi đầu tiên
+                var detailsHtml = `
+                    <a href="index.php?xemdattour" class="btn btn-secondary">Trở Lại</a>
+                    <div class="container4">
+                        <h2>THÔNG TIN ĐẶT TOUR</h2>
 
-<form class="my-form" id="dattourfull" action="./api/api.php" method="get"> 
-    <input type="hidden" name="action" value="dattourfull">
-  <div class="user-info">
-    <h3>Thông tin người dùng</h3>
-    <form>
-          <div class="form-row">
-        <div>
-          <label for="fullname">Tên tài khoản:</label>
-          <input type="text" id="fullname" name="fullname" value="${item.User_name}" readonly>
-        </div>
-        <div>
-          <label for="phone">Số điện thoại:</label>
-          <input type="text" id="phone" name="phone" value="${item.Phone_num}" readonly>
-        </div>
-      </div>
-      <div class="form-row">
-        <div>
-          <label for="address">Địa chỉ:</label>
-          <input type="text" id="address" name="address" value="${item.Address}" readonly>
-        </div>
-      </div>
-     
-    
-  </div>
+                        <!-- Thông tin người đặt tour -->
+                        <div class="user-info">
+                            <h3>Thông tin người đặt</h3>
+                            <div class="form-row">
+                                <div>
+                                    <label for="fullname">Tên tài khoản:</label>
+                                    <input type="text" id="fullname" value="${item.User_name}" readonly>
+                                </div>
+                                <div>
+                                    <label for="phone">Số điện thoại:</label>
+                                    <input type="text" id="phone" value="${item.Phone_num}" readonly>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div>
+                                    <label for="address">Địa chỉ:</label>
+                                    <input type="text" id="address" value="${item.Address}" readonly>
+                                </div>
+                            </div>
+                        </div>
 
-  <!-- Thông tin tour -->
-  <div class="tour-info">
-    <h3>Thông tin tour</h3>
-   
-       <div class="form-row">
-        <div>
-          <label for="tour-code">Mã:</label>
-          <input type="text" id="tour-code" name="tour_id" value="${item.Booking_id}" readonly>
-        </div>
-        <div>
-          <label for="tour-name">Tên tour:</label>
-          <input type="text" id="tour-name" name="tour_name" value="${item.Tour_name}" readonly>
-        </div>
-      </div>
+                        <!-- Thông tin tour -->
+                        <div class="tour-info">
+                            <h3>Thông tin tour</h3>
+                            <div class="form-row">
+                                <div>
+                                    <label for="tour-code">Mã:</label>
+                                    <input type="text" id="tour-code" value="${item.Booking_id}" readonly>
+                                </div>
+                                <div>
+                                    <label for="tour-name">Tên tour:</label>
+                                    <input type="text" id="tour-name" value="${item.Tour_name}" readonly>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div>
+                                    <label for="departure-date">Thời gian khởi hành:</label>
+                                    <input type="date" id="ns" value="${item.Datetime}" readonly>
+                                </div>
+                                <div>
+                                    <label for="duration">Thời gian diễn ra tour (ngày):</label>
+                                    <input type="text" id="duration" value="${item.Day_depart}" readonly>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div>
+                                    <label for="arrival">Phương tiện di chuyển:</label>
+                                    <input type="text" id="arrival" value="${item.Arrival}" readonly>
+                                </div>
+                                <div>
+                                    <label for="participants">Số lượng người:</label>
+                                    <input type="text" id="participants" value="${item.participants}" readonly>
+                                </div>
+                            </div>
+                        </div>
 
-      <div class="form-row">
-        <div>
-          <label for="departure-date">Thời gian khởi hành:</label>
-          <input type="date" id="ns" name="ns" value="${item.Datetime}" readonly>
-        </div>
-        <div>
-          <label for="duration">Thời gian diễn ra tour (ngày):</label>
-          <input type="text" id="duration" name="duration" value="${item.Day_depart}" min="1" readonly>
-        </div>
-      </div>
-      <div class="form-row">
-        <div>
-          <label for="arrival">Phương tiện di chuyển:</label>
-          <input type="text" id="arrival" name="arrival" value="${item.Arrival}" min="1" readonly>
-        </div>
-        <div>
-           <label for="arrival">Số lượng người:</label>
-          <input type="text" id="depart_id" name="depart_id" value="${item.participants}" min="1" readonly>
-        </div>
-      </div>
-    
-  </div>
+                        <!-- Thông tin giá -->
+                        <div class="pricing-info">
+                            <h3>Thông tin giá</h3>
+                            <div class="form-row">
+                                <div>
+                                    <label for="price">Giá vé:</label>
+                                    <input type="text" id="price" value="${item.Price}" readonly>
+                                </div>
+                                <div>
+                                    <label for="total-price">Tổng tiền:</label>
+                                    <input type="text" id="total-price" value="${item.Total_pay}" readonly>
+                                </div>
+                            </div>
+                        </div>
 
-  <!-- Thông tin thành viên tham gia -->
-  <div class="pricing-info">
- <h3>Thông tin giá</h3>
-      <div class="form-row">
-        <div>
-        <label for="total-price">Gía vé:</label>
-        <input type="text" id="price" name="price" value="${item.Price}" readonly>
+                        <!-- Thông tin thành viên tham gia -->
+                        <div class="participant-info">
+                            <h3>Thông tin thành viên tham gia</h3>
+                `;
 
-        </div>
-        <div>
-        
-          <label for="total-price">Tổng tiền:</label>
-        <input type="text" id="total-price" name="total-price" value="${item.Total_pay}" readonly>
-        </div>
-      </div>
-   
-  </div> 
-`;
-          $('#xemtrangthai').html(detailsHtml); // Replace the news section with the detailed view
-        } else {
-          $('#xemtrangthai').html('<div class="col">Không tìm thấy bài viết chi tiết.</div>');
+                // Duyệt qua danh sách tất cả thành viên
+                response.forEach((participant, index) => {
+                    
+                    detailsHtml += `
+                        <div class="form-row1">
+                            <div>
+                                <label>${participant.phanloai}:</label>
+                                
+                            </div>
+                            <div>
+                                <label>Họ tên:</label>
+                                <input type="text" value="${participant.hoten}" readonly>
+                            </div>
+                            <div>
+                                <label>Ngày sinh:</label>
+                                <input type="text" value="${participant.ngaysinh}" readonly>
+                            </div>
+                            <div>
+                                <label>Giới tính:</label>
+                                <input type="text" value="${participant.gioitinh}" readonly>
+                            </div>
+                        </div>
+                    <br>`;
+                });
+
+                detailsHtml += `
+                        </div> <!-- Kết thúc thông tin thành viên -->
+                    </div> <!-- Kết thúc container -->
+                `;
+
+                $('#xemtrangthai').html(detailsHtml); 
+            } else {
+                $('#xemtrangthai').html('<div class="col">Không tìm thấy dữ liệu.</div>');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Lỗi khi lấy dữ liệu:', error);
+            $('#xemtrangthai').html('<div class="col">Đã xảy ra lỗi khi tải dữ liệu.</div>');
         }
-      },
-      error: function(xhr, status, error) {
-        console.error('Lỗi khi lấy chi tiết:', error);
-        $('#xemtrangthai').html('<div class="col">Đã xảy ra lỗi khi tải chi tiết bài viết.</div>');
-      }
     });
-  }
+}
+
+function openRatingModal1(Id) {
+    // Lấy thông tin tour và hiển thị trong modal
+    $.ajax({
+        url: './api/api.php?action=xemtoursua&idt=' + Id,
+        type: 'GET',
+        dataType: 'json',
+        success: function(response) {
+            console.log(response)
+            if (response && response.length > 0) {
+                var item = response[0]; // Lấy thông tin chung từ bản ghi đầu tiên
+                var detailsHtml = `
+                   
+                    <div class="container4">
+                        <h2>THÔNG TIN ĐẶT TOUR</h2>
+            <input type="hidden" id="idtour" name="idtour" value="${item.Tour_id}" readonly>
+                        <!-- Thông tin người đặt tour -->
+                        <div class="user-info">
+                            <h3>Thông tin người đặt</h3>
+                            <div class="form-row">
+                                <div>
+                                    <label for="fullname">Tên tài khoản:</label>
+                                    <input type="text" id="fullname" value="${item.User_name}" readonly>
+                                </div>
+                                <div>
+                                    <label for="phone">Số điện thoại:</label>
+                                    <input type="text" id="phone" value="${item.Phone_num}" readonly>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div>
+                                    <label for="address">Địa chỉ:</label>
+                                    <input type="text" id="address" value="${item.Address}" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Thông tin tour -->
+                        <div class="tour-info">
+                            <h3>Thông tin tour</h3>
+                            <div class="form-row">
+                                <div>
+                                    <label for="tour-code">Mã:</label>
+                                    <input type="text" id="tour-code" name="booking_id" value="${item.Booking_id}" readonly>
+                                </div>
+                                <div>
+                                    <label for="tour-name">Tên tour:</label>
+                                    <input type="text" id="tour-name" value="${item.Tour_name}" readonly>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div>
+                                    <label for="departure-date">Thời gian khởi hành:</label>
+                                    <input type="date" id="ns" value="${item.Datetime}" readonly>
+                                </div>
+                                <div>
+                                    <label for="duration">Thời gian diễn ra tour (ngày):</label>
+                                    <input type="text" id="duration" value="${item.Day_depart}" readonly>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div>
+                                    <label for="arrival">Phương tiện di chuyển:</label>
+                                    <input type="text" id="arrival" value="${item.Arrival}" readonly>
+                                </div>
+                                <div>
+                                    <label for="participants">Số lượng người:</label>
+                                    <input type="text" id="participants" name="participants" value="${item.participants}" readonly>
+                                     
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Thông tin giá -->
+                        <div class="pricing-info">
+                            <h3>Thông tin giá</h3>
+                            <div class="form-row">
+                                <div>
+                                    <label for="price">Giá vé:</label>
+                                    <input type="text" id="adult_price" name="adult_price" value="${item.Price}" readonly>
+                                    <input type="hidden" id="child_rate" name="child_rate" value="${item.Child_price_percen}" readonly>
+                                </div>
+                                <div>
+                                    <label for="total-price">Tổng tiền:</label>
+                                    <input type="text" id="total-price" name="" value="${item.Total_pay}" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Thông tin thành viên tham gia -->
+                        <div class="participant-info">
+                            <h3>Thông tin thành viên tham gia</h3>
+                `;
+
+                // Duyệt qua danh sách tất cả thành viên
+                response.forEach((participant, index) => {
+                    
+                    detailsHtml += `
+                        <div class="form-row1">
+                            <div>
+                                <label>${participant.phanloai}:</label>
+                              <input type="hidden" name="id" value="${participant.idpar}" >
+                            </div>
+                            <div>
+                                <label>Họ tên:</label>
+                                <input type="text" name="ht" value="${participant.hoten}" >
+                            </div>
+                            <div>
+                                <label>Ngày sinh:</label>
+                                <input type="date" name="ns" value="${participant.ngaysinh}" >
+                            </div>
+                            <div>
+                                <label>Giới tính:</label>
+                               <br>
+                                <select name="gioit" style="height:40px;width:100px">
+                                    <option value="${participant.gioitinh}">${participant.gioitinh}</option>
+                                    <option value="Nam">Nam</option>
+                                    <option value="Nữ">Nữ</option>
+                                </select>
+                            </div>
+                             <div>
+                                <label>Thao tác:</label>
+                               <br>
+                                    <button type="button" class="btn btn-danger" onclick="xoapar(${participant.idpar}, ${participant.Tour_id}, ${participant.Booking_id}, ${participant.Price}, ${participant.Child_price_percen})">Xóa</button>
+                            </div>
+                        </div>
+                    <br>`;
+                });
+
+                detailsHtml += `
+                        </div> <!-- Kết thúc thông tin thành viên -->
+                    </div> <!-- Kết thúc container -->
+                `;
+
+                $('#suatour').html(detailsHtml); 
+            } else {
+                $('#suatour').html('<div class="col">Không tìm thấy dữ liệu.</div>');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Lỗi khi lấy dữ liệu:', error);
+            $('#suatour').html('<div class="col">Đã xảy ra lỗi khi tải dữ liệu.</div>');
+        }
+    });
+}
+function xoapar(id, idtour, booking_id, adult_price, child_rate) {
+    fetch(`./api/api.php?action=xoapar&id=${id}&idtour=${idtour}&booking_id=${booking_id}&adult_price=${adult_price}&child_rate=${child_rate}`)
+        .then(response => response.text())
+        .then(data => {
+            console.log(data);
+            if (data === 'gui') {
+                openPopup('Xóa thành viên tham gia thành công', '');
+                setTimeout(() => {
+                    window.location.reload(); // Tải lại trang để cập nhật số lượng & tổng tiền
+                }, 1000);
+            } else {
+                openPopup('Cập nhật không thành công', '');
+            }
+        })
+        .catch(error => console.error('Lỗi:', error));
+}
+
+let loginForm = document.querySelector(".capnhathoadon"); 
+loginForm.addEventListener("submit", (e) => { 
+    e.preventDefault(); 
+    
+    
+});
+function capnhathoadon() {
+    let data = [];
+
+    $(".form-row1").each(function () {
+        let id = $(this).find("input[name='id']").val();
+        let hoten = $(this).find("input[name='ht']").val();
+        let ngaysinh = $(this).find("input[name='ns']").val();
+        let gioitinh = $(this).find("select[name='gioit']").val();
+
+        data.push({ id, hoten, ngaysinh, gioitinh });
+    });
+
+    $.ajax({
+        type: 'POST',
+        url: './api/api.php',  // Không cần thêm ?action=capnhathoadon vào URL
+        data: JSON.stringify({ action: 'capnhathoadon', participants: data }), // Gửi action trong dữ liệu JSON
+        contentType: 'application/json',
+        success: function (response) {
+          
+            if (response.trim() === 'cập nhật thành công!') {
+                openPopup('Thông báo', 'Cập nhật thành công!');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+            } else {
+                openPopup('Cập nhật thành công!','');
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error('Lỗi AJAX:', status, error);
+            console.error('Chi tiết lỗi:', xhr.responseText);
+            openPopup('Lỗi', 'Không thể gửi yêu cầu. Vui lòng thử lại!');
+        }
+    });
+}
+
+
 $(document).ready(function() {
     xemtrangthai();
+   
 });
 </script>
 

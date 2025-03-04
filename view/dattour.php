@@ -89,9 +89,54 @@ button:hover {
   border: none;
   background-color: white;
 }
+.passenger-form {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    font-family: Arial, sans-serif;
+}
+
+.passenger-form h4 {
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color:black;
+}
+
+.passenger-form h4 img {
+    width: 20px;
+    height: 20px;
+    
+}
+
+.passenger-form label {
+    font-weight: bold;
+    font-size: 14px;
+    color: #333;
+}
+
+.passenger-form input, .passenger-form select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.passenger-form input[disabled] {
+    background-color: #f1f1f1;
+    color: #888;
+    border: none;
+}
 
 </style>
 <br><br>
+
+<form class="my-form" id="dattourfull" action="./api/api.php" method="get">
+<input type="hidden" name="action" value="dattourfull">
 <div class="container-wrapper">
 <div id="top">
 <h1 id="ns1" style="color:red;font-family: Arial, sans-serif;
@@ -99,13 +144,16 @@ button:hover {
 <div id="calendar">
 
 </div>
+<h2>Thông tin khách hàng</h2>
+<div id="adult-forms"></div>
+<div id="children-forms"></div>
+<div id="babies-forms"></div>
 </div>
 
 <div class="container4">
   <h2>THÔNG TIN ĐẶT TOUR</h2>
 
-<form class="my-form" id="dattourfull" action="./api/api.php" method="get"> 
-    <input type="hidden" name="action" value="dattourfull">
+   
   <div class="user-info">
     <h3>Thông tin người dùng</h3>
     <form>
@@ -129,12 +177,12 @@ button:hover {
       <div class="form-row">
         <div>
           <label for="adults">Người lớn :</label>
-          <input type="number" id="adults" name="adults" value="1" min="0" oninput="calculateTotal()">
+          <input type="number" id="adults" name="adults" value="1" min="0" oninput="calculateTotal();generateForms();" >
           <span id="totalad">0</span> VNĐ
         </div>
         <div>
           <label for="children">Trẻ em (dưới 11 tuổi):</label>
-          <input type="number" id="children" name="children" value="0" min="0" oninput="calculateTotal()">
+          <input type="number" id="children" name="children" value="0" min="0" oninput="calculateTotal();generateForms();">
           <span id="totalchild">0</span> VNĐ
         </div>
       </div>
@@ -143,7 +191,7 @@ button:hover {
         
         <div>
           <label for="babies">Em bé (dưới 2 tuổi, miễn phí):</label>
-          <input type="number" id="babies" name="babies" value="0" min="0"  oninput="calculateTotal()">
+          <input type="number" id="babies" name="babies" value="0" min="0"  oninput="calculateTotal();generateForms();">
         </div>
         
       </div>
@@ -166,10 +214,11 @@ button:hover {
    
     <button type="submit" id="book-button" onclick="dattourfull()">Đặt giữ chỗ</button>
   </center>
-  </form>
+ 
 </div>
 
 </div>
+</form>
 <script>
 document.addEventListener('DOMContentLoaded', async function () {
     let calendarEl = document.getElementById('calendar');
@@ -233,12 +282,17 @@ document.addEventListener('DOMContentLoaded', async function () {
 <br><br>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
+
+
+
 <script>
 let loginForm = document.querySelector(".my-form"); 
 loginForm.addEventListener("submit", (e) => { 
     e.preventDefault(); 
    
+
 });
+
      function get_user_info() {
     $.ajax({
         url: './api/api.php?action=get_user_info',
@@ -269,7 +323,7 @@ loginForm.addEventListener("submit", (e) => {
         </div>
         <div>
           <label for="address">Địa chỉ:</label>
-          <input type="text" id="address" name="address" value="${event.Address}">
+          <input type="text" id="address" name="address" value="${event.Address}" readonly>
         </div>
       </div>
 
@@ -391,59 +445,55 @@ function xemdattour() {
   function dattourfull() {
     // Lấy giá trị từ input type="date"
    
-    $(document).ready(function() {
-        $('#dattourfull').submit(function(e) {
-            e.preventDefault(); // Ngăn chặn hành động mặc định của form
-            $.ajax({
-                type: 'POST',
-                url: './api/api.php',
-                data: $(this).serialize(),
-                success: function(response) {
+    $(document).ready(function () {
+    $('#dattourfull').submit(function (e) {
+        e.preventDefault(); // Ngăn chặn hành động mặc định của form
+
+        let formData = new FormData(this); // Chuyển form thành FormData
+
+        // Thêm dữ liệu hành khách từ form động
+        $(".passenger-form").each(function (index) {
+            formData.append("hot[]", $(this).find("input[name^='hot']").val());
+            formData.append("ngaysi[]", $(this).find("input[name^='ngaysi']").val());
+            
+            formData.append("gioit[]", $(this).find("select[name^='gioit']").val());
+            formData.append("phanloai[]", $(this).find("input[name^='phanloai']").val());
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: './api/api.php',
+            data: formData,
+            contentType: false, // Bắt buộc để FormData hoạt động đúng
+            processData: false, // Không xử lý dữ liệu FormData thành chuỗi
+            success: function (response) {
                 console.log(response);
-                    if (response === 'insert_success') {
-                        openPopup('Thông báo', 'Đặt thành công!');
-                        setTimeout(function() {
-                            window.location.href = 'index.php?xemdattour'; // Chuyển hướng sau 2 giây
-                        }, 2000);
-                    } else if (response === 'missing_data') {
-                        openPopup('Thông báo', 'Dữ liệu còn thiếu. Vui lòng kiểm tra lại!');
-                    }else if (response === 'missing_data1') {
-                        openPopup('Thông báo', 'Vui lòng chọn ngày khởi hành ');
-                    }  
-                    else if (response === 'query_error') {
-                        openPopup('Lỗi', 'Có lỗi xảy ra khi thực hiện truy vấn!');
-                    } else if (response === 'invalid_date') {
-                        openPopup('Lỗi', 'Có lỗi về ngày không hợp lệ');
-                    }else if (response === 'query_error') {
-                        openPopup('Lỗi', 'lỗi truy vấn');
-                    }else if (response === 'update_departure_error') {
-                        openPopup('Lỗi', 'lỗi không update dược departure');
-                    }else if (response === 'insert_detail_error') {
-                        openPopup('Lỗi', 'litỗi không thêm dược detail');
-                    }else if (response === 'insert_order_error') {
-                        openPopup('Lỗi', 'lỗi không thêm được order');
-                    }else if (response.startsWith('quaso|')) {
+                if (response === 'insert_success') {
+                    openPopup('Thông báo', 'Đặt thành công!');
+                    setTimeout(function () {
+                        window.location.href = 'index.php?xemdattour';
+                    }, 2000);
+                } else if (response === 'missing_data') {
+                    openPopup('Thông báo', 'Dữ liệu còn thiếu. Vui lòng kiểm tra lại!');
+                }else if (response === 'missing_data1') {
+                    openPopup('Thông báo', 'Vui lòng chọn ngày khởi hành');
+                }
+                 else if (response.startsWith('quaso|')) {
                     let messageParts = response.split('|');
-                    openPopup('Cảnh báo',messageParts[1]+'\n');
-                } 
-                    else{
-                      openPopup('Lỗi', 'lỗi');
-                    }   
-                    
-                },
-                error: function(xhr, status, error) {
-    // In lỗi chi tiết ra console
-    console.error('Trạng thái:', status);
-    console.error('Thông báo lỗi:', error);
-    console.error('Phản hồi từ server:', xhr.responseText);
-
-    // Hiển thị popup lỗi với thông tin từ server
-    openPopup('Lỗi', 'Chi tiết lỗi: ' + xhr.responseText);
-}
-
-            });
+                    openPopup('Cảnh báo', messageParts[1] + '\n');
+                } else {
+                    openPopup('Lỗi', 'Lỗi không xác định');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Lỗi:', error);
+                console.error('Phản hồi từ server:', xhr.responseText);
+                openPopup('Lỗi', 'Chi tiết lỗi: ' + xhr.responseText);
+            }
         });
     });
+});
+
 }
 
 
@@ -456,39 +506,100 @@ $(document).ready(function() {
     });
 </script>
 <script>
+
 function calculateTotal() {
-  const priceInput = document.getElementById("price");
+    const maxParticipants = parseInt(document.getElementById("max").value) || 0;
+    const currentOrder = parseInt(document.getElementById("order").value) || 0;
+
+    // Lấy số lượng
+    const adults = parseInt(document.getElementById("adults").value) || 0;
+    const children = parseInt(document.getElementById("children").value) || 0;
+    const babies = parseInt(document.getElementById("babies").value) || 0;
+
+    const totalPeople = adults + children + babies;
+    const remainingSlots = maxParticipants - currentOrder;
+
+    if (totalPeople > remainingSlots) {
+      openPopup("Số lượng khách vượt quá số chỗ còn lại!","Số lượng người còn lại là " + remainingSlots);
+        // Điều chỉnh số lượng sao cho không vượt quá
+        if (adults > 0) {
+            document.getElementById("adults").value = Math.max(0, adults - (totalPeople - remainingSlots));
+        } else if (children > 0) {
+            document.getElementById("children").value = Math.max(0, children - (totalPeople - remainingSlots));
+        } else if (babies > 0) {
+            document.getElementById("babies").value = Math.max(0, babies - (totalPeople - remainingSlots));
+        }
+        return;
+    }
+
+    // Kiểm tra xem các input giá có tồn tại không
+    const priceInput = document.getElementById("price");
     const childInput = document.getElementById("child");
 
     if (!priceInput || !childInput) {
         console.warn("Giá tour chưa được tải, không thể tính tổng.");
         return;
     }
-  const adultPrice = document.getElementById("price").value; // Giá người lớn
-  const childRate = document.getElementById("child").value / 100; // Tỷ lệ giá trẻ em (5-11 tuổi)
-  const babyPrice = 0; // Em bé miễn phí
 
-  // Lấy số lượng
-  const adults = document.getElementById("adults").value || 0;
-  const children = document.getElementById("children").value || 0;
-  const babies = document.getElementById("babies").value || 0;
-  const totalAdult = adults * adultPrice;
-  const totalChild = children * (adultPrice * childRate);
-  
-  // Tính tiền
-  const total =
-    adults * adultPrice +
-    children * (adultPrice * childRate) +
-    babies * babyPrice;
+    const adultPrice = parseInt(priceInput.value) || 0; // Giá người lớn
+    const childRate = parseFloat(childInput.value) / 100 || 0; // Tỷ lệ giá trẻ em (5-11 tuổi)
+    const babyPrice = 0; // Em bé miễn phí
 
-  // Hiển thị tổng tiền (không có dấu chấm)
-  document.getElementById("total-price").value = total.toLocaleString('vi-VN').replace(/\./g, '');
-  document.getElementById("totalad").innerText = totalAdult.toLocaleString('vi-VN');
-  document.getElementById("totalchild").innerText = totalChild.toLocaleString('vi-VN');
+    // Tính tổng giá trị
+    const totalAdult = adults * adultPrice;
+    const totalChild = children * (adultPrice * childRate);
+    const total = totalAdult + totalChild + (babies * babyPrice);
+
+    // Hiển thị tổng tiền (bỏ dấu chấm nếu có)
+    document.getElementById("total-price").value = total.toLocaleString('vi-VN').replace(/\./g, '');
+    document.getElementById("totalad").innerText = totalAdult.toLocaleString('vi-VN');
+    document.getElementById("totalchild").innerText = totalChild.toLocaleString('vi-VN');
 }
+
 
 // Tính tiền ngay khi trang được tải lần đầu
 window.onload = calculateTotal;
 
+function generateForms() {
+    // Lấy số lượng từ input
+    const adultCount = parseInt(document.getElementById("adults").value) || 0;
+    const childCount = parseInt(document.getElementById("children").value) || 0;
+    const babyCount = parseInt(document.getElementById("babies").value) || 0;
+
+    // Tạo form tương ứng
+    createForm("adult-forms", "Người lớn", adultCount, "adult");
+    createForm("children-forms", "Trẻ em (từ 2 -> 11 tuổi)", childCount, "child");
+    createForm("babies-forms", "Em bé (từ 2 -> 4 tuổi)", babyCount, "baby");
+}
+
+function createForm(containerId, label, count, type) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = ""; // Xóa form cũ trước khi tạo mới
+
+    for (let i = 1; i <= count; i++) {
+        const formHtml = `
+            <div class="passenger-form">
+                <h4>${label}</h4>
+                <label>Họ tên:</label>
+                <input type="text" name="hot" required>
+
+                <label>Ngày sinh:</label>
+                <input type="date" name="ngaysi" required>
+                
+
+                <label>Giới tính:</label>
+                <select name="gioit">
+                    <option value="Nam">Nam</option>
+                    <option value="Nữ">Nữ</option>
+                </select>
+                <input type="text" name="phanloai" value="${label}" required>
+            </div>
+        `;
+        container.innerHTML += formHtml;
+    }
+}
+
+// Gọi hàm lần đầu để tạo form mặc định
+generateForms();
 
 </script>

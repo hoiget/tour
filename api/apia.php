@@ -2026,7 +2026,52 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
 
 
-    }
+    } elseif ($action == "xemtouryeucau") {
+
+        $query = "SELECT * FROM request_tour";
+        $result = $conn->query($query);
+
+        $users = [];
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $users[] = $row; // Lưu từng bản ghi vào mảng
+            }
+        }
+
+        echo json_encode($users); // Trả về JSON
+        exit;
+    }  elseif ($action == "xemtouryeucau1") {
+        $id = $_GET['id'];
+        $query = "SELECT * FROM request_tour where id_request='$id'";
+        $result = $conn->query($query);
+
+        $users = [];
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $users[] = $row; // Lưu từng bản ghi vào mảng
+            }
+        }
+
+        echo json_encode($users); // Trả về JSON
+        exit;
+    }  elseif ($action == "xoatu") {
+
+        $id = $_GET['id'];
+
+        // Kiểm tra xem người dùng đã tồn tại trong cơ sở dữ liệu chưa
+
+        $insert_query = "DELETE FROM request_tour where id_request = '$id'";
+
+
+        if ($conn->query($insert_query) === TRUE) {
+            echo 'gui';
+        } else {
+            echo 'kotc';
+        }
+
+
+
+    } 
 
 
 }

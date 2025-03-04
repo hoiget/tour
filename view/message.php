@@ -4,7 +4,7 @@
 .chat-toggle {
     position: fixed;
     bottom: 20px;
-    right: 20px;
+    left: 20px;
     width: 60px;
     height: 60px;
     background-color: #007bff;
@@ -29,7 +29,7 @@
 .chatbox {
     position: fixed;
     bottom: 90px;
-    right: 20px;
+    left: 20px;
     width: 400px;
     border: 1px solid #ccc;
     border-radius: 8px;

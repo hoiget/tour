@@ -142,10 +142,7 @@ console.log("Session ID:", sessionId); // Kiểm tra giá trị
                                 </ul>          
                             </li>
                             <li><a href="index.php?ks">Khách sạn</a></li>
-                            <?php if(isset($_SESSION['Email']) && isset($_SESSION['sdt'])) { ?>
-                            <li><a href="index.php?xemdattour">Xem đơn đặt tour</a></li>
-                            <li><a href="index.php?xemdatks">Xem đơn đặt khách sạn</a></li>
-                            <?php }?>
+                          
 
                         </ul>
                     </li>
@@ -170,7 +167,10 @@ if (!isset($_SESSION['Email']) && !isset($_SESSION['sdt'])) {
                             <li><a href="#"><?php echo $username;?></a></li>
                             <hr>
                             <li><a href="index.php?ttcnkh">Thông tin cá nhân</a></li>
+                            <li><a href="index.php?xemdattour">Xem đơn đặt tour</a></li>
+                            <li><a href="index.php?xemdatks">Xem đơn đặt khách sạn</a></li>
                             <li><a href="logout.php">Đăng xuất</a></li>
+                          
                         </ul>
                     </li>
                     <?php
@@ -413,14 +413,13 @@ Thông tin cá nhân của khách hàng sẽ được lưu trữ trong thời gi
         }
     }
     </script>
- <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
 
-
+<script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
 <df-messenger
-  intent="WELCOME"
   chat-title="chat"
   agent-id="6ba7722e-f169-4c21-a783-8bb322ff9377"
   language-code="vi"
+  style="height: 100px; width: 100px;"
 ></df-messenger>
 </body>
 

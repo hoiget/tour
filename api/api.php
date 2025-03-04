@@ -5,7 +5,11 @@ session_start();
 include_once("connect.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $inputJSON = file_get_contents("php://input");
+    $input = json_decode($inputJSON, true);
+
     $action = $_POST['action'];
+    $action1 = isset($_POST['action']) ? $_POST['action'] : (isset($input['action']) ? $input['action'] : null);
 
     if ($action == "login") {
         $loginInput = $_POST['email']; // Email hoặc số điện thoại
@@ -200,19 +204,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             echo 'upload_error';
         }
-    } elseif ($action == "dattourfull") {
+    }elseif ($action == "dattourfull") {
         // Lấy dữ liệu từ POST
-
         $user_id = $_SESSION['id'];
         $tour_id = $_POST['tour_id'];
         $departure_id = $_POST['depart_id'];
         $arrival = $_POST['arrival'];
-        $booking_status = '1';
+        $booking_status = '2';
         $payment_status = '1';
         $refund = 0;
         $datetime = $_POST['ns'];
         $participants = $_POST['adults'] + $_POST['children'] + $_POST['babies'];
-        
+    
         $tour_name = $_POST['tour_name'];
         $price = $_POST['price1'];
         $total_pay = $_POST['total-price'];
@@ -222,30 +225,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $max = (int)$_POST['max']; 
         $order = (int)$_POST['order']; 
         $soluong = $max - $order;
-        // Kiểm tra nếu các trường bắt buộc rỗng
-        if (empty($user_id) || empty($tour_id) || empty($tour_name) || empty($price)){
+    
+        $hoten = $_POST['hot']; // Mảng họ tên
+        $ngaysinh = $_POST['ngaysi']; // Mảng ngày sinh
+        $gioitinhs = $_POST['gioit']; // Mảng giới tính
+        $phanloai=$_POST['phanloai']; 
+        // Kiểm tra dữ liệu
+        if (empty($user_id) || empty($tour_id) || empty($tour_name) || empty($price)) {
             echo 'missing_data';
             exit;
         }
-        if (empty($datetime)){
+        if (empty($datetime)) {
             echo 'missing_data1';
             exit;
         }
-        if($participants > $max){
-            echo 'quaso|quá số lượng chỉ còn '.$soluong.' vé';
+        if ($participants > $max) {
+            echo 'quaso|quá số lượng chỉ còn ' . $soluong . ' người';
             exit;
         }
+    
         // 1. Thêm vào bảng booking_ordertour
         $insert_order_query = "INSERT INTO booking_ordertour (
             User_id, Tour_id, Departure_id, Arrival, Booking_status, Payment_status, refund, Datetime, participants
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt_order = $conn->prepare($insert_order_query);
-
+    
         if (!$stmt_order) {
             echo 'query_error';
             exit;
         }
-
+    
         $stmt_order->bind_param(
             "iiisssiss",
             $user_id,
@@ -258,22 +267,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $datetime,
             $participants
         );
-
+    
         if ($stmt_order->execute()) {
             // Lấy Booking_id vừa tạo
             $booking_id = $conn->insert_id;
-
+    
             // 2. Thêm vào bảng booking_detail_tour
             $insert_detail_query = "INSERT INTO booking_detail_tour (
                 Booking_id, Tour_name, Price, Total_pay, User_name, Phone_num, Address
             ) VALUES (?, ?, ?, ?, ?, ?, ?)";
             $stmt_detail = $conn->prepare($insert_detail_query);
-
+    
             if (!$stmt_detail) {
                 echo 'query_error';
                 exit;
             }
-
+    
             $stmt_detail->bind_param(
                 "issssss",
                 $booking_id,
@@ -284,21 +293,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $phone_num,
                 $address
             );
-
+    
             if ($stmt_detail->execute()) {
-                // 3. Cập nhật orders trong bảng departure_time
-
+                // 3. Cập nhật số lượng đặt chỗ trong departure_time
                 $update_departure_query = "UPDATE departure_time SET Orders = Orders + ? WHERE id_tour = ?";
                 $stmt_departure = $conn->prepare($update_departure_query);
-
+    
                 if (!$stmt_departure) {
                     echo 'query_error';
                     exit;
                 }
-
-                $stmt_departure->bind_param("si", $participants, $tour_id);
-
+    
+                $stmt_departure->bind_param("ii", $participants, $tour_id);
+    
                 if ($stmt_departure->execute()) {
+                    // 4. Thêm dữ liệu vào bảng participant
+                    if (!empty($hoten) && !empty($ngaysinh) && !empty($gioitinhs) && !empty($phanloai)) {
+                        $insert_participant_query = "INSERT INTO participant (idbook, hoten, ngaysinh, gioitinh,phanloai) VALUES (?, ?, ?, ?,?)";
+                        $stmt_participant = $conn->prepare($insert_participant_query);
+    
+                        if (!$stmt_participant) {
+                            echo 'query_error';
+                            exit;
+                        }
+    
+                        foreach ($hoten as $key => $name) {
+                            $dob = $ngaysinh[$key] ?? '';
+                            $gender = $gioitinhs[$key] ?? '';
+                            $phan=$phanloai[$key] ?? '';
+                            $stmt_participant->bind_param("issss", $booking_id, $name, $dob, $gender,$phan);
+                            $stmt_participant->execute();
+                        }
+                        $stmt_participant->close();
+                    }
+    
                     echo 'insert_success';
                 } else {
                     echo 'update_departure_error';
@@ -311,9 +339,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             echo 'insert_order_error';
         }
-
         $stmt_order->close();
-    } elseif ($action == "datksfull") {
+    }
+    elseif ($action == "datksfull") {
         function generateRandomThreeDigits()
         {
             return rand(100, 999); // Tạo số ngẫu nhiên từ 100 đến 999
@@ -529,6 +557,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $tour_price = $_POST['tour_price'];
         $itinerary = $_POST['itinerary'];
         $tour_duration = $_POST['tour_duration'];
+       
         $phuongtien = $_POST['phuongtien'];
 
        
@@ -547,6 +576,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         $stmt->close();
     }
+    
+    elseif ($action1 == "capnhathoadon") {
+        $data = json_decode(file_get_contents("php://input"), true);
+    
+        if (!isset($data['participants']) || !is_array($data['participants'])) {
+            echo "Dữ liệu không hợp lệ!";
+            exit();
+        }
+    
+        $stmt = $conn->prepare("UPDATE participant SET hoten = ?, Ngaysinh = ?, gioitinh = ? WHERE idpar = ?");
+    
+        foreach ($data['participants'] as $participant) {
+            $hoten = $participant['hoten'];
+            $ngaysinh = $participant['ngaysinh'];
+            $gioitinh = $participant['gioitinh'];
+            $id = $participant['id'];
+    
+            $stmt->bind_param("sssi", $hoten, $ngaysinh, $gioitinh, $id);
+            $stmt->execute();
+        }
+    
+        $stmt->close();
+        echo "cập nhật thành công!";
+    }
+    
+    
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -1014,8 +1069,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     SELECT 
         booking_ordertour.*,
         booking_detail_tour.*,
-        departure_time.*
-      
+        departure_time.*,
+        booking_ordertour.created_at AS booking_time
     FROM 
         booking_ordertour 
     LEFT JOIN 
@@ -1043,7 +1098,51 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             echo json_encode($res); // Trả về dữ liệu dạng JSON
         }
         exit;
-    } elseif ($action == "xemtrangthaiks") {
+    } elseif ($action == "xemtoursua") {
+        $user_id = $_SESSION['id'];
+        $id = $_GET['idt'];
+        $query = "
+    SELECT 
+        booking_ordertour.*,
+        booking_detail_tour.*,
+        departure_time.*,
+        participant.*,
+        tour.id AS tourid,
+        tour.Child_price_percen
+    FROM 
+        booking_ordertour 
+    LEFT JOIN 
+        booking_detail_tour ON booking_ordertour.Booking_id = booking_detail_tour.Booking_id
+    LEFT JOIN
+        departure_time ON booking_ordertour.Departure_id = departure_time.id
+    LEFT JOIN
+        participant ON booking_ordertour.Booking_id = participant.idbook
+    LEFT JOIN
+        tour ON booking_ordertour.Tour_id = tour.id
+    WHERE 
+        User_id = '$user_id' AND (booking_ordertour.Booking_id = '$id' OR departure_time.id = '$id')
+";
+
+
+        // Thực hiện truy vấn
+        $result = $conn->query($query);
+
+        $res = [];
+        if ($result && $result->num_rows > 0) {
+            // Lấy từng dòng dữ liệu
+            while ($row = $result->fetch_assoc()) {
+                $res[] = $row;
+            }
+        }
+
+        if (empty($res)) {
+            echo json_encode(["message" => "No tour found for the given ID"]);
+        } else {
+            echo json_encode($res); // Trả về dữ liệu dạng JSON
+        }
+        exit;
+    } 
+    elseif ($action == "xemtrangthaiks") {
         $user_id = $_SESSION['id'];
         $query = "
     SELECT 
@@ -1079,12 +1178,13 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
         $id = $_GET['id'];
         $tt = 1;
-
+        $participants=$_GET['participants'];
+        $idtour=$_GET['idtour'];    
         // Kiểm tra xem người dùng đã tồn tại trong cơ sở dữ liệu chưa
 
         $insert_query = "UPDATE booking_ordertour  SET refund='$tt' Where Booking_id= '$id'";
-
-        if ($conn->query($insert_query) === TRUE) {
+        $order_query = "UPDATE departure_time SET Orders = Orders - $participants WHERE id_tour = '$idtour'";
+        if ($conn->query($insert_query) === TRUE && $conn->query($order_query) === TRUE) {
             echo 'gui';
         } else {
             echo 'kotc';
@@ -1092,7 +1192,63 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
 
 
-    } elseif ($action == "huydonks") {
+    }elseif ($action == "xoapar") {
+        $id = $_GET['id']; // ID thành viên bị xóa
+        $idtour = $_GET['idtour']; // ID tour
+        $booking_id = $_GET['booking_id']; // ID booking
+        $adult_price = $_GET['adult_price']; // Giá người lớn
+        $child_rate = $_GET['child_rate'] / 100; // Tỷ lệ giá trẻ em (5-11 tuổi)
+    
+        // Lấy thông tin của thành viên bị xóa
+        $query = "SELECT phanloai FROM participant WHERE idpar = '$id'";
+        $result = $conn->query($query);
+    
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $phanloai = $row['phanloai']; // Lấy loại thành viên (Người lớn/Trẻ em)
+    
+            // Xác định số tiền bị trừ dựa trên loại thành viên
+            if ($phanloai == 'Người lớn') {
+                $deduct_price = $adult_price;
+            } elseif ($phanloai == 'Trẻ em (từ 2 -> 11 tuổi)') {
+                $deduct_price = $adult_price * $child_rate;
+            } else {
+                $deduct_price = 0; // Em bé miễn phí
+            }
+    
+            // Xóa thành viên khỏi bảng participant
+            $delete_query = "DELETE FROM participant WHERE idpar = '$id'";
+    
+            // Giảm số lượng người tham gia và tổng tiền
+            $update_booking_query = "UPDATE booking_ordertour 
+                                     SET participants = participants - 1
+                                     WHERE Booking_id = '$booking_id'";
+            $update_booking_detail_query = "UPDATE booking_detail_tour 
+            SET Total_pay = Total_pay - $deduct_price
+            WHERE Booking_id = '$booking_id'";
+    
+            // Giảm số lượng Orders trong departure_time
+            $update_departure_query = "UPDATE departure_time 
+                                       SET Orders = Orders - 1 
+                                       WHERE id_tour = '$idtour'";
+    
+            if (
+                $conn->query($delete_query) === TRUE &&
+                $conn->query($update_booking_query) === TRUE &&
+                $conn->query($update_departure_query) === TRUE &&
+                $conn->query($update_booking_detail_query) === TRUE
+            ) {
+                echo 'gui';
+            } else {
+                echo 'kotc';
+            }
+        } else {
+            echo 'kotc';
+        }
+    }
+    
+    
+    elseif ($action == "huydonks") {
 
         $id = $_GET['id'];
         $tt = 1;
@@ -1100,7 +1256,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         // Kiểm tra xem người dùng đã tồn tại trong cơ sở dữ liệu chưa
 
         $insert_query = "UPDATE booking_orderks  SET Refund='$tt' Where Booking_id= '$id'";
-
+      
         if ($conn->query($insert_query) === TRUE) {
             echo 'gui';
         } else {
@@ -1116,13 +1272,16 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     SELECT 
         booking_ordertour.*,
         booking_detail_tour.*,
-        departure_time.*
+        departure_time.*,
+        participant.*
     FROM 
         booking_ordertour 
     LEFT JOIN 
         booking_detail_tour ON booking_ordertour.Booking_id = booking_detail_tour.Booking_id
     LEFT JOIN
         departure_time ON booking_ordertour.Departure_id = departure_time.id
+    LEFT JOIN
+        participant ON booking_ordertour.Booking_id = participant.idbook
     WHERE 
         User_id = '$user_id' AND (booking_ordertour.Booking_id = '$id' OR departure_time.id = '$id')
 ";

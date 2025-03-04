@@ -65,15 +65,16 @@
             </div>
 
             <!-- Thời Gian Tour -->
-            <div class="mb-3">
-                <label for="tour_duration" class="form-label">Thời Gian Tour</label>
-                <select class="form-control" id="tour_duration" name="tour_duration" required>
-                    <option value="1 Ngày">1 Ngày</option>
-                    <option value="2 Ngày 1 Đêm">2 Ngày 1 Đêm</option>
-                    <option value="3 Ngày 2 Đêm">3 Ngày 2 Đêm</option>
-                    <option value="4 Ngày 3 Đêm">4 Ngày 3 Đêm</option>
-                </select>
-            </div>
+       <!-- Thời Gian Tour -->
+<div class="mb-3">
+    <label for="tour_duration" class="form-label">Thời Gian Tour</label>
+    <span>
+        <input type="number" id="days" placeholder="Số ngày"> ngày
+        <input type="number" id="nights" placeholder="Số đêm"> đêm
+    </span>
+    <input type="hidden" name="tour_duration" id="tour_duration">
+</div>
+
 
             <!-- Nút Submit -->
             <button type="submit" id="button" class="btn btn-primary w-100">Gửi Yêu Cầu</button>
@@ -84,30 +85,39 @@
 
     <script>
  function guitouryeucau() {
-        
+    // Lấy số ngày & đêm, rồi gộp thành chuỗi
+    let days = $("#days").val();
+    let nights = $("#nights").val();
+    let duration = days + " ngày" + nights + " đêm";
+    $("#tour_duration").val(duration); // Gán vào input ẩn
 
-        $.ajax({
-            url: './api/api.php',
-            type: 'POST',
-            data: $('#guitouryeucau').serialize(),
-            success: function(response) {
-                  console.log(response);
-                  if (response === 'Phản hồi của bạn đã được gửi thành công!') {
-                      openPopup('Thông báo', 'Phản hồi của bạn đã được gửi thành công!');
-                      setTimeout(function() {
-                          window.location.href = 'index.php?custom_tour'; // Chuyển hướng sau 2 giây
-                      }, 2000);
-                  }else{
-                      openPopup('Lỗi', 'Có lỗi xảy ra');
-                  }   
-                  
-              }
-        });
-    }
-
-    // Gọi hàm gửi tin nhắn khi nhấn nút gửi
-    $('#button').on('click', function (e) {
-        e.preventDefault();
-        guitouryeucau();
+    // Gửi dữ liệu bằng AJAX
+    $.ajax({
+        url: './api/api.php',
+        type: 'POST',
+        data: $('#guitouryeucau').serialize(), // Serialize toàn bộ form
+        success: function(response) {
+            console.log(response);
+            if (response.trim() === 'Phản hồi của bạn đã được gửi thành công!') {
+                openPopup('Thông báo', 'Phản hồi của bạn đã được gửi thành công!');
+                setTimeout(function() {
+                    window.location.href = 'index.php?custom_tour';
+                }, 2000);
+            } else {
+                openPopup('Lỗi', response);
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Lỗi AJAX:", status, error);
+            openPopup("Lỗi", "Không thể gửi yêu cầu. Vui lòng thử lại!");
+        }
     });
+}
+
+// Gọi hàm gửi khi nhấn nút
+$('#button').on('click', function (e) {
+    e.preventDefault();
+    guitouryeucau();
+});
+
 </script>

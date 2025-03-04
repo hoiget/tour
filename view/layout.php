@@ -195,7 +195,7 @@
     <div class="container2">
         <div class="tab-container">
             <div class="tab active" id="tour-tab">
-                <i class="fas fa-bus"></i> Tour trọn gói
+                <i class="fas fa-bus"></i> Tour
             </div>
             <div class="tab" id="hotel-tab">
                 <i class="fas fa-hotel"></i> Khách sạn
@@ -264,7 +264,7 @@
     // Xử lý tìm kiếm Tour
     $('.search-button').click(function () {
         var name = $('.search-input').val();
-        var date = $('.date-input').val();
+        var date = $('.date-input1').val();
         var budget = $('.budget-select').val();
 
         window.location.href = `index.php?tour1&name=${encodeURIComponent(name)}&date=${date}&budget=${budget}`;
