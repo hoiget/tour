@@ -105,7 +105,7 @@ h3,p{
 </style>
 <main class="main-content">
 
-    <a href="index.php?tour">Quay lại</a>
+    <a href="indexa.php?tour">Quay lại</a>
 <button type="button" class="btn review" data-bs-toggle="modal" data-bs-target="#ratingModal">
     Xem đánh giá
 </button>

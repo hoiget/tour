@@ -259,13 +259,13 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
       </li><!-- End Dashboard Nav -->
       <li class="nav-item">
         <a class="nav-link " href="indexa.php?tour">
-        <i class="bi bi-calendar"></i>
+        <i class="bi bi-binoculars"></i>
           <span>Xem tour</span>
         </a>
       </li><!-- End Dashboard Nav -->
       <li class="nav-item">
         <a class="nav-link " href="indexa.php?xemdattour">
-        <i class="bi bi-calendar"></i>
+        <i class="bi bi-receipt"></i> 
           <span>Xem đơn đặt tour</span>
         </a>
       </li><!-- End Dashboard Nav -->

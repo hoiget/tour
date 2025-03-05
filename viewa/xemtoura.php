@@ -262,64 +262,6 @@ function xemtour() {
     });
 }
 
-function xemtourtheomien(mien) {
-    $.ajax({
-        url: `./api/api.php?action=xemtourtheomien&mien=${mien}`,
-        type: 'GET',
-        dataType: 'json',
-        cache: false,
-        success: function(response) {
-            $('#xemtour').html('');  // 🔥 Xóa hết nội dung cũ trước khi cập nhật
-            $('.tour-cards').remove(); 
-            if (Array.isArray(response) && response.length > 0) {
-                var eventHtml = '';
-                response.forEach(function(event, index) {
-                    if (index % 3 === 0) eventHtml += '<div class="tour-cards">';
-                    
-                    eventHtml += `
-                        <div class="tour-card">
-                            <a href="indexa.php?idtour=${event.tourid}&xemdanhgiatour=${event.tourid}&xemdanhgiarating=${event.tourid}">
-                                <img src="./assets/img/tour/${event.Image}" alt="">
-                            </a>
-                            <a href="indexa.php?idtour=${event.tourid}&xemdanhgiatour=${event.tourid}&xemdanhgiarating=${event.tourid}">
-                                
-                             <h4>${event.Name}<h4>
-                            <p>Mã tour:${event.tourid}
-                            <br>
-                            Khởi hành:${event.DepartureLocation}
-                            <br>Thời gian:${event.timetour}
-                            <br>Phương tiện:${event.vehicle}</p>
-                            Gía từ:
-                            <br> <span style="color:red">`
-                            if (parseInt(event.discount)==0) {
-                                eventHtml+=parseInt(event.Price).toLocaleString('vi-VN') + ` đ `
-                            }else if(parseInt(event.discount) > 0){
-                             eventHtml+=
-                                parseInt(event.discount).toLocaleString('vi-VN') + ` đ 
-                                
-                            `}
-                            eventHtml +=  `</span></a>
-                         
-                         `;
-                        
-                       
-                     eventHtml += `</div>`;
-
-                    if ((index + 1) % 3 === 0 || (index + 1) === response.length) {
-                        eventHtml += '</div>';
-                    }
-                });
-                $('#xemtour').html(eventHtml);
-            } else {
-                $('#xemtour').html('<div class="col">Không có tour nào.</div>');
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error('Lỗi khi lấy thông tin:', error);
-            $('#xemtour').html('<div class="col">Lỗi tải tour.</div>');
-        }
-    });
-}
 function timKiemTourtype(type) {
     $.ajax({
         url: `./api/api.php?action=timkiemtheotype&type=${type}`,
@@ -327,6 +269,7 @@ function timKiemTourtype(type) {
         dataType: 'json',
         cache: false,
         success: function (response) {
+            console.log(response);
             $('#xemtour').html('');  // 🔥 Xóa hết nội dung cũ trước khi cập nhật
             $('.tour-cards').remove(); 
             if (Array.isArray(response) && response.length > 0) {
@@ -534,7 +477,7 @@ if(urlParams.has('mien')) {
 }
 
     // Xử lý sự kiện khi chọn radio button lọc theo loại tour
-    $('.sidebar input[type="radio"]').change(function () {
+    $('.sidebar1 input[type="radio"]').change(function () {
         var selectedType = $(this).val();
         console.log("Lọc theo loại tour:", selectedType);
         timKiemTourtype(selectedType);

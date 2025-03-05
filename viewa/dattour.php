@@ -131,12 +131,53 @@ button:hover {
     color: #888;
     border: none;
 }
+.payment-methods {
+  width: 100%;
+   padding: 10px;
+    font-family: Arial, sans-serif;
+}
+
+.payment-option {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: 0.3s;
+    background-color: #f1eded;
+    
+}
+
+.payment-option:hover {
+    background-color: #f9f9f9;
+}
+
+.checkbox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.checkbox.checked {
+    border-color: #4CAF50;
+    background-color: #4CAF50;
+    color: white;
+}
 
 </style>
 <br><br>
 
-<form class="my-form" id="dattourfull" action="./api/api.php" method="get">
-<input type="hidden" name="action" value="dattourfull">
+<form class="my-form" id="dattourfulll" action="./api/apia.php" method="get">
+<input type="hidden" name="action" value="dattourfulll">
 <div class="container-wrapper">
 <div id="top">
 <h1 id="ns1" style="color:red;font-family: Arial, sans-serif;
@@ -148,6 +189,40 @@ button:hover {
 <div id="adult-forms"></div>
 <div id="children-forms"></div>
 <div id="babies-forms"></div>
+<br>
+<h2>Phương thức thanh toán</h2>
+<div class="payment-methods">
+    <div class="payment-option" data-method="cash" onclick="selectPayment(this)">
+        <div class="checkbox"></div>
+        <span>Thanh toán tiền mặt</span>
+    </div>
+    <div class="payment-option" data-method="vnpay" onclick="selectPayment(this)">
+        <div class="checkbox"></div>
+        <span>Thanh toán VNPAY</span>
+    </div>
+    <div class="payment-option" data-method="momo" onclick="selectPayment(this)">
+        <div class="checkbox"></div>
+        <span>Thanh toán MoMo</span>
+    </div>
+</div>
+
+
+
+    <script>let selectedMethod = "";
+
+function selectPayment(selectedOption) {
+    document.querySelectorAll(".checkbox").forEach(box => {
+        box.classList.remove("checked");
+        box.innerHTML = "";
+    });
+
+    let checkbox = selectedOption.querySelector(".checkbox");
+    checkbox.classList.add("checked");
+    checkbox.innerHTML = "✔";
+
+    // Lưu phương thức thanh toán được chọn
+    selectedMethod = selectedOption.getAttribute("data-method");
+}</script>
 </div>
 
 <div class="container4">
@@ -235,7 +310,7 @@ button:hover {
   <center>
   
    
-    <button type="submit" id="book-button" onclick="dattourfull()">Đặt giữ chỗ</button>
+    <button type="submit" id="book-button" onclick="dattourfulll()">Đặt giữ chỗ</button>
   </center>
  
 </div>
@@ -417,11 +492,20 @@ function xemdattour() {
       }
     });
   }
-  function dattourfull() {
+  
+  
+  function dattourfulll() {
     // Lấy giá trị từ input type="date"
-   
+    if (!selectedMethod) {
+        alert("Vui lòng chọn phương thức thanh toán!");
+        return;
+    }
+
+  
+
+    
     $(document).ready(function () {
-    $('#dattourfull').submit(function (e) {
+    $('#dattourfulll').submit(function (e) {
         e.preventDefault(); // Ngăn chặn hành động mặc định của form
 
         let formData = new FormData(this); // Chuyển form thành FormData
@@ -433,6 +517,7 @@ function xemdattour() {
             
             formData.append("gioit[]", $(this).find("select[name^='gioit']").val());
             formData.append("phanloai[]", $(this).find("input[name^='phanloai']").val());
+            formData.append("method", selectedMethod);
         });
 
         $.ajax({
@@ -567,7 +652,7 @@ function createForm(containerId, label, count, type) {
                     <option value="Nam">Nam</option>
                     <option value="Nữ">Nữ</option>
                 </select>
-                <input type="text" name="phanloai" value="${label}" required>
+                <input type="hidden" name="phanloai" value="${label}" required>
             </div>
         `;
         container.innerHTML += formHtml;

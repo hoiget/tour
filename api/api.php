@@ -317,44 +317,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $stmt_departure->bind_param("ii", $participants, $tour_id);
     
                 if ($stmt_departure->execute()) {
-                    // 4. Thêm dữ liệu vào bảng participant
+
                     if (!empty($hoten) && !empty($ngaysinh) && !empty($gioitinhs) && !empty($phanloai)) {
-                        $insert_participant_query = "INSERT INTO participant (idbook, hoten, ngaysinh, gioitinh,phanloai) VALUES (?, ?, ?, ?,?)";
+                        $insert_participant_query = "INSERT INTO participant (idbook, hoten, ngaysinh, gioitinh, phanloai) VALUES (?, ?, ?, ?, ?)";
                         $stmt_participant = $conn->prepare($insert_participant_query);
-    
+
                         if (!$stmt_participant) {
                             echo 'query_error';
                             exit;
                         }
-    
+
                         foreach ($hoten as $key => $name) {
                             $dob = $ngaysinh[$key] ?? '';
                             $gender = $gioitinhs[$key] ?? '';
-                            $phan=$phanloai[$key] ?? '';
-                            $stmt_participant->bind_param("issss", $booking_id, $name, $dob, $gender,$phan);
-                            $stmt_participant->execute();
+                            $phan = $phanloai[$key] ?? '';
+
+                            $stmt_participant->bind_param("issss", $booking_id, $name, $dob, $gender, $phan);
+                            $stmt_participant->execute(); // Chỉ gọi 1 lần trong vòng lặp
                         }
-                            if($stmt_participant->execute()){
-                                if (!empty($method)) {
-                                    $stmt_method = $conn->prepare("INSERT INTO payments (user_id, method) VALUES (?, ?)");
-                                    $stmt_method->bind_param("is", $user_id, $method);
-                                    
-                                    if ($stmt_method->execute()) {
-                                        echo 'insert_success';
-                                    } else {
-                                        echo "Lỗi khi lưu dữ liệu.";
-                                    }
-                                
-                                    $stmt_method->close();
-                                } else {
-                                    echo "Vui lòng chọn phương thức thanh toán.";
-                                }
+
+                        $stmt_participant->close(); // Đóng statement sau khi lặp xong
+
+                        // 5. Lưu phương thức thanh toán
+                        if (!empty($method)) {
+                            $stmt_method = $conn->prepare("INSERT INTO payments (user_id, idbook, method) VALUES (?, ?, ?)");
+                            $stmt_method->bind_param("iis", $user_id, $booking_id, $method);
+
+                            if ($stmt_method->execute()) {
+                                echo 'insert_success';
+                            } else {
+                                echo "Lỗi khi lưu dữ liệu.";
                             }
-                        
-                    }else{
+
+                            $stmt_method->close();
+                        } else {
+                            echo "Vui lòng chọn phương thức thanh toán.";
+                        }
+                    } else {
                         echo 'update_participant_error';
                     }
-                    $stmt_participant->close();
+
                     
                 } else {
                     echo 'update_departure_error';
@@ -485,22 +487,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "Có lỗi xảy ra:" . $conn->error;
         }
         $stmt->close();
-    } elseif ($action == "guitinnhan") {
+    } 
+    elseif ($action == "guitinnhan") {
         $user_id = $_SESSION['id'];
-        $username = $_SESSION['Name'];
-        $message = $_POST['message'];
-
-        // Chèn dữ liệu vào bảng feedback
-        $sql = "INSERT INTO messages (UserId,UserName,message) VALUES (?, ?, ?)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("iss", $user_id, $username, $message);
-
-        if ($stmt->execute()) {
-            echo "gửi thành công!";
-        } else {
-            echo "Có lỗi xảy ra:" . $conn->error;
-        }
-        $stmt->close();
+        $sender_type = "user"; // Xác định người gửi là user
+        $tour_id = $_POST['tour_id'];
+        $receiver_id = $_POST['receiver_id']; // Hướng dẫn viên (employees.id)
+        $message = trim($_POST['message']);
+    
+        if (!empty($message)) {
+            $stmt = $conn->prepare("INSERT INTO messages (tour_id, sender_id, receiver_id, sender_type, message) VALUES (?, ?, ?, ?, ?)");
+            $stmt->bind_param("iiiss", $tour_id,$user_id, $receiver_id , $sender_type, $message);
+            
+            if ($stmt->execute()) {
+                echo "success";
+            } else {
+                echo "Có lỗi xảy ra:" . $conn->error;
+            }
+            $stmt->close();
+        } 
+    
     } elseif ($action === 'danhgiatour') {
         // Nhận dữ liệu từ POST
         $tourId = isset($_POST['tour']) ? (int) $_POST['tour'] : 0;
@@ -1099,7 +1105,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         booking_detail_tour.*,
         departure_time.*,
         booking_ordertour.created_at AS booking_time,
-        user_credit.id AS iduser,
         payments.*,
         payments.id AS idpayment
     FROM 
@@ -1111,7 +1116,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     LEFT JOIN
         user_credit ON booking_ordertour.User_id = user_credit.id 
     LEFT JOIN
-        payments ON user_credit.id = payments.user_id
+        payments ON booking_ordertour.Booking_id =  payments.idbook
     WHERE 
         user_credit.id ='$user_id'
 ";
@@ -1372,32 +1377,60 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             echo json_encode($res); // Trả về dữ liệu dạng JSON
         }
         exit;
-    } elseif ($action == "xemtinnhan") {
-
-        $user_id = $_SESSION['id']; // Lấy id từ session
+    }  elseif ($action == "xemtinnhan") {
+        $user_id = $_SESSION['id'];
+        $id=$_GET['idt'];
         $query = "
-    SELECT * FROM messages
-";
-
-
-        // Thực hiện truy vấn
+        SELECT * FROM messages 
+        WHERE sender_id='$user_id' AND tour_id='$id'
+        ORDER BY created_at ASC";
         $result = $conn->query($query);
 
-        $res = [];
-        if ($result && $result->num_rows > 0) {
-            // Lấy từng dòng dữ liệu
+        $users = [];
+        if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                $res[] = $row;
+                $users[] = $row; // Lưu từng bản ghi vào mảng
             }
         }
 
-        if (empty($res)) {
-            echo json_encode(["message" => "No tour found for the given ID"]);
-        } else {
-            echo json_encode($res); // Trả về dữ liệu dạng JSON
-        }
+        echo json_encode($users); // Trả về JSON
         exit;
-    } elseif ($action == "thanhtoan") {
+    } 
+    elseif ($action == "xemthongtiner") {
+        $user_id = $_SESSION['id'];
+        $query = "
+        SELECT 
+        booking_ordertour.*,
+        tour_schedule.*,
+        assignment_tour.*
+      
+    FROM 
+        booking_ordertour 
+    INNER JOIN 
+        tour_schedule ON booking_ordertour.Tour_id  = tour_schedule.id_tour
+    INNER JOIN
+        assignment_tour ON tour_schedule.id = assignment_tour.id_toursche
+    Where
+        booking_ordertour.User_id = '$user_id'
+        ";
+        $result = $conn->query($query);
+
+        $users = [];
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $users[] = $row; // Lưu từng bản ghi vào mảng
+            }
+        }
+
+        echo json_encode($users); // Trả về JSON
+        exit;
+    } 
+       
+       
+       
+
+    
+     elseif ($action == "thanhtoan") {
         // Lấy ID từ request
         $user_id = $_SESSION['id'];
         $id = $_GET['idtt'];

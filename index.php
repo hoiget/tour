@@ -268,7 +268,7 @@ if(isset($_REQUEST['custom_tour'])){
     $show = false;
     include_once("view/themtouryeucau.php");
  }
-include_once("view/message.php");
+include_once("view/mes.php");
 }
 if($show){
     include_once("view/layout.php");

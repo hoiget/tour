@@ -294,7 +294,7 @@ function selectPayment(selectedOption) {
   <center>
   
    
-    <button type="submit" id="book-button" onclick="dattourfull()">Đặt giữ chỗ</button>
+    <button type="submit" id="book-button" onclick="dattourfull()">Đặt tour</button>
   
   </center>
  

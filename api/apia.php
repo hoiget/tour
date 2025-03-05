@@ -910,7 +910,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
         $stmt->close();
         echo "cập nhật thành công!";
-    }elseif ($action == "dattourfull") {
+    }elseif ($action == "dattourfulll") {
         // Lấy dữ liệu từ POST
         $user_id = null;
         $tour_id = $_POST['tour_id'];
@@ -936,6 +936,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $ngaysinh = $_POST['ngaysi']; // Mảng ngày sinh
         $gioitinhs = $_POST['gioit']; // Mảng giới tính
         $phanloai=$_POST['phanloai']; 
+
+
+      
+            $method = $_POST['method'] ?? '';
+    
+          
+    
+    
+    
+        
         // Kiểm tra dữ liệu
         if (empty($tour_id) || empty($tour_name) || empty($price)) {
             echo 'missing_data';
@@ -1015,25 +1025,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if ($stmt_departure->execute()) {
                     // 4. Thêm dữ liệu vào bảng participant
                     if (!empty($hoten) && !empty($ngaysinh) && !empty($gioitinhs) && !empty($phanloai)) {
-                        $insert_participant_query = "INSERT INTO participant (idbook, hoten, ngaysinh, gioitinh,phanloai) VALUES (?, ?, ?, ?,?)";
+                        $insert_participant_query = "INSERT INTO participant (idbook, hoten, ngaysinh, gioitinh, phanloai) VALUES (?, ?, ?, ?, ?)";
                         $stmt_participant = $conn->prepare($insert_participant_query);
-    
+
                         if (!$stmt_participant) {
                             echo 'query_error';
                             exit;
                         }
-    
+
                         foreach ($hoten as $key => $name) {
                             $dob = $ngaysinh[$key] ?? '';
                             $gender = $gioitinhs[$key] ?? '';
-                            $phan=$phanloai[$key] ?? '';
-                            $stmt_participant->bind_param("issss", $booking_id, $name, $dob, $gender,$phan);
-                            $stmt_participant->execute();
+                            $phan = $phanloai[$key] ?? '';
+
+                            $stmt_participant->bind_param("issss", $booking_id, $name, $dob, $gender, $phan);
+                            $stmt_participant->execute(); // Chỉ gọi 1 lần trong vòng lặp
                         }
-                        $stmt_participant->close();
+
+                        $stmt_participant->close(); // Đóng statement sau khi lặp xong
+
+                        // 5. Lưu phương thức thanh toán
+                        if (!empty($method)) {
+                            $stmt_method = $conn->prepare("INSERT INTO payments (user_id, idbook, method) VALUES (?, ?, ?)");
+                            $stmt_method->bind_param("iis", $user_id, $booking_id, $method);
+
+                            if ($stmt_method->execute()) {
+                                echo 'insert_success';
+                            } else {
+                                echo "Lỗi khi lưu dữ liệu.";
+                            }
+
+                            $stmt_method->close();
+                        } else {
+                            echo "Vui lòng chọn phương thức thanh toán.";
+                        }
+                    } else {
+                        echo 'update_participant_error';
                     }
-    
-                    echo 'insert_success';
+
+                    
                 } else {
                     echo 'update_departure_error';
                 }
@@ -1047,7 +1077,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         $stmt_order->close();
     }
-
 }
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $action = $_GET['action'];
