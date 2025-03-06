@@ -239,7 +239,7 @@ function selectPayment(selectedOption) {
   <div class="user-info">
     <h3>Thông tin người dùng</h3>
     <form>
-        <div id="xemtt"></div>
+        <div id="xemttt"></div>
     
   </div>
 
@@ -382,6 +382,7 @@ loginForm.addEventListener("submit", (e) => {
         type: 'GET',
         dataType: 'json', // Tự động phân tích chuỗi JSON thành object/mảng
         success: function(response) {
+          console.log(response)
             if (Array.isArray(response) && response.length > 0) {
                 var events = response;
                 var eventHtml = '';
@@ -414,9 +415,9 @@ loginForm.addEventListener("submit", (e) => {
      
      `;
                 });
-                $('#xemtt').html(eventHtml);
+                $('#xemttt').html(eventHtml);
             } else {
-                $('#xemtt').html('<div class="col">Không tìm thấy thông tin người dùng.</div>');
+                $('#xemttt').html('<div class="col">Không tìm thấy thông tin người dùng.</div>');
             }
         },
         error: function(xhr, status, error) {
@@ -592,7 +593,7 @@ $(document).ready(function() {
  
        xemdattour();
        xemdattour1();
-        get_user_info();
+      get_user_info();
        
     });
 </script>

@@ -99,7 +99,10 @@
 .btn:hover{
     color:grey;
 }
-h3,p{
+h3{
+    color:black;
+}
+.ndo{
     color:black;
 }
 </style>
@@ -222,7 +225,7 @@ function xemdanhgiarating() {
                         
                         </div>
                     </div>
-                    <p style="color:black; font-size:20px; white-space: pre-line;">
+                    <p class="ndo" style="color:black; font-size:20px; white-space: pre-line;">
                         ${event.Description}
                         </p>`;
 

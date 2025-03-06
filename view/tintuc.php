@@ -17,7 +17,13 @@
     .news-card .card-body {
       padding: 1rem;
     }
-   
+   #services{
+    background: white;
+   }
+   .img-fluid{
+      width: 1000px;
+      height: 500px;
+   }
 </style>
 
 
@@ -25,7 +31,7 @@
     <section id="services" class="services section">
 
     <div class="container my-5">
-    <h1 class="text-center mb-4">Tin Tức - GoWender</h1>
+    <h1 class="text-center mb-4" style="color:black">Tin Tức - GoWender</h1>
     <div class="row" id="tintuc">
       <!-- News cards will be rendered here -->
     </div>
@@ -84,9 +90,9 @@
           var detailsHtml = `
             <div class="container">
             <center>
-              <h2>${item.Title}</h2>
+              <h2 style="color:black">${item.Title}</h2>
               <img src="./assets/img/gallery/${item.Image}" alt="${item.Title}" class="img-fluid">
-              <p class="tt" style="text-align:justify;white-space:pre-line;font-size:25px">${item.dereption}</p>
+              <p class="tt" style="text-align:justify;white-space:pre-line;font-size:25px;color:black">${item.dereption}</p>
               <a href="index.php?tintuc" class="btn btn-secondary">Trở Lại</a>
               </center>
             </div>`;

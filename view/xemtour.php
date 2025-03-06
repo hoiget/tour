@@ -8,7 +8,7 @@
     padding: 20px;
     background:white;
     color:black;
-    font-family: Arial, sans-serif;
+    
 }
 
 .menu-tabs {
@@ -83,6 +83,7 @@
     padding: 10px;
     border-radius: 5px;
     background-color: white;
+   
 }
 
 
@@ -91,6 +92,7 @@
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 15px;
+    
    
 
 }
@@ -103,6 +105,7 @@
     overflow: hidden;
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    
 }
 
 .tour-card img {
@@ -113,14 +116,12 @@
 
 .tour-card p {
     padding: 10px;
-   
+    font-family: Arial, sans-serif;
     font-size: 16px;
     color: #333;
 }
 .tour-card h4 {
-    padding: 10px;
-   
-  
+    padding: 0px 0px 0px 10px;
     color: #333;
 }
 a{
@@ -223,11 +224,11 @@ function xemtour() {
                             <a href="index.php?idtour=${event.tourid}&xemdanhgiatour=${event.tourid}&xemdanhgiarating=${event.tourid}"><img src="./assets/img/tour/${event.Image}" alt=""> </a>
                             <a href="index.php?idtour=${event.tourid}&xemdanhgiatour=${event.tourid}&xemdanhgiarating=${event.tourid}">
                             <h4>${event.Name}<h4>
-                            <p>Mã tour:${event.tourid}
+                            <p>Mã tour: ${event.tourid}
                             <br>
-                            Khởi hành:${event.DepartureLocation}
-                            <br>Thời gian:${event.timetour}
-                            <br>Phương tiện:${event.vehicle}</p>
+                            Khởi hành: ${event.DepartureLocation}
+                            <br>Thời gian: ${event.timetour}
+                            <br>Phương tiện: ${event.vehicle}</p>
                             Gía từ:
                             <br> <span style="color:red">`
                             if (parseInt(event.discount)==0) {
@@ -281,11 +282,11 @@ function xemtourtheomien(mien) {
                             <a href="index.php?idtour=${event.tourid}&xemdanhgiatour=${event.tourid}&xemdanhgiarating=${event.tourid}">
                                 
                              <h4>${event.Name}<h4>
-                            <p>Mã tour:${event.tourid}
+                            <p>Mã tour: ${event.tourid}
                             <br>
-                            Khởi hành:${event.DepartureLocation}
-                            <br>Thời gian:${event.timetour}
-                            <br>Phương tiện:${event.vehicle}</p>
+                            Khởi hành: ${event.DepartureLocation}
+                            <br>Thời gian: ${event.timetour}
+                            <br>Phương tiện: ${event.vehicle}</p>
                             Gía từ:
                             <br> <span style="color:red">`
                             if (parseInt(event.discount)==0) {
@@ -340,11 +341,11 @@ function timKiemTourtype(type) {
                             </a>
                             <a href="index.php?idtour=${tour.tourid}&xemdanhgiatour=${tour.tourid}&xemdanhgiarating=${tour.tourid}">
                                  <h4>${tour.Name}<h4>
-                            <p>Mã tour:${tour.tourid}
+                            <p>Mã tour: ${tour.tourid}
                             <br>
-                            Khởi hành:${tour.DepartureLocation}
-                            <br>Thời gian:${tour.timetour}
-                            <br>Phương tiện:${tour.vehicle}</p>
+                            Khởi hành: ${tour.DepartureLocation}
+                            <br>Thời gian: ${tour.timetour}
+                            <br>Phương tiện: ${tour.vehicle}</p>
                             Gía từ:
                             <br> <span style="color:red">`
                             if (parseInt(tour.discount)==0) {
@@ -401,12 +402,12 @@ function timKiemThongTin(name, date, budget) {
                             </a>
                             <a href="index.php?idtour=${tour.tourid}&xemdanhgiatour=${tour.tourid}&xemdanhgiarating=${tour.tourid}">
                                    <h4>${tour.Name}<h4>
-                            <p>Mã tour:${tour.tourid}
+                            <p>Mã tour: ${tour.tourid}
                             <br>
-                            Khởi hành:${tour.DepartureLocation}
-                            <br>Thời gian:${tour.timetour}
-                            <br>Phương tiện:${tour.vehicle}</p>
-                            Gía từ:
+                            Khởi hành: ${tour.DepartureLocation}
+                            <br>Thời gian: ${tour.timetour}
+                            <br>Phương tiện: ${tour.vehicle}</p>
+                            Gía từ: 
                             <br> <span style="color:red">`
                             if (parseInt(tour.discount)==0) {
                                 tourHtml+=parseInt(tour.Price).toLocaleString('vi-VN') + ` đ `
@@ -462,11 +463,11 @@ $.ajax({
                         </a>
                         <a href="index.php?idtour=${tour.tourid}&xemdanhgiatour=${tour.tourid}&xemdanhgiarating=${tour.tourid}">
                                <h4>${tour.Name}<h4>
-                            <p>Mã tour:${tour.tourid}
+                            <p>Mã tour: ${tour.tourid}
                             <br>
-                            Khởi hành:${tour.DepartureLocation}
-                            <br>Thời gian:${tour.timetour}
-                            <br>Phương tiện:${tour.vehicle}</p>
+                            Khởi hành: ${tour.DepartureLocation}
+                            <br>Thời gian: ${tour.timetour}
+                            <br>Phương tiện: ${tour.vehicle}</p>
                             Gía từ:
                             <br> <span style="color:red">`
                             if (parseInt(tour.discount)==0) {

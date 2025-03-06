@@ -426,7 +426,6 @@ Thông tin cá nhân của khách hàng sẽ được lưu trữ trong thời gi
   chat-title="chat"
   agent-id="6ba7722e-f169-4c21-a783-8bb322ff9377"
   language-code="vi"
-  style="height: 100px; width: 100px;"
 ></df-messenger>
 </body>
 
