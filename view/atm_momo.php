@@ -37,9 +37,9 @@ $extraData = "";
 
 
 if (!empty($_POST)) {
-    $partnerCode ='MOMO';
-    $accessKey = 'F8BBA842ECF85';
-    $serectkey = 'K951B6PE1waDMi640xX08PD3vg6EkVlz';
+    $partnerCode ='MOMOBKUN20180529';
+    $accessKey = 'klm05TvNBzhg7h7j';
+    $serectkey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa';
     $orderid = $_POST["orderId"] + time()."";
     $orderInfo = $_POST["orderInfo"];
     $amount = $_POST["amount"];

@@ -22,7 +22,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['Booking_id'])) {
     $orderData = $resultOrder->fetch_assoc();
 
     // Lấy dữ liệu từ bảng booking_detail_tour
-    $queryDetails = "SELECT * FROM booking_detail_tour WHERE Booking_id = ?";
+    $queryDetails = "SELECT * FROM booking_detail_tour INNER JOIN participant ON booking_detail_tour.Booking_id = participant.idbook 
+    INNER JOIN booking_ordertour ON booking_detail_tour.Booking_id = booking_ordertour.Booking_id  WHERE booking_detail_tour.Booking_id = ?";
     $stmtDetails = $conn->prepare($queryDetails);
     $stmtDetails->bind_param("s", $bookingId);
     $stmtDetails->execute();
@@ -48,11 +49,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['Booking_id'])) {
     // Nội dung PDF
     $html = '<h1>Chi tiết đặt tour</h1>';
     $html .= '<h3>Thông tin chính:</h3>';
-    $html .= '<p><strong>Booking ID:</strong> ' . $orderData['Booking_id'] . '</p>';
-    $html .= '<p><strong>Ngày khởi hành:</strong> ' . $orderData['Departure_id'] . '</p>';
-    $html .= '<p><strong>Điểm đến:</strong> ' . $orderData['Arrival'] . '</p>';
+    $html .= '<p><strong>Mã tour:</strong> ' . $orderData['Booking_id'] . '</p>';
+    $departureDate = new DateTime($orderData['Datetime']);
+    $html .= '<p><strong>Ngày khởi hành:</strong> ' . $departureDate->format('d/m/Y') . '</p>';
+    $html .= '<p><strong>Phương tiện:</strong> ' . $orderData['Arrival'] . '</p>';
     $html .= '<p><strong>Số người tham gia:</strong> ' . $orderData['participants'] . '</p>';
+    $html .= '<h3>Thành viên tham gia:</h3>';
+    $html .= '<table border="1" cellspacing="3" cellpadding="4">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Họ tên</th>
+                        <th>Ngày sinh</th>
+                        <th>Giới tính</th>
+                        <th>Phân loại</th>
+                    </tr>
+                </thead>
+                <tbody>';
+   
+    foreach ($details as $index => $detail) {
+        $departureDate1 = new DateTime($detail['ngaysinh']);
+        $html .= '<tr>
+                    <td>' . ($index + 1) . '</td>
+                    <td>' . $detail['hoten'] . '</td>
+                    <td>' . $departureDate1->format('d/m/Y') . '</td>
+                    <td>' . $detail['gioitinh'] . '</td>
+                    <td>' . $detail['phanloai'] . '</td>
+                  </tr>';
+    }
 
+    $html .= '</tbody></table>';
     $html .= '<h3>Chi tiết tour:</h3>';
     $html .= '<table border="1" cellspacing="3" cellpadding="4">
                 <thead>
@@ -68,17 +94,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['Booking_id'])) {
                 </thead>
                 <tbody>';
 
-    foreach ($details as $index => $detail) {
-        $html .= '<tr>
-                    <td>' . ($index + 1) . '</td>
-                    <td>' . $detail['Tour_name'] . '</td>
-                    <td>' . number_format($detail['Price'], 0, ',', '.') . ' VNĐ </td>
-                    <td>' . number_format($detail['Total_pay'], 0, ',', '.') . ' VNĐ </td>
-                    <td>' . $detail['User_name'] . '</td>
-                    <td>' . $detail['Phone_num'] . '</td>
-                    <td>' . $detail['Address'] . '</td>
-                  </tr>';
-    }
+                if (!empty($details)) {
+                    $detail = $details[0]; // Lấy chỉ một bản ghi đầu tiên
+                    $html .= '<tr>
+                                <td>1</td>
+                                <td>' . $detail['Tour_name'] . '</td>
+                                <td>' . number_format($detail['Price'], 0, ',', '.') . ' VNĐ </td>
+                                <td>' . number_format($detail['Total_pay'], 0, ',', '.') . ' VNĐ </td>
+                                <td>' . $detail['User_name'] . '</td>
+                                <td>' . $detail['Phone_num'] . '</td>
+                                <td>' . $detail['Address'] . '</td>
+                              </tr>';
+                }
 
     $html .= '</tbody></table>';
 
@@ -418,6 +445,7 @@ function xemtrangthai() {
                             eventHtml += '<button class="btn review">Đã xác nhận</button>';
                             if (event.Payment_status == '2') {
                                 eventHtml += `<button type="button" class="btn review" data-bs-toggle="modal" data-bs-target="#ratingModaldanhgia" onclick="openRatingModal(${event.Booking_id})">Đánh giá Tour</button>`;
+                                eventHtml += `<button class="exportPdfBtn" data-booking-id="${event.Booking_id}">Xuất PDF</button> `
                             } else {
                                 if(event.method == "vnpay"){
                                 eventHtml += `<button class="btn review"><a style="text-decoration:none;color:white" href="index.php?idtt=${event.Booking_id}">Thanh toán</a></button>`;
@@ -432,7 +460,7 @@ function xemtrangthai() {
                             eventHtml += `
                         <div>
                             <input type="hidden" id="bookingIdInput_${index}" value="${event.Booking_id}" readonly>
-                            <button class="exportPdfBtn" data-booking-id="${event.Booking_id}">Xuất PDF</button>
+                            
                         </div>
                     `;
                         }

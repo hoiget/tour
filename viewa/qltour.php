@@ -429,7 +429,7 @@
                     </td>
                     
                     <td>${event.DepartureLocation}</td>
-                    <td>${event.Itinerary}</td>
+                    <td class="description">${event.Itinerary}</td>
                     <td>${event.tennhanvien}</td>
                     <td>${event.type}</td>
                     <td>${event.timetour}</td>
@@ -760,7 +760,7 @@ function searchtour(event) {
                    <td>${event.Status}</td>
                    <td>${event.Depart}</td>
                    <td>${event.DepartureLocation}</td>
-                   <td>${event.Itinerary}</td>
+                   <td class="description">${event.Itinerary}</td>
                    <td>${event.tennhanvien}</td>
                    <td>${event.type}</td>
                    <td>${event.timetour}</td>
