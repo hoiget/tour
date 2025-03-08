@@ -252,7 +252,7 @@ if(isset($_REQUEST['dattour'])){
   include_once("view/thanhtoan.php");
 }if(isset($_REQUEST['momo'])){
     $show = false;
-    include_once("view/thanhtoanmomo.php");
+    include_once("view/atm_momo.php");
   }if(isset($_REQUEST['cash'])){
     $show = false;
     include_once("view/tienmat.php");
@@ -263,7 +263,10 @@ if(isset($_REQUEST['idttks'])){
 }if(isset($_REQUEST['returnks'])){
   $show = false;
   include_once("view/vnpay_returnks.php");
-}
+}if(isset($_REQUEST['result_atm'])){
+    $show = false;
+    include_once("view/result_atm.php");
+  }
 if(isset($_REQUEST['custom_tour'])){
     $show = false;
     include_once("view/themtouryeucau.php");

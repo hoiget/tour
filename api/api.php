@@ -1465,6 +1465,41 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         echo json_encode($rows);
 
     }// Lọc sự kiện
+    elseif ($action == "thanhtoanmomo") {
+        // Lấy ID từ request
+        $user_id = $_SESSION['id'];
+        $id = $_GET['momo'];
+        $sql = "
+    SELECT 
+        booking_ordertour.*,
+        booking_detail_tour.*,
+        departure_time.*,
+        user_credit.Email,user_credit.id
+      
+    FROM 
+        booking_ordertour 
+    LEFT JOIN 
+        booking_detail_tour ON booking_ordertour.Booking_id  = booking_detail_tour.Booking_id
+    LEFT JOIN
+        departure_time ON booking_ordertour.Departure_id = departure_time.id
+    LEFT JOIN
+        user_credit ON booking_ordertour.User_id=user_credit.id
+    WHERE 
+        User_id = '$user_id' AND booking_ordertour.Booking_id='$id'
+";
+        $result = $conn->query($sql);
+
+        // Chuyển kết quả thành mảng dữ liệu JSON và trả về
+        $rows = array();
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $rows[] = $row;
+            }
+        }
+        header('Content-Type: application/json');
+        echo json_encode($rows);
+
+    }// Lọc sự kiện
     elseif ($action == "thanhtoanks") {
         $user_id = $_SESSION['id'];
         $id = $_GET['idttks'];

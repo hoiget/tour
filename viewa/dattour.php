@@ -186,10 +186,12 @@ button:hover {
 
 </div>
 <h2>Thông tin khách hàng</h2>
+
 <div id="adult-forms"></div>
 <div id="children-forms"></div>
 <div id="babies-forms"></div>
 <br>
+
 <h2>Phương thức thanh toán</h2>
 <div class="payment-methods">
     <div class="payment-option" data-method="cash" onclick="selectPayment(this)">
@@ -199,6 +201,7 @@ button:hover {
     <div class="payment-option" data-method="vnpay" onclick="selectPayment(this)">
         <div class="checkbox"></div>
         <span>Thanh toán VNPAY</span>
+       
     </div>
     <div class="payment-option" data-method="momo" onclick="selectPayment(this)">
         <div class="checkbox"></div>

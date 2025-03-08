@@ -300,7 +300,7 @@ h3,h5{
         </div>
     </div>
 </div> 
-  <div class="modal fade" id="ratingModal" tabindex="-1" aria-labelledby="ratingModalLabel" aria-hidden="true">
+  <div class="modal fade" id="ratingModaldanhgia" tabindex="-1" aria-labelledby="ratingModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -407,7 +407,7 @@ function xemtrangthai() {
                         eventHtml += '<p><strong>TT thanh toán:</strong> Chưa thanh toán</p>';
                     } else if (event.Payment_status == '2') {
                         eventHtml += '<p><strong>TT thanh toán:</strong> Đã thanh toán</p>';
-                        eventHtml += '<p><strong>Thời gian thanh toán:</strong> 2024-12-04 15:45:11</p>';
+                       
                     }
 
                     if (event.refund == '0') {
@@ -417,7 +417,7 @@ function xemtrangthai() {
                         } else if (event.Booking_status == '2') {
                             eventHtml += '<button class="btn review">Đã xác nhận</button>';
                             if (event.Payment_status == '2') {
-                                eventHtml += `<button type="button" class="btn review" data-bs-toggle="modal" data-bs-target="#ratingModal" onclick="openRatingModal(${event.Booking_id})">Đánh giá Tour</button>`;
+                                eventHtml += `<button type="button" class="btn review" data-bs-toggle="modal" data-bs-target="#ratingModaldanhgia" onclick="openRatingModal(${event.Booking_id})">Đánh giá Tour</button>`;
                             } else {
                                 if(event.method == "vnpay"){
                                 eventHtml += `<button class="btn review"><a style="text-decoration:none;color:white" href="index.php?idtt=${event.Booking_id}">Thanh toán</a></button>`;
@@ -898,6 +898,7 @@ $(document).ready(function() {
         fetch(`./api/api.php?action=laythongtindanhgia&danhgia=${tourId}`)
             .then(response => response.json())
             .then(data => {
+                console.log(data)
                 if (data && data[0]) {
                     document.getElementById('dg').innerHTML = `
                         <h5>Tên tour: ${data[0].Tour_name}</h5>

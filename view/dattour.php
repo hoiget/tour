@@ -196,14 +196,18 @@ button:hover {
 <div class="payment-methods">
     <div class="payment-option" data-method="cash" onclick="selectPayment(this)">
         <div class="checkbox"></div>
+        <img style="padding-right:10px" src="./assets/img/cash.jpg" width=50px height=30px alt="">
         <span>Thanh toán tiền mặt</span>
     </div>
     <div class="payment-option" data-method="vnpay" onclick="selectPayment(this)">
         <div class="checkbox"></div>
+        <img style="padding-right:10px" src="./assets/img/VNPAY.png" width=50px height=30px alt="">
         <span>Thanh toán VNPAY</span>
+       
     </div>
     <div class="payment-option" data-method="momo" onclick="selectPayment(this)">
         <div class="checkbox"></div>
+        <img style="padding-right:10px" src="./assets/img/momo.png" width=50px height=30px alt="">
         <span>Thanh toán MoMo</span>
     </div>
 </div>
