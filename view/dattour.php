@@ -655,38 +655,63 @@ function calculateTotal() {
 
 // Tính tiền ngay khi trang được tải lần đầu
 window.onload = calculateTotal;
-
 function generateForms() {
-    // Lấy số lượng từ input
     const adultCount = parseInt(document.getElementById("adults").value) || 0;
     const childCount = parseInt(document.getElementById("children").value) || 0;
     const babyCount = parseInt(document.getElementById("babies").value) || 0;
 
-    // Tạo form tương ứng
-    createForm("adult-forms", "Người lớn", adultCount, "adult");
-    createForm("children-forms", "Trẻ em (từ 2 -> 11 tuổi)", childCount, "child");
-    createForm("babies-forms", "Em bé (từ 2 -> 4 tuổi)", babyCount, "baby");
+    // Lưu dữ liệu hiện có
+    const existingData = saveExistingData();
+
+    createForm("adult-forms", "Người lớn", adultCount, "adult", existingData.adults);
+    createForm("children-forms", "Trẻ em (từ 2 -> 11 tuổi)", childCount, "child", existingData.children);
+    createForm("babies-forms", "Em bé (từ 2 -> 4 tuổi)", babyCount, "baby", existingData.babies);
 }
 
-function createForm(containerId, label, count, type) {
-    const container = document.getElementById(containerId);
-    container.innerHTML = ""; // Xóa form cũ trước khi tạo mới
+function saveExistingData() {
+    const data = {
+        adults: getFormData("adult-forms"),
+        children: getFormData("children-forms"),
+        babies: getFormData("babies-forms"),
+    };
+    return data;
+}
 
-    for (let i = 1; i <= count; i++) {
+function getFormData(containerId) {
+    const container = document.getElementById(containerId);
+    const forms = container.getElementsByClassName("passenger-form");
+    let data = [];
+
+    for (let form of forms) {
+        const hoten = form.querySelector('input[name="hot"]').value;
+        const ngaysinh = form.querySelector('input[name="ngaysi"]').value;
+        const gioitinh = form.querySelector('select[name="gioit"]').value;
+
+        data.push({ hoten, ngaysinh, gioitinh });
+    }
+    return data;
+}
+
+function createForm(containerId, label, count, type, existingData = []) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = "";
+
+    for (let i = 0; i < count; i++) {
+        const data = existingData[i] || { hoten: "", ngaysinh: "", gioitinh: "Nam" };
+
         const formHtml = `
             <div class="passenger-form">
                 <h4>${label}</h4>
                 <label>Họ tên:</label>
-                <input type="text" name="hot" required>
+                <input type="text" name="hot" value="${data.hoten}" required>
 
                 <label>Ngày sinh:</label>
-                <input type="date" name="ngaysi" required>
+                <input type="date" name="ngaysi" value="${data.ngaysinh}" required>
                 
-
                 <label>Giới tính:</label>
                 <select name="gioit">
-                    <option value="Nam">Nam</option>
-                    <option value="Nữ">Nữ</option>
+                    <option value="Nam" ${data.gioitinh === "Nam" ? "selected" : ""}>Nam</option>
+                    <option value="Nữ" ${data.gioitinh === "Nữ" ? "selected" : ""}>Nữ</option>
                 </select>
                 <input type="hidden" name="phanloai" value="${label}" required>
             </div>
@@ -695,7 +720,8 @@ function createForm(containerId, label, count, type) {
     }
 }
 
-// Gọi hàm lần đầu để tạo form mặc định
+// Gọi lần đầu
 generateForms();
+
 
 </script>
