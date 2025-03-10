@@ -701,8 +701,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         echo json_encode($users); // Trả về JSON
         exit;
     } elseif ($action == "xemtour") {
-        $query = "SELECT departure_time.*,tour_images.*,tour.*,tour.id AS tourid FROM tour INNER JOIN tour_images ON tour.id = tour_images.id_tour LEFT JOIN departure_time ON tour.id = departure_time.id_tour  WHERE Orders < Max_participant";
-    
+        $query = "SELECT departure_time.*, tour_images.*, tour.*, tour.id AS tourid 
+        FROM tour 
+        INNER JOIN tour_images ON tour.id = tour_images.id_tour 
+        LEFT JOIN departure_time ON tour.id = departure_time.id_tour  
+        WHERE Orders < Max_participant 
+        GROUP BY tour.id 
+        ORDER BY departure_time.ngaykhoihanh ASC";  // Lấy ngày sớm nhất
+  
 
         $result = $conn->query($query);
 
@@ -718,7 +724,13 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     }elseif ($action == "xemtourtheomien") {
 
         $mien = $_GET['mien'];
-        $query = "SELECT departure_time.*,tour_images.*,tour.*,tour.id AS tourid FROM tour INNER JOIN tour_images ON tour.id = tour_images.id_tour LEFT JOIN departure_time ON tour.id = departure_time.id_tour  WHERE Orders < Max_participant AND vung = '$mien'";
+        $query = "SELECT departure_time.*, tour_images.*, tour.*, tour.id AS tourid 
+        FROM tour 
+        INNER JOIN tour_images ON tour.id = tour_images.id_tour 
+        LEFT JOIN departure_time ON tour.id = departure_time.id_tour  
+        WHERE Orders < Max_participant AND vung = '$mien'
+        GROUP BY tour.id 
+        ORDER BY departure_time.ngaykhoihanh ASC ";
 
        
 
@@ -735,7 +747,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         exit;
     }  
     elseif ($action == "xemlayout") {
-        $query = "SELECT departure_time.*,tour_images.*,tour.*,tour.id AS tourid FROM tour INNER JOIN tour_images ON tour.id = tour_images.id_tour LEFT JOIN departure_time ON tour.id = departure_time.id_tour  WHERE Orders < Max_participant LIMIT 6";
+        $query = "SELECT departure_time.*,tour_images.*,tour.*,tour.id AS tourid FROM tour INNER JOIN tour_images ON tour.id = tour_images.id_tour LEFT JOIN departure_time ON tour.id = departure_time.id_tour  WHERE Orders < Max_participant  GROUP BY tour.id 
+        ORDER BY departure_time.ngaykhoihanh ASC LIMIT 6";
 
        
 
@@ -792,7 +805,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             echo json_encode(["error" => "Invalid type"]);
             exit;
         }
-        $query = "SELECT departure_time.*,tour_images.*,tour.*,tour.id AS tourid FROM tour INNER JOIN tour_images ON tour.id = tour_images.id_tour LEFT JOIN departure_time ON tour.id = departure_time.id_tour  WHERE Orders < Max_participant AND tour.type = '$type'";
+        $query = "SELECT departure_time.*,tour_images.*,tour.*,tour.id AS tourid FROM tour INNER JOIN tour_images ON tour.id = tour_images.id_tour LEFT JOIN departure_time ON tour.id = departure_time.id_tour  WHERE Orders < Max_participant AND tour.type = '$type' GROUP BY tour.id 
+        ORDER BY departure_time.ngaykhoihanh ASC";
 
        
         $result = $conn->query($query);
@@ -813,21 +827,27 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $budget = isset($_GET['budget']) ? $_GET['budget'] : '';
     
         // Tạo câu truy vấn động
-        $query = "SELECT departure_time.*,tour_images.*,tour.*,tour.id AS tourid FROM tour INNER JOIN tour_images ON tour.id = tour_images.id_tour LEFT JOIN departure_time ON tour.id = departure_time.id_tour WHERE Orders < Max_participant AND 1=1";
+        $query = "SELECT departure_time.*,tour_images.*,tour.*,tour.id AS tourid FROM tour INNER JOIN tour_images ON tour.id = tour_images.id_tour LEFT JOIN departure_time ON tour.id = departure_time.id_tour WHERE Orders < Max_participant AND 1=1 
+        ";
         // Thêm điều kiện tìm kiếm
         if (!empty($name)) {
-            $query .= " AND tour.Name LIKE '%$name%'";
+            $query .= " AND tour.Name LIKE '%$name%' GROUP BY tour.id 
+        ORDER BY departure_time.ngaykhoihanh ASC";
         }
         if (!empty($date)) {
-            $query .= " AND tour.Depart = '$date'";
+            $query .= " AND tour.Depart = '$date' GROUP BY tour.id 
+        ORDER BY departure_time.ngaykhoihanh ASC";
         }
         if (!empty($budget)) {
             if ($budget == 'low') {
-                $query .= " AND tour.price < 5000000";
+                $query .= " AND tour.price < 5000000 GROUP BY tour.id 
+        ORDER BY departure_time.ngaykhoihanh ASC";
             } elseif ($budget == 'medium') {
-                $query .= " AND tour.price BETWEEN 5000000 AND 10000000";
+                $query .= " AND tour.price BETWEEN 5000000 AND 10000000 GROUP BY tour.id 
+        ORDER BY departure_time.ngaykhoihanh ASC";
             } elseif ($budget == 'high') {
-                $query .= " AND tour.price > 10000000";
+                $query .= " AND tour.price > 10000000 GROUP BY tour.id 
+        ORDER BY departure_time.ngaykhoihanh ASC";
             }
         }
        
