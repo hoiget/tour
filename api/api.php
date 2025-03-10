@@ -306,7 +306,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
             if ($stmt_detail->execute()) {
                 // 3. Cập nhật số lượng đặt chỗ trong departure_time
-                $update_departure_query = "UPDATE departure_time SET Orders = Orders + ? WHERE id_tour = ?";
+                $update_departure_query = "UPDATE departure_time SET Orders = Orders + ? WHERE id_tour = ? AND DATETIME = ?";
                 $stmt_departure = $conn->prepare($update_departure_query);
     
                 if (!$stmt_departure) {
@@ -314,7 +314,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     exit;
                 }
     
-                $stmt_departure->bind_param("ii", $participants, $tour_id);
+                $stmt_departure->bind_param("iis", $participants, $tour_id,$datetime);
     
                 if ($stmt_departure->execute()) {
 

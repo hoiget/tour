@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 04, 2025 lúc 04:03 AM
+-- Thời gian đã tạo: Th3 10, 2025 lúc 12:21 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -57,11 +57,9 @@ CREATE TABLE `assignment_tour` (
 --
 
 INSERT INTO `assignment_tour` (`idass`, `id_toursche`, `employid`) VALUES
-(1, 7, 7),
+(1, 7, 3),
 (2, 8, 3),
-(3, 11, 7),
-(4, 9, 7),
-(5, 10, 3);
+(11, 9, 3);
 
 -- --------------------------------------------------------
 
@@ -111,9 +109,9 @@ CREATE TABLE `booking_detail_tour` (
 --
 
 INSERT INTO `booking_detail_tour` (`Sr_no`, `Booking_id`, `Tour_name`, `Price`, `Total_pay`, `User_name`, `Phone_num`, `Address`) VALUES
-(1, 106, 'Hà Nội ', '1900000', '4541000', 'Phuc Hung', '0987389890', 'sssss'),
-(2, 107, 'Đà Nẵng', '1400000', '1960000', 'Phuc Hung', '0987389890', 'sssss'),
-(22, 127, 'Hà Nội ', '1900000', '2641000', 'Phuc Hung', '0987389890', 'sssss');
+(63, 173, 'Hà Nội ', '1900000', '1900000', 'Phuc Hung', '0987389890', 'sssss'),
+(65, 175, 'Đông Bắc: Hà Nội - Hà Giang - Lũng Cú - Đồng Văn - Mã Pì Lèng', '7990000', '7990000', 'Phuc Hung', '0987389890', 'sssss'),
+(66, 176, 'Đà Nẵng', '1600000', '1600000', 'Phuc Hung', '0987389890', 'sssss');
 
 -- --------------------------------------------------------
 
@@ -150,7 +148,7 @@ INSERT INTO `booking_orderks` (`Booking_id`, `Room_id`, `User_id`, `Check_in`, `
 
 CREATE TABLE `booking_ordertour` (
   `Booking_id` int(11) NOT NULL,
-  `User_id` int(11) NOT NULL,
+  `User_id` int(11) DEFAULT NULL,
   `Tour_id` int(11) NOT NULL,
   `Departure_id` int(11) NOT NULL,
   `Arrival` varchar(255) NOT NULL,
@@ -167,9 +165,9 @@ CREATE TABLE `booking_ordertour` (
 --
 
 INSERT INTO `booking_ordertour` (`Booking_id`, `User_id`, `Tour_id`, `Departure_id`, `Arrival`, `Booking_status`, `Payment_status`, `refund`, `Datetime`, `participants`, `created_at`) VALUES
-(106, 1, 15, 12, 'Xe khách', '2', '2', 0, '2025-01-17', 3, '2025-03-04 07:48:00'),
-(107, 1, 16, 13, 'Máy bay', '1', '1', 1, '2025-01-17', 2, '2025-03-03 13:30:20'),
-(127, 1, 15, 12, 'Máy bay', '2', '1', 0, '2025-03-15', 2, '2025-03-04 09:23:21');
+(173, 1, 15, 12, 'Máy bay', '2', '1', 0, '2025-03-15', 1, '2024-03-20 13:07:46'),
+(175, 1, 36, 33, 'Máy bay', '2', '1', 0, '2025-03-17', 1, '2025-03-10 13:08:35'),
+(176, 1, 16, 13, 'Máy bay', '2', '1', 0, '2025-03-29', 1, '2025-03-10 13:10:37');
 
 -- --------------------------------------------------------
 
@@ -227,7 +225,32 @@ INSERT INTO `departure_dates` (`id`, `tour_id`, `departure_date`, `is_available`
 (20, 17, '2025-03-01', 1),
 (21, 17, '2025-03-08', 1),
 (22, 17, '2025-03-15', 1),
-(23, 15, '2025-02-24', 1);
+(23, 15, '2025-02-24', 1),
+(24, 18, '2025-03-11', 1),
+(25, 18, '2025-03-18', 1),
+(26, 18, '2025-03-25', 1),
+(27, 19, '2025-03-16', 1),
+(28, 19, '2025-03-21', 1),
+(29, 19, '2025-03-30', 1),
+(30, 32, '2025-03-20', 1),
+(31, 32, '2025-03-13', 1),
+(32, 32, '2025-03-28', 1),
+(33, 31, '2025-03-08', 1),
+(34, 31, '2025-03-15', 1),
+(35, 31, '2025-04-05', 1),
+(36, 21, '2025-03-22', 1),
+(37, 21, '2025-03-29', 1),
+(38, 21, '2025-03-30', 1),
+(39, 36, '2025-03-17', 1),
+(40, 36, '2025-04-17', 1),
+(41, 36, '2025-04-30', 1),
+(42, 15, '2025-03-28', 1),
+(43, 16, '2025-03-29', 1),
+(44, 37, '2025-03-13', 1),
+(45, 37, '2025-03-23', 1),
+(46, NULL, '2025-03-30', 1),
+(47, 15, '2025-03-30', 1),
+(48, 15, '2025-03-28', 1);
 
 -- --------------------------------------------------------
 
@@ -239,6 +262,7 @@ CREATE TABLE `departure_time` (
   `id` int(11) NOT NULL,
   `id_tour` int(11) DEFAULT NULL,
   `Day_depart` varchar(255) DEFAULT NULL,
+  `ngaykhoihanh` date DEFAULT NULL,
   `Orders` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -246,25 +270,28 @@ CREATE TABLE `departure_time` (
 -- Đang đổ dữ liệu cho bảng `departure_time`
 --
 
-INSERT INTO `departure_time` (`id`, `id_tour`, `Day_depart`, `Orders`) VALUES
-(12, 15, '2 ngày 1 đêm', 16),
-(13, 16, '2 ngày 1 đêm', 1),
-(14, 17, '2 ngày 1 đêm', 0),
-(15, 18, '2 ngày 1 đêm', 6),
-(16, 19, '5 ngày 4 đêm', 5),
-(18, 21, '2 ngày 1 đêm', 0),
-(19, 22, '3 ngày 2 đêm', 3),
-(20, 23, '2 ngày 1 đêm', 0),
-(21, 24, '2 ngày 1 đêm', 0),
-(22, 25, '3 ngày 2 đêm', 0),
-(23, 26, '1 ngày', 0),
-(24, 27, '1 ngày', 0),
-(25, 28, '2 ngày 1 đêm', 0),
-(26, 29, '3 ngày 2 đêm', 0),
-(27, 30, '2 ngày 1 đêm', 0),
-(28, 31, '5 ngày 4 đêm', 0),
-(29, 32, '6 ngày 5 đêm', 0),
-(30, 33, '7 ngày 6 đêm', 3);
+INSERT INTO `departure_time` (`id`, `id_tour`, `Day_depart`, `ngaykhoihanh`, `Orders`) VALUES
+(12, 15, '2 ngày 1 đêm', '2025-01-17', 10),
+(13, 16, '2 ngày 1 đêm', '2025-01-25', 4),
+(14, 17, '2 ngày 1 đêm', '2025-01-22', 0),
+(15, 18, '2 ngày 1 đêm', '2025-01-18', 6),
+(16, 19, '5 ngày 4 đêm', '2025-01-24', 5),
+(18, 21, '2 ngày 1 đêm', '2025-02-26', 0),
+(19, 22, '3 ngày 2 đêm', '2025-02-28', 3),
+(20, 23, '2 ngày 1 đêm', '2025-03-08', 0),
+(21, 24, '2 ngày 1 đêm', '2025-03-01', 0),
+(22, 25, '3 ngày 2 đêm', '2025-03-08', 0),
+(23, 26, '1 ngày', '2025-03-14', 0),
+(24, 27, '1 ngày', '2025-04-12', 0),
+(25, 28, '2 ngày 1 đêm', '2025-03-28', 0),
+(26, 29, '3 ngày 2 đêm', '2025-07-10', 0),
+(27, 30, '2 ngày 1 đêm', '2025-03-08', 0),
+(28, 31, '5 ngày 4 đêm', '2025-03-01', 0),
+(29, 32, '6 ngày 5 đêm', '2025-07-11', 2),
+(30, 33, '7 ngày 6 đêm', '2025-03-07', 3),
+(33, 36, '4 ngày 3 đêm', '2025-03-10', 4),
+(34, 37, '2 ngày 1 đêm', '2025-03-14', 0),
+(35, 15, '2 ngày 1 đêm', '2025-03-28', 0);
 
 -- --------------------------------------------------------
 
@@ -311,7 +338,8 @@ INSERT INTO `employees` (`id`, `Employee_code`, `Name`, `Username`, `Password`, 
 (1, 'NV1', 'NV1', 'NV1', '8c2e36e3cdf14ba19ba69db346b4fd4f', 'NV1@gmail.com', '0976889999', 'NV1', 'QL', '2025-01-11'),
 (2, 'NV2', 'NV2', 'NV2', 'f3b5124e0a3c80acff2e15ad64d4860b', 'NV2@gmail.com', '0738939003', 'sjfnjkasn', 'CSKH', '2025-01-03'),
 (3, 'NV3', 'NV3', 'NV3', 'fd23bdb93d20ed16f1f7293e2b6ad6ad', 'NV3@gmail.com', '0978478389', 'NV3', 'HDV', '2025-01-11'),
-(7, 'NV4', 'NV4', 'NV4', 'fc36a43b3c227816a575a54c451a87a7', 'NV4@gmail.com', '0783993893', 'NV4', 'HDV', '2025-01-13');
+(7, 'NV4', 'NV4', 'NV4', 'fc36a43b3c227816a575a54c451a87a7', 'NV4@gmail.com', '0783993893', 'NV4', 'HDV', '2025-01-13'),
+(8, 'Phú', 'Phú', 'Phú', 'e6354b14257db8ac7760967c51d04a96', 'sv@gmail.com', '0757564567', 'ádknasdnkjasndđs', 'HDV', '2025-03-10');
 
 -- --------------------------------------------------------
 
@@ -390,22 +418,13 @@ INSERT INTO `feedback` (`id`, `name`, `email`, `subject`, `message`, `admin_id`,
 
 CREATE TABLE `messages` (
   `id` int(11) NOT NULL,
-  `UserId` int(11) DEFAULT NULL,
-  `employid` int(11) DEFAULT NULL,
-  `UserName` varchar(255) DEFAULT NULL,
-  `message` varchar(255) DEFAULT NULL,
-  `Timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `tour_id` int(11) NOT NULL,
+  `sender_id` int(11) NOT NULL,
+  `receiver_id` int(11) NOT NULL,
+  `sender_type` enum('user','guide') NOT NULL,
+  `message` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Đang đổ dữ liệu cho bảng `messages`
---
-
-INSERT INTO `messages` (`id`, `UserId`, `employid`, `UserName`, `message`, `Timestamp`) VALUES
-(13, 1, NULL, 'Phucssssth', 'xx', '2025-01-10 01:04:02'),
-(14, 10, NULL, 'sss', 'xxx', '2025-01-10 01:06:46'),
-(15, 1, NULL, 'Phuc Hung', 'cc', '2025-01-14 06:06:51'),
-(16, 2, NULL, 'NV2', 'đ', '2025-01-14 06:23:53');
 
 -- --------------------------------------------------------
 
@@ -432,7 +451,7 @@ INSERT INTO `news` (`id`, `Title`, `dereption`, `Image`, `Content`, `Published_a
 (3, '5 mẹo du lịch tiết kiệm chi ph.,Học cách tiết kiệm khi đi du lịch mà vẫn tận hưởng trọn vẹn hành trình.', '1. Lên kế hoạch và đặt trước\r\nViệc lên kế hoạch du lịch sớm giúp bạn tiết kiệm chi phí cho các dịch vụ như vé máy bay, khách sạn và các hoạt động tham quan. Đặt vé máy bay và phòng khách sạn trước ít nhất 1-2 tháng sẽ giúp bạn tìm được các ưu đãi hấp dẫn và tránh tình trạng giá tăng vào giờ chót.\r\n\r\n2. Chọn phương tiện di chuyển giá rẻ\r\nThay vì lựa chọn các hãng hàng không đắt đỏ, bạn có thể tham khảo các chuyến bay giá rẻ hoặc các phương tiện như tàu hỏa, xe buýt, hoặc xe thuê. Những phương tiện này thường có chi phí thấp hơn, đặc biệt khi bạn di chuyển trong các khu vực gần nhau.\r\n\r\n3. Ở trong các hostel hoặc nhà nghỉ\r\nKhách sạn 5 sao có thể mang đến trải nghiệm sang trọng, nhưng giá cả lại rất cao. Thay vào đó, bạn có thể chọn ở trong các hostel hoặc nhà nghỉ bình dân. Đây không chỉ là giải pháp tiết kiệm chi phí mà còn giúp bạn kết nối với những du khách khác, tạo ra những trải nghiệm thú vị.\r\n\r\n4. Ăn uống tại các quán địa phương\r\nĂn tại các nhà hàng cao cấp hoặc khu vực du lịch nổi tiếng sẽ khiến chi phí ăn uống của bạn tăng lên đáng kể. Hãy thử ăn tại các quán ăn địa phương, nơi bạn có thể thưởng thức những món ăn đặc sản với giá cả hợp lý hơn rất nhiều.\r\n\r\n5. Tận dụng các ưu đãi và khuyến mãi\r\nTrước chuyến đi, hãy tìm hiểu và sử dụng các ưu đãi du lịch như thẻ giảm giá, combo vé tham quan hoặc các chương trình khuyến mãi từ các công ty du lịch. Nhiều bảo tàng, công viên, hay điểm tham quan cũng có giảm giá vào những ngày đặc biệt hoặc cho nhóm đông người.\r\n\r\nVới những mẹo trên, bạn có thể có một chuyến du lịch thú vị mà không lo bị vượt quá ngân sách!', 'gallery-2.jpg', 'Du lịch không nhất thiết phải tốn kém. Chúng tôi chia sẻ những mẹo hữu ích giúp bạn tiết kiệm từ việc chọn thời điểm đặt vé, tìm khách sạn giá rẻ, đến các phương án ăn uống và mua sắm hợp lý.', '2025-01-04', 1),
 (4, 'Top 10 điểm đến không thể bỏ qua năm 2025', 'Toulouse, Pháp\r\nThành phố này nổi tiếng với cảnh quan sông Garonne thơ mộng và nền văn hóa nghệ thuật phong phú. Toulouse được đánh giá là điểm đến lý tưởng cho kỳ nghỉ cuối tuần hoàn hảo. \r\nNYPOST\r\n\r\nCameroon\r\nVới bãi biển đẹp, công viên quốc gia ít người biết đến và cuộc sống về đêm sôi động, Cameroon là điểm đến hấp dẫn cho những ai tìm kiếm trải nghiệm mới mẻ. \r\nNYPOST\r\n\r\nLow Country và Coastal Georgia, Hoa Kỳ\r\nKhu vực này nổi tiếng với lịch sử phong phú và nền ẩm thực đa dạng, đặc biệt là các món ăn hải sản tươi ngon. \r\nNYPOST\r\n\r\nBoise, Idaho\r\nThành phố này kết hợp giữa di sản công nghiệp và văn hóa thủ công, mang đến trải nghiệm độc đáo cho du khách. \r\nNYPOST\r\n\r\nMount Hood và Columbia River Gorge, Oregon, Hoa Kỳ\r\nVới cảnh quan thiên nhiên hùng vĩ, khu vực này là thiên đường cho những ai yêu thích hoạt động ngoài trời như leo núi và đi bộ đường dài. \r\nNYPOST\r\n\r\nReykjavik, Iceland\r\nThủ đô của Iceland nổi tiếng với cảnh quan thiên nhiên độc đáo và các hoạt động như ngắm cực quang và tắm suối nước nóng. \r\nCRYSTAL BAY\r\n\r\nSiwa Oasis, Ai Cập\r\nNằm ở sa mạc phía tây Ai Cập, Siwa Oasis là điểm đến ít người biết đến với cảnh quan sa mạc hùng vĩ và nền văn hóa độc đáo. \r\nCRYSTAL BAY\r\n\r\nTasmania, Úc\r\nVới vẻ đẹp hoang sơ và nền văn hóa phong phú, Tasmania là điểm đến lý tưởng cho những ai yêu thích thiên nhiên và khám phá. \r\nVOGUE\r\n\r\nKyoto, Nhật Bản\r\nThành phố này nổi tiếng với các đền chùa cổ kính và mùa hoa anh đào nở rộ, mang đến trải nghiệm văn hóa độc đáo. \r\nVOGUE\r\n\r\nInner Hebrides, Scotland\r\nQuần đảo này ít người biết đến với cảnh quan thiên nhiên hoang sơ và nền văn hóa Scotland đặc trưng. \r\nVOGUE\r\n\r\nPatmos, Hy Lạp\r\nHòn đảo này nổi tiếng với lịch sử lâu dài và cảnh quan biển đẹp, là điểm đến lý tưởng cho những ai tìm kiếm sự yên bình. \r\nVOGUE\r\n\r\nHy vọng danh sách trên sẽ giúp bạn lựa chọn được điểm đến phù hợp cho chuyến du lịch trong năm 2025.', 'gallery-4.jpg', 'Từ các thành phố sôi động đến những vùng đất yên bình, năm 2025 mang đến cơ hội khám phá những địa điểm tuyệt vời. Danh sách này bao gồm các địa danh nổi bật trên toàn cầu, hứa hẹn tạo nên những kỷ niệm đáng nhớ.', '2025-01-03', 1),
 (5, 'Làm thế nào để có một chuyến đi an toàn?Những lưu ý quan trọng để đảm bảo an toàn trong mỗi chuyến hành trình.', '1. Lên kế hoạch chi tiết\r\nTìm hiểu về điểm đến: Trước khi đi, nghiên cứu về địa điểm bạn sẽ đến, bao gồm các vấn đề an ninh, khí hậu, văn hóa, và các quy định địa phương.\r\nThực hiện đăng ký thông tin chuyến đi: Nếu đi nước ngoài, bạn có thể đăng ký thông tin chuyến đi tại đại sứ quán hoặc lãnh sự quán để nhận hỗ trợ nếu cần.\r\n2. Mua bảo hiểm du lịch\r\nBảo hiểm y tế và tai nạn: Mua bảo hiểm du lịch bao gồm bảo hiểm y tế, bảo hiểm tai nạn và mất hành lý. Điều này giúp bạn tránh những chi phí phát sinh bất ngờ trong trường hợp xảy ra sự cố.\r\n3. Giữ an toàn tài sản\r\nMang ít tiền mặt: Chỉ mang một ít tiền mặt và sử dụng thẻ tín dụng hoặc thẻ ghi nợ để thanh toán khi cần.\r\nGiữ tài sản an toàn: Sử dụng túi xách hoặc ba lô chống trộm và luôn giữ đồ đạc quan trọng (hộ chiếu, tiền bạc, thẻ tín dụng) bên mình hoặc trong két sắt tại khách sạn.\r\n4. Tuân thủ các quy định an ninh\r\nKiểm tra tình hình an ninh địa phương: Trước khi đi, tìm hiểu xem có bất kỳ cảnh báo an ninh hoặc tình hình khẩn cấp nào ở địa phương không.\r\nTuân thủ các quy định về an ninh tại sân bay: Đảm bảo bạn tuân thủ các quy định về hành lý xách tay và không mang theo các vật phẩm bị cấm.\r\n5. Sức khỏe trong chuyến đi\r\nMang theo thuốc cần thiết: Nếu bạn có bệnh lý hoặc cần thuốc đặc biệt, hãy mang theo đủ thuốc và các giấy tờ liên quan.\r\nCập nhật tiêm phòng: Đảm bảo bạn đã tiêm phòng đầy đủ theo yêu cầu của quốc gia bạn đến, đặc biệt là khi đi du lịch tới các khu vực có nguy cơ cao (ví dụ: sốt xuất huyết, sốt rét).\r\n6. Giữ liên lạc thường xuyên\r\nChia sẻ kế hoạch chuyến đi: Chia sẻ với người thân, bạn bè về lịch trình chuyến đi, nơi bạn ở và các số điện thoại khẩn cấp.\r\nMạng di động và kết nối: Đảm bảo bạn có phương thức liên lạc với gia đình và bạn bè trong trường hợp cần thiết.\r\n7. Chú ý khi di chuyển\r\nSử dụng phương tiện công cộng an toàn: Khi di chuyển trong thành phố, hãy chọn phương tiện công cộng hoặc taxi uy tín. Tránh di chuyển một mình vào ban đêm ở những khu vực vắng vẻ.\r\nCảnh giác với lừa đảo: Cảnh giác với các hình thức lừa đảo, đặc biệt là khi đi du lịch một mình hoặc tới những nơi đông đúc.\r\n8. Giữ sức khỏe thể chất và tinh thần\r\nUống đủ nước và ăn uống hợp lý: Tránh ăn thực phẩm không rõ nguồn gốc, và luôn uống đủ nước để duy trì sức khỏe.\r\nNghỉ ngơi đầy đủ: Chuyến đi sẽ thú vị hơn nếu bạn nghỉ ngơi đầy đủ, đặc biệt là khi tham gia các hoạt động ngoài trời hoặc du lịch mạo hiểm.\r\nBằng cách chuẩn bị tốt và tuân thủ các lời khuyên trên, bạn sẽ có một chuyến đi an toàn và tận hưởng trọn vẹn hành trình của mình.', 'gallery-5.jpg', 'An toàn là yếu tố hàng đầu khi đi du lịch. Bài viết cung cấp các lời khuyên thiết thực để bạn luôn an tâm trên mọi hành trình, từ việc chuẩn bị hành lý đến cách ứng phó khi gặp sự cố bất ngờ.g', '2025-01-12', 1),
-(7, 'dss', 'ss', 'from.jpg', 'sss', '2025-01-12', 1);
+(8, 'Xu Hướng Du Lịch 2025: Những Tour Hot Nhất Trong Năm', 'Du lịch năm 2025 đang chứng kiến sự thay đổi mạnh mẽ với các xu hướng mới, từ những điểm đến độc đáo đến những trải nghiệm du lịch bền vững. Hãy cùng khám phá những tour hot nhất trong năm mà bạn không nên bỏ lỡ!\r\n\r\n1. Du Lịch Trải Nghiệm Sinh Thái - Côn Đảo\r\n\r\n\r\nCôn Đảo ngày càng trở thành điểm đến thu hút với vẻ đẹp hoang sơ, biển xanh trong và hệ sinh thái phong phú. Du khách có thể tham gia các hoạt động như lặn biển ngắm san hô, thăm rừng nguyên sinh và tìm hiểu lịch sử tại nhà tù Côn Đảo.\r\n\r\n2. Tour Cao Nguyên Mộc Châu - Khám Phá Vùng Đất Hoa\r\n\r\n\r\nMộc Châu không chỉ nổi tiếng với những đồi chè xanh bát ngát mà còn là thiên đường của các loài hoa nở quanh năm. Tháng 1-3 là mùa hoa mận, hoa đào khoe sắc rực rỡ, tạo nên bức tranh thiên nhiên tuyệt đẹp.\r\n\r\n3. Du Lịch Cao Cấp Tại Maldives\r\n\r\n\r\nMaldives vẫn giữ vững vị trí là điểm đến du lịch nghỉ dưỡng sang trọng hàng đầu thế giới. Những biệt thự trên mặt nước, bãi biển cát trắng và dịch vụ 5 sao là lựa chọn lý tưởng cho kỳ nghỉ xa hoa.\r\n\r\n4. Hành Trình Khám Phá Nhật Bản Mùa Hoa Anh Đào\r\n\r\n\r\nDu lịch Nhật Bản vào mùa xuân luôn thu hút đông đảo du khách bởi vẻ đẹp của hoa anh đào. Các thành phố như Tokyo, Kyoto, Osaka đều tổ chức lễ hội hoa anh đào với không gian lãng mạn, đậm chất văn hóa.\r\n\r\n5. Hành Trình Du Lịch Hàn Quốc - Trải Nghiệm Văn Hóa Kpop\r\n\r\n\r\nHàn Quốc không chỉ nổi tiếng với ẩm thực phong phú mà còn là thiên đường dành cho fan Kpop. Du khách có thể tham quan các địa điểm quay MV, ghé thăm các quán cà phê của thần tượng và tận hưởng không khí sôi động tại Seoul.\r\n\r\nXu hướng du lịch năm nay tập trung vào trải nghiệm thiên nhiên, văn hóa và nghỉ dưỡng đẳng cấp. Hãy lên kế hoạch ngay hôm nay để không bỏ lỡ những chuyến đi đáng nhớ!\r\n\r\n', 'tt.jpg', 'Xu Hướng Du Lịch 2025', '2025-03-06', 1);
 
 -- --------------------------------------------------------
 
@@ -454,8 +473,32 @@ CREATE TABLE `participant` (
 --
 
 INSERT INTO `participant` (`idpar`, `idbook`, `hoten`, `ngaysinh`, `gioitinh`, `phanloai`) VALUES
-(7, 127, 'Huyd', '1989-09-13', 'Nam', 'Người lớn'),
-(8, 127, 'Thảo', '2023-09-02', 'Nữ', 'Trẻ em (từ 2 -> 11 tuổi)');
+(83, 173, 'Hùng', '2019-07-19', 'Nam', 'Người lớn'),
+(85, 175, 'aaa', '2024-02-10', 'Nam', 'Người lớn'),
+(86, 176, 'sas', '2023-06-10', 'Nam', 'Người lớn');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `payments`
+--
+
+CREATE TABLE `payments` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `idbook` int(11) NOT NULL,
+  `method` varchar(50) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `payments`
+--
+
+INSERT INTO `payments` (`id`, `user_id`, `idbook`, `method`, `created_at`) VALUES
+(27, 1, 173, 'vnpay', '2025-03-10 06:07:46'),
+(29, 1, 175, 'vnpay', '2025-03-10 06:08:35'),
+(30, 1, 176, 'vnpay', '2025-03-10 06:10:37');
 
 -- --------------------------------------------------------
 
@@ -511,16 +554,16 @@ CREATE TABLE `request_tour` (
   `tour_price` int(10) DEFAULT NULL,
   `itinerary` text DEFAULT NULL,
   `tour_duration` varchar(50) DEFAULT NULL,
-  `phuongtien` varchar(255) NOT NULL
+  `phuongtien` varchar(255) NOT NULL,
+  `Trangthai` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `request_tour`
 --
 
-INSERT INTO `request_tour` (`id_request`, `user_id`, `customer_name`, `tour_name`, `departure_date`, `tour_price`, `itinerary`, `tour_duration`, `phuongtien`) VALUES
-(4, 1, 'Phuc Hung', 'Hà Nội - Quảng Ninh - Ninh Bình', '2025-03-28', 6500000, 'Đặt chân đến Quảng Ninh - tỉnh đầu tiên có 4 thành phố: Hạ Long, Móng Cái, Uông Bí và Cẩm Phả tạo nên thành phố du lịch không chỉ nổi tiếng về biển như Vịnh Hạ Long với hàng nghìn đảo đá nhấp nhô trên sóng nước lung linh huyền ảo, những hang động tuyệt đẹp, những bãi tắm hoang sơ, làn nước mát lạnh trong veo đặc trưng của vùng đảo Cô Tô, Soi Sim, ... Không những thế, Quảng Ninh còn hấp dẫn du khách về không khí mát mẻ của vùng núi thiêng Yên Tử nơi hội tụ tâm linh, văn hóa và không gian nghỉ dưỡng đỉnh cao. Nếu bạn yêu sự hoang sơ của thiên nhiên, không gian thoáng mát thì hãy thử một lần ghé thăm cao nguyên Bình Liêu, được ví von như “Sapa vùng đất than”, với các cột mốc biên giới và dãy “cờ cỏ lau” hay con đường “Sống lưng khủng long” chạy dọc đường tuần biên luôn là điểm dừng yêu thích của du khách trong và ngoài tỉnh.\r\nNinh Bình - vùng đất “Nơi mơ đến, chốn mong về” ghi dấu ấn với Quần thể danh thắng Tràng An -Di sản văn hóa thiên nhiên thế giới, đi thuyền chèo tham quan hệ thống thạch nhũ trong hang động và di tích Đền Trần; uy nghiêm trầm mặc với quần thể chùa Bái Đính, ẩn mình thanh tịnh sau hang động với Tuyệt tịnh cốc, …', '4 Ngày 3 Đêm', 'Xe khách'),
-(7, 1, 'Phuc Hung', 'Hà Nội - Quảng Ninh - Ninh Bình', '2025-03-14', 10000, 'àd', '4 ngày3 đêm', 'Xe khách');
+INSERT INTO `request_tour` (`id_request`, `user_id`, `customer_name`, `tour_name`, `departure_date`, `tour_price`, `itinerary`, `tour_duration`, `phuongtien`, `Trangthai`) VALUES
+(8, 1, 'Phuc Hung', 'Hà Nội', '2025-03-14', 2000000, '{\"Ngày 1\":\"Ha\",\"Ngày 2\":\"fg\",\"Ngày 3\":\"â\",\"Ngày 4\":\"aa\"}', '4 ngày 3 đêm', 'Xe khách', 1);
 
 -- --------------------------------------------------------
 
@@ -632,20 +675,27 @@ INSERT INTO `rooms_images` (`Sr_no`, `Room_id`, `Image`, `Thumb`) VALUES
 
 CREATE TABLE `schedule` (
   `id` int(11) NOT NULL,
-  `work_date` datetime NOT NULL,
-  `location` varchar(255) NOT NULL,
-  `employid` int(11) NOT NULL
+  `employee_id` int(11) NOT NULL,
+  `shift` enum('Sáng','Chiều','Tối') NOT NULL,
+  `shift_date` date NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `schedule`
 --
 
-INSERT INTO `schedule` (`id`, `work_date`, `location`, `employid`) VALUES
-(5, '2025-01-17 14:44:00', '', 1),
-(6, '2025-01-25 14:45:00', '', 2),
-(7, '2025-02-05 12:39:00', '', 1),
-(21, '2025-02-06 13:23:00', '', 2);
+INSERT INTO `schedule` (`id`, `employee_id`, `shift`, `shift_date`, `created_at`) VALUES
+(1, 1, 'Chiều', '2025-03-11', '2025-03-10 09:04:30'),
+(2, 1, 'Sáng', '2025-03-14', '2025-03-10 09:22:39'),
+(3, 3, 'Sáng', '2025-03-13', '2025-03-10 09:24:07'),
+(6, 7, 'Chiều', '2025-03-14', '2025-03-10 09:36:10'),
+(7, 2, 'Sáng', '2025-03-07', '2025-03-10 09:37:39'),
+(8, 1, 'Sáng', '2025-03-23', '2025-03-10 09:38:03'),
+(9, 1, 'Sáng', '2025-03-22', '2025-03-10 09:38:13'),
+(10, 1, 'Sáng', '2025-03-31', '2025-03-10 10:39:56'),
+(11, 2, 'Sáng', '2025-03-31', '2025-03-10 10:39:56'),
+(12, 3, 'Sáng', '2025-03-31', '2025-03-10 10:39:56');
 
 -- --------------------------------------------------------
 
@@ -696,7 +746,9 @@ INSERT INTO `tour` (`id`, `Name`, `Style`, `Price`, `Child_price_percen`, `Max_p
 (30, 'Tour Phong Nha - Kẻ Bàng', 'Sinh thái', 2500000, '50', 15, 4, 'Khám phá động Phong Nha, chèo thuyền trên sông Son', 'Active', '2025-03-08', 'Đà Nẵng', 'Quảng Bình - Phong Nha', 1, 'Gia đình', '2 ngày 1 đêm', 0, 'Xe khách', 'Trung'),
 (31, 'Tour Thái Lan - Bangkok - Pattaya', 'Giải trí', 12000000, '50', 30, 5, 'Tham quan chùa Vàng, chợ nổi, đảo San Hô, phố đi bộ Pattaya', 'Active', '2025-03-01', 'TP.Hồ Chí Minh', 'Bangkok - Pattaya', 1, 'Theo đoàn', '5 ngày 4 đêm', 0, 'Máy bay', 'Ngoài nước'),
 (32, 'Tour Hàn Quốc - Seoul - Nami', 'Văn hóa', 25000000, '40', 25, 4, 'Khám phá cung điện Gyeongbok, đảo Nami, tháp Namsan', 'Active', '2025-07-11', 'Hà Nội', 'Seoul - Nami - Everland', 1, 'Gia đình', '6 ngày 5 đêm', 20000000, 'Máy bay', 'Ngoài nước'),
-(33, 'Tour Nhật Bản - Tokyo - Núi Phú Sĩ', 'Nghỉ dưỡng', 32000000, '50', 20, 4, 'Trải nghiệm Tokyo, Hakone, núi Phú Sĩ, suối nước nóng', 'Active', '2025-03-07', 'TP.Hồ Chí Minh', 'Tokyo - Hakone - Phú Sĩ', 1, 'Theo nhóm nhỏ', '7 ngày 6 đêm', 20000000, 'Máy bay', 'Ngoài nước');
+(33, 'Tour Nhật Bản - Tokyo - Núi Phú Sĩ', 'Nghỉ dưỡng', 32000000, '50', 20, 4, 'Trải nghiệm Tokyo, Hakone, núi Phú Sĩ, suối nước nóng', 'Active', '2025-03-07', 'TP.Hồ Chí Minh', 'Tokyo - Hakone - Phú Sĩ', 1, 'Theo nhóm nhỏ', '7 ngày 6 đêm', 20000000, 'Máy bay', 'Ngoài nước'),
+(36, 'Đông Bắc: Hà Nội - Hà Giang - Lũng Cú - Đồng Văn - Mã Pì Lèng', 'Sinh thái', 9000000, '40', 20, 5, 'Hà Nội', 'Active', '2025-03-10', 'Hà Nội', 'Ngày 1: Đà Nẵng - Hà Nội - Tuyên Quang - Hà Giang \r\nNgày 2: Hà Giang - Lũng Cú - Đồng Văn  3 bữa (sáng, trưa, chiều)       \r\nNgày 3: Đồng Văn - Mã Pí Lèng - Mèo Vạc  3 bữa ăn (sáng, trưa, chiều)       \r\nNgày 4: Hà Giang - Hà Nội - Đà ', 1, 'Gia đình', '4 ngày 3 đêm', 7990000, 'Máy bay', 'Bắc'),
+(37, 'Hà Nội', 'Sinh thái', 2000000, '35', 12, 1, 'sdf', 'Active', '2025-03-14', 'TP.Hồ Chí Minh', 'Ngày 1: Ha\r\nNgày 2: fg\r\nNgày 3: â\r\nNgày 4: aa\r\n', 1, 'Gia đình', '4 ngày 3 đêm', 0, 'Xe khách', 'Bắc');
 
 -- --------------------------------------------------------
 
@@ -733,7 +785,9 @@ INSERT INTO `tour_images` (`Sr_no`, `id_tour`, `Image`, `Thumb`) VALUES
 (31, 30, 'pn.jfif', ''),
 (32, 31, 'muang-boran-4-8565.jpg', ''),
 (33, 32, 'hq.jfif', ''),
-(34, 33, 'Nhb.jpg', '');
+(34, 33, 'Nhb.jpg', ''),
+(37, 36, 'hn.jpg', ''),
+(38, 37, 'qr.png', '');
 
 -- --------------------------------------------------------
 
@@ -772,7 +826,10 @@ INSERT INTO `tour_schedule` (`id`, `id_tour`, `Name`, `Date`, `Schedule`, `Locat
 (22, 30, 'Tour Phong Nha - Kẻ Bàng', '2025-03-08 00:00:00', '2 ngày 1 đêm', 'Đà Nẵng'),
 (23, 31, 'Tour Thái Lan - Bangkok - Pattaya', '2025-03-01 00:00:00', '5 ngày 4 đêm', 'TP.Hồ Chí Minh'),
 (24, 32, 'Tour Hàn Quốc - Seoul - Nami', '2025-07-11 00:00:00', '6 ngày 5 đêm', 'Hà Nội'),
-(25, 33, 'Tour Nhật Bản - Tokyo - Núi Phú Sĩ', '2025-03-07 00:00:00', '7 ngày 6 đêm', 'TP.Hồ Chí Minh');
+(25, 33, 'Tour Nhật Bản - Tokyo - Núi Phú Sĩ', '2025-03-07 00:00:00', '7 ngày 6 đêm', 'TP.Hồ Chí Minh'),
+(28, 36, 'Đông Bắc: Hà Nội - Hà Giang - Lũng Cú - Đồng Văn - Mã Pì Lèng', '2025-03-10 00:00:00', '4 ngày 3 đêm', 'Hà Nội'),
+(29, 37, 'Hà Nội', '2025-03-14 00:00:00', '4 ngày 3 đêm', 'TP.Hồ Chí Minh'),
+(32, 15, 'Hà Nội ', '2025-03-28 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh');
 
 -- --------------------------------------------------------
 
@@ -799,7 +856,7 @@ CREATE TABLE `user_credit` (
 
 INSERT INTO `user_credit` (`id`, `Name`, `Address`, `Email`, `sdt`, `profile`, `Password`, `Datetime`, `reset_token`, `token_expiry`) VALUES
 (1, 'Phuc Hung', 'sssss', 'phuc@gmail.com', '0987389890', 'pt.png', 'cb0343fa02f5e80de7ed84427f227af1', '2015-01-24', NULL, NULL),
-(10, 'sss', 'TP BÌNH THUẬN', 'comonhay@gmail.com', '0988888888', 'anh3.jpg', '619ce14ca2272f0a86e86c3df935928f', '2025-01-09', 'd7d23643d9c42da6a128209b3232d49116a3b2a672457c0bfd6d20dcfd693584', '2025-02-13 14:23:03');
+(10, 'Comon', 'TP BÌNH THUẬN', 'comonhay@gmail.com', '0988888888', 'anh3.jpg', '619ce14ca2272f0a86e86c3df935928f', '2025-01-09', 'd7d23643d9c42da6a128209b3232d49116a3b2a672457c0bfd6d20dcfd693584', '2025-02-13 14:23:03');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -915,7 +972,9 @@ ALTER TABLE `feedback`
 --
 ALTER TABLE `messages`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_employid` (`employid`);
+  ADD KEY `sender_id` (`sender_id`),
+  ADD KEY `receiver_id` (`receiver_id`),
+  ADD KEY `messages_ibfk_1` (`tour_id`);
 
 --
 -- Chỉ mục cho bảng `news`
@@ -930,6 +989,14 @@ ALTER TABLE `news`
 ALTER TABLE `participant`
   ADD PRIMARY KEY (`idpar`),
   ADD KEY `idbook` (`idbook`);
+
+--
+-- Chỉ mục cho bảng `payments`
+--
+ALTER TABLE `payments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_user` (`user_id`),
+  ADD KEY `fk_book` (`idbook`);
 
 --
 -- Chỉ mục cho bảng `rating_reviews_ks`
@@ -988,7 +1055,7 @@ ALTER TABLE `rooms_images`
 --
 ALTER TABLE `schedule`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_employid5` (`employid`);
+  ADD KEY `employee_id` (`employee_id`);
 
 --
 -- Chỉ mục cho bảng `tour`
@@ -1031,7 +1098,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT cho bảng `assignment_tour`
 --
 ALTER TABLE `assignment_tour`
-  MODIFY `idass` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `idass` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT cho bảng `booking_details_ks`
@@ -1043,7 +1110,7 @@ ALTER TABLE `booking_details_ks`
 -- AUTO_INCREMENT cho bảng `booking_detail_tour`
 --
 ALTER TABLE `booking_detail_tour`
-  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT cho bảng `booking_orderks`
@@ -1055,7 +1122,7 @@ ALTER TABLE `booking_orderks`
 -- AUTO_INCREMENT cho bảng `booking_ordertour`
 --
 ALTER TABLE `booking_ordertour`
-  MODIFY `Booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=128;
+  MODIFY `Booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=177;
 
 --
 -- AUTO_INCREMENT cho bảng `carousel`
@@ -1073,13 +1140,13 @@ ALTER TABLE `contact_details`
 -- AUTO_INCREMENT cho bảng `departure_dates`
 --
 ALTER TABLE `departure_dates`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT cho bảng `departure_time`
 --
 ALTER TABLE `departure_time`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT cho bảng `deposit_hotel`
@@ -1091,7 +1158,7 @@ ALTER TABLE `deposit_hotel`
 -- AUTO_INCREMENT cho bảng `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT cho bảng `facilities`
@@ -1121,13 +1188,19 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT cho bảng `news`
 --
 ALTER TABLE `news`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT cho bảng `participant`
 --
 ALTER TABLE `participant`
-  MODIFY `idpar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `idpar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
+
+--
+-- AUTO_INCREMENT cho bảng `payments`
+--
+ALTER TABLE `payments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT cho bảng `rating_reviews_ks`
@@ -1145,7 +1218,7 @@ ALTER TABLE `rating_reviewtour`
 -- AUTO_INCREMENT cho bảng `request_tour`
 --
 ALTER TABLE `request_tour`
-  MODIFY `id_request` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_request` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT cho bảng `rooms`
@@ -1175,25 +1248,25 @@ ALTER TABLE `rooms_images`
 -- AUTO_INCREMENT cho bảng `schedule`
 --
 ALTER TABLE `schedule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT cho bảng `tour`
 --
 ALTER TABLE `tour`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT cho bảng `tour_images`
 --
 ALTER TABLE `tour_images`
-  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT cho bảng `tour_schedule`
 --
 ALTER TABLE `tour_schedule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT cho bảng `user_credit`
@@ -1280,7 +1353,9 @@ ALTER TABLE `feedback`
 -- Các ràng buộc cho bảng `messages`
 --
 ALTER TABLE `messages`
-  ADD CONSTRAINT `fk_employid` FOREIGN KEY (`employid`) REFERENCES `employees` (`id`);
+  ADD CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`tour_id`) REFERENCES `booking_ordertour` (`Tour_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `messages_ibfk_2` FOREIGN KEY (`sender_id`) REFERENCES `user_credit` (`id`),
+  ADD CONSTRAINT `messages_ibfk_3` FOREIGN KEY (`receiver_id`) REFERENCES `employees` (`id`);
 
 --
 -- Các ràng buộc cho bảng `news`
@@ -1293,6 +1368,13 @@ ALTER TABLE `news`
 --
 ALTER TABLE `participant`
   ADD CONSTRAINT `participant_ibfk_1` FOREIGN KEY (`idbook`) REFERENCES `booking_ordertour` (`Booking_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Các ràng buộc cho bảng `payments`
+--
+ALTER TABLE `payments`
+  ADD CONSTRAINT `fk_book` FOREIGN KEY (`idbook`) REFERENCES `booking_ordertour` (`Booking_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_user` FOREIGN KEY (`user_id`) REFERENCES `user_credit` (`id`) ON DELETE CASCADE;
 
 --
 -- Các ràng buộc cho bảng `rating_reviews_ks`
@@ -1348,7 +1430,7 @@ ALTER TABLE `rooms_images`
 -- Các ràng buộc cho bảng `schedule`
 --
 ALTER TABLE `schedule`
-  ADD CONSTRAINT `fk_employid5` FOREIGN KEY (`employid`) REFERENCES `employees` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `schedule_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE;
 
 --
 -- Các ràng buộc cho bảng `tour`

@@ -405,16 +405,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt_schedule = $conn->prepare($update_schedule_query);
             $stmt_schedule->bind_param("ssssi", $name, $depart, $timetour, $departure_location, $id);
             $stmt_schedule->execute();
-        if($departure_dates){
-            $update_date = "INSERT INTO departure_dates (tour_id, departure_date) VALUES (?, ?)";
-            $stmt_date = $conn->prepare($update_date);
+            if($departure_dates){
+                $update_date = "INSERT INTO departure_dates (tour_id, departure_date) VALUES (?, ?)";
+                $stmt_date = $conn->prepare($update_date);
             
-            // Duyệt mảng ngày khởi hành và thêm vào database
-            foreach ($departure_dates as $date) {
-                $stmt_date->bind_param("is", $id, $date);
-                $stmt_date->execute();
+                $insert_schedule_query = "INSERT INTO tour_schedule (id_tour, Name, Date, Schedule, Locations) VALUES (?,?,?,?,?)";
+                $stmt_schedule = $conn->prepare($insert_schedule_query);
+                
+               
+                // Duyệt mảng ngày khởi hành và thêm vào database
+                foreach ($departure_dates as $date) {
+                    // Thêm vào departure_dates
+                    $stmt_date->bind_param("is", $id, $date);
+                    $stmt_date->execute();
+            
+                    // Thêm vào tour_schedule
+                    $stmt_schedule->bind_param("issss", $id, $name, $date, $timetour, $departure_location);
+                    $stmt_schedule->execute();
+
+                    
+                  
+                }
             }
-        }
 
             // Xử lý ảnh nếu có
             if (isset($_FILES['anh']) && $_FILES['anh']['error'] == 0) {
@@ -538,11 +550,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     if($departure_dates){
                         $update_date = "INSERT INTO departure_dates (tour_id, departure_date) VALUES (?, ?)";
                         $stmt_date = $conn->prepare($update_date);
+                    
+                        $insert_schedule_query = "INSERT INTO tour_schedule (id_tour, Name, Date, Schedule, Locations) VALUES (?,?,?,?,?)";
+                        $stmt_schedule = $conn->prepare($insert_schedule_query);
                         
+                        $insert_depart_query = "INSERT INTO departure_time (id_tour, Orders,Day_depart,Datetime) VALUES (?, ?,?,?)";
+                        $stmt_depart = $conn->prepare($insert_depart_query);
                         // Duyệt mảng ngày khởi hành và thêm vào database
                         foreach ($departure_dates as $date) {
+                            // Thêm vào departure_dates
                             $stmt_date->bind_param("is", $new_tour_id, $date);
                             $stmt_date->execute();
+                    
+                            // Thêm vào tour_schedule
+                            $stmt_schedule->bind_param("issss", $new_tour_id, $name, $date, $timetour, $departure_location);
+                            $stmt_schedule->execute();
+
+                            $stmt_depart->bind_param("iiss", $new_tour_id, $order, $depart,$date);
+                            $stmt_depart->execute();
                         }
                     }
                     // Commit giao dịch nếu không có lỗi
@@ -858,7 +883,77 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
 
-    } elseif ($action == "phanlich") {
+    }elseif ($action == "assign_shift") {
+        header('Content-Type: application/json'); // Đảm bảo API trả về JSON
+    
+        $employees = $_POST['employee_id'] ?? []; // Lấy danh sách nhân viên (mảng)
+        $shift = $_POST['shift'] ?? null;
+        $shift_date = $_POST['shift_date'] ?? null;
+    
+        if (empty($employees) || !$shift || !$shift_date) {
+            echo json_encode(["error1" => "Thiếu dữ liệu"]);
+            exit;
+        }
+    
+        $success_count = 0;
+        $errors = [];
+    
+        foreach ($employees as $employee_id) {
+            // Kiểm tra xem nhân viên đã có lịch cho ngày đó chưa
+            $check_query = "SELECT id FROM schedule WHERE employee_id = ? AND shift_date = ? AND shift = ?";
+            $check_stmt = $conn->prepare($check_query);
+    
+            if (!$check_stmt) {
+                echo json_encode(["error" => "Lỗi chuẩn bị SQL: " . $conn->error]);
+                exit;
+            }
+    
+            $check_stmt->bind_param("iss", $employee_id, $shift_date, $shift);
+            $check_stmt->execute();
+            $check_stmt->store_result();
+    
+            if ($check_stmt->num_rows > 0) {
+                $errors[] = "Nhân viên ID $employee_id đã có lịch làm vào ngày $shift_date, ca $shift";
+                continue; // Bỏ qua nhân viên này nếu trùng lịch
+            }
+    
+            $check_stmt->close();
+    
+            // Chèn dữ liệu mới nếu không bị trùng lịch
+            $query = "INSERT INTO schedule (employee_id, shift, shift_date) VALUES (?, ?, ?)";
+            $stmt = $conn->prepare($query);
+    
+            if (!$stmt) {
+                echo json_encode(["error" => "Lỗi chuẩn bị SQL: " . $conn->error]);
+                exit;
+            }
+    
+            $stmt->bind_param("iss", $employee_id, $shift, $shift_date);
+    
+            if ($stmt->execute()) {
+                $success_count++;
+            } else {
+                $errors[] = "Lỗi khi phân công nhân viên ID $employee_id: " . $stmt->error;
+            }
+    
+            $stmt->close();
+        }
+    
+        if ($success_count > 0) {
+            $response = ["success" => "Đã phân công $success_count nhân viên thành công"];
+            if (!empty($errors)) {
+                $response["warnings"] = $errors; // Thêm cảnh báo nếu có nhân viên bị trùng lịch
+            }
+            echo json_encode($response);
+        } else {
+            echo json_encode(["error" => "Không thể phân công ca làm việc", "details" => $errors]);
+        }
+    }
+    
+    
+    
+    
+     elseif ($action == "phanlich") {
         $manv = $_POST['emi'];
         $date = $_POST['dat']; // Dữ liệu từ form, có thể ở dạng 'YYYY-MM-DD'
 
@@ -1095,7 +1190,48 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
         echo json_encode($users); // Trả về JSON
         exit;
-    } elseif ($action == "get_thongke") {
+    }elseif ($action == "get_shifts") {
+        $date = $_GET['date'] ?? '';
+    
+        // Nếu không có ngày được chọn, lấy toàn bộ lịch làm việc
+        if (empty($date)) {
+            $query = "SELECT ws.*, e.Name FROM schedule ws 
+                      JOIN employees e ON ws.employee_id = e.id 
+                      ORDER BY ws.shift_date ASC";
+            $stmt = $conn->prepare($query);
+        } else {
+            $query = "SELECT ws.*, e.Name FROM schedule ws 
+                      JOIN employees e ON ws.employee_id = e.id 
+                      WHERE ws.shift_date = ?";
+            $stmt = $conn->prepare($query);
+            $stmt->bind_param("s", $date);
+        }
+    
+        $stmt->execute();
+        $result = $stmt->get_result();
+    
+        $shifts = [];
+        while ($row = $result->fetch_assoc()) {
+            $shifts[] = $row;
+        }
+    
+        echo json_encode($shifts);
+    }
+   
+    elseif ($action == "get_employees") {
+        $query = "SELECT id, Employee_code, Name FROM employees ORDER BY Name ASC";
+        $result = $conn->query($query);
+    
+        $employees = [];
+        while ($row = $result->fetch_assoc()) {
+            $employees[] = $row;
+        }
+    
+        echo json_encode($employees);
+    }
+    
+    
+     elseif ($action == "get_thongke") {
         $query = "SELECT 
             COUNT(t.id) AS total_tours, 
             SUM(CASE WHEN t.Status = 'Active' THEN 1 ELSE 0 END) AS total_active,
@@ -1126,41 +1262,50 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         }
         exit;
     } elseif ($action == "get_booking_stats") {
-        $year = isset($_GET['year']) ? intval($_GET['year']) : date('Y'); // Lấy năm từ yêu cầu hoặc mặc định là năm hiện tại
-        $month = isset($_GET['month']) ? intval($_GET['month']) : null; // Lấy tháng từ yêu cầu (nếu có)
-
+        $year = isset($_GET['year']) ? intval($_GET['year']) : date('Y');
+        $month = isset($_GET['month']) ? intval($_GET['month']) : null;
+        $vung = isset($_GET['vung']) ? $_GET['vung'] : null; // Sửa lỗi gán biến
+    
         // Truy vấn SQL
         $query = "
             SELECT
                 COUNT(bo.Booking_id) AS total_orders,
-                SUM(CASE WHEN DATE(bo.Datetime) = CURDATE() THEN 1 ELSE 0 END) AS new_orders_today,
+                SUM(CASE WHEN DATE(bo.created_at) = CURDATE() THEN 1 ELSE 0 END) AS new_orders_today,
                 SUM(CASE WHEN bo.Booking_status = 2 THEN 1 ELSE 0 END) AS approved_orders,
                 SUM(CASE WHEN bo.refund = 1 THEN 1 ELSE 0 END) AS cancelled_orders,
-                SUM(bd.Total_pay) AS total_amount,
-                SUM(CASE WHEN DATE(bo.Datetime) = CURDATE() THEN bd.Total_pay ELSE 0 END) AS new_orders_amount,
-                SUM(CASE WHEN bo.Booking_status = 2 THEN bd.Total_pay ELSE 0 END) AS approved_orders_amount,
-                SUM(CASE WHEN bo.refund = 1 THEN bd.Total_pay ELSE 0 END) AS cancelled_orders_amount,
-                MONTH(bo.Datetime) AS order_month,
-                YEAR(bo.Datetime) AS order_year
+                IFNULL(SUM(bd.Total_pay), 0) AS total_amount,
+                IFNULL(SUM(CASE WHEN DATE(bo.created_at) = CURDATE() THEN bd.Total_pay ELSE 0 END), 0) AS new_orders_amount,
+                IFNULL(SUM(CASE WHEN bo.Booking_status = 2 THEN bd.Total_pay ELSE 0 END), 0) AS approved_orders_amount,
+                IFNULL(SUM(CASE WHEN bo.refund = 1 THEN bd.Total_pay ELSE 0 END), 0) AS cancelled_orders_amount,
+                MONTH(bo.created_at) AS order_month,
+                YEAR(bo.created_at) AS order_year,
+                t.vung
             FROM
                 booking_ordertour bo
-            INNER JOIN
+            LEFT JOIN
                 booking_detail_tour bd ON bo.Booking_id = bd.Booking_id
+            LEFT JOIN
+                tour t ON bo.Tour_id = t.id
             WHERE
-                YEAR(bo.Datetime) = $year
+                YEAR(bo.created_at) = $year
         ";
-
+    
         // Thêm điều kiện tháng nếu có
-        if ($month) {
-            $query .= " AND MONTH(bo.Datetime) = $month";
+        if (!empty($month)) {
+            $query .= " AND MONTH(bo.created_at) = " . intval($month);
         }
-
-        // Thêm nhóm theo tháng và năm
-        $query .= " GROUP BY MONTH(bo.Datetime), YEAR(bo.Datetime)";
-
+    
+        // Thêm điều kiện vùng miền nếu có
+        if (!empty($vung)) {
+            $query .= " AND t.vung = '$vung'";
+        }
+    
+        // Nhóm theo tháng và năm
+        $query .= " GROUP BY MONTH(bo.created_at), YEAR(bo.created_at)";
+    
         // Thực thi truy vấn
         $result = $conn->query($query);
-
+    
         $statistics = [];
         if ($result) {
             while ($row = $result->fetch_assoc()) {
@@ -1169,19 +1314,18 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             header('Content-Type: application/json');
             echo json_encode($statistics);
         } else {
-            // Trả về lỗi nếu truy vấn thất bại
             echo json_encode(['error' => 'Lỗi truy vấn SQL: ' . $conn->error]);
         }
-        exit;
-    } elseif ($action == "get_booking_stats1") {
+    }
+     elseif ($action == "get_booking_stats1") {
         $query = "
             SELECT
                 COUNT(bo.Booking_id) AS total_orders,
-                SUM(CASE WHEN DATE(bo.Datetime) = CURDATE() THEN 1 ELSE 0 END) AS new_orders_today,
+                SUM(CASE WHEN DATE(bo.created_at) = CURDATE() THEN 1 ELSE 0 END) AS new_orders_today,
                 SUM(CASE WHEN bo.Booking_status = 2 THEN 1 ELSE 0 END) AS approved_orders,
                 SUM(CASE WHEN bo.refund = 1 THEN 1 ELSE 0 END) AS cancelled_orders,
                 SUM(bd.Total_pay) AS total_amount,
-                SUM(CASE WHEN DATE(bo.Datetime) = CURDATE() THEN bd.Total_pay ELSE 0 END) AS new_orders_amount,
+                SUM(CASE WHEN DATE(bo.created_at) = CURDATE() THEN bd.Total_pay ELSE 0 END) AS new_orders_amount,
                 SUM(CASE WHEN bo.Booking_status = 2 THEN bd.Total_pay ELSE 0 END) AS approved_orders_amount,
                 SUM(CASE WHEN bo.refund = 1 THEN bd.Total_pay ELSE 0 END) AS cancelled_orders_amount
             FROM
@@ -1405,30 +1549,30 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $query = "
             SELECT
                 COUNT(bo.Booking_id) AS total_orders,
-                SUM(CASE WHEN DATE(bo.Datetime) = CURDATE() THEN 1 ELSE 0 END) AS new_orders_today,
+                SUM(CASE WHEN DATE(bo.created_at) = CURDATE() THEN 1 ELSE 0 END) AS new_orders_today,
                 SUM(CASE WHEN bo.Booking_status = 2 THEN 1 ELSE 0 END) AS approved_orders,
                 SUM(CASE WHEN bo.Refund = 1 THEN 1 ELSE 0 END) AS cancelled_orders,
                 SUM(bd.total_pay) AS total_amount,
-                SUM(CASE WHEN DATE(bo.Datetime) = CURDATE() THEN bd.total_pay ELSE 0 END) AS new_orders_amount,
+                SUM(CASE WHEN DATE(bo.created_at) = CURDATE() THEN bd.total_pay ELSE 0 END) AS new_orders_amount,
                 SUM(CASE WHEN bo.Booking_status = 2 THEN bd.total_pay ELSE 0 END) AS approved_orders_amount,
                 SUM(CASE WHEN bo.Refund = 1 THEN bd.total_pay ELSE 0 END) AS cancelled_orders_amount,
-                MONTH(bo.Datetime) AS order_month,
-                YEAR(bo.Datetime) AS order_year
+                MONTH(bo.created_at) AS order_month,
+                YEAR(bo.created_at) AS order_year
             FROM
                 booking_orderks bo
             INNER JOIN
                 booking_details_ks bd ON bo.Booking_id = bd.Booking_id
             WHERE
-                YEAR(bo.Datetime) = $year
+                YEAR(bo.created_at) = $year
         ";
 
         // Thêm điều kiện tháng nếu có
         if ($month) {
-            $query .= " AND MONTH(bo.Datetime) = $month";
+            $query .= " AND MONTH(bo.created_at) = $month";
         }
 
         // Thêm nhóm theo tháng và năm
-        $query .= " GROUP BY MONTH(bo.Datetime), YEAR(bo.Datetime)";
+        $query .= " GROUP BY MONTH(bo.created_at), YEAR(bo.created_at)";
 
         // Thực thi truy vấn
         $result = $conn->query($query);
@@ -1449,11 +1593,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $query = "
             SELECT
                 COUNT(bo.Booking_id) AS total_orders,
-                SUM(CASE WHEN DATE(bo.Datetime) = CURDATE() THEN 1 ELSE 0 END) AS new_orders_today,
+                SUM(CASE WHEN DATE(bo.created_at) = CURDATE() THEN 1 ELSE 0 END) AS new_orders_today,
                 SUM(CASE WHEN bo.Booking_status = 2 THEN 1 ELSE 0 END) AS approved_orders,
                 SUM(CASE WHEN bo.refund = 1 THEN 1 ELSE 0 END) AS cancelled_orders,
                 SUM(bd.Total_pay) AS total_amount,
-                SUM(CASE WHEN DATE(bo.Datetime) = CURDATE() THEN bd.Total_pay ELSE 0 END) AS new_orders_amount,
+                SUM(CASE WHEN DATE(bo.created_at) = CURDATE() THEN bd.Total_pay ELSE 0 END) AS new_orders_amount,
                 SUM(CASE WHEN bo.Booking_status = 2 THEN bd.Total_pay ELSE 0 END) AS approved_orders_amount,
                 SUM(CASE WHEN bo.refund = 1 THEN bd.Total_pay ELSE 0 END) AS cancelled_orders_amount
              FROM
@@ -1934,9 +2078,22 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         exit;
     } elseif ($action == "xemlichtrinh") {
 
-        $query = "SELECT tour_schedule.*,assignment_tour.*,employees.Name AS emna,employees.id AS idem FROM tour_schedule LEFT JOIN assignment_tour ON tour_schedule.id=assignment_tour.id_toursche 
-        LEFT JOIN employees ON assignment_tour.employid=employees.id
-        
+        $query = "SELECT 
+    tour_schedule.*, 
+    tour_schedule.id AS idsh, 
+    assignment_tour.*, 
+    employees.Name AS emna, 
+    employees.id AS idem, 
+    departure_time.*, 
+    departure_time.id AS iddp
+FROM tour_schedule
+LEFT JOIN assignment_tour ON tour_schedule.id = assignment_tour.id_toursche
+LEFT JOIN employees ON assignment_tour.employid = employees.id
+LEFT JOIN departure_time ON tour_schedule.Date = departure_time.ngaykhoihanh
+GROUP BY tour_schedule.id, departure_time.id
+ORDER BY departure_time.Orders DESC;
+
+
         ";
         $result = $conn->query($query);
 
@@ -2293,11 +2450,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     FROM 
                         schedule 
                     LEFT JOIN 
-                        employees ON schedule.employid = employees.id
+                        employees ON schedule.employee_id  = employees.id
                     WHERE 
-                        schedule.work_date BETWEEN ? AND ? AND employees.id = ?
+                        schedule.shift_date BETWEEN ? AND ? AND employees.id = ?
                     ORDER BY 
-                        schedule.work_date;
+                        schedule.shift_date;
                 ";
 
         $stmt = $conn->prepare($query);
@@ -2334,7 +2491,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
     } elseif ($action == "xemtouryeucau") {
 
-        $query = "SELECT * FROM request_tour where Trangthai=0";
+        $query = "SELECT * FROM request_tour";
         $result = $conn->query($query);
 
         $users = [];

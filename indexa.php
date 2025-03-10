@@ -391,7 +391,7 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
     include_once("viewa/feedback.php");
   }if(isset($_REQUEST['PL'])){
     $show = false;
-    include_once("viewa/phanlichadmin.php");
+    include_once("viewa/phanlichad.php");
   }
   if($show){
     include_once("viewa/thongke.php");

@@ -340,6 +340,7 @@
                     <th>Lịch trình</th>
                     <th>Ngày ở</th>
                     <th>Phương tiện</th>
+                    <th>Trạng thái</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -405,8 +406,14 @@
                             <td>${event.tour_price}</td>
                             <td class="description">${itineraryPreview}...</td>
                             <td>${event.tour_duration}</td>
-                            <td>${event.phuongtien}</td>
-                            <td>
+                            <td>${event.phuongtien}</td> `
+                            if(event.Trangthai == 1){
+                                  eventHtml += `<td><span style="color:green">Đã duyệt</span></td>`
+                            }else{
+                                eventHtml += `<td><span style="color:green">Chưa duyệt</span></td>`
+
+                            }
+                              eventHtml += `<td>
                                 <div class="action-buttons">
                                     <button class="btn edit" data-bs-toggle="modal" data-bs-target="#ratingModal" onclick="openRatingModal('${event.id_request}')">Xem chi tiết</button>
                                     <button class="btn delete" onclick="xoatu('${event.id_request}')">🗑</button>
@@ -426,7 +433,6 @@
     });
 }
 
-
 function openRatingModal(Id) {
     fetch(`./api/apia.php?action=xemtouryeucau1&id=${Id}`)
         .then(response => response.json())
@@ -439,7 +445,7 @@ function openRatingModal(Id) {
                     itineraryHtml += `<p><b>${day}:</b> ${itineraryData[day]}</p>`;
                 }
 
-                document.getElementById('xemchitiet').innerHTML = `
+                let detailHtml = `
                     <div class="form-container">
                         <h2>Xem Chi Tiết</h2>
                         <span><b>Tên khách hàng:</b> ${data[0].customer_name}</span><br>
@@ -448,18 +454,40 @@ function openRatingModal(Id) {
                         <span><b>Gía tour:</b> ${data[0].tour_price}</span><br>
                         <span><b>Ngày ở:</b> ${data[0].tour_duration}</span><br>
                         <span><b>Phương tiện:</b> ${data[0].phuongtien}</span><br>
-                        <span><b>Lịch trình:</b> 
-                        ${itineraryHtml}</span>
-                       <center><button class="btn edit1" style="width:200px" data-bs-toggle="modal" data-bs-target="#ratingModalthem" onclick="loadTourData('${data[0].id_request}');duyet('${data[0].id_request}')">Duyệt</button></center>
+                        <span><b>Lịch trình:</b></span> ${itineraryHtml}
+                `;
 
-                    </div>
-`;
+                // Nếu tour chưa được duyệt (Trangthai == 0), thêm nút duyệt
+                if (data[0].Trangthai == 0) {
+                    detailHtml += `
+                        <center>
+                            <button class="btn edit1" style="width:200px" 
+                                data-bs-toggle="modal" data-bs-target="#ratingModalthem" 
+                                onclick="loadTourData('${data[0].id_request}'); duyet('${data[0].id_request}')">
+                                Duyệt
+                            </button>
+                        </center>
+                    `;
+                }else{
+                    detailHtml += `<center>
+                            <button class="btn edit1" style="width:200px" 
+                                data-bs-toggle="modal" data-bs-target="#ratingModalthem" 
+                                onclick="loadTourData('${data[0].id_request}')">
+                                Thêm
+                            </button>
+                        </center> `;
+                }
+
+                detailHtml += `</div>`; // Đóng div
+
+                document.getElementById('xemchitiet').innerHTML = detailHtml;
             } else {
                 document.getElementById('xemchitiet').innerHTML = 'Không tìm thấy tour';
             }
         })
         .catch(error => console.error('Error:', error));
 }
+
 
 
 function xoatu(id) {

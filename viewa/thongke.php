@@ -80,9 +80,30 @@
 
     <label for="month">Chọn tháng:</label>
     <select id="month">
-        <option value="" disabled selected>Tất cả</option>
+        <option value="" selected>Tất cả</option>
         <option value="1">Tháng 1</option>
         <option value="2">Tháng 2</option>
+        <option value="3">Tháng 3</option>
+        <option value="4">Tháng 4</option>
+        <option value="5">Tháng 5</option>
+        <option value="6">Tháng 6</option>
+        <option value="7">Tháng 7</option>
+        <option value="8">Tháng 8</option>
+        <option value="9">Tháng 9</option>
+        <option value="10">Tháng 10</option>
+        <option value="11">Tháng 11</option>
+        <option value="12">Tháng 12</option>
+        <!-- Các tháng khác -->
+    </select>
+    <label for="vung">Chọn vùng miền:</label>
+    <select id="vung">
+        <option value=""  selected>Tất cả</option>
+        <option value="Nam">Miền Nam</option>
+        <option value="Trung">Miền Trung</option>
+        <option value="Bắc">Miền Bắc</option>
+        <option value="Tây">Miền Tây</option>
+        <option value="Ngoài nước">Nước ngoài</option>
+        
         <!-- Các tháng khác -->
     </select>
     <button onclick="applyFilter()">Tìm kiếm</button>
@@ -91,11 +112,14 @@
 
 
 <script>
-    function applyFilter() {
-        const year = document.getElementById('year').value;
-        const month = document.getElementById('month').value;
-        getBookingStats(year, month);
-    }
+   function applyFilter() {
+    const year = document.getElementById('year').value;
+    const month = document.getElementById('month').value;
+    const vung = document.getElementById('vung').value; // Lấy giá trị vùng miền
+
+    getBookingStats(year, month, vung); // Gửi thêm tham số `vung`
+}
+
 </script>
         <div class="grid">
            <div id="thongke1"></div>
@@ -126,8 +150,19 @@
         <option value="" disabled selected>Tất cả</option>
         <option value="1">Tháng 1</option>
         <option value="2">Tháng 2</option>
+        <option value="3">Tháng 3</option>
+        <option value="4">Tháng 4</option>
+        <option value="5">Tháng 5</option>
+        <option value="6">Tháng 6</option>
+        <option value="7">Tháng 7</option>
+        <option value="8">Tháng 8</option>
+        <option value="9">Tháng 9</option>
+        <option value="10">Tháng 10</option>
+        <option value="11">Tháng 11</option>
+        <option value="12">Tháng 12</option>
         <!-- Các tháng khác -->
     </select>
+    
     <button onclick="applyFilter1()">Tìm kiếm</button>
 </div>
 <script>
@@ -299,10 +334,13 @@ function getBookingStats1() {
 
     });
 }
-function getBookingStats(year, month = null) {
+function getBookingStats(year, month = null,vung = null) {
     let url = `./api/apia.php?action=get_booking_stats&year=${year}`;
     if (month) {
         url += `&month=${month}`;
+    }
+    if (vung) {
+        url += `&vung=${vung}`;
     }
     
     $.ajax({
@@ -310,42 +348,61 @@ function getBookingStats(year, month = null) {
         type: 'GET',
         dataType: 'json',
         success: function(response) {
-          
+            let eventHtml = ''; 
+
             if (Array.isArray(response) && response.length > 0) {
-                var events = response;
-                var eventHtml = ''; 
-                events.forEach(function(event) {
-                    eventHtml += `
-                <div class="card green">
-                <h3>Tổng đơn</h3>
-                <p>${event.total_orders}<br>${formatNumberWithDot(event.total_amount)} đ</p>
-            </div>
-            <div class="card orange">
-                <h3>Đơn đặt mới</h3>
-                <p>${event.new_orders_today}<br>${formatNumberWithDot(event.new_orders_amount)} đ</p>
-            </div>
-            <div class="card blue">
-                <h3>Đơn đã duyệt</h3>
-                <p>${event.approved_orders}<br>${formatNumberWithDot(event.approved_orders_amount)} đ</p>
-            </div>
-            <div class="card red">
-                <h3>Đơn đã hủy</h3>
-                <p>${event.cancelled_orders}<br>${formatNumberWithDot(event.cancelled_orders_amount)} đ</p>
-            </div>
-            `;
-                });
-                $('#thongke1').html(eventHtml);
+                let event = response[0]; // Chỉ lấy dữ liệu đầu tiên nếu có
+                eventHtml = `
+                    <div class="card green">
+                        <h3>Tổng đơn</h3>
+                        <p>${event.total_orders}<br>${formatNumberWithDot(event.total_amount)} đ</p>
+                    </div>
+                    <div class="card orange">
+                        <h3>Đơn đặt mới</h3>
+                        <p>${event.new_orders_today}<br>${formatNumberWithDot(event.new_orders_amount)} đ</p>
+                    </div>
+                    <div class="card blue">
+                        <h3>Đơn đã duyệt</h3>
+                        <p>${event.approved_orders}<br>${formatNumberWithDot(event.approved_orders_amount)} đ</p>
+                    </div>
+                    <div class="card red">
+                        <h3>Đơn đã hủy</h3>
+                        <p>${event.cancelled_orders}<br>${formatNumberWithDot(event.cancelled_orders_amount)} đ</p>
+                    </div>
+                `;
             } else {
-                console.log('Không có dữ liệu thống kê');
+                // Nếu không có dữ liệu, hiển thị 0
+                eventHtml = `
+                    <div class="card green">
+                        <h3>Tổng đơn</h3>
+                        <p>0<br>0 đ</p>
+                    </div>
+                    <div class="card orange">
+                        <h3>Đơn đặt mới</h3>
+                        <p>0<br>0 đ</p>
+                    </div>
+                    <div class="card blue">
+                        <h3>Đơn đã duyệt</h3>
+                        <p>0<br>0 đ</p>
+                    </div>
+                    <div class="card red">
+                        <h3>Đơn đã hủy</h3>
+                        <p>0<br>0 đ</p>
+                    </div>
+                `;
             }
+
+            // Cập nhật nội dung trên giao diện
+            $('#thongke1').html(eventHtml);
         },
         error: function(xhr, status, error) {
-    console.error('Lỗi khi lấy thông tin:', error);
-    console.error('Chi tiết:', xhr.responseText);
-    $('#thongke1').html('<div class="col">Đã xảy ra lỗi khi tải thông tin người dùng.</div>');
-}
+            console.error('Lỗi khi lấy thông tin:', error);
+            console.error('Chi tiết:', xhr.responseText);
+            $('#thongke1').html('<div class="col">Đã xảy ra lỗi khi tải thông tin.</div>');
+        }
     });
 }
+
 
 function getBookingStatsks1() {
     $.ajax({
@@ -452,7 +509,7 @@ function getBookingStatsks(year, month = null) {
         }
 
         // Hàm vẽ biểu đồ
-        function drawChart(data) {
+    function drawChart(data) {
     var ctx = document.getElementById('bookingChart').getContext('2d');
     var bookingChart = new Chart(ctx, {
         type: 'pie', // Chọn loại biểu đồ, ví dụ pie chart

@@ -49,6 +49,14 @@
     border-radius: 8px;
     background-color: white; /* Đảm bảo nền trắng cho vùng cuộn */
 }
+.shift-box {
+    border: 2px solid #007bff; /* Viền xanh */
+    border-radius: 5px; /* Bo góc */
+    padding: 5px;
+    display: inline-block;
+    background-color: #e7f1ff; /* Nền xanh nhạt */
+}
+
   </style>
 </head>
 <body>
@@ -114,107 +122,108 @@
 </div>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  const dateInput = document.getElementById("calendar-date");
-  const prevWeekButton = document.getElementById("prev-week");
-  const nextWeekButton = document.getElementById("next-week");
+    const dateInput = document.getElementById("calendar-date");
+    const prevWeekButton = document.getElementById("prev-week");
+    const nextWeekButton = document.getElementById("next-week");
 
-  // Hàm tính thứ 2 của tuần hiện tại
-  const getMonday = (date) => {
-    const copiedDate = new Date(date);
-    const day = copiedDate.getDay(); // Lấy thứ trong tuần
-    const diff = day === 0 ? -6 : 1 - day; // Nếu là Chủ Nhật, lùi về Thứ Hai tuần trước
-    copiedDate.setDate(copiedDate.getDate() + diff);
-    return copiedDate;
-  };
+    // Lấy ngày thứ 2 của tuần
+    const getMonday = (date) => {
+        const copiedDate = new Date(date);
+        const day = copiedDate.getDay();
+        const diff = day === 0 ? -6 : 1 - day;
+        copiedDate.setDate(copiedDate.getDate() + diff);
+        return copiedDate;
+    };
 
-  // Hàm fetch dữ liệu từ API
-  const fetchSchedule = async (startDate) => {
-    try {
-      // Lấy ngày thứ 2 của tuần
-      const weekStart = getMonday(new Date(startDate));
-      const formattedStartDate = weekStart.toISOString().split("T")[0];
+    // Fetch dữ liệu lịch làm việc
+    const fetchSchedule = async (startDate) => {
+        try {
+            const weekStart = getMonday(new Date(startDate));
+            const formattedStartDate = weekStart.toISOString().split("T")[0];
 
-      // Gửi request đến API
-      const response = await fetch(`./api/apia.php?action=lichcskh&start_date=${formattedStartDate}`);
-      if (!response.ok) {
-        throw new Error("Lỗi khi gọi API");
-      }
+            // Gọi API lấy dữ liệu lịch làm việc
+            const response = await fetch(`./api/apia.php?action=lichcskh&start_date=${formattedStartDate}`);
+            if (!response.ok) {
+                throw new Error("Lỗi khi gọi API");
+            }
 
-      const schedule = await response.json();
+            const schedule = await response.json();
 
-      // Xóa nội dung cũ
-      document.querySelectorAll("tbody td[id]").forEach((cell) => {
-        cell.innerHTML = "";
-      });
+            // Xóa nội dung cũ trong bảng lịch
+            document.querySelectorAll("tbody td[id]").forEach((cell) => {
+                cell.innerHTML = "";
+            });
 
-      // Cập nhật ngày trong tiêu đề
-      const dayIds = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
-      dayIds.forEach((dayId, index) => {
-        const headerCell = document.getElementById(`header-${dayId}`);
-        const dayDate = new Date(weekStart);
-        dayDate.setDate(weekStart.getDate() + index);
-        const formattedDate = formatDate(dayDate);
+            // Cập nhật ngày trong tiêu đề
+            const dayIds = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
+            dayIds.forEach((dayId, index) => {
+                const headerCell = document.getElementById(`header-${dayId}`);
+                const dayDate = new Date(weekStart);
+                dayDate.setDate(weekStart.getDate() + index);
+                const formattedDate = formatDate(dayDate);
 
-        if (headerCell) {
-          headerCell.innerHTML = `Thứ ${index + 2}<br><strong>${formattedDate}</strong>`;
+                if (headerCell) {
+                    headerCell.innerHTML = `Thứ ${index + 2}<br><strong>${formattedDate}</strong>`;
+                }
+            });
+
+            // Đổ dữ liệu vào bảng lịch
+          // Đổ dữ liệu vào bảng lịch
+          schedule.forEach((item) => {
+              const itemDate = new Date(item.shift_date);
+              const dayIndex = (itemDate.getDay() === 0 ? 6 : itemDate.getDay() - 1); // 0: Chủ Nhật → 6
+
+              let period = "";
+              if (item.shift === "Sáng") period = "morning";
+              else if (item.shift === "Chiều") period = "afternoon";
+              else if (item.shift === "Tối") period = "evening";
+
+              const cellId = `${period}-${dayIds[dayIndex]}`;
+              const cell = document.getElementById(cellId);
+
+              if (cell) {
+                  const content = document.createElement("div");
+                  content.classList.add("shift-box"); // Thêm lớp CSS
+                  content.innerHTML = `<span>${item.Name}</span><br><small>(${item.shift_date})</small>`;
+                  cell.appendChild(content);
+              }
+          });
+
+        } catch (error) {
+            console.error("Lỗi khi tải lịch:", error);
         }
-      });
+    };
 
-      // Đổ dữ liệu vào các ô
-      schedule.forEach((item) => {
-        const itemDate = new Date(item.work_date);
-        const dayIndex = (itemDate.getDay() === 0 ? 6 : itemDate.getDay() - 1);
-        const hour = itemDate.getHours();
+    // Điều chỉnh tuần
+    const adjustWeek = (direction) => {
+        const currentDate = new Date(dateInput.value);
+        const weekStart = getMonday(currentDate);
+        weekStart.setDate(weekStart.getDate() + direction * 7);
+        dateInput.value = weekStart.toISOString().split("T")[0];
+        fetchSchedule(dateInput.value);
+    };
 
-        // Xác định khoảng thời gian
-        let period = "";
-        if (hour >= 0 && hour < 12) period = "morning";
-        else if (hour >= 12 && hour < 18) period = "afternoon";
-        else period = "evening";
+    // Format ngày
+    const formatDate = (date) => {
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    };
 
-        const cellId = `${period}-${dayIds[dayIndex]}`;
-        const cell = document.getElementById(cellId);
-
-        if (cell) {
-          const content = document.createElement("div");
-          content.innerHTML = `<span>${item.work_date}</span><br><span>(${item.Name})</span>`;
-          cell.appendChild(content);
-        }
-      });
-    } catch (error) {
-      console.error("Lỗi khi tải lịch:", error);
-    }
-  };
-
-  // Hàm thay đổi tuần
-  const adjustWeek = (direction) => {
-    const currentDate = new Date(dateInput.value);
-    const weekStart = getMonday(currentDate);
-    weekStart.setDate(weekStart.getDate() + direction * 7);
-    dateInput.value = weekStart.toISOString().split("T")[0];
+    // Khởi tạo
+    const today = new Date();
+    dateInput.value = today.toISOString().split("T")[0];
     fetchSchedule(dateInput.value);
-  };
 
-  // Định dạng ngày
-  const formatDate = (date) => {
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
-  };
+    // Sự kiện điều hướng tuần
+    prevWeekButton.addEventListener("click", () => adjustWeek(-1));
+    nextWeekButton.addEventListener("click", () => adjustWeek(1));
 
-  // Khởi tạo
-  const today = new Date();
-  dateInput.value = today.toISOString().split("T")[0];
-  fetchSchedule(dateInput.value);
-
-  // Sự kiện nút điều hướng tuần
-  prevWeekButton.addEventListener("click", () => adjustWeek(-1));
-  nextWeekButton.addEventListener("click", () => adjustWeek(1));
-
-  // Sự kiện chọn ngày
-  dateInput.addEventListener("change", () => fetchSchedule(dateInput.value));
+    // Sự kiện chọn ngày
+    dateInput.addEventListener("change", () => fetchSchedule(dateInput.value));
 });
+
 
 
 </script>
