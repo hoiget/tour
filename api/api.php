@@ -306,7 +306,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
             if ($stmt_detail->execute()) {
                 // 3. Cập nhật số lượng đặt chỗ trong departure_time
-                $update_departure_query = "UPDATE departure_time SET Orders = Orders + ? WHERE id_tour = ? AND DATETIME = ?";
+                $update_departure_query = "UPDATE departure_time SET Orders = Orders + ? WHERE id_tour = ? AND ngaykhoihanh = ?";
                 $stmt_departure = $conn->prepare($update_departure_query);
     
                 if (!$stmt_departure) {
