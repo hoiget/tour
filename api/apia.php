@@ -2334,7 +2334,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
     } elseif ($action == "xemtouryeucau") {
 
-        $query = "SELECT * FROM request_tour";
+        $query = "SELECT * FROM request_tour where Trangthai=0";
         $result = $conn->query($query);
 
         $users = [];
@@ -2377,7 +2377,25 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
 
 
-    } elseif ($action == "xemtrangthai") {
+    }  elseif ($action == "duyet") {
+
+        $id = $_GET['id'];
+
+        // Kiểm tra xem người dùng đã tồn tại trong cơ sở dữ liệu chưa
+
+        $insert_query = "UPDATE request_tour SET Trangthai=1 where id_request = '$id'";
+
+
+        if ($conn->query($insert_query) === TRUE) {
+            echo 'gui';
+        } else {
+            echo 'kotc';
+        }
+
+
+
+    } 
+    elseif ($action == "xemtrangthai") {
       
         $query = "
     SELECT 

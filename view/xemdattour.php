@@ -379,28 +379,35 @@ function loadBookingData(event) {
     const bookingTime = new Date(event.booking_time); // Thời gian đặt đơn
     const currentTime = new Date(); // Thời gian hiện tại
     const diffInMinutes = Math.floor((currentTime - bookingTime) / 60000); // Tính số phút đã trôi qua
-    const remainingMinutes = 60 - diffInMinutes; // Số phút còn lại để hủy
+    const remainingMinutes = 7200 - diffInMinutes; // 5 ngày = 7200 phút
 
     let cancelButton = '';
     let countdownText = '';
     let suaButton = '';
 
-    if (remainingMinutes > 0 && event.refund == '0') { 
+    if (remainingMinutes > 0 && event.refund == '0') {
+        // Tính toán ngày, giờ, phút còn lại
+        const days = Math.floor(remainingMinutes / 1440); // 1 ngày = 1440 phút
+        const hours = Math.floor((remainingMinutes % 1440) / 60); // Lấy phần giờ còn lại
+        const minutes = remainingMinutes % 60; // Lấy phần phút còn lại
+
         cancelButton = `<button style="width:340px;" class="btn cancel" onclick="huydontour(${event.Booking_id}, ${event.participants}, ${event.Tour_id})">Hủy đơn</button>`;
 
-        countdownText = `<p style="color: red; font-weight: bold;">Thời gian còn lại để hủy và sửa: ${remainingMinutes} phút</p>`;
-       
+        countdownText = `<p style="color: red; font-weight: bold;">Thời gian còn lại để hủy và sửa: ${days} ngày ${hours} giờ ${minutes} phút</p>`;
+
         suaButton = `<button style="width:340px;" id="btn-sua" class="btn edit" data-bs-toggle="modal" data-bs-target="#ratingModal" onclick="openRatingModal1('${event.Booking_id}')">Sửa tour</button>`;
     }
 
     let detailsHtml = `
         ${countdownText}  <!-- Hiển thị thời gian còn lại -->
-        ${cancelButton}   <!-- Chỉ hiển thị nếu còn trong 60 phút -->
+        ${cancelButton}   <!-- Chỉ hiển thị nếu còn trong 5 ngày -->
         ${suaButton}
     `;
 
     $('#orderDetails_' + event.Booking_id).html(detailsHtml); // Cập nhật phần tử đúng ID
 }
+
+
 
 
 function xemtrangthai() {

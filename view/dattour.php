@@ -189,6 +189,7 @@ button:hover {
 </div><br>
 <h2>Thông tin khách hàng</h2>
 <div id="adult-forms"></div>
+
 <div id="children-forms"></div>
 <div id="babies-forms"></div>
 <br>
@@ -310,7 +311,6 @@ function selectPayment(selectedOption) {
 document.addEventListener('DOMContentLoaded', async function () {
     let calendarEl = document.getElementById('calendar');
 
-    // Kiểm tra xem FullCalendar có thực sự được load không
     if (typeof FullCalendar === 'undefined') {
         console.error("Lỗi: FullCalendar chưa được load đúng cách!");
         return;
@@ -318,12 +318,12 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     let calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
-        locale: 'vi', // Set ngôn ngữ tiếng Việt
+        locale: 'vi',
         selectable: true,
         events: async function (fetchInfo, successCallback, failureCallback) {
             try {
-              const urlParams = new URLSearchParams(window.location.search);
-              const idtour = urlParams.get('dattour'); // Lấy ID từ URL
+                const urlParams = new URLSearchParams(window.location.search);
+                const idtour = urlParams.get('dattour'); // Lấy ID từ URL
                 let response = await fetch('./api/api.php?action=xemdattour&dattour=' + idtour);
                 if (!response.ok) {
                     throw new Error("Lỗi khi tải dữ liệu từ API");
@@ -331,7 +331,6 @@ document.addEventListener('DOMContentLoaded', async function () {
                 let data = await response.json();
 
                 let events = data.map(item => ({
-               
                     title: item.Price.toLocaleString('vi-VN').replace(/\./g, '') + "₫",
                     start: item.departure_date,
                     color: item.is_available ? '#ff0000' : '#cccccc',
@@ -348,23 +347,34 @@ document.addEventListener('DOMContentLoaded', async function () {
             }
         },
         dateClick: function (info) {
+            let selectedDate = new Date(info.dateStr);
+            let today = new Date();
+            today.setHours(0, 0, 0, 0); // Đặt giờ về 00:00 để chỉ so sánh ngày
+
+            if (selectedDate <= today) {
+                openPopup("Bạn chỉ có thể chọn ngày sau hôm nay!", '');
+                return;
+            }
+
             let selectedEvent = calendar.getEvents().find(event => event.startStr === info.dateStr);
             if (selectedEvent && selectedEvent.extendedProps.isAvailable) {
-                // Cập nhật giá trị ngày khởi hành vào input
                 document.getElementById('ns').value = info.dateStr;
-                const dateStr = info.dateStr; // Giả sử giá trị là "2025-03-08"
+
+                const dateStr = info.dateStr; 
                 const [year, month, day] = dateStr.split("-");
                 const formattedDate = `${day}/${month}/${year}`;
-                document.getElementById('ns1').innerText =formattedDate;
-                openPopup("Bạn đã chọn ngày khởi hành: " + info.dateStr,'');
+                document.getElementById('ns1').innerText = formattedDate;
+
+                openPopup("Bạn đã chọn ngày khởi hành: " + formattedDate, '');
             } else {
-                openPopup("Ngày này không khả dụng!",'');
+                openPopup("Ngày này không khả dụng!", '');
             }
         }
     });
 
     calendar.render();
 });
+
 </script>
 <br><br>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -533,7 +543,7 @@ function xemdattour() {
   function dattourfull() {
     // Lấy giá trị từ input type="date"
     if (!selectedMethod) {
-        alert("Vui lòng chọn phương thức thanh toán!");
+      openPopup("Vui lòng chọn phương thức thanh toán!","");
         return;
     }
 
@@ -706,7 +716,7 @@ function createForm(containerId, label, count, type, existingData = []) {
                 <input type="text" name="hot" value="${data.hoten}" required>
 
                 <label>Ngày sinh:</label>
-                <input type="date" name="ngaysi" value="${data.ngaysinh}" required>
+                <input type="date" name="ngaysi" value="${data.ngaysinh}" required onchange="validateDOB(this)">
                 
                 <label>Giới tính:</label>
                 <select name="gioit">
@@ -720,8 +730,20 @@ function createForm(containerId, label, count, type, existingData = []) {
     }
 }
 
+function validateDOB(input) {
+    const selectedDate = new Date(input.value);
+    const currentYear = new Date().getFullYear();
+    const selectedYear = selectedDate.getFullYear();
+
+    if (selectedYear >= currentYear) {
+      openPopup("Ngày sinh không hợp lệ! Vui lòng chọn năm nhỏ hơn năm hiện tại.","");
+        input.value = ""; // Xóa giá trị không hợp lệ
+    }
+}
+
 // Gọi lần đầu
 generateForms();
+
 
 
 </script>

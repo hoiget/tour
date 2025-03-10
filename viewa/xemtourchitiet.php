@@ -223,6 +223,7 @@ function xemdanhgiarating() {
                         </div>
                     </div>
                     <p style="color:black; font-size:20px; white-space: pre-line;">
+                        ${event.Itinerary}
                         ${event.Description}
                         </p>`;
 

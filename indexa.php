@@ -263,12 +263,7 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
           <span>Xem tour</span>
         </a>
       </li><!-- End Dashboard Nav -->
-      <li class="nav-item">
-        <a class="nav-link " href="indexa.php?xemdattour">
-        <i class="bi bi-receipt"></i> 
-          <span>Xem đơn đặt tour</span>
-        </a>
-      </li><!-- End Dashboard Nav -->
+     
       <?php } ?>
 <?php if($role == 'HDV'){?>
   <li class="nav-item">
@@ -349,7 +344,7 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
          <?php if($role == 'CSKH'){?>
           <li>
             <a href="indexa.php?qldichvu">
-            <i class="bi bi-lightbulb"></i><span>Quản lý đơn dịch vụ</span>
+            <i class="bi bi-lightbulb"></i><span>Quản lý đơn tour</span>
             </a>
           </li>
           <li>
@@ -475,7 +470,7 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
       include_once("viewa/xemdattour.php");
       
     }
-    include_once("view/message.php");
+  
     if($show){
       include_once("viewa/thongke.php");
   }

@@ -270,9 +270,9 @@
                         </div>
                          <div class="form-group">
                             <div>
-                                <label for="Title">Chuyến đi:</label>
+                                <label for="Title">Lịch trình:</label>
+                                <textarea id="itinerary" id="cd" name="cd"></textarea>
                                
-                                <input type="text" id="cd" name="cd" value="">
                             </div>
                              <div hidden>
                                 <label for="Title">Người tạo:</label>
@@ -579,9 +579,10 @@ function openRatingModal(Id) {
                         </div>
                          <div class="form-group">
                             <div>
-                                <label for="Title">Chuyến đi:</label>
+                                <label for="Title">Lịch trình:</label>
+                                <textarea id="itinerary" id="cd" name="cd">${data[0].Itinerary}</textarea>
                                
-                                <input type="text" id="cd" name="cd" value="${data[0].Itinerary}">
+                              
                             </div>
                              <div hidden>
                                 <label for="Title">Người tạo:</label>
