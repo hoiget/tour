@@ -148,6 +148,8 @@
     </style>
 
 <h1>Quản lý dịch vụ tour</h1>
+
+
 <div class="modal fade" id="ratingModal" tabindex="" aria-labelledby="ratingModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg"> <!-- Thêm modal-lg ở đây -->
         <div class="modal-content">
@@ -167,7 +169,7 @@
 </div> 
 <div class="container">
     <div class="search-bar">
- 
+    <span style="padding-right:10px">Tìm kiếm:</span><input style="width:400px;height:40px" type="text" id="search" name="KH" placeholder="Tên khách hàng/Mã tour" onkeydown="searchkh(event)"> 
   
 </div>
 
@@ -261,7 +263,78 @@
     });
 }
 
+function searchkh(event) {
+    if (event && event.key === "Enter") {  // Kiểm tra nếu event và phím bấm là Enter
+        var searchValue = $('#search').val(); // Lấy giá trị từ ô input với id "search"
 
+        // Nếu không có gì để tìm kiếm, không làm gì
+        if (searchValue.trim() === "") {
+            xemdichvu();
+            return;
+        }
+
+        $.ajax({
+            url: './api/apia.php', // API tìm kiếm nhân viên
+            type: 'GET', // Sử dụng phương thức GET
+            data: { action: 'timkhMT', KH: searchValue }, // Gửi mã nhân viên tìm kiếm qua GET
+            dataType: 'json', // Kết quả trả về là JSON
+            success: function(response) {
+                console.log(response)
+                if (Array.isArray(response) && response.length > 0) {
+                    var events = response;
+                    var eventHtml = '';
+                    events.forEach(function(event) {
+                     
+                        eventHtml += `
+                     
+                     <tr>
+                   <td>${event.Booking_id}</td>
+                   <td>${event.Tour_name}</td>
+                   <td>${event.Price}</td>
+                   <td>${event.Total_pay}</td>
+                   <td>${event.User_name}</td>
+                   <td>${event.Phone_num}</td>
+                   <td>${event.Address}</td>
+                   <td>${event.Arrival}</td>
+                   <td>${event.Datetime}</td>
+                   <td>${event.participants}</td>     
+                   `;
+               if(event.refund == '1'){
+                   eventHtml += '<td><span style="color:red">Hủy đơn</span>' 
+                   if(event.Payment_status =='2'){
+                       eventHtml += '<br><span style="color:orange;">Chưa hoàn tiền</span></td>' 
+                   }
+               }else if(event.Booking_status == '1'){
+                   
+                    eventHtml += '<td><span style="color:green">Chưa xác nhận</span></td>' 
+                   
+               }else{
+                   eventHtml += '<td><span style="color:green">Xác nhận</span></td>' 
+               }
+                   
+                    eventHtml +=`<td>
+                       <div class="action-buttons">
+                           <button class="btn edit" onclick="xacnhan('${event.Booking_id}')">✔</button>
+                           <button class="btn delete" onclick="huydon('${event.Booking_id}')">🗑</button>
+                           <button style="width:50px;height:30px" id="btn-sua" class="btn edit" data-bs-toggle="modal" data-bs-target="#ratingModal" onclick="openRatingModal1('${event.Booking_id}')">Sửa tour</button>
+                       </div>
+                   </td>
+               </tr> 
+`;
+            
+                    });
+                    $('#employee-table').html(eventHtml);
+                } else {
+                    $('#employee-table').html('<tr><td colspan="8">Không tìm thấy tour nào.</td></tr>');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Lỗi khi lấy thông tin:', error);
+                $('#employee-table').html('<tr><td colspan="8">Đã xảy ra lỗi khi tải thông tin.</td></tr>');
+            }
+        });
+    }
+}
 function xacnhan(id) {
        
        fetch('./api/apia.php?action=xacnhantour&id=' + id)

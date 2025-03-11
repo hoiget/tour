@@ -105,6 +105,10 @@ h3{
 .ndo{
     color:black;
 }
+.review p{
+    color:black;
+}
+
 </style>
 <main class="main-content">
 
@@ -265,9 +269,9 @@ function xemdanhgia() {
                             <div style="flex: 1; border-right: 1px solid #ddd; padding-right: 10px;">
                                 <p><strong>Tên:</strong> ${event.Username}</p>
                             </div>
-                            <div style="flex: 2; padding-left: 10px;">
+                            <div class="danh" style="flex: 2; padding-left: 10px;">
                                 <p><strong>Nội dung:</strong> ${event.Review}</p>
-                                <p><strong>Đánh giá:</strong> ${'★'.repeat(event.Rating)}</p>
+                                <p style="color:orange"><strong style="color:black">Đánh giá:</strong> ${'★'.repeat(event.Rating)}</p>
                                 <p><strong>Ngày:</strong> ${event.Datetime || 'Không có thông tin ngày'}</p>
                             </div>
                         </div>

@@ -105,15 +105,6 @@
                     <input type="text" id="address" name="address" placeholder="Nhập địa chỉ">
                 </div>
             </div>
-            <div class="form-group full-width">
-                <label for="role">Vai trò:</label>
-                <select id="role" name="role">
-                    <option value="" disabled selected>Chọn vai trò</option>
-                    <option value="QL">Quản lý</option>
-                    <option value="CSKH">Chăm sóc khách hàng</option>
-                    <option value="HDV">Hướng dẫn viên</option>
-                </select>
-            </div>
             <button type="submit" class="submit-btn">Tạo tài khoản</button>
         </form>
     </div>

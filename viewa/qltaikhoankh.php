@@ -370,7 +370,7 @@ function searchkh(event) {
 
         // Nếu không có gì để tìm kiếm, không làm gì
         if (searchValue.trim() === "") {
-            $('#employee-table').html(""); // Xóa kết quả tìm kiếm
+            xemkh();
             return;
         }
 

@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email = $_POST['email']; // Lấy email từ session
         $phone = $_POST['phone'];  // Lấy số điện thoại từ session
         $address = $_POST['address'];
-        $role = $_POST['role'];
+        
         $date = date("Y-m-d");
 
 
@@ -59,12 +59,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         // Cập nhật thông tin người dùng
-        $insert_query = "INSERT INTO employees (Employee_code, Name,Username, Password, Email, Phone_number, Address, Permissions, Created_at) 
-        VALUES (?, ?, ?, MD5(?), ?, ?, ?, ? , ?)";
+        $insert_query = "INSERT INTO employees (Employee_code, Name,Username, Password, Email, Phone_number, Address, Created_at) 
+        VALUES (?, ?, ?, MD5(?), ?, ?, ? , ?)";
 
         // Sử dụng prepared statements để tránh SQL injection
         $stmt = $conn->prepare($insert_query);
-        $stmt->bind_param("sssssssss", $ma, $username, $username, $password, $email, $phone, $address, $role, $date);
+        $stmt->bind_param("ssssssss", $ma, $username, $username, $password, $email, $phone, $address, $date);
 
 
 
@@ -82,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email = $_POST['email'];              // Email
         $phone = $_POST['phone'];              // Số điện thoại
         $address = $_POST['address'];          // Địa chỉ
-        $role = $_POST['role'];
+       
         $date = date("Y-m-d");             // Vai trò
 
 
@@ -102,7 +102,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 Email = ?, 
                 Phone_number = ?, 
                 Address = ?, 
-                Permissions = ?,
                 Created_at=?
                 WHERE id = ?";
 
@@ -111,7 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo 'prepare_error: ' . $conn->error;
                 exit;
             }
-            $stmt->bind_param("ssssssssi", $ma, $username, $username, $email, $phone, $address, $role, $date, $id);
+            $stmt->bind_param("sssssssi", $ma, $username, $username, $email, $phone, $address,$date, $id);
         } else {
             // Nếu mật khẩu mới được cung cấp, mã hóa mật khẩu và cập nhật
             $update_query = "UPDATE employees SET 
@@ -122,7 +121,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 Email = ?, 
                 Phone_number = ?, 
                 Address = ?, 
-                Permissions = ?,
                 Created_at=?
                 WHERE id = ?";
 
@@ -131,7 +129,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo 'prepare_error: ' . $conn->error;
                 exit;
             }
-            $stmt->bind_param("sssssssssi", $ma, $username, $username, $password, $email, $phone, $address, $role, $date, $id);
+            $stmt->bind_param("ssssssssi", $ma, $username, $username, $password, $email, $phone, $address, $date, $id);
         }
 
         // Thực thi câu truy vấn
@@ -1398,7 +1396,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         // Kiểm tra nếu mã nhân viên không rỗng
         if (!empty($code)) {
             // Truy vấn cơ sở dữ liệu để tìm kiếm nhân viên có mã nhân viên tương tự
-            $query = "SELECT * FROM employees WHERE Employee_code LIKE '%$code%'";
+            $query = "SELECT * FROM employees WHERE Employee_code LIKE '%$code%' OR Name LIKE '%$code%'";
             $result = $conn->query($query);
 
             $users = [];
@@ -1446,11 +1444,23 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         // Kiểm tra nếu mã nhân viên không rỗng
         if (!empty($code)) {
             // Truy vấn cơ sở dữ liệu để tìm kiếm nhân viên có mã nhân viên tương tự
-            $query = "SELECT tour.*,tour.id AS idtour,tour_images.*,departure_time.*,departure_time.id AS iddepart,employees.Name AS tennhanvien,employees.id FROM tour 
-        LEFT JOIN tour_images ON tour.id = tour_images.id_tour
-        LEFT JOIN departure_time ON tour.id = departure_time.id_tour
-        LEFT JOIN employees ON tour.employeesId = employees.id
-        WHERE tour.id='$code'";
+            $query = "SELECT 
+            tour.*, 
+            tour.id AS idtour, 
+            tour_images.*, 
+            departure_time.*, 
+            departure_time.id AS iddepart, 
+            employees.Name AS tennhanvien, 
+            employees.id, 
+            GROUP_CONCAT(DISTINCT departure_dates.departure_date ORDER BY departure_dates.departure_date ASC) AS departure_dates
+        FROM tour 
+        LEFT JOIN tour_images ON tour.id = tour_images.id_tour 
+        LEFT JOIN departure_time ON tour.id = departure_time.id_tour 
+        LEFT JOIN employees ON tour.employeesId = employees.id 
+        LEFT JOIN departure_dates ON tour.id = departure_dates.tour_id
+         WHERE tour.id='$code'
+        GROUP BY tour.id 
+       ";
             $result = $conn->query($query);
 
             $users = [];
@@ -2093,13 +2103,12 @@ LEFT JOIN assignment_tour ON tour_schedule.id = assignment_tour.id_toursche
 LEFT JOIN employees ON assignment_tour.employid = employees.id
 LEFT JOIN departure_time ON tour_schedule.Date = departure_time.ngaykhoihanh
 
-AND departure_time.Orders = (
-        SELECT MAX(Orders) FROM departure_time WHERE departure_time.ngaykhoihanh = tour_schedule.Date
-    );
+GROUP BY tour_schedule.id 
+ORDER BY departure_time.ngaykhoihanh ASC
 
 
         ";
-    
+      
         $result = $conn->query($query);
 
         $users = [];
@@ -2649,9 +2658,9 @@ LEFT JOIN assignment_tour ON tour_schedule.id = assignment_tour.id_toursche
 LEFT JOIN employees ON assignment_tour.employid = employees.id
 LEFT JOIN departure_time ON tour_schedule.Date = departure_time.ngaykhoihanh
 WHERE (tour_schedule.id = '$code' OR tour_schedule.Name LIKE '%$code%')
-AND departure_time.Orders = (
-    SELECT MAX(Orders) FROM departure_time WHERE departure_time.ngaykhoihanh = tour_schedule.Date
-);
+
+GROUP BY tour_schedule.id 
+ORDER BY departure_time.ngaykhoihanh ASC
 
 
 
@@ -2673,7 +2682,60 @@ AND departure_time.Orders = (
         }
         exit;
     }
+    elseif ($action == "xoalichtrinh") {
+        $id = $_GET['id'];
 
+        // Xóa lịch trình theo ID
+        $query = "DELETE FROM tour_schedule WHERE id = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $id);
+        if ($stmt->execute()) {
+            echo 'delete_success';
+        } else {
+            echo 'delete_failed';
+        }
+    }
+    elseif ($action == "timkhMT") {
+        // Lấy giá trị 'MANV' từ tham số GET
+        $code = $_GET['KH'];
+      
+        // Kiểm tra nếu mã nhân viên không rỗng
+        if (!empty($code)) {
+            $query = "SELECT * FROM booking_ordertour INNER JOIN booking_detail_tour ON booking_ordertour.Booking_id=booking_detail_tour.Booking_id 
+            WHERE (booking_ordertour.Booking_id = '$code' OR  booking_detail_tour.User_name LIKE '%$code%')
+        ";
+            $result = $conn->query($query);
+
+            $users = [];
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $users[] = $row; // Lưu từng bản ghi vào mảng
+                }
+            }
+
+            // Trả về mảng nhân viên dưới dạng JSON
+            echo json_encode($users);
+        } else {
+            // Trả về mảng rỗng nếu không có mã nhân viên
+            echo json_encode([]);
+        }
+        exit;
+    }elseif ($action == 'updatePermission') {
+       
+    
+        $id = $_GET['id'];
+        $permission = $_GET['permission'];
+    
+        $sql = "UPDATE employees SET Permissions = ? WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("si", $permission, $id);
+    
+        if ($stmt->execute()) {
+            echo json_encode(["status" => "success"]);
+        } else {
+            echo json_encode(["status" => "error"]);
+        }
+    }
 
 }
 ?>

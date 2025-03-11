@@ -240,6 +240,12 @@ if (isset($_SESSION['login_time']) && ($currentTime - $_SESSION['login_time'] > 
         </a>
       </li><!-- End Dashboard Nav -->
       <!-- End Dashboard Nav -->
+      <li class="nav-item">
+        <a class="nav-link " href="indexa.php?PQ">
+        <i class="bi bi-person-gear"></i>
+          <span>Phân quyền nhân viên</span>
+        </a>
+      </li>
       <?php
 }
 elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
@@ -392,6 +398,9 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
   }if(isset($_REQUEST['PL'])){
     $show = false;
     include_once("viewa/phanlichad.php");
+  }if(isset($_REQUEST['PQ'])){
+    $show = false;
+    include_once("viewa/phanquyen.php");
   }
   if($show){
     include_once("viewa/thongke.php");

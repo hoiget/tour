@@ -1769,7 +1769,9 @@ ORDER BY
         }
         exit;
     } if ($action == "xemhot") {
-        $query = "SELECT departure_time.*,tour_images.*,tour.*,tour.id AS tourid FROM tour INNER JOIN tour_images ON tour.id = tour_images.id_tour LEFT JOIN departure_time ON tour.id = departure_time.id_tour  WHERE Orders < Max_participant AND discount > 0";
+        $query = "SELECT departure_time.*,tour_images.*,tour.*,tour.id AS tourid FROM tour INNER JOIN tour_images ON tour.id = tour_images.id_tour LEFT JOIN departure_time ON tour.id = departure_time.id_tour  WHERE Orders < Max_participant AND discount > 0
+        GROUP BY tour.id 
+        ORDER BY departure_time.ngaykhoihanh ASC";
 
       
         $result = $conn->query($query);
@@ -1786,7 +1788,9 @@ ORDER BY
     } 
     if ($action == "xemyeuthich") {
 
-        $query = "SELECT departure_time.*,tour_images.*,tour.*,tour.id AS tourid FROM tour LEFT JOIN tour_images ON tour.id = tour_images.id_tour LEFT JOIN departure_time ON tour.id = departure_time.id_tour  WHERE Orders < Max_participant AND Orders > 1 LIMIT 10";
+        $query = "SELECT departure_time.*,tour_images.*,tour.*,tour.id AS tourid FROM tour LEFT JOIN tour_images ON tour.id = tour_images.id_tour LEFT JOIN departure_time ON tour.id = departure_time.id_tour  WHERE Orders < Max_participant AND Orders >= 1 
+        GROUP BY tour.id 
+        ORDER BY departure_time.ngaykhoihanh ASC LIMIT 10";
         $result = $conn->query($query);
 
         $users = [];

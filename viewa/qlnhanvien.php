@@ -244,7 +244,7 @@ function searchEmployee(event) {
 
         // Nếu không có gì để tìm kiếm, không làm gì
         if (searchValue.trim() === "") {
-            $('#employee-table').html(""); // Xóa kết quả tìm kiếm
+           xemnhanvien();
             return;
         }
 
@@ -358,23 +358,10 @@ function openRatingModal(Id) {
                     <input type="text" id="address" name="address" value="${data[0].Address}">
                 </div>
             </div>
-            <div class="form-group full-width">
-                <label for="role">Vai trò:</label>
-                <select id="role" name="role">
+           
                       `;
 
-                      if (data[0].Permissions == "QL") {
-    document.getElementById('role').innerHTML += '<option value="QL"  selected>Quản lý</option>';
-} else if (data[0].Permissions == "CSKH") {
-    document.getElementById('role').innerHTML += '<option value="CSKH"  selected>Nhân viên Chăm sóc khách hàng</option>';
-} else if (data[0].Permissions == "HDV") {
-    document.getElementById('role').innerHTML += '<option value="HDV" selected>Hướng dẫn viên</option>';
-}
-                    document.getElementById('role').innerHTML += `
-                    <option value="QL">Quản lý</option>
-                    <option value="CSKH">Chăm sóc khách hàng</option>
-                    <option value="HDV">Hướng dẫn viên</option>
-                </select>`;
+                    
             document.getElementById('xemnv1').innerHTML += `</div>
             <center><button type="submit" class="submit-btn">Cập nhật</button></center>
       

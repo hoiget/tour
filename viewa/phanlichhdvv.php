@@ -33,6 +33,10 @@
     color: white;
   }
 
+  .selected:hover {
+    background: #007bff;
+    color: white;
+  }
   .form-container select {
     width: 100%;
     padding: 8px;
@@ -110,18 +114,21 @@
         if (Array.isArray(response) && response.length > 0) {
           var html = '';
           response.forEach(function (tour) {
-            if(tour.ngaykhoihanh == null){  
-                html += ``;
-            }else{
+            let hdvStatus = tour.emna 
+        ? `<span style="color: green;">${tour.emna}</span>` 
+        : `<span style="color: orange;">Chưa có</span>`;
+
                 html += `<div class="tour-item" data-id="${tour.idsh}" onclick="chonTour(${tour.idsh}, '${tour.Date}')">
                       <b>${tour.Name}</b> <br> Ngày: ${tour.Date} <br> Khởi hành: ${tour.Locations}
                     
                       <br> Ngày ở: ${tour.Day_depart}
                       <br> Lượt đặt: ${tour.Orders}
-                
-                     <br> Hướng dẫn viên đảm nhiệm: ${tour.emna || "Chưa có"}
+                     
+                     <br> Hướng dẫn viên đảm nhiệm: ${hdvStatus}
+                      <br><button style="background-color: red;
+    color: #fff;" class="delete-btn" onclick="xoalichtrinh(${tour.idsh})">🗑️ Xóa</button>
                     </div>`;
-            }
+            
            
           });
           $('#tour-container').html(html);
@@ -140,7 +147,7 @@
 
         // Nếu không có gì để tìm kiếm, không làm gì
         if (searchValue.trim() === "") {
-            $('#tour-container').html(""); // Xóa kết quả tìm kiếm
+            xemlichtrinh();
             return;
         }
 
@@ -154,6 +161,7 @@
                     var events = response;
                     var eventHtml = '';
                     events.forEach(function(event) {
+                     
                         eventHtml += `
                      
                     <div class="tour-item" data-id="${event.idsh}" onclick="chonTour(${event.idsh}, '${event.Date}')">
@@ -162,8 +170,10 @@
                       <br> Ngày ở: ${event.Day_depart}
                       <br> Lượt đặt: ${event.Orders}
                       <br> Hướng dẫn viên đảm nhiệm: ${event.emna || "Chưa có"}
+                      <br><button style="background-color: #007bff;
+    color: #fff;" class="delete-btn" onclick="xoalichtrinh(${event.idsh})">🗑️ Xóa</button>
                     </div>`;
-               
+            
                     });
                     $('#tour-container').html(eventHtml);
                 } else {
@@ -177,6 +187,27 @@
         });
     }
 }
+function xoalichtrinh(id) {
+    if (!confirm("Bạn có chắc chắn muốn xóa lịch trình này?")) return;
+
+    $.ajax({
+        url: './api/apia.php',
+        type: 'GET',
+        data: { action: 'xoalichtrinh', id: id },
+        success: function (response) {
+            if (response === 'delete_success') {
+                openPopup('Thông báo', 'Xóa lịch trình thành công');
+                xemlichtrinh(); // Cập nhật danh sách sau khi xóa
+            } else {
+                openPopup('Lỗi', 'Xóa không thành công');
+            }
+        },
+        error: function () {
+            openPopup('Lỗi', 'Không thể kết nối với máy chủ');
+        }
+    });
+}
+
   function xemhdv() {
     $.ajax({
       url: './api/apia.php?action=xemHDV',
