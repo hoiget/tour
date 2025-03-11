@@ -538,7 +538,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     $insert_depart_query = "INSERT INTO departure_time (id_tour, Orders,Day_depart) VALUES (?, ?,?)";
                     $stmt_depart = $conn->prepare($insert_depart_query);
-                    $stmt_depart->bind_param("iis", $new_tour_id, $order, $depart);
+                    $stmt_depart->bind_param("iis", $new_tour_id, $order, $timetour);
                     $stmt_depart->execute();
 
                     $insert_schedule_query = "INSERT INTO tour_schedule (id_tour, Name,Date,Schedule,Locations) VALUES (?,?,?,?,?)";
@@ -554,7 +554,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $insert_schedule_query = "INSERT INTO tour_schedule (id_tour, Name, Date, Schedule, Locations) VALUES (?,?,?,?,?)";
                         $stmt_schedule = $conn->prepare($insert_schedule_query);
                         
-                        $insert_depart_query = "INSERT INTO departure_time (id_tour, Orders,Day_depart,Datetime) VALUES (?, ?,?,?)";
+                        $insert_depart_query = "INSERT INTO departure_time (id_tour, Orders,Day_depart,ngaykhoihanh) VALUES (?, ?,?,?)";
                         $stmt_depart = $conn->prepare($insert_depart_query);
                         // Duyệt mảng ngày khởi hành và thêm vào database
                         foreach ($departure_dates as $date) {
@@ -566,7 +566,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $stmt_schedule->bind_param("issss", $new_tour_id, $name, $date, $timetour, $departure_location);
                             $stmt_schedule->execute();
 
-                            $stmt_depart->bind_param("iiss", $new_tour_id, $order, $depart,$date);
+                            $stmt_depart->bind_param("iiss", $new_tour_id, $order, $timetour,$date);
                             $stmt_depart->execute();
                         }
                     }
@@ -826,7 +826,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                   INNER JOIN tour_schedule ON tour_schedule.id = assignment_tour.id_toursche 
                                   WHERE DATE(tour_schedule.Date) = DATE(?) 
                                   AND assignment_tour.employid = ? 
-                                  AND assignment_tour.id_toursche != ?";
+                                  AND assignment_tour.id_toursche != ?
+                                  ";
         $stmt = $conn->prepare($check_duplicate_query);
         $stmt->bind_param("sii", $formatted_date, $hdv, $ma);
         $stmt->execute();
@@ -1861,13 +1862,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             departure_time.id AS iddepart, 
             employees.Name AS tennhanvien, 
             employees.id, 
-            GROUP_CONCAT(departure_dates.departure_date ORDER BY departure_dates.departure_date ASC) AS departure_dates
+            GROUP_CONCAT(DISTINCT departure_dates.departure_date ORDER BY departure_dates.departure_date ASC) AS departure_dates
         FROM tour 
         LEFT JOIN tour_images ON tour.id = tour_images.id_tour 
         LEFT JOIN departure_time ON tour.id = departure_time.id_tour 
         LEFT JOIN employees ON tour.employeesId = employees.id 
         LEFT JOIN departure_dates ON tour.id = departure_dates.tour_id
-        GROUP BY tour.id
+        GROUP BY tour.id 
+       
         
         ";
     
@@ -1896,7 +1898,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 employees.Name AS tennhanvien, 
                 employees.id, 
               
-                GROUP_CONCAT(departure_dates.departure_date ORDER BY departure_dates.departure_date ASC) AS departure_dates
+                GROUP_CONCAT(DISTINCT departure_dates.departure_date ORDER BY departure_dates.departure_date ASC) AS departure_dates
             FROM tour 
             LEFT JOIN tour_images ON tour.id = tour_images.id_tour 
             LEFT JOIN departure_time ON tour.id = departure_time.id_tour 
@@ -2090,11 +2092,14 @@ FROM tour_schedule
 LEFT JOIN assignment_tour ON tour_schedule.id = assignment_tour.id_toursche
 LEFT JOIN employees ON assignment_tour.employid = employees.id
 LEFT JOIN departure_time ON tour_schedule.Date = departure_time.ngaykhoihanh
-GROUP BY tour_schedule.id, departure_time.id
-ORDER BY departure_time.Orders DESC;
+
+AND departure_time.Orders = (
+        SELECT MAX(Orders) FROM departure_time WHERE departure_time.ngaykhoihanh = tour_schedule.Date
+    );
 
 
         ";
+    
         $result = $conn->query($query);
 
         $users = [];
@@ -2623,6 +2628,48 @@ ORDER BY departure_time.Orders DESC;
             echo json_encode(["message" => "No tour found for the given ID"]);
         } else {
             echo json_encode($res); // Trả về dữ liệu dạng JSON
+        }
+        exit;
+    }elseif ($action == "timtour") {
+        // Lấy giá trị 'MANV' từ tham số GET
+        $code = $_GET['MAT'];
+      
+        // Kiểm tra nếu mã nhân viên không rỗng
+        if (!empty($code)) {
+            $query = "SELECT 
+    tour_schedule.*, 
+    tour_schedule.id AS idsh, 
+    assignment_tour.*, 
+    employees.Name AS emna, 
+    employees.id AS idem, 
+    departure_time.*, 
+    departure_time.id AS iddp
+FROM tour_schedule
+LEFT JOIN assignment_tour ON tour_schedule.id = assignment_tour.id_toursche
+LEFT JOIN employees ON assignment_tour.employid = employees.id
+LEFT JOIN departure_time ON tour_schedule.Date = departure_time.ngaykhoihanh
+WHERE (tour_schedule.id = '$code' OR tour_schedule.Name LIKE '%$code%')
+AND departure_time.Orders = (
+    SELECT MAX(Orders) FROM departure_time WHERE departure_time.ngaykhoihanh = tour_schedule.Date
+);
+
+
+
+        ";
+            $result = $conn->query($query);
+
+            $users = [];
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $users[] = $row; // Lưu từng bản ghi vào mảng
+                }
+            }
+
+            // Trả về mảng nhân viên dưới dạng JSON
+            echo json_encode($users);
+        } else {
+            // Trả về mảng rỗng nếu không có mã nhân viên
+            echo json_encode([]);
         }
         exit;
     }

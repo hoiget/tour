@@ -1087,6 +1087,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         tour_images.*,
         departure_time.id AS iddeparture,
         departure_time.*,
+        MIN(tour.Price) AS Price,
         departure_dates.*
     FROM 
         tour 
@@ -1098,6 +1099,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         departure_dates ON tour.id = departure_dates.tour_id
     WHERE 
         tour.id = '$id'
+   GROUP BY 
+    departure_dates.departure_date
+ORDER BY 
+    departure_dates.departure_date ASC;
+    
+    
 ";
 
         // Thực hiện truy vấn

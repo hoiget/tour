@@ -426,7 +426,7 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
       include_once("viewa/qlroom.php");
     }if(isset($_REQUEST['hdv'])){
       $show = false;
-      include_once("viewa/phanlichhdv.php");
+      include_once("viewa/phanlichhdvv.php");
     }if(isset($_REQUEST['lichql'])){
       $show = false;
       include_once("viewa/lichql.php");

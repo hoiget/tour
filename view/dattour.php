@@ -331,7 +331,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 let data = await response.json();
 
                 let events = data.map(item => ({
-                    title: item.Price.toLocaleString('vi-VN').replace(/\./g, '') + "₫",
+                    title: item.Price.toLocaleString('vi-VN') + "₫", // Định dạng tiền tệ
                     start: item.departure_date,
                     color: item.is_available ? '#ff0000' : '#cccccc',
                     textColor: item.is_available ? '#ffffff' : '#666666',
@@ -339,6 +339,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                         isAvailable: item.is_available
                     }
                 }));
+
 
                 successCallback(events);
             } catch (error) {
