@@ -388,7 +388,7 @@
                 type: 'GET',
                 dataType: 'json',
                 success: function (response) {
-                    console.log(response);
+                  
                     if (Array.isArray(response) && response.length > 0) {
                         let eventHtml = '';
                         response.forEach(function (tour) {
@@ -457,7 +457,7 @@
         type: 'GET',
         dataType: 'json',
         success: function (response) {
-            console.log(response);
+          
             if (Array.isArray(response) && response.length > 0) {
                 let eventHtml = '';
                 response.forEach(function (tour) {

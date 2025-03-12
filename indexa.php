@@ -479,7 +479,7 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
       include_once("viewa/xemdattour.php");
       
     }
-  
+    include_once("viewa/mesnv.php");
     if($show){
       include_once("viewa/thongke.php");
   }

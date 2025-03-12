@@ -145,10 +145,30 @@
     border-radius: 8px;
     background-color: white; /* Đảm bảo nền trắng cho vùng cuộn */
 }
+#btn-xem{
+     background-color: black;
+    color: white;
+           
+}
     </style>
 
 <h1>Quản lý dịch vụ tour</h1>
-
+<div class="modal fade" id="ratingModalxem" tabindex="" aria-labelledby="ratingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg"> <!-- Thêm modal-lg ở đây -->
+        <div class="modal-content">
+            <div class="modal-header">
+               
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            
+            <div id="xemtour"></div>
+           
+          
+            </div>
+        </div>
+    </div>
+</div> 
 
 <div class="modal fade" id="ratingModal" tabindex="" aria-labelledby="ratingModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg"> <!-- Thêm modal-lg ở đây -->
@@ -246,7 +266,9 @@
                             <button class="btn edit" onclick="xacnhan('${event.Booking_id}')">✔</button>
                             <button class="btn delete" onclick="huydon('${event.Booking_id}')">🗑</button>
                             <button style="width:50px;height:30px" id="btn-sua" class="btn edit" data-bs-toggle="modal" data-bs-target="#ratingModal" onclick="openRatingModal1('${event.Booking_id}')">Sửa tour</button>
-                        </div>
+                            <button style="width:100px;height:30px" id="btn-xem" class="btn xem" data-bs-toggle="modal" data-bs-target="#ratingModalxem" onclick="openRatingModalxem('${event.Booking_id}')">Xem chi tiết</button>
+
+                            </div>
                     </td>
                 </tr> 
 `;
@@ -317,7 +339,9 @@ function searchkh(event) {
                            <button class="btn edit" onclick="xacnhan('${event.Booking_id}')">✔</button>
                            <button class="btn delete" onclick="huydon('${event.Booking_id}')">🗑</button>
                            <button style="width:50px;height:30px" id="btn-sua" class="btn edit" data-bs-toggle="modal" data-bs-target="#ratingModal" onclick="openRatingModal1('${event.Booking_id}')">Sửa tour</button>
-                       </div>
+                         <button style="width:50px;height:30px" id="bt-xem" class="btn xem" data-bs-toggle="modal" data-bs-target="#ratingModalxem" onclick="openRatingModalxem('${event.Booking_id}')">Xem chi tiết</button>
+
+                           </div>
                    </td>
                </tr> 
 `;
@@ -518,6 +542,7 @@ function openRatingModal1(Id) {
         }
     });
 }
+
 function xoapar(id, idtour, booking_id, adult_price, child_rate) {
     fetch(`./api/apia.php?action=xoapar&id=${id}&idtour=${idtour}&booking_id=${booking_id}&adult_price=${adult_price}&child_rate=${child_rate}`)
         .then(response => response.text())
@@ -541,6 +566,144 @@ loginForm.addEventListener("submit", (e) => {
     
     
 });
+
+function openRatingModalxem(Id) {
+    // Lấy thông tin tour và hiển thị trong modal
+    $.ajax({
+        url: './api/apia.php?action=xemtoursua&idt=' + Id,
+        type: 'GET',
+        dataType: 'json',
+        success: function(response) {
+            console.log(response)
+            if (response && response.length > 0) {
+                var item = response[0]; // Lấy thông tin chung từ bản ghi đầu tiên
+                var detailsHtml = `
+                   
+                    <div class="container4">
+                        <h2>THÔNG TIN ĐẶT TOUR</h2>
+            <input type="hidden" id="idtour" name="idtour" value="${item.Tour_id}" >
+                        <!-- Thông tin người đặt tour -->
+                        <div class="user-info">
+                            <h3>Thông tin người đặt</h3>
+                            <div class="form-row">
+                                <div>
+                                    <label for="fullname">Tên tài khoản: ${item.User_name}</label>
+                                   
+                                </div>
+                                <div>
+                                    <label for="phone">Số điện thoại: ${item.Phone_num}</label>
+                                    
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div>
+                                    <label for="address">Địa chỉ: ${item.Address}</label>                               
+                                </div>
+                                
+                            </div>
+                        </div>
+                         <br><br>
+                        <!-- Thông tin tour -->
+                        <div class="tour-info">
+                            <h3>Thông tin tour</h3>
+                            <div class="form-row">
+                                <div>
+                                    <label for="tour-code">Mã: ${item.Booking_id}</label>
+                               
+                                </div>
+                                <div>
+                                    <label for="tour-name">Tên tour: ${item.Tour_name}<label>
+                                   
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div>
+                                    <label for="departure-date">Thời gian khởi hành: ${item.Datetime}</label>
+                                </div>
+                                <div>
+                                    <label for="duration">Thời gian diễn ra tour (ngày): ${item.Day_depart}</label>
+                                   
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div>
+                                    <label for="arrival">Phương tiện di chuyển: ${item.Arrival}</label>
+                                </div>
+                                <div>
+                                    <label for="participants">Số lượng người: ${item.participants}</label>
+                                    
+                                     
+                                </div>
+                            </div>
+                        </div>
+                         <br><br>
+                        <!-- Thông tin giá -->
+                        <div class="pricing-info">
+                            <h3>Thông tin giá</h3>
+                            <div class="form-row">
+                                <div>
+                                    <label for="price">Giá vé: ${item.Price}</label>
+                                </div>
+                                <div>
+                                    <label for="total-price">Tổng tiền: ${item.Total_pay}</label>
+                               
+                                </div>
+                            </div>
+                        </div>
+                        <br><br>
+                        <!-- Thông tin thành viên tham gia -->
+                        <div class="participant-info">
+                            <h3>Thông tin thành viên tham gia</h3>
+                `;
+
+                // Duyệt qua danh sách tất cả thành viên
+                response.forEach((participant, index) => {
+                    
+                    detailsHtml += `
+                        <div class="form-row1">
+                            <div>
+                                <label>${participant.phanloai}:</label>
+                              <input type="hidden" name="id" value="${participant.idpar}" >
+                            </div>
+                            <div>
+                                <label>Họ tên:</label>
+                                <input type="text" name="ht" value="${participant.hoten}" readonly>
+                            </div>
+                            <div>
+                                <label>Ngày sinh:</label>
+                                <input type="date" name="ns" value="${participant.ngaysinh}" readonly>
+                            </div>
+                            <div>
+                                <label>Giới tính:</label>
+                               <br>
+                                <label>${participant.gioitinh}</label>
+                                   
+                                    
+                                
+                            </div>
+                             <div>
+                               
+                            </div>
+                        </div>
+                    <br>`;
+                });
+
+                detailsHtml += `
+                        </div> <!-- Kết thúc thông tin thành viên -->
+                    </div> <!-- Kết thúc container -->
+                `;
+
+                $('#xemtour').html(detailsHtml); 
+            } else {
+                $('#xemtour').html('<div class="col">Không tìm thấy dữ liệu.</div>');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Lỗi khi lấy dữ liệu:', error);
+            $('#xemtour').html('<div class="col">Đã xảy ra lỗi khi tải dữ liệu.</div>');
+        }
+    });
+}
 function capnhathoadon() {
     let data = [];
 

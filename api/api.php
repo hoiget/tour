@@ -491,13 +491,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     elseif ($action == "guitinnhan") {
         $user_id = $_SESSION['id'];
         $sender_type = "user"; // Xác định người gửi là user
-        $tour_id = $_POST['tour_id'];
         $receiver_id = $_POST['receiver_id']; // Hướng dẫn viên (employees.id)
         $message = trim($_POST['message']);
     
         if (!empty($message)) {
-            $stmt = $conn->prepare("INSERT INTO messages (tour_id, sender_id, receiver_id, sender_type, message) VALUES (?, ?, ?, ?, ?)");
-            $stmt->bind_param("iiiss", $tour_id,$user_id, $receiver_id , $sender_type, $message);
+            $stmt = $conn->prepare("INSERT INTO messages (sender_id, receiver_id, sender_type, message) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("iiss",$user_id, $receiver_id , $sender_type, $message);
             
             if ($stmt->execute()) {
                 echo "success";
@@ -1406,10 +1405,10 @@ ORDER BY
         exit;
     }  elseif ($action == "xemtinnhan") {
         $user_id = $_SESSION['id'];
-        $id=$_GET['idt'];
+       
         $query = "
         SELECT * FROM messages 
-        WHERE sender_id='$user_id' AND tour_id='$id'
+        WHERE sender_id='$user_id'
         ORDER BY created_at ASC";
         $result = $conn->query($query);
 
@@ -1453,7 +1452,32 @@ ORDER BY
         exit;
     } 
        
+    elseif ($action == "xemthongnv") {
+      
+        $query = "
+        SELECT 
+        employees.id,employees.Name,employees.Permissions
+      
+    FROM 
+        employees 
+   
+    Where
+        employees.Permissions = 'CSKH'
+        ";
+        $result = $conn->query($query);
+
+        $users = [];
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $users[] = $row; // Lưu từng bản ghi vào mảng
+            }
+        }
+
+        echo json_encode($users); // Trả về JSON
+        exit;
+    } 
        
+     
        
 
     
@@ -1802,7 +1826,23 @@ ORDER BY
 
         echo json_encode($users); // Trả về JSON
         exit;
-    } 
+    } elseif ($action == "check_new_messages") {
+        $user_id = $_SESSION['id'];
+        $query = "SELECT COUNT(*) AS total FROM messages WHERE is_read = 0 AND sender_id = '$user_id'";
+        $result = $conn->query($query);
+        $row = $result->fetch_assoc();
+        echo json_encode(['new_messages' => $row['total']]);
+        exit;
+    }elseif ($action == "mark_as_read") {
+        $user_id = $_SESSION['id'];
+        if ($user_id > 0) {
+            $query = "UPDATE messages SET is_read = 1 WHERE sender_id = '$user_id' AND is_read = 0";
+            $conn->query($query);
+        }
+        echo json_encode(['success' => true]);
+        exit;
+    }
+    
 
 
 }

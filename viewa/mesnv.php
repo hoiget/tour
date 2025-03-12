@@ -1,9 +1,11 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>
     /* Icon tin nhắn */
 #chat-icon {
     position: fixed;
     bottom: 20px;
-    left: 20px;
+    right: 20px;
     width: 50px;
     height: 50px;
     background-color: #007bff;
@@ -16,7 +18,7 @@
     cursor: pointer;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     transition: background 0.3s ease-in-out;
-    z-index: 100;
+    z-index: 1000;
 }
 
 #chat-icon:hover {
@@ -27,7 +29,7 @@
 #chat-box {
     position: fixed;
     bottom: 80px;
-    left: 20px;
+    right: 20px;
     width: 400px;
     background: white;
     border-radius: 10px;
@@ -35,7 +37,7 @@
     padding: 15px;
     display: none;
     flex-direction: column;
-    z-index: 1000;
+    z-index: 100;
 }
 #chat-box p{
 color:black;
@@ -92,80 +94,63 @@ color:black;
 </div>
 
 <div id="chat-box">
-    <p>Chat với chăm sóc khách hàng</p>
-    <form class="guitinnhan" id="guitinnhan" action="./api/api.php" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="action" value="guitinnhan">
-        <div id="xemtt"></div>
-
-        <div id="messages"></div>
+    <p>Chat với khách hàng</p>
+    <form class="guitinnhan" id="guitinnhan" action="./api/apia.php" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="action" value="guitinnhan">
+    <select id="customer-select" onchange="loadMessages()">
+        <option value="">Chọn khách hàng</option>
+    </select>
+    <div id="messages"></div>
+   
+        <input type="text" name="sender_id" id="sender_id" >
+      
         <input type="text" name="message" id="message-input" placeholder="Nhập tin nhắn...">
-        <button id="send-btn">Gửi</button>
+        <button type="submit" id="send-btn">Gửi</button>
     </form>
 </div>
 
 
+
 <script>
-
-
-function xemtt() {
+function loadCustomerList() {
     $.ajax({
-        url: './api/api.php?action=xemthongnv',
+        url: './api/apia.php?action=danhsach_khachhang',
         type: 'GET',
         dataType: 'json',
         success: function(response) {
-        
-            if (Array.isArray(response) && response.length > 0) {
-                var event = response[0]; // Lấy tour đầu tiên
-                global_tour_id = event.id_tour; // Lưu tour_id vào biến toàn cục
-                
-                var eventHtml = `
-                 
-                    <input type="hidden" name="receiver_id" id="receiver_id" value="${event.id}">
-                `;
-
-                $('#xemtt').html(eventHtml);
-
-                // Gọi callback sau khi có tour_id
-               
-            } else {
-                $('#xemtt').html('<div class="col">Không tìm thấy thông tin.</div>');
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error('Lỗi khi lấy thông tin:', error);
-            $('#xemtt').html('<div class="col">Lỗi khi tải thông tin.</div>');
+            var options = '<option value="">Chọn khách hàng</option>';
+            response.forEach(function(customer) {
+                options += `<option value="${customer.id}">${customer.Name}</option>`;
+            });
+            $('#customer-select').html(options);
         }
     });
 }
+
 
 function loadMessages() {
-   
+    var customer_id = $('#customer-select').val();
+    if (!customer_id) return;
+
     $.ajax({
-        url: './api/api.php?action=xemtinnhan',
+        url: './api/apia.php?action=xemtinnhan&customer_id=' + customer_id,
         type: 'GET',
         dataType: 'json',
         success: function(response) {
-         
             var eventHtml = '';
-            if (Array.isArray(response) && response.length > 0) {
-                response.forEach(function(event) {
-                    if (event.sender_type === "guide") {
-                        eventHtml += `<p><b>Nhân viên chăm sóc khách hàng :</b> ${event.message}</p>`;
-                    } else if (event.sender_type === "user") {
-                        eventHtml += `<p><b>Bạn :</b> ${event.message}</p>`;
-                    }
-                });
-                $('#messages').html(eventHtml);
-            } else {
-                $('#messages').html('<div class="col">Không có tin nhắn.</div>');
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error('Lỗi khi lấy tin nhắn:', error);
-            $('#messages').html('<div class="col">Lỗi khi tải tin nhắn.</div>');
+            response.forEach(function(event) {
+                if (event.sender_type === "user") {
+                    eventHtml += `<p><b>Khách hàng ${event.Name}:</b> ${event.message}</p>`;
+                } else {
+                    eventHtml += `<p><b>Bạn:</b> ${event.message}</p>`;
+                }
+            });
+            $('#messages').html(eventHtml);
+            $('#sender_id').val(customer_id);
         }
     });
 }
+
 
 
 
@@ -179,7 +164,7 @@ function guitinnhan() {
 
         $.ajax({
             type: 'POST',
-            url: './api/api.php',
+            url: './api/apia.php',
             data: formData,
             contentType: false, // Bắt buộc khi sử dụng FormData
             processData: false, // Ngăn jQuery xử lý dữ liệu
@@ -199,48 +184,29 @@ function guitinnhan() {
         });
     });
 }
-
-function markMessagesAsRead(guide_id) {
+function markMessagesAsRead(customer_id) {
     $.ajax({
-        url: './api/api.php?action=mark_as_read',
+        url: './api/apia.php?action=mark_as_read',
         type: 'GET',
-        data: { guide_id: guide_id },
+        data: { customer_id: customer_id },
         success: function(response) {
             $('#chat-icon').removeClass('new-message'); // Xóa chấm đỏ sau khi đọc
         }
     });
 }
 
-function markMessagesAsRead() {
-    var receiver_id = $('#receiver_id').val(); // Lấy giá trị của receiver_id
-    if (!receiver_id) return;
-
-    $.ajax({
-        url: './api/api.php?action=mark_as_read',
-        type: 'GET',
-        data: { receiver_id: receiver_id }, // Gửi ID người nhận
-        success: function(response) {
-            console.log(response);
-            $('#chat-icon').removeClass('new-message'); // Xóa chấm đỏ khi đọc
-        },
-        error: function(xhr, status, error) {
-            console.error("Lỗi khi đánh dấu tin nhắn đã đọc:", error);
-        }
-    });
-}
-
-
-// Khi receiver_id thay đổi, thực hiện load tin nhắn
-$('#receiver_id').on('change', function() {
-    markMessagesAsRead(); // Gọi khi thay đổi người nhận
-    loadMessages();
+$('#customer-select').on('change', function() {
+    var customer_id = $(this).val();
+    if (customer_id) {
+        markMessagesAsRead(customer_id);
+        loadMessages(); // Hiển thị tin nhắn của khách hàng
+    }
 });
-
 
 
 function checkNewMessages() {
     $.ajax({
-        url: './api/api.php?action=check_new_messages',
+        url: './api/apia.php?action=check_new_messages',
         type: 'GET',
         dataType: 'json',
         success: function(response) {
@@ -258,12 +224,11 @@ $(document).ready(function () {
     // Toggle hiển thị chatbox khi bấm icon
     $("#chat-icon").click(function () {
         $("#chat-box").toggle();
-        markMessagesAsRead();
     });
 
     // Gọi các hàm chat
     guitinnhan();
-    xemtt();
+    loadCustomerList();
     setInterval(loadMessages, 1000)
 
 });

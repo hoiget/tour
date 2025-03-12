@@ -61,6 +61,75 @@
   .submit-btn:hover {
     background-color: #0056b3;
   }
+  .filter-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.filter-buttons button {
+  padding: 10px 15px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.filter-buttons button:nth-child(1) { /* Tất cả */
+  background-color: #6c757d;
+  color: white;
+}
+
+.filter-buttons button:nth-child(2) { /* Có hướng dẫn viên */
+  background-color: #28a745;
+  color: white;
+}
+
+.filter-buttons button:nth-child(3) { /* Chưa có hướng dẫn viên */
+  background-color: #ffc107;
+  color: black;
+}
+
+.filter-buttons button:hover {
+  opacity: 0.8;
+}
+
+.search-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.search-container input {
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.search-container input:focus {
+    border-color: #007bff;
+}
+
+.search-container button {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.search-container button:hover {
+    background-color: #0056b3;
+}
 
 </style>
 
@@ -70,6 +139,12 @@
   <!-- Cột trái: Danh sách tour -->
   
   <div class="tour-list">
+  <div class="filter-buttons">
+  <button onclick="filterTours('all')">Tất cả</button>
+  <button onclick="filterTours('available')">Có hướng dẫn viên</button>
+  <button onclick="filterTours('unavailable')">Chưa có hướng dẫn viên</button>
+</div>
+
     <h3>Danh sách tour</h3>
 
     <div id="tour-container"></div>
@@ -77,7 +152,12 @@
 
   <!-- Cột phải: Danh sách hướng dẫn viên -->
   <div class="guide-list">
-  Tìm kiếm: <input type="text" id="search" name="MAT" placeholder="Mã tour/tên tour" onkeydown="searchtour(event)"> <br><br><br>
+  <div class="search-container">
+    <input type="text" id="search" name="MAT" placeholder="🔍 Mã tour/tên tour" onkeydown="searchtour(event)">
+    <input type="date" name="date" id="date" onkeydown="searchtour(event)">
+    <button onclick="searchtour()">Tìm kiếm</button>
+</div>
+
     <h3>Chọn hướng dẫn viên</h3>
     <form id="capnhathdv" action="./api/apia.php" method="post">
     <input type="hidden" name="action" value="capnhathdv">
@@ -103,7 +183,41 @@
     xemhdv();
     capnhathdv();
   });
-
+  function filterTours(filter) {
+    $.ajax({
+        url: './api/apia.php?action=xemlichtrinh',
+        type: 'GET',
+        dataType: 'json',
+        success: function (response) {
+            if (Array.isArray(response) && response.length > 0) {
+                var html = '';
+                response.forEach(function (tour) {
+                    let hdvStatus = tour.emna 
+                        ? `<span style="color: green;">${tour.emna}</span>` 
+                        : `<span style="color: orange;">Chưa có</span>`;
+                    
+                    if ((filter === 'available' && tour.emna) ||
+                        (filter === 'unavailable' && !tour.emna) ||
+                        (filter === 'all')) {
+                        html += `<div class="tour-item" data-id="${tour.idsh}" onclick="chonTour(${tour.idsh}, '${tour.Date}')">
+                            <b>${tour.Name}</b> <br> Ngày: ${tour.Date} <br> Khởi hành: ${tour.Locations}
+                            <br> Ngày ở: ${tour.Day_depart}
+                            <br> Lượt đặt: ${tour.Orders}
+                            <br> Hướng dẫn viên đảm nhiệm: ${hdvStatus}
+                            <br><button style="background-color: red; color: #fff;" class="delete-btn" onclick="xoalichtrinh(${tour.idsh})">🗑️ Xóa</button>
+                        </div>`;
+                    }
+                });
+                $('#tour-container').html(html);
+            } else {
+                $('#tour-container').html('Không tìm thấy tour.');
+            }
+        },
+        error: function () {
+            $('#tour-container').html('Lỗi khi tải danh sách tour.');
+        }
+    });
+}
   function xemlichtrinh() {
     $.ajax({
       url: './api/apia.php?action=xemlichtrinh',
@@ -142,51 +256,52 @@
     });
   }
   function searchtour(event) {
-    if (event && event.key === "Enter") {  // Kiểm tra nếu event và phím bấm là Enter
-        var searchValue = $('#search').val(); // Lấy giá trị từ ô input với id "search"
+    // Kiểm tra nếu event có tồn tại và không phải phím Enter thì return
+    if (event && event.key !== "Enter") return;
 
-        // Nếu không có gì để tìm kiếm, không làm gì
-        if (searchValue.trim() === "") {
-            xemlichtrinh();
-            return;
-        }
+    var searchValue = $('#search').val().trim(); // Lấy giá trị nhập vào ô tìm kiếm
+    var departureDate = $('#date').val(); // Lấy giá trị ngày khởi hành
 
-        $.ajax({
-            url: './api/apia.php', // API tìm kiếm nhân viên
-            type: 'GET', // Sử dụng phương thức GET
-            data: { action: 'timtour', MAT: searchValue }, // Gửi mã nhân viên tìm kiếm qua GET
-            dataType: 'json', // Kết quả trả về là JSON
-            success: function(response) {
-                if (Array.isArray(response) && response.length > 0) {
-                    var events = response;
-                    var eventHtml = '';
-                    events.forEach(function(event) {
-                     
-                        eventHtml += `
-                     
+    // Nếu cả hai ô đều trống, gọi hàm xem toàn bộ lịch trình
+    if (searchValue === "" && departureDate === "") {
+        xemlichtrinh();
+        return;
+    }
+
+    $.ajax({
+        url: './api/apia.php', // Gọi API tìm kiếm tour
+        type: 'GET',
+        data: { 
+            action: 'timtour', 
+            MAT: searchValue, 
+            date: departureDate 
+        },
+        dataType: 'json',
+        success: function(response) {
+            if (Array.isArray(response) && response.length > 0) {
+                var eventHtml = '';
+                response.forEach(function(event) {
+                    eventHtml += `
                     <div class="tour-item" data-id="${event.idsh}" onclick="chonTour(${event.idsh}, '${event.Date}')">
                       <b>${event.Name}</b> <br> Ngày: ${event.Date} <br> Khởi hành: ${event.Locations}
-                 
                       <br> Ngày ở: ${event.Day_depart}
                       <br> Lượt đặt: ${event.Orders}
                       <br> Hướng dẫn viên đảm nhiệm: ${event.emna || "Chưa có"}
-                      <br><button style="background-color: #007bff;
-    color: #fff;" class="delete-btn" onclick="xoalichtrinh(${event.idsh})">🗑️ Xóa</button>
+                      <br><button style="background-color: #007bff; color: #fff;" class="delete-btn" onclick="xoalichtrinh(${event.idsh})">🗑️ Xóa</button>
                     </div>`;
-            
-                    });
-                    $('#tour-container').html(eventHtml);
-                } else {
-                    $('#tour-container').html('<tr><td colspan="8">Không tìm thấy tour nào.</td></tr>');
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error('Lỗi khi lấy thông tin:', error);
-                $('#tour-container').html('<tr><td colspan="8">Đã xảy ra lỗi khi tải thông tin.</td></tr>');
+                });
+                $('#tour-container').html(eventHtml);
+            } else {
+                $('#tour-container').html('<tr><td colspan="8">Không tìm thấy tour nào.</td></tr>');
             }
-        });
-    }
+        },
+        error: function(xhr, status, error) {
+            console.error('Lỗi khi lấy thông tin:', error);
+            $('#tour-container').html('<tr><td colspan="8">Đã xảy ra lỗi khi tải thông tin.</td></tr>');
+        }
+    });
 }
+
 function xoalichtrinh(id) {
     if (!confirm("Bạn có chắc chắn muốn xóa lịch trình này?")) return;
 

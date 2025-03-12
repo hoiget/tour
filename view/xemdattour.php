@@ -806,9 +806,7 @@ function xoapar(id, idtour, booking_id, adult_price, child_rate) {
             console.log(data);
             if (data === 'gui') {
                 openPopup('Xóa thành viên tham gia thành công', '');
-                setTimeout(() => {
-                    window.location.reload(); // Tải lại trang để cập nhật số lượng & tổng tiền
-                }, 1000);
+                
             } else {
                 openPopup('Cập nhật không thành công', '');
             }

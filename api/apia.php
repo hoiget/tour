@@ -1170,7 +1170,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo 'insert_order_error';
         }
         $stmt_order->close();
-    }
+    } elseif ($action == "guitinnhan") {
+        $user_id = $_SESSION['id'];
+        $sender_type = "guide"; // Xác định người gửi là user
+        $sender_id = $_POST['sender_id']; // Hướng dẫn viên (employees.id)
+        $message = trim($_POST['message']);
+    
+        if (!empty($message)) {
+            $stmt = $conn->prepare("INSERT INTO messages (sender_id, receiver_id, sender_type, message) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("iiss",$sender_id, $user_id, $sender_type, $message);
+            
+            if ($stmt->execute()) {
+                echo "success";
+            } else {
+                echo "Có lỗi xảy ra:" . $conn->error;
+            }
+            $stmt->close();
+        } 
+    
+    } 
 }
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $action = $_GET['action'];
@@ -2640,48 +2658,47 @@ ORDER BY departure_time.ngaykhoihanh ASC
         }
         exit;
     }elseif ($action == "timtour") {
-        // Lấy giá trị 'MANV' từ tham số GET
+        // Lấy giá trị từ tham số GET
         $code = $_GET['MAT'];
-      
-        // Kiểm tra nếu mã nhân viên không rỗng
-        if (!empty($code)) {
-            $query = "SELECT 
-    tour_schedule.*, 
-    tour_schedule.id AS idsh, 
-    assignment_tour.*, 
-    employees.Name AS emna, 
-    employees.id AS idem, 
-    departure_time.*, 
-    departure_time.id AS iddp
-FROM tour_schedule
-LEFT JOIN assignment_tour ON tour_schedule.id = assignment_tour.id_toursche
-LEFT JOIN employees ON assignment_tour.employid = employees.id
-LEFT JOIN departure_time ON tour_schedule.Date = departure_time.ngaykhoihanh
-WHERE (tour_schedule.id = '$code' OR tour_schedule.Name LIKE '%$code%')
-
-GROUP BY tour_schedule.id 
-ORDER BY departure_time.ngaykhoihanh ASC
-
-
-
-        ";
-            $result = $conn->query($query);
-
-            $users = [];
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    $users[] = $row; // Lưu từng bản ghi vào mảng
-                }
-            }
-
-            // Trả về mảng nhân viên dưới dạng JSON
-            echo json_encode($users);
-        } else {
-            // Trả về mảng rỗng nếu không có mã nhân viên
-            echo json_encode([]);
+        $date = isset($_GET['date']) ? $_GET['date'] : '';
+    
+        // Bắt đầu truy vấn
+        $query = "SELECT 
+            tour_schedule.*, 
+            tour_schedule.id AS idsh, 
+            assignment_tour.*, 
+            employees.Name AS emna, 
+            employees.id AS idem, 
+            departure_time.*, 
+            departure_time.id AS iddp
+        FROM tour_schedule
+        LEFT JOIN assignment_tour ON tour_schedule.id = assignment_tour.id_toursche
+        LEFT JOIN employees ON assignment_tour.employid = employees.id
+        LEFT JOIN departure_time ON tour_schedule.Date = departure_time.ngaykhoihanh
+        WHERE (tour_schedule.id = '$code' OR tour_schedule.Name LIKE '%$code%')";
+    
+        // Nếu có ngày khởi hành được nhập, thêm điều kiện lọc
+        if (!empty($date)) {
+            $query .= " AND tour_schedule.Date = '$date'";
         }
+    
+        $query .= " GROUP BY tour_schedule.id 
+                    ORDER BY departure_time.ngaykhoihanh ASC";
+    
+        $result = $conn->query($query);
+    
+        $users = [];
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $users[] = $row; // Lưu từng bản ghi vào mảng
+            }
+        }
+    
+        // Trả về dữ liệu JSON
+        echo json_encode($users);
         exit;
     }
+    
     elseif ($action == "xoalichtrinh") {
         $id = $_GET['id'];
 
@@ -2735,7 +2752,51 @@ ORDER BY departure_time.ngaykhoihanh ASC
         } else {
             echo json_encode(["status" => "error"]);
         }
+    }elseif ($action == "xemtinnhan") {
+        $customer_id = $_GET['customer_id'] ?? 0;
+        $query = "SELECT messages.*, user_credit.Name FROM messages 
+                  JOIN user_credit ON messages.sender_id = user_credit.id
+                  WHERE messages.sender_id = '$customer_id' OR messages.receiver_id = '$customer_id'
+                  ORDER BY messages.created_at ASC";
+        $result = $conn->query($query);
+    
+        $messages = [];
+        while ($row = $result->fetch_assoc()) {
+            $messages[] = $row;
+        }
+        echo json_encode($messages);
+        exit;
     }
+     elseif ($action == "danhsach_khachhang") {
+        $query = "SELECT DISTINCT user_credit.id, user_credit.Name FROM messages 
+                  JOIN user_credit ON messages.sender_id = user_credit.id 
+                  WHERE messages.sender_type = 'user'";
+        $result = $conn->query($query);
+    
+        $customers = [];
+        while ($row = $result->fetch_assoc()) {
+            $customers[] = $row;
+        }
+        echo json_encode($customers);
+        exit;
+    }elseif ($action == "check_new_messages") {
+        $user_id = $_SESSION['id'];
+        $query = "SELECT COUNT(*) AS total FROM messages WHERE is_read = 0 AND receiver_id = '$user_id'";
+        $result = $conn->query($query);
+        $row = $result->fetch_assoc();
+        echo json_encode(['new_messages' => $row['total']]);
+        exit;
+    }elseif ($action == "mark_as_read") {
+        $customer_id = $_GET['customer_id'] ?? 0;
+        $user_id = $_SESSION['id'];
+        $query = "UPDATE messages SET is_read = 1 WHERE receiver_id = ' $user_id' AND sender_id = '$customer_id'";
+        $conn->query($query);
+        echo json_encode(['status' => 'success']);
+        exit;
+    }
+    
+    
+     
 
 }
 ?>
