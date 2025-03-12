@@ -102,7 +102,7 @@ color:black;
     </select>
     <div id="messages"></div>
    
-        <input type="text" name="sender_id" id="sender_id" >
+        <input type="hidden" name="sender_id" id="sender_id" >
       
         <input type="text" name="message" id="message-input" placeholder="Nhập tin nhắn...">
         <button type="submit" id="send-btn">Gửi</button>
