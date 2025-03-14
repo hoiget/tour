@@ -5,10 +5,19 @@ session_start();
 include_once("connect.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $inputJSON = file_get_contents("php://input");
-    $input = json_decode($inputJSON, true);
+    
     $action = $_POST['action'];
-    $action1 = isset($_POST['action']) ? $_POST['action'] : (isset($input['action']) ? $input['action'] : null);
+    if (!$action) {
+        $inputJSON = file_get_contents("php://input");
+        $input = json_decode($inputJSON, true);
+        $action = isset($input['action']) ? $input['action'] : null;
+    }
+    
+    // Nếu vẫn không có action, báo lỗi
+    if (!$action) {
+        echo json_encode(["error" => "Thiếu tham số action"]);
+        exit();
+    }
     if ($action == "updatettcnnv") {
         $username = $_POST['name']; // Tên tài khoản
         $email = $_SESSION['Email']; // Lấy email từ session
@@ -982,29 +991,50 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
     }
-    elseif ($action1 == "capnhathoadon") {
+    elseif ($action == "capnhathoadon") {
         $data = json_decode(file_get_contents("php://input"), true);
     
         if (!isset($data['participants']) || !is_array($data['participants'])) {
-            echo "Dữ liệu không hợp lệ!";
+            echo json_encode(["error" => "Dữ liệu không hợp lệ!"]);
             exit();
         }
     
-        $stmt = $conn->prepare("UPDATE participant SET hoten = ?, Ngaysinh = ?, gioitinh = ? WHERE idpar = ?");
-    
+        // Cập nhật bảng participant
+        $stmt_participant = $conn->prepare("UPDATE participant SET hoten = ?, Ngaysinh = ?, gioitinh = ? WHERE idpar = ?");
+        
         foreach ($data['participants'] as $participant) {
             $hoten = $participant['hoten'];
             $ngaysinh = $participant['ngaysinh'];
             $gioitinh = $participant['gioitinh'];
-            $id = $participant['id'];
+            $idpar = $participant['idpar']; // Sửa lại để khớp với JS
     
-            $stmt->bind_param("sssi", $hoten, $ngaysinh, $gioitinh, $id);
-            $stmt->execute();
+            $stmt_participant->bind_param("sssi", $hoten, $ngaysinh, $gioitinh, $idpar);
+            $stmt_participant->execute();
         }
     
-        $stmt->close();
-        echo "cập nhật thành công!";
-    }elseif ($action == "dattourfulll") {
+        // Cập nhật booking_ordertour
+        if (!empty($data['booking_id']) && !empty($data['arrival'])) {
+            $stmt_order = $conn->prepare("UPDATE booking_ordertour SET Arrival = ? WHERE Booking_id = ?");
+            $stmt_order->bind_param("si", $data['arrival'], $data['booking_id']);
+            $stmt_order->execute();
+            $stmt_order->close();
+        }
+    
+        // Cập nhật booking_detail_tour
+        if (!empty($data['user_name']) && !empty($data['phone_num']) && !empty($data['address'])) {
+            $stmt_detail = $conn->prepare("UPDATE booking_detail_tour SET User_name = ?, Phone_num = ?, Address = ? WHERE Booking_id = ?");
+            $stmt_detail->bind_param("sssi", $data['user_name'], $data['phone_num'], $data['address'], $data['booking_id']);
+            $stmt_detail->execute();
+            $stmt_detail->close();
+        }
+    
+        $stmt_participant->close();
+        
+        echo json_encode(["message" => "Cập nhật thành công!"]);
+    }
+    
+    
+    elseif ($action == "dattourfulll") {
         // Lấy dữ liệu từ POST
         $user_id = null;
         $tour_id = $_POST['tour_id'];
@@ -1188,8 +1218,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->close();
         } 
     
-    } 
+} elseif($action=="Phancong"){
+    $customer_id = $_POST['customer_id'];
+    $employee_id = $_POST['employee_id'];
+
+    if (empty($customer_id) || empty($employee_id)) {
+        echo  'Thiếu dữ liệu đầu vào';
+        exit;
+    }
+
+    // Kiểm tra trùng lặp
+    $checkStmt = $conn->prepare("SELECT * FROM customer_assignment WHERE customer_id = ?");
+    $checkStmt->bind_param("i", $customer_id);
+    $checkStmt->execute();
+    $result = $checkStmt->get_result();
+
+    if ($result->num_rows > 0) {
+        echo 'Khách hàng đã được phân cho nhân viên này';
+        exit;
+    }
+    if (!empty($customer_id) || !empty($employee_id)) {
+    $stmt = $conn->prepare("INSERT INTO customer_assignment (customer_id, employee_id) VALUES (?, ?)");
+    $stmt->bind_param("ii", $customer_id, $employee_id);
+
+    if ($stmt->execute()) {
+        echo 'Phân công thành công';
+    } else {
+        echo 'Lỗi khi phân công';
+    }
+
+    $stmt->close();
 }
+}
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $action = $_GET['action'];
     if ($action == "get_nv") {
@@ -2768,9 +2830,10 @@ ORDER BY departure_time.ngaykhoihanh ASC
         exit;
     }
      elseif ($action == "danhsach_khachhang") {
-        $query = "SELECT DISTINCT user_credit.id, user_credit.Name FROM messages 
-                  JOIN user_credit ON messages.sender_id = user_credit.id 
-                  WHERE messages.sender_type = 'user'";
+        $user_id = $_SESSION['id'];
+        $query = "SELECT DISTINCT user_credit.id, user_credit.Name FROM customer_assignment 
+                  JOIN user_credit ON customer_assignment.customer_id = user_credit.id 
+                  WHERE customer_assignment.employee_id = '$user_id'";
         $result = $conn->query($query);
     
         $customers = [];
@@ -2781,7 +2844,7 @@ ORDER BY departure_time.ngaykhoihanh ASC
         exit;
     }elseif ($action == "check_new_messages") {
         $user_id = $_SESSION['id'];
-        $query = "SELECT COUNT(*) AS total FROM messages WHERE is_read = 0 AND receiver_id = '$user_id'";
+        $query = "SELECT COUNT(*) AS total FROM messages WHERE is_read = 0 AND receiver_id = '$user_id' AND sender_type = 'user'";
         $result = $conn->query($query);
         $row = $result->fetch_assoc();
         echo json_encode(['new_messages' => $row['total']]);
@@ -2789,13 +2852,62 @@ ORDER BY departure_time.ngaykhoihanh ASC
     }elseif ($action == "mark_as_read") {
         $customer_id = $_GET['customer_id'] ?? 0;
         $user_id = $_SESSION['id'];
-        $query = "UPDATE messages SET is_read = 1 WHERE receiver_id = ' $user_id' AND sender_id = '$customer_id'";
+        $query = "UPDATE messages SET is_read = 1 WHERE receiver_id = ' $user_id' AND sender_id = '$customer_id' AND sender_type = 'user'";
         $conn->query($query);
         echo json_encode(['status' => 'success']);
         exit;
+    }elseif ($action == "xemnhanvienph") {
+        $query = "SELECT id, Name FROM employees WHERE Permissions = 'CSKH'";
+            $result = $conn->query($query);
+
+            $customers = [];
+            while ($row = $result->fetch_assoc()) {
+            $customers[] = $row;
+            }
+            echo json_encode($customers);
+        exit;
+    }elseif ($action == "xemkhachhangph") {
+            $query = "SELECT id, Name FROM user_credit";
+            $result = $conn->query($query);
+
+            $customers = [];
+            while ($row = $result->fetch_assoc()) {
+            $customers[] = $row;
+            }
+            echo json_encode($customers);
+    }elseif ($action == "xemdanhsachphancong") {
+        $query = " SELECT e.Name as employee_name, c.Name as customer_name,ca.id as idcus
+FROM customer_assignment ca
+JOIN employees e ON ca.employee_id = e.id
+JOIN user_credit c ON ca.customer_id = c.id";
+        $result = $conn->query($query);
+
+        $customers = [];
+        while ($row = $result->fetch_assoc()) {
+        $customers[] = $row;
+        }
+        echo json_encode($customers);
+}elseif ($action == "go") {
+
+    $id = $_GET['id'];
+
+    // Kiểm tra xem người dùng đã tồn tại trong cơ sở dữ liệu chưa
+
+    $insert_query = "DELETE FROM customer_assignment WHERE id = '$id'";
+
+
+    if ($conn->query($insert_query) === TRUE) {
+        echo 'gui';
+    } else {
+        echo 'kotc';
     }
+
+
+
+} 
     
-    
+   
+
      
 
 }

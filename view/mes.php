@@ -120,7 +120,7 @@ function xemtt() {
                 
                 var eventHtml = `
                  
-                    <input type="hidden" name="receiver_id" id="receiver_id" value="${event.id}">
+                    <input type="hidden" name="receiver_id" id="receiver_id" value="${event.employee_id}">
                 `;
 
                 $('#xemtt').html(eventHtml);

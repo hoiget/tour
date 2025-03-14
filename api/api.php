@@ -826,7 +826,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $budget = isset($_GET['budget']) ? $_GET['budget'] : '';
     
         // Tạo câu truy vấn động
-        $query = "SELECT departure_time.*,tour_images.*,tour.*,tour.id AS tourid FROM tour INNER JOIN tour_images ON tour.id = tour_images.id_tour LEFT JOIN departure_time ON tour.id = departure_time.id_tour WHERE Orders < Max_participant AND 1=1 
+        $query = "SELECT departure_time.*,tour_images.*,tour.*,tour.id AS tourid 
+        FROM tour 
+        INNER JOIN tour_images ON tour.id = tour_images.id_tour 
+        LEFT JOIN departure_time ON tour.id = departure_time.id_tour 
+        LEFT JOIN departure_dates ON tour.id = departure_dates.tour_id
+        WHERE Orders < Max_participant AND 1=1 
         ";
         // Thêm điều kiện tìm kiếm
         if (!empty($name)) {
@@ -834,7 +839,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         ORDER BY departure_time.ngaykhoihanh ASC";
         }
         if (!empty($date)) {
-            $query .= " AND tour.Depart = '$date' GROUP BY tour.id 
+            $query .= " AND departure_dates.departure_date = '$date' GROUP BY tour.id 
         ORDER BY departure_time.ngaykhoihanh ASC";
         }
         if (!empty($budget)) {
@@ -1453,16 +1458,16 @@ ORDER BY
     } 
        
     elseif ($action == "xemthongnv") {
-      
+        $user_id = $_SESSION['id'];
         $query = "
         SELECT 
-        employees.id,employees.Name,employees.Permissions
+        customer_assignment.*
       
     FROM 
-        employees 
+        customer_assignment 
    
     Where
-        employees.Permissions = 'CSKH'
+        customer_assignment.customer_id = '$user_id'
         ";
         $result = $conn->query($query);
 
@@ -1828,7 +1833,7 @@ ORDER BY
         exit;
     } elseif ($action == "check_new_messages") {
         $user_id = $_SESSION['id'];
-        $query = "SELECT COUNT(*) AS total FROM messages WHERE is_read = 0 AND sender_id = '$user_id'";
+        $query = "SELECT COUNT(*) AS total FROM messages WHERE is_read = 0 AND sender_id = '$user_id' AND sender_type = 'guide'";
         $result = $conn->query($query);
         $row = $result->fetch_assoc();
         echo json_encode(['new_messages' => $row['total']]);
@@ -1836,7 +1841,7 @@ ORDER BY
     }elseif ($action == "mark_as_read") {
         $user_id = $_SESSION['id'];
         if ($user_id > 0) {
-            $query = "UPDATE messages SET is_read = 1 WHERE sender_id = '$user_id' AND is_read = 0";
+            $query = "UPDATE messages SET is_read = 1 WHERE sender_id = '$user_id' AND is_read = 0 AND sender_type = 'guide'";
             $conn->query($query);
         }
         echo json_encode(['success' => true]);

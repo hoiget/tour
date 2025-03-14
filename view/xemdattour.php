@@ -379,7 +379,7 @@ function loadBookingData(event) {
     const bookingTime = new Date(event.booking_time); // Thời gian đặt đơn
     const currentTime = new Date(); // Thời gian hiện tại
     const diffInMinutes = Math.floor((currentTime - bookingTime) / 60000); // Tính số phút đã trôi qua
-    const remainingMinutes = 7200 - diffInMinutes; // 5 ngày = 7200 phút
+    const remainingMinutes = 4320 - diffInMinutes; // 5 ngày = 7200 phút
 
     let cancelButton = '';
     let countdownText = '';

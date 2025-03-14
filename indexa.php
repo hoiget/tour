@@ -300,6 +300,12 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
           <span>Phân lịch hướng dẫn viên</span>
         </a>
       </li><!-- End Dashboard Nav -->
+      <li class="nav-item">
+        <a class="nav-link " href="indexa.php?cskh">
+        <i class="bi bi-person-badge text-primary"></i>
+          <span>Phân nhân viên chăm sóc khách hàng</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
       <?php } ?>
       <?php if($role == 'HDV'){
         echo "";}else{?>
@@ -442,6 +448,9 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
     }if(isset($_REQUEST['touryeucau'])){
       $show = false;
       include_once("viewa/xemtouryeucau.php");
+    }if(isset($_REQUEST['cskh'])){
+      $show = false;
+      include_once("viewa/phannvcs.php");
     }
     if($show){
       include_once("viewa/thongke.php");

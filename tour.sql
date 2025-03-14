@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 11, 2025 lúc 05:21 AM
+-- Thời gian đã tạo: Th3 14, 2025 lúc 11:29 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -63,7 +63,7 @@ INSERT INTO `assignment_tour` (`idass`, `id_toursche`, `employid`) VALUES
 (16, 53, 3),
 (17, 3, 7),
 (18, 4, 3),
-(26, 17, 8);
+(32, 7, 9);
 
 -- --------------------------------------------------------
 
@@ -114,7 +114,8 @@ CREATE TABLE `booking_detail_tour` (
 
 INSERT INTO `booking_detail_tour` (`Sr_no`, `Booking_id`, `Tour_name`, `Price`, `Total_pay`, `User_name`, `Phone_num`, `Address`) VALUES
 (73, 183, 'Huế', '900000', '900000', 'Phuc Hung', '0987389890', 'sssss'),
-(74, 184, 'Huế', '900000', '900000', 'Comon', '0988888888', 'TP BÌNH THUẬN');
+(74, 184, 'Huế', '900000', '900000', 'Comon', '0988888888', 'TP BÌNH THUẬN'),
+(75, 185, 'Tour Miền Tây Sông Nước', '1000000', '1000000', 'Phuc Hung', '0987389890', 'sssss');
 
 -- --------------------------------------------------------
 
@@ -169,7 +170,8 @@ CREATE TABLE `booking_ordertour` (
 
 INSERT INTO `booking_ordertour` (`Booking_id`, `User_id`, `Tour_id`, `Departure_id`, `Arrival`, `Booking_status`, `Payment_status`, `refund`, `Datetime`, `participants`, `created_at`) VALUES
 (183, 1, 48, 57, 'Xe khách', '2', '2', 0, '2025-03-21', 1, '2025-03-11 09:29:22'),
-(184, 10, 48, 57, 'Xe khách', '2', '1', 0, '2025-03-28', 1, '2025-03-11 09:31:40');
+(184, 10, 48, 57, 'Xe khách', '2', '2', 0, '2025-03-28', 1, '2025-03-11 09:31:40'),
+(185, 1, 51, 70, 'Xe khách', '2', '2', 0, '2025-03-30', 1, '2025-03-13 08:31:11');
 
 -- --------------------------------------------------------
 
@@ -197,6 +199,28 @@ CREATE TABLE `contact_details` (
   `Iname` varchar(255) DEFAULT NULL,
   `adminSr_no` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `customer_assignment`
+--
+
+CREATE TABLE `customer_assignment` (
+  `id` int(11) NOT NULL,
+  `customer_id` int(11) DEFAULT NULL,
+  `employee_id` int(11) DEFAULT NULL,
+  `assigned_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `customer_assignment`
+--
+
+INSERT INTO `customer_assignment` (`id`, `customer_id`, `employee_id`, `assigned_at`) VALUES
+(18, 1, 2, '2025-03-14 09:53:21'),
+(20, 10, 2, '2025-03-14 10:05:23'),
+(21, 12, 9, '2025-03-14 10:27:48');
 
 -- --------------------------------------------------------
 
@@ -317,7 +341,7 @@ INSERT INTO `departure_time` (`id`, `id_tour`, `Day_depart`, `ngaykhoihanh`, `Or
 (68, 50, '5 ngày 4 đêm', '2025-04-06', 0),
 (69, 50, '5 ngày 4 đêm', '2025-04-13', 0),
 (70, 51, '2 ngày 1 đêm', NULL, 0),
-(71, 51, '2 ngày 1 đêm', '2025-03-30', 0),
+(71, 51, '2 ngày 1 đêm', '2025-03-30', 1),
 (72, 51, '2 ngày 1 đêm', '2025-04-06', 0),
 (73, 51, '2 ngày 1 đêm', '2025-03-09', 0),
 (74, 52, '3 ngày 2 đêm', NULL, 0),
@@ -420,11 +444,12 @@ CREATE TABLE `employees` (
 --
 
 INSERT INTO `employees` (`id`, `Employee_code`, `Name`, `Username`, `Password`, `Email`, `Phone_number`, `Address`, `Permissions`, `Created_at`) VALUES
-(1, 'NV1', 'NV1', 'NV1', '8c2e36e3cdf14ba19ba69db346b4fd4f', 'NV1@gmail.com', '0976889999', 'NV1', 'QL', '2025-01-11'),
+(1, 'NV1', 'NV1', 'NV1', '8c2e36e3cdf14ba19ba69db346b4fd4f', 'NV1@gmail.com', '0976889999', 'NV1', 'QL', '2025-03-11'),
 (2, 'NV2', 'NV2', 'NV2', 'f3b5124e0a3c80acff2e15ad64d4860b', 'NV2@gmail.com', '0738939003', 'sjfnjkasn', 'CSKH', '2025-01-03'),
 (3, 'NV3', 'NV3', 'NV3', 'fd23bdb93d20ed16f1f7293e2b6ad6ad', 'NV3@gmail.com', '0978478389', 'NV3', 'HDV', '2025-01-11'),
 (7, 'NV4', 'NV4', 'NV4', 'fc36a43b3c227816a575a54c451a87a7', 'NV4@gmail.com', '0783993893', 'NV4', 'HDV', '2025-01-13'),
-(8, 'Phú', 'Phú', 'Phú', 'e6354b14257db8ac7760967c51d04a96', 'sv@gmail.com', '0757564567', 'ádknasdnkjasndđs', 'HDV', '2025-03-10');
+(8, 'Phú', 'Phú', 'Phú', 'e6354b14257db8ac7760967c51d04a96', 'sv@gmail.com', '0757564567', 'ádknasdnkjasndđs', 'HDV', '2025-03-10'),
+(9, 'NV6', 'NV6', 'NV6', '22bc78e39a11ee3834f1fcaa09c59dee', 'NV6@gmail.com', '0757564567', 'ádknasdnkjasndđs', 'CSKH', '2025-03-11');
 
 -- --------------------------------------------------------
 
@@ -503,20 +528,21 @@ INSERT INTO `feedback` (`id`, `name`, `email`, `subject`, `message`, `admin_id`,
 
 CREATE TABLE `messages` (
   `id` int(11) NOT NULL,
-  `tour_id` int(11) NOT NULL,
   `sender_id` int(11) NOT NULL,
   `receiver_id` int(11) NOT NULL,
   `sender_type` enum('user','guide') NOT NULL,
   `message` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `is_read` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `messages`
 --
 
-INSERT INTO `messages` (`id`, `tour_id`, `sender_id`, `receiver_id`, `sender_type`, `message`, `created_at`) VALUES
-(17, 48, 1, 3, 'user', 'ss', '2025-03-11 04:20:35');
+INSERT INTO `messages` (`id`, `sender_id`, `receiver_id`, `sender_type`, `message`, `created_at`, `is_read`) VALUES
+(43, 12, 9, 'user', 'Đặt tour làm sao ?', '2025-03-14 10:28:17', 1),
+(44, 12, 9, 'guide', 'Đặt tour', '2025-03-14 10:28:45', 0);
 
 -- --------------------------------------------------------
 
@@ -566,7 +592,8 @@ CREATE TABLE `participant` (
 
 INSERT INTO `participant` (`idpar`, `idbook`, `hoten`, `ngaysinh`, `gioitinh`, `phanloai`) VALUES
 (91, 183, 'Huy', '2019-11-11', 'Nam', 'Người lớn'),
-(92, 184, 'xxx', '2019-11-29', 'Nam', 'Người lớn');
+(92, 184, 'xxxfd', '2019-11-29', 'Nam', 'Người lớn'),
+(93, 185, 'Phu', '2000-09-14', 'Nam', 'Người lớn');
 
 -- --------------------------------------------------------
 
@@ -588,7 +615,8 @@ CREATE TABLE `payments` (
 
 INSERT INTO `payments` (`id`, `user_id`, `idbook`, `method`, `created_at`) VALUES
 (35, 1, 183, 'vnpay', '2025-03-11 02:29:22'),
-(36, 10, 184, 'vnpay', '2025-03-11 02:31:40');
+(36, 10, 184, 'vnpay', '2025-03-11 02:31:40'),
+(37, 1, 185, 'vnpay', '2025-03-13 01:31:11');
 
 -- --------------------------------------------------------
 
@@ -628,6 +656,14 @@ CREATE TABLE `rating_reviewtour` (
   `Username` varchar(255) DEFAULT NULL,
   `Datetime` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `rating_reviewtour`
+--
+
+INSERT INTO `rating_reviewtour` (`Sr_no`, `Booking_id`, `Tour_id`, `Rating`, `Review`, `Username`, `Datetime`) VALUES
+(16, 183, 48, 5, 'hh', 'Phuc Hung', '2025-03-11'),
+(17, 183, 48, 3, 'dd', 'Phuc Hung', '2025-03-11');
 
 -- --------------------------------------------------------
 
@@ -916,7 +952,6 @@ INSERT INTO `tour_schedule` (`id`, `id_tour`, `Name`, `Date`, `Schedule`, `Locat
 (14, 49, 'Sapa', '2025-03-25 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh'),
 (15, 49, 'Sapa', '2025-04-01 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh'),
 (16, 49, 'Sapa', '2025-02-25 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh'),
-(17, 50, 'Phú Quốc', '2025-03-30 00:00:00', '5 ngày 4 đêm', 'TP.Hồ Chí Minh'),
 (18, 50, 'Phú Quốc', '2025-03-30 00:00:00', '5 ngày 4 đêm', 'TP.Hồ Chí Minh'),
 (19, 50, 'Phú Quốc', '2025-04-06 00:00:00', '5 ngày 4 đêm', 'TP.Hồ Chí Minh'),
 (20, 50, 'Phú Quốc', '2025-04-13 00:00:00', '5 ngày 4 đêm', 'TP.Hồ Chí Minh'),
@@ -1005,7 +1040,8 @@ CREATE TABLE `user_credit` (
 
 INSERT INTO `user_credit` (`id`, `Name`, `Address`, `Email`, `sdt`, `profile`, `Password`, `Datetime`, `reset_token`, `token_expiry`) VALUES
 (1, 'Phuc Hung', 'sssss', 'phuc@gmail.com', '0987389890', 'pt.png', 'cb0343fa02f5e80de7ed84427f227af1', '2015-01-24', NULL, NULL),
-(10, 'Comon', 'TP BÌNH THUẬN', 'comonhay@gmail.com', '0988888888', 'anh3.jpg', '619ce14ca2272f0a86e86c3df935928f', '2025-01-09', 'd7d23643d9c42da6a128209b3232d49116a3b2a672457c0bfd6d20dcfd693584', '2025-02-13 14:23:03');
+(10, 'Com on', 'TP BÌNH THUẬN', 'comonhay@gmail.com', '0988888888', 'anh3.jpg', '619ce14ca2272f0a86e86c3df935928f', '2025-01-09', 'd7d23643d9c42da6a128209b3232d49116a3b2a672457c0bfd6d20dcfd693584', '2025-02-13 14:23:03'),
+(12, 'Skappa', 'TP BÌNH THUẬN', 'Skappa@gmail.com', '0738393890', 'tt.jpg', '619ce14ca2272f0a86e86c3df935928f', '2001-06-15', NULL, NULL);
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -1071,6 +1107,14 @@ ALTER TABLE `contact_details`
   ADD KEY `adminSr_no` (`adminSr_no`);
 
 --
+-- Chỉ mục cho bảng `customer_assignment`
+--
+ALTER TABLE `customer_assignment`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `customer_id` (`customer_id`),
+  ADD KEY `employee_id` (`employee_id`);
+
+--
 -- Chỉ mục cho bảng `departure_dates`
 --
 ALTER TABLE `departure_dates`
@@ -1122,8 +1166,7 @@ ALTER TABLE `feedback`
 ALTER TABLE `messages`
   ADD PRIMARY KEY (`id`),
   ADD KEY `sender_id` (`sender_id`),
-  ADD KEY `receiver_id` (`receiver_id`),
-  ADD KEY `messages_ibfk_1` (`tour_id`);
+  ADD KEY `receiver_id` (`receiver_id`);
 
 --
 -- Chỉ mục cho bảng `news`
@@ -1247,7 +1290,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT cho bảng `assignment_tour`
 --
 ALTER TABLE `assignment_tour`
-  MODIFY `idass` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `idass` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT cho bảng `booking_details_ks`
@@ -1259,7 +1302,7 @@ ALTER TABLE `booking_details_ks`
 -- AUTO_INCREMENT cho bảng `booking_detail_tour`
 --
 ALTER TABLE `booking_detail_tour`
-  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
+  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
 -- AUTO_INCREMENT cho bảng `booking_orderks`
@@ -1271,7 +1314,7 @@ ALTER TABLE `booking_orderks`
 -- AUTO_INCREMENT cho bảng `booking_ordertour`
 --
 ALTER TABLE `booking_ordertour`
-  MODIFY `Booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=185;
+  MODIFY `Booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=186;
 
 --
 -- AUTO_INCREMENT cho bảng `carousel`
@@ -1284,6 +1327,12 @@ ALTER TABLE `carousel`
 --
 ALTER TABLE `contact_details`
   MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT cho bảng `customer_assignment`
+--
+ALTER TABLE `customer_assignment`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT cho bảng `departure_dates`
@@ -1307,7 +1356,7 @@ ALTER TABLE `deposit_hotel`
 -- AUTO_INCREMENT cho bảng `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT cho bảng `facilities`
@@ -1331,7 +1380,7 @@ ALTER TABLE `feedback`
 -- AUTO_INCREMENT cho bảng `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT cho bảng `news`
@@ -1343,13 +1392,13 @@ ALTER TABLE `news`
 -- AUTO_INCREMENT cho bảng `participant`
 --
 ALTER TABLE `participant`
-  MODIFY `idpar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
+  MODIFY `idpar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
 
 --
 -- AUTO_INCREMENT cho bảng `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT cho bảng `rating_reviews_ks`
@@ -1361,7 +1410,7 @@ ALTER TABLE `rating_reviews_ks`
 -- AUTO_INCREMENT cho bảng `rating_reviewtour`
 --
 ALTER TABLE `rating_reviewtour`
-  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT cho bảng `request_tour`
@@ -1421,7 +1470,7 @@ ALTER TABLE `tour_schedule`
 -- AUTO_INCREMENT cho bảng `user_credit`
 --
 ALTER TABLE `user_credit`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
@@ -1475,6 +1524,13 @@ ALTER TABLE `contact_details`
   ADD CONSTRAINT `contact_details_ibfk_1` FOREIGN KEY (`adminSr_no`) REFERENCES `admin` (`Sr_no`);
 
 --
+-- Các ràng buộc cho bảng `customer_assignment`
+--
+ALTER TABLE `customer_assignment`
+  ADD CONSTRAINT `customer_assignment_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `user_credit` (`id`),
+  ADD CONSTRAINT `customer_assignment_ibfk_2` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`);
+
+--
 -- Các ràng buộc cho bảng `departure_dates`
 --
 ALTER TABLE `departure_dates`
@@ -1502,7 +1558,6 @@ ALTER TABLE `feedback`
 -- Các ràng buộc cho bảng `messages`
 --
 ALTER TABLE `messages`
-  ADD CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`tour_id`) REFERENCES `booking_ordertour` (`Tour_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `messages_ibfk_2` FOREIGN KEY (`sender_id`) REFERENCES `user_credit` (`id`),
   ADD CONSTRAINT `messages_ibfk_3` FOREIGN KEY (`receiver_id`) REFERENCES `employees` (`id`);
 

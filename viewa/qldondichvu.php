@@ -181,7 +181,7 @@
             <form class="capnhathoadon" id="capnhathoadon" action="./api/apia.php" method="post" enctype="multipart/form-data"> 
             <input type="hidden" name="action" value="capnhathoadon">
             <div id="suatour"></div>
-            <button type="submit" onclick="capnhathoadon()">Cập nhật</button>
+            <button type="submit">Cập nhật</button>
             </form>
             </div>
         </div>
@@ -411,24 +411,25 @@ function openRatingModal1(Id) {
                    
                     <div class="container4">
                         <h2>THÔNG TIN ĐẶT TOUR</h2>
-            <input type="hidden" id="idtour" name="idtour" value="${item.Tour_id}" >
+                        <input type="hidden" id="idtour" name="idtour" value="${item.Tour_id}" >
+                        <input type="hidden" id="booking_id" name="booking_id" value="${item.Booking_id}" >
                         <!-- Thông tin người đặt tour -->
                         <div class="user-info">
                             <h3>Thông tin người đặt</h3>
                             <div class="form-row">
                                 <div>
                                     <label for="fullname">Tên tài khoản:</label>
-                                    <input type="text" id="fullname" value="${item.User_name}" >
+                                    <input type="text" id="fullname" name="user_name" value="${item.User_name}" >
                                 </div>
                                 <div>
                                     <label for="phone">Số điện thoại:</label>
-                                    <input type="text" id="phone" value="${item.Phone_num}" >
+                                    <input type="text" id="phone" name="phone_num" value="${item.Phone_num}" >
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div>
                                     <label for="address">Địa chỉ:</label>
-                                    <input type="text" id="address" value="${item.Address}" >
+                                    <input type="text" id="address" name="address" value="${item.Address}" >
                                 </div>
                                 
                             </div>
@@ -460,7 +461,7 @@ function openRatingModal1(Id) {
                             <div class="form-row">
                                 <div>
                                     <label for="arrival">Phương tiện di chuyển:</label>
-                                    <input type="text" id="arrival" value="${item.Arrival}" >
+                                    <input type="text" id="arrival" name="arrival" value="${item.Arrival}" >
                                 </div>
                                 <div>
                                     <label for="participants">Số lượng người:</label>
@@ -498,7 +499,7 @@ function openRatingModal1(Id) {
                         <div class="form-row1">
                             <div>
                                 <label>${participant.phanloai}:</label>
-                              <input type="hidden" name="id" value="${participant.idpar}" >
+                              <input type="hidden" name="idpar" value="${participant.idpar}" >
                             </div>
                             <div>
                                 <label>Họ tên:</label>
@@ -581,7 +582,7 @@ function openRatingModalxem(Id) {
                    
                     <div class="container4">
                         <h2>THÔNG TIN ĐẶT TOUR</h2>
-            <input type="hidden" id="idtour" name="idtour" value="${item.Tour_id}" >
+                        <input type="hidden" id="idtour" name="idtour" value="${item.Tour_id}" >
                         <!-- Thông tin người đặt tour -->
                         <div class="user-info">
                             <h3>Thông tin người đặt</h3>
@@ -705,45 +706,58 @@ function openRatingModalxem(Id) {
     });
 }
 function capnhathoadon() {
-    let data = [];
+    $('#capnhathoadon').submit(function (e) {
+        e.preventDefault(); // Ngăn chặn reload trang khi submit
 
-    $(".form-row1").each(function () {
-        let id = $(this).find("input[name='id']").val();
-        let hoten = $(this).find("input[name='ht']").val();
-        let ngaysinh = $(this).find("input[name='ns']").val();
-        let gioitinh = $(this).find("select[name='gioit']").val();
+        let data = {
+            action: "capnhathoadon",
+            booking_id: $("#booking_id").val(),
+            arrival: $("#arrival").val(),
+            user_name: $("#fullname").val(),
+            phone_num: $("#phone").val(),
+            address: $("#address").val(),
+            participants: []
+        };
 
-        data.push({ id, hoten, ngaysinh, gioitinh });
-    });
+        $(".form-row1").each(function () {
+            let participant = {
+                idpar: $(this).find("input[name='idpar']").val(),
+                hoten: $(this).find("input[name='ht']").val(),
+                ngaysinh: $(this).find("input[name='ns']").val(),
+                gioitinh: $(this).find("select[name='gioit']").val()
+            };
+            data.participants.push(participant);
+        });
 
-    $.ajax({
-        type: 'POST',
-        url: './api/apia.php',  // Không cần thêm ?action=capnhathoadon vào URL
-        data: JSON.stringify({ action: 'capnhathoadon', participants: data }), // Gửi action trong dữ liệu JSON
-        contentType: 'application/json',
-        success: function (response) {
-          
-            if (response.trim() === 'cập nhật thành công!') {
-                openPopup('Thông báo', 'Cập nhật thành công!');
-                setTimeout(() => {
-                    window.location.reload();
-                }, 2000);
-            } else {
-                openPopup('Cập nhật thành công!','');
+        console.log("Dữ liệu gửi đi:", data); // Debug
+
+        $.ajax({
+            type: 'POST',
+            url: './api/apia.php',
+            data: JSON.stringify(data), // Gửi đúng dữ liệu
+            contentType: 'application/json',
+            success: function (response) {
+               
+                openPopup('Cập nhật thành công','');
+                setTimeout(function() {
+                    window.location.href = 'indexa.php?qldichvu';
+                }, 1000);
+            },
+            error: function (xhr, status, error) {
+                console.error('Lỗi AJAX:', status, error);
+                console.error('Chi tiết lỗi:', xhr.responseText);
+                openPopup('Lỗi', 'Không thể gửi yêu cầu. Vui lòng thử lại!');
             }
-        },
-        error: function (xhr, status, error) {
-            console.error('Lỗi AJAX:', status, error);
-            console.error('Chi tiết lỗi:', xhr.responseText);
-            openPopup('Lỗi', 'Không thể gửi yêu cầu. Vui lòng thử lại!');
-        }
+        });
     });
 }
+
+
 
 $(document).ready(function() {
     
       xemdichvu();
-
+capnhathoadon();
     
    });
 </script>
