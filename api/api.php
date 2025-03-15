@@ -85,8 +85,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo 'error';
         exit();
     }
-     elseif ($action == "register") {
-        $username = $_POST['name']; // Tên tài khoản
+    elseif ($action == "register") {
+        $username = $_POST['name'];
         $email = $_POST['email'];
         $phone = $_POST['sdt'];
         $address = $_POST['dc'];
@@ -96,46 +96,58 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $file = $_FILES['anh']['tmp_name'];
         $name = $_FILES['anh']['name'];
         $loai = $_FILES['anh']['type'];
-
+    
         // Xử lý ảnh tải lên
         if ($loai != "image/jpg" && $loai != "image/jpeg" && $loai != "image/png") {
             echo 'invalid_image';
             exit;
         }
-
+    
         // Kiểm tra mật khẩu
         if ($password !== $repassword) {
             echo 'password_mismatch';
             exit;
         }
-
-        // Kiểm tra người dùng đã tồn tại trong cơ sở dữ liệu
+    
+        // Kiểm tra người dùng đã tồn tại
         $check_query = "SELECT * FROM user_credit WHERE Email = ? OR sdt = ?";
         $stmt = $conn->prepare($check_query);
         $stmt->bind_param("ss", $email, $phone);
         $stmt->execute();
         $result = $stmt->get_result();
-
+    
         if ($result->num_rows > 0) {
             echo 'user_exists';
         } else {
-            if (move_uploaded_file($file, "../assets/img/user/" . $name)) {  // Thêm người dùng mới vào cơ sở dữ liệu
+            if (move_uploaded_file($file, "../assets/img/user/" . $name)) {
+                // Thêm người dùng mới
                 $insert_query = "INSERT INTO user_credit (Name, Address, Email, sdt, profile, Password, Datetime) VALUES (?, ?, ?, ?, ?, MD5(?), ?)";
                 $stmt = $conn->prepare($insert_query);
                 $stmt->bind_param("sssssss", $username, $address, $email, $phone, $name, $password, $birthdate);
-
-
-                if ($stmt->execute()) {
-                    echo 'registration_success';
-                } else {
-                    echo 'error_points';
-                }
-
+                $stmt->execute();
+    
+                // Lấy ID của user vừa đăng ký
+                $customer_id = $conn->insert_id;
+    
+                // Lấy ngẫu nhiên nhân viên CSKH
+                $cskh_query = "SELECT id FROM employees WHERE Permissions = 'CSKH' ORDER BY RAND() LIMIT 1";
+                $result = $conn->query($cskh_query);
+                $row = $result->fetch_assoc();
+                $employee_id = $row['id'];
+    
+                // Phân công khách hàng cho CSKH
+                $assign_query = "INSERT INTO customer_assignment (employee_id, customer_id) VALUES (?, ?)";
+                $stmt = $conn->prepare($assign_query);
+                $stmt->bind_param("ii", $employee_id, $customer_id);
+                $stmt->execute();
+    
+                echo 'registration_success';
             } else {
                 echo 'upload_error';
             }
         }
-    } elseif ($action == "updatettcn") {
+    }
+    elseif ($action == "updatettcn") {
         $username = $_POST['name']; // Tên tài khoản
         $email = $_SESSION['Email']; // Lấy email từ session
         $phone = $_SESSION['sdt'];  // Lấy số điện thoại từ session
@@ -215,7 +227,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $refund = 0;
         $datetime = $_POST['ns'];
         $participants = $_POST['adults'] + $_POST['children'] + $_POST['babies'];
-    
+      
         $tour_name = $_POST['tour_name'];
         $price = $_POST['price1'];
         $total_pay = $_POST['total-price'];
@@ -275,7 +287,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $payment_status,
             $refund,
             $datetime,
-            $participants
+            $participants  
         );
     
         if ($stmt_order->execute()) {

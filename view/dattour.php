@@ -706,7 +706,7 @@ function getFormData(containerId) {
 function createForm(containerId, label, count, type, existingData = []) {
     const container = document.getElementById(containerId);
     container.innerHTML = "";
-
+ 
     for (let i = 0; i < count; i++) {
         const data = existingData[i] || { hoten: "", ngaysinh: "", gioitinh: "Nam" };
 
@@ -724,6 +724,7 @@ function createForm(containerId, label, count, type, existingData = []) {
                     <option value="Nam" ${data.gioitinh === "Nam" ? "selected" : ""}>Nam</option>
                     <option value="Nữ" ${data.gioitinh === "Nữ" ? "selected" : ""}>Nữ</option>
                 </select>
+                
                 <input type="hidden" name="phanloai" value="${label}" required>
             </div>
         `;
