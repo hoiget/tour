@@ -104,6 +104,7 @@
                     <label for="address">Địa chỉ:</label>
                     <input type="text" id="address" name="address" placeholder="Nhập địa chỉ">
                 </div>
+                
             </div>
             <button type="submit" class="submit-btn">Tạo tài khoản</button>
         </form>

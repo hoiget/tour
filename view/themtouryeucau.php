@@ -52,6 +52,14 @@
                   
                 </select>
             </div>
+            <div class="mb-3">
+                <label for="phuongtien" class="form-label">Tài xế</label>
+                <div id="tx"></div>
+            </div>
+            <div class="mb-3">
+            <label for="phuongtien" class="form-label">Khách sạn</label>
+                <div id="ks"></div>
+            </div>
             <!-- Giá Tour -->
             <div class="mb-3">
                 <label for="tour_price" class="form-label">Giá Tour (VND)</label>
@@ -104,6 +112,72 @@ $(document).ready(function () {
             `);
         }
     });
+    function xemks() {
+    $.ajax({
+        url: './api/api.php?action=xemks',
+        type: 'GET',
+        dataType: 'json', 
+        success: function(response) {
+            if (Array.isArray(response) && response.length > 0) {
+                var eventHtml = '<select class="form-control" id="khachsan" name="khachsan" required>';
+                eventHtml += '<option value="">Chọn khách sạn</option>'; // Tuỳ chọn mặc định
+
+                response.forEach(function(event) {
+                    eventHtml += `<option value="${event.id}">${event.Name}</option>`;
+                });
+
+                eventHtml += '</select>';
+
+                $('#ks').html(eventHtml);
+            } else {
+                $('#ks').html('<div class="col">Không tìm thấy thông tin khách sạn.</div>');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Lỗi khi lấy thông tin:', error);
+            $('#ks').html('<div class="col">Đã xảy ra lỗi khi tải thông tin khách sạn.</div>');
+        }
+    });
+}
+function xemtaixe(phuongtien = '') {
+    $.ajax({
+        url: './api/api.php?action=xemtaixe&phuongtien=' + encodeURIComponent(phuongtien),
+        type: 'GET',
+        dataType: 'json', 
+        success: function(response) {
+            if (Array.isArray(response) && response.length > 0) {
+                var eventHtml = '<select class="form-control" id="taixe" name="taixe" required>';
+                eventHtml += '<option value="">Chọn tài xế</option>'; // Tuỳ chọn mặc định
+
+                response.forEach(function(event) {
+                    eventHtml += `<option value="${event.driver_id}">${event.name}</option>`;
+                });
+
+                eventHtml += '</select>';
+                $('#tx').html(eventHtml);
+            } else {
+                $('#tx').html('<div class="col">Không tìm thấy tài xế phù hợp.</div>');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Lỗi khi lấy thông tin:', error);
+            $('#tx').html('<div class="col">Đã xảy ra lỗi khi tải thông tin tài xế.</div>');
+        }
+    });
+}
+
+// Gọi lại xemtaixe() khi chọn phương tiện
+$('#phuongtien').on('change', function() {
+    let selectedPhuongTien = $(this).val();
+    xemtaixe(selectedPhuongTien);
+});
+
+// Gọi API lần đầu khi trang tải
+$(document).ready(function () {
+    xemks();
+    xemtaixe($('#phuongtien').val());
+});
+
 
     // Hàm gửi form
     function guitouryeucau() {
@@ -141,11 +215,12 @@ $(document).ready(function () {
             }
         });
     }
-
+   
     // Gửi form khi nhấn nút
     $('#button').on('click', function (e) {
         e.preventDefault();
         guitouryeucau();
+       
     });
 });
 </script>

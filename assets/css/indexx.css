@@ -293,7 +293,7 @@ h6 {
     border-radius: 4px;
     z-index: 99;
   }
-  
+
   .navmenu .dropdown ul li {
     min-width: 200px;
   }
@@ -333,6 +333,7 @@ h6 {
     left: -100%;
     visibility: visible;
   }
+  
 }
 
 /* Navmenu - Mobile */
@@ -1396,3 +1397,4 @@ section,
 
 
 }
+

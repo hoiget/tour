@@ -1202,22 +1202,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt_order->close();
     } elseif ($action == "guitinnhan") {
         $user_id = $_SESSION['id'];
-        $sender_type = "guide"; // Xác định người gửi là user
-        $sender_id = $_POST['sender_id']; // Hướng dẫn viên (employees.id)
-        $message = trim($_POST['message']);
+        $room_id = $_POST['room_id'];
+        $message = trim($_POST['message'] ?? '');
+        $sender_id = $_POST['sender_id'] ?? 0; 
+        $sender_type = "guide";
     
-        if (!empty($message)) {
-            $stmt = $conn->prepare("INSERT INTO messages (sender_id, receiver_id, sender_type, message) VALUES (?, ?, ?, ?)");
-            $stmt->bind_param("iiss",$sender_id, $user_id, $sender_type, $message);
-            
-            if ($stmt->execute()) {
-                echo "success";
-            } else {
-                echo "Có lỗi xảy ra:" . $conn->error;
-            }
-            $stmt->close();
-        } 
+        // Kiểm tra nếu thiếu dữ liệu
+        if (empty($room_id) || empty($message) || empty($user_id)) {
+            die("Lỗi: Thiếu thông tin (room_id, message hoặc sender_id).");
+        }
     
+        // Chèn tin nhắn vào database
+        $stmt = $conn->prepare("INSERT INTO messages (sender_id, receiver_id,room_id, sender_type, message, created_at) 
+                                VALUES (?, ?, ?, ?, ?, NOW())");
+    
+        if (!$stmt) {
+            die("Lỗi MySQL: " . $conn->error);
+        }
+    
+        $stmt->bind_param("iisss", $sender_id, $user_id,$room_id, $sender_type, $message);
+    
+        if ($stmt->execute()) {
+            echo 'success';
+        } else {
+            die("Lỗi MySQL khi thực thi: " . $stmt->error);
+        }
+    
+        $stmt->close();
+
+          
 } elseif($action=="Phancong"){
     $customer_id = $_POST['customer_id'];
     $employee_id = $_POST['employee_id'];
@@ -1250,6 +1263,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->close();
 }
 }
+
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -2285,6 +2299,7 @@ ORDER BY departure_time.ngaykhoihanh ASC
         participant ON booking_ordertour.Booking_id = participant.idbook
     LEFT JOIN
         tour ON booking_ordertour.Tour_id = tour.id
+    GROUP BY booking_ordertour.Booking_id
         ";
         $result = $conn->query($query);
 
@@ -2539,17 +2554,23 @@ ORDER BY departure_time.ngaykhoihanh ASC
         $user_id = $_SESSION['id'];
 
         $query = "
-                    SELECT 
-                        schedule.*, schedule.id AS idschedule, employees.id AS idem, employees.Name
-                    FROM 
-                        schedule 
-                    LEFT JOIN 
-                        employees ON schedule.employee_id  = employees.id
-                    WHERE 
-                        schedule.shift_date BETWEEN ? AND ? AND employees.id = ?
-                    ORDER BY 
-                        schedule.shift_date;
-                ";
+        SELECT 
+            schedule.shift_date, 
+            GROUP_CONCAT(DISTINCT employees.id ORDER BY employees.id SEPARATOR ', ') AS employee_ids,
+            GROUP_CONCAT(DISTINCT employees.Name ORDER BY employees.id SEPARATOR ', ') AS employee_names,
+            schedule.shift_type
+        FROM 
+            schedule 
+        LEFT JOIN 
+            employees ON schedule.employee_id = employees.id
+        WHERE 
+            schedule.shift_date BETWEEN ? AND ? AND employees.id = ? AND schedule.status='V'
+        GROUP BY 
+            schedule.shift_date, schedule.shift_type
+        ORDER BY 
+            schedule.shift_date;
+    ";
+    
 
         $stmt = $conn->prepare($query);
         if (!$stmt) {
@@ -2585,7 +2606,7 @@ ORDER BY departure_time.ngaykhoihanh ASC
 
     } elseif ($action == "xemtouryeucau") {
 
-        $query = "SELECT * FROM request_tour";
+        $query = "SELECT * FROM request_tour INNER JOIN rooms ON request_tour.idks=rooms.id INNER JOIN drivers ON request_tour.idtx=drivers.driver_id";
         $result = $conn->query($query);
 
         $users = [];
@@ -2599,7 +2620,7 @@ ORDER BY departure_time.ngaykhoihanh ASC
         exit;
     }  elseif ($action == "xemtouryeucau1") {
         $id = $_GET['id'];
-        $query = "SELECT * FROM request_tour where id_request='$id'";
+        $query = "SELECT * FROM request_tour INNER JOIN rooms ON request_tour.idks=rooms.id INNER JOIN drivers ON request_tour.idtx=drivers.driver_id where id_request='$id'";
         $result = $conn->query($query);
 
         $users = [];
@@ -2814,35 +2835,8 @@ ORDER BY departure_time.ngaykhoihanh ASC
         } else {
             echo json_encode(["status" => "error"]);
         }
-    }elseif ($action == "xemtinnhan") {
-        $customer_id = $_GET['customer_id'] ?? 0;
-        $query = "SELECT messages.*, user_credit.Name FROM messages 
-                  JOIN user_credit ON messages.sender_id = user_credit.id
-                  WHERE messages.sender_id = '$customer_id' OR messages.receiver_id = '$customer_id'
-                  ORDER BY messages.created_at ASC";
-        $result = $conn->query($query);
-    
-        $messages = [];
-        while ($row = $result->fetch_assoc()) {
-            $messages[] = $row;
-        }
-        echo json_encode($messages);
-        exit;
     }
-     elseif ($action == "danhsach_khachhang") {
-        $user_id = $_SESSION['id'];
-        $query = "SELECT DISTINCT user_credit.id, user_credit.Name FROM customer_assignment 
-                  JOIN user_credit ON customer_assignment.customer_id = user_credit.id 
-                  WHERE customer_assignment.employee_id = '$user_id'";
-        $result = $conn->query($query);
-    
-        $customers = [];
-        while ($row = $result->fetch_assoc()) {
-            $customers[] = $row;
-        }
-        echo json_encode($customers);
-        exit;
-    }elseif ($action == "check_new_messages") {
+    elseif ($action == "check_new_messages") {
         $user_id = $_SESSION['id'];
         $query = "SELECT COUNT(*) AS total FROM messages WHERE is_read = 0 AND receiver_id = '$user_id' AND sender_type = 'user'";
         $result = $conn->query($query);
@@ -2904,11 +2898,47 @@ JOIN user_credit c ON ca.customer_id = c.id";
 
 
 
-} 
-    
+} // API lấy danh sách mã phòng chat của nhân viên hiện tại
+if ($action == "danhsach_phong_chat") {
+    $user_id = $_SESSION['id']; // Giả sử nhân viên đã đăng nhập
    
+    $stmt = $conn->prepare("SELECT c.room_id, u.Name as customer_name,u.id
+                            FROM chat_rooms c
+                            JOIN user_credit u ON c.user_id = u.id
+                            WHERE c.employee_id = ?");
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    echo json_encode($result->fetch_all(MYSQLI_ASSOC));
+}
 
-     
+// API lấy tin nhắn theo mã phòng
+elseif ($action == "xemtinnhan") {
+    $room_id = $_GET['room_id'] ?? 0;
+
+    $stmt = $conn->prepare("SELECT m.*, u.Name as customer_name
+                            FROM messages m
+                            JOIN user_credit u ON m.sender_id = u.id
+                            WHERE m.room_id = ?
+                            ORDER BY m.created_at ASC");
+    $stmt->bind_param("i", $room_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    echo json_encode($result->fetch_all(MYSQLI_ASSOC));
+}
+
+// API gửi tin nhắn vào phòng chat
+
+
+
+
+
+
+       
 
 }
+
+
+
+
 ?>

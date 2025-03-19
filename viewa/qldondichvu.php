@@ -230,6 +230,7 @@
         type: 'GET',
         dataType: 'json', // Tự động phân tích chuỗi JSON thành object/mảng
         success: function(response) {
+           
             if (Array.isArray(response) && response.length > 0) {
                 var events = response;
                 var eventHtml = '';

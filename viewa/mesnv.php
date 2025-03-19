@@ -90,146 +90,156 @@ color:black;
 
 </style>
 <div id="chat-icon">
-    <i class="fas fa-comment-dots"></i> <!-- FontAwesome Icon -->
+    <i class="fas fa-comment-dots"></i>
 </div>
 
 <div id="chat-box">
     <p>Chat với khách hàng</p>
-    <form class="guitinnhan" id="guitinnhan" action="./api/apia.php" method="post" enctype="multipart/form-data">
-    <input type="hidden" name="action" value="guitinnhan">
-    <select id="customer-select" onchange="loadMessages()">
-        <option value="">Chọn khách hàng</option>
-    </select>
-    <div id="messages"></div>
-   
-        <input type="hidden" name="sender_id" id="sender_id" >
-      
+    <form id="guitinnhan">
+        <input type="hidden" name="action" value="guitinnhan">
+        
+        <!-- Danh sách mã phòng -->
+        <select id="room-select">
+            <option value="">Chọn mã phòng</option>
+        </select>
+
+        <div id="messages"></div>
+        
+        <input type="hidden" name="room_id" id="room_id">
+        <input type="hidden" name="receiver_id" id="receiver_id" value="<?= $_SESSION['id'] ?? '' ?>">
+        <input type="hidden" name="sender_id" id="customer_id">
+
         <input type="text" name="message" id="message-input" placeholder="Nhập tin nhắn...">
         <button type="submit" id="send-btn">Gửi</button>
     </form>
 </div>
 
 
-
 <script>
-function loadCustomerList() {
-    $.ajax({
-        url: './api/apia.php?action=danhsach_khachhang',
-        type: 'GET',
-        dataType: 'json',
-        success: function(response) {
-            var options = '<option value="">Chọn khách hàng</option>';
-            response.forEach(function(customer) {
-                options += `<option value="${customer.id}">${customer.Name}</option>`;
-            });
-            $('#customer-select').html(options);
-        }
-    });
-}
-
-
-function loadMessages() {
-    var customer_id = $('#customer-select').val();
-    if (!customer_id) return;
-
-    $.ajax({
-        url: './api/apia.php?action=xemtinnhan&customer_id=' + customer_id,
-        type: 'GET',
-        dataType: 'json',
-        success: function(response) {
-            var eventHtml = '';
-            response.forEach(function(event) {
-                if (event.sender_type === "user") {
-                    eventHtml += `<p><b>Khách hàng ${event.Name}:</b> ${event.message}</p>`;
-                } else {
-                    eventHtml += `<p><b>Bạn:</b> ${event.message}</p>`;
-                }
-            });
-            $('#messages').html(eventHtml);
-            $('#sender_id').val(customer_id);
-        }
-    });
-}
-
-
-
-
-
-function guitinnhan() {
-    $('#guitinnhan').submit(function (e) {
-        e.preventDefault();
-
-        // Thu thập dữ liệu form
-        var formData = new FormData(this);
-
-        $.ajax({
-            type: 'POST',
-            url: './api/apia.php',
-            data: formData,
-            contentType: false, // Bắt buộc khi sử dụng FormData
-            processData: false, // Ngăn jQuery xử lý dữ liệu
-            success: function (response) {
-                console.log(response);
-                if (response === 'success') {
-                   
-                    
-                }  else  {
-                    openPopup('Thông báo', 'lỗi');
-                }
-            },
-            error: function (xhr, status, error) {
-                console.log('AJAX error:', error);
-                openPopup('Lỗi', 'Không thể kết nối với máy chủ');
-            }
-        });
-    });
-}
-function markMessagesAsRead(customer_id) {
-    $.ajax({
-        url: './api/apia.php?action=mark_as_read',
-        type: 'GET',
-        data: { customer_id: customer_id },
-        success: function(response) {
-            $('#chat-icon').removeClass('new-message'); // Xóa chấm đỏ sau khi đọc
-        }
-    });
-}
-
-$('#customer-select').on('change', function() {
-    var customer_id = $(this).val();
-    if (customer_id) {
-        markMessagesAsRead(customer_id);
-        loadMessages(); // Hiển thị tin nhắn của khách hàng
-    }
-});
-
-
-function checkNewMessages() {
-    $.ajax({
-        url: './api/apia.php?action=check_new_messages',
-        type: 'GET',
-        dataType: 'json',
-        success: function(response) {
-            if (response.new_messages > 0) {
-                $('#chat-icon').addClass('new-message');
-            } else {
-                $('#chat-icon').removeClass('new-message');
-            }
-        }
-    });
-}
-setInterval(checkNewMessages, 1000);
-
 $(document).ready(function () {
-    // Toggle hiển thị chatbox khi bấm icon
+    // Khi bấm vào icon chat, mở hoặc đóng hộp thoại
     $("#chat-icon").click(function () {
         $("#chat-box").toggle();
     });
 
-    // Gọi các hàm chat
-    guitinnhan();
-    loadCustomerList();
-    setInterval(loadMessages, 1000)
+    // Load danh sách phòng chat của nhân viên
+    loadRoomList();
 
+    // Kiểm tra tin nhắn mới mỗi 5 giây
+    setInterval(checkNewMessages, 5000);
+
+    // Load tin nhắn tự động nếu đã chọn mã phòng
+    setInterval(function () {
+        if ($("#room-select").val()) {
+            loadMessages();
+        }
+    }, 2000);
+
+    // Gửi tin nhắn khi submit form
+    $("#guitinnhan").submit(function (e) {
+        e.preventDefault();
+        sendMessage();
+    });
+
+    // Khi chọn phòng, cập nhật input ẩn `customer_id`
+    $('#room-select').on('change', function () {
+        let selectedOption = $(this).find(':selected'); 
+        let customerId = selectedOption.data('customer-id') || ''; 
+        $('#customer_id').val(customerId);
+        let room_id = $(this).val();
+        if (room_id) {
+            loadMessages();
+        }
+    });
 });
+
+// ✅ Load danh sách mã phòng của nhân viên
+function loadRoomList() {
+    $.getJSON('./api/apia.php?action=danhsach_phong_chat', function (response) {
+        let options = '<option value="">Chọn mã phòng</option>';
+        response.forEach(room => {
+            options += `<option value="${room.room_id}" data-customer-id="${room.id}">
+                        Phòng ${room.room_id} (${room.customer_name})
+                        </option>`;
+        });
+        $('#room-select').html(options);
+    });
+}
+
+// ✅ Load tin nhắn trong phòng chat
+function loadMessages() {
+    let room_id = $('#room-select').val();
+    if (!room_id) return;
+
+    $.getJSON('./api/apia.php?action=xemtinnhan&room_id=' + room_id, function (response) {
+        if (Array.isArray(response)) {
+            let chatHtml = '';
+            response.forEach(msg => {
+                let sender = msg.sender_type === "user" ? `Khách hàng ${msg.customer_name}` : "Bạn";
+                chatHtml += `<p><b>${sender}:</b> ${msg.message}</p>`;
+            });
+            $('#messages').html(chatHtml);
+            $('#room_id').val(room_id);
+        } else {
+            console.error("Lỗi JSON:", response);
+        }
+    });
+}
+
+// ✅ Gửi tin nhắn vào phòng chat
+function sendMessage() {
+    let message = $('#message-input').val().trim();
+    let room_id = $('#room-select').val();
+    let sender_id = $('#customer_id').val(); // ID của nhân viên
+    let receiver_id = $('#receiver_id ').val(); // ID khách hàng
+
+    console.log("room_id:", room_id);
+    console.log("sender_id:", sender_id);
+    console.log("receiver_id:", receiver_id);
+    console.log("message:", message);
+
+    if (!message || !room_id || !sender_id || !receiver_id) {
+        alert("Lỗi: Thiếu thông tin! (Hãy kiểm tra mã phòng và tài khoản nhân viên)");
+        return;
+    }
+
+    let formData = new FormData($('#guitinnhan')[0]);
+
+    $.ajax({
+        type: 'POST',
+        url: './api/apia.php',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            console.log("Server Response:", response);
+            if (response.trim() === 'success') {
+                $('#message-input').val('');
+                loadMessages();
+            } else {
+                alert('Gửi tin nhắn thất bại! Lỗi: ' + response);
+            }
+        },
+        error: function (xhr) {
+            console.error("AJAX Error:", xhr.responseText);
+            alert('Lỗi kết nối! Chi tiết: ' + xhr.responseText);
+        }
+    });
+}
+
+// ✅ Kiểm tra tin nhắn mới
+
+$('#room-select').on('change', function () {
+    let selectedOption = $(this).find(':selected'); 
+    let customerId = selectedOption.data('customer-id') || ''; 
+    console.log("customerId:", customerId); // Kiểm tra dữ liệu
+    $('#customer_id').val(customerId);
+
+    let room_id = $(this).val();
+    console.log("room_id selected:", room_id); // Kiểm tra giá trị
+    if (room_id) {
+        loadMessages();
+    }
+});
+
 </script>

@@ -88,7 +88,7 @@ function showlogio() {
 
     $(document).ready(function() {
         $('#loginform').submit(function(e) {
-            e.preventDefault();
+           
             $.ajax({
                 type: 'POST',
                 url: './api/api.php',

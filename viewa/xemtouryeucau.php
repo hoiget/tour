@@ -340,6 +340,8 @@
                     <th>Lịch trình</th>
                     <th>Ngày ở</th>
                     <th>Phương tiện</th>
+                    <th>Tài xế</th>
+                    <th>Khách sạn</th>
                     <th>Trạng thái</th>
                     <th>Action</th>
                 </tr>
@@ -406,7 +408,9 @@
                             <td>${event.tour_price}</td>
                             <td class="description">${itineraryPreview}...</td>
                             <td>${event.tour_duration}</td>
-                            <td>${event.phuongtien}</td> `
+                            <td>${event.phuongtien}</td>
+                            <td>${event.name}</td> 
+                            <td>${event.Name}</td>  `
                             if(event.Trangthai == 1){
                                   eventHtml += `<td><span style="color:green">Đã duyệt</span></td>`
                             }else{
@@ -454,6 +458,8 @@ function openRatingModal(Id) {
                         <span><b>Gía tour:</b> ${data[0].tour_price}</span><br>
                         <span><b>Ngày ở:</b> ${data[0].tour_duration}</span><br>
                         <span><b>Phương tiện:</b> ${data[0].phuongtien}</span><br>
+                        <span><b>Tài xế:</b> ${data[0].name}</span><br>
+                        <span><b>Khách sạn:</b> ${data[0].Name}</span><br>
                         <span><b>Lịch trình:</b></span> ${itineraryHtml}
                 `;
 

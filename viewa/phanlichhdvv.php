@@ -168,7 +168,8 @@
         <label for="hdv">Tên nhân viên:</label>
         <select name="hdv1" id="hdv">
           <option value="" selected>Chọn nhân viên</option>
-        </select>
+        </select><br><br>
+        <span id="tenhdv"></span> 
       </div>
 <br>
       <button type="submit" class="submit-btn">Cập nhật</button>
@@ -350,6 +351,14 @@ function xoalichtrinh(id) {
 
     $('#selectedTourId').val(id);
     $('#selectedTourdate').val(date);
+    let selectedTour = $(`[data-id="${id}"]`);
+    let tenHDV = selectedTour.find('span').text(); // Lấy thông tin hướng dẫn viên
+
+    if (tenHDV.includes("Chưa có")) {
+        $('#tenhdv').text("Tên hướng dẫn viên: Chưa có");
+    } else {
+        $('#tenhdv').text("Tên hướng dẫn viên: " + tenHDV);
+    }
 }
 
 

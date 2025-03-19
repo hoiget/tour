@@ -170,24 +170,22 @@ document.addEventListener("DOMContentLoaded", () => {
             // Đổ dữ liệu vào bảng lịch
           // Đổ dữ liệu vào bảng lịch
           schedule.forEach((item) => {
-              const itemDate = new Date(item.shift_date);
-              const dayIndex = (itemDate.getDay() === 0 ? 6 : itemDate.getDay() - 1); // 0: Chủ Nhật → 6
+    const itemDate = new Date(item.shift_date);
+    const dayIndex = (itemDate.getDay() === 0 ? 6 : itemDate.getDay() - 1); // 0: Chủ Nhật → 6
 
-              let period = "";
-              if (item.shift === "Sáng") period = "morning";
-              else if (item.shift === "Chiều") period = "afternoon";
-              else if (item.shift === "Tối") period = "evening";
+    let period = "";
+    if (item.shift_type === "Ca 1") period = "morning";
+    else if (item.shift_type === "Ca 2") period = "afternoon";
+    else if (item.shift_type === "Ca 3") period = "evening";
 
-              const cellId = `${period}-${dayIds[dayIndex]}`;
-              const cell = document.getElementById(cellId);
+    const cellId = `${period}-${dayIds[dayIndex]}`;
+    const cell = document.getElementById(cellId);
 
-              if (cell) {
-                  const content = document.createElement("div");
-                  content.classList.add("shift-box"); // Thêm lớp CSS
-                  content.innerHTML = `<span>${item.Name}</span><br><small>(${item.shift_date})</small>`;
-                  cell.appendChild(content);
-              }
-          });
+    if (cell) {
+        cell.innerHTML = `<div class="shift-box"><strong>${item.employee_names}</strong></div>`;
+    }
+});
+
 
         } catch (error) {
             console.error("Lỗi khi tải lịch:", error);

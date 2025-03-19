@@ -1,16 +1,11 @@
-.container2 {
+.container19 {
     width: 80%;
     margin: auto;
     padding: 20px;
     background:white;
     color:black;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Bóng đậm hơn */
-}
-
-.container2:hover {
-    transform: translateY(-5px); /* Hiệu ứng nổi lên khi hover */
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3); /* Tạo hiệu ứng nổi rõ */
-    
+    border-radius: 30px;
 }
 
 

@@ -87,184 +87,147 @@ color:black;
 }
 
 </style>
+
+
 <div id="chat-icon">
-    <i class="fas fa-comment-dots"></i> <!-- FontAwesome Icon -->
+    <i class="fas fa-comment-dots"></i>
 </div>
 
 <div id="chat-box">
-    <p>Chat với chăm sóc khách hàng</p>
-    <form class="guitinnhan" id="guitinnhan" action="./api/api.php" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="action" value="guitinnhan">
-        <div id="xemtt"></div>
-
-        <div id="messages"></div>
-        <input type="text" name="message" id="message-input" placeholder="Nhập tin nhắn...">
-        <button id="send-btn">Gửi</button>
-    </form>
+    <p>Chọn nhân viên chăm sóc khách hàng</p>
+    <select id="employee-select">
+        <option value="">Chọn nhân viên...</option>
+    </select>
+    <button id="create-room">Tạo phòng chat</button>
+    <p>Hoặc nhập mã phòng:</p>
+    <input type="text" id="room-id-input" placeholder="Nhập mã phòng">
+    <button id="join-room">Vào phòng</button>
+    <div id="messages"></div>
+    <input type="text" id="message-input" placeholder="Nhập tin nhắn...">
+    <button id="send-btn">Gửi</button>
 </div>
 
-
 <script>
+$(document).ready(function () {
+    let currentRoomId = localStorage.getItem('currentRoomId') || null;
+   
 
 
-function xemtt() {
-    $.ajax({
-        url: './api/api.php?action=xemthongnv',
-        type: 'GET',
-        dataType: 'json',
-        success: function(response) {
-        
-            if (Array.isArray(response) && response.length > 0) {
-                var event = response[0]; // Lấy tour đầu tiên
-                global_tour_id = event.id_tour; // Lưu tour_id vào biến toàn cục
-                
-                var eventHtml = `
-                 
-                    <input type="hidden" name="receiver_id" id="receiver_id" value="${event.employee_id}">
-                `;
+    function fetchEmployees() {
+        $.getJSON('./api/api.php?action=danhsachcskh', function (data) {
+            let options = '<option value="">Chọn nhân viên...</option>';
+            data.forEach(emp => {
+                options += `<option value="${emp.id}">${emp.Name}</option>`;
+            });
+            $('#employee-select').html(options);
+        });
+    }
 
-                $('#xemtt').html(eventHtml);
+    function createRoom() {
+    let employeeId = $('#employee-select').val();
+    if (!employeeId) return alert('Vui lòng chọn nhân viên!');
 
-                // Gọi callback sau khi có tour_id
-               
-            } else {
-                $('#xemtt').html('<div class="col">Không tìm thấy thông tin.</div>');
+    let requestData = { user_id: sessionId, employee_id: employeeId };
+    console.log("Gửi yêu cầu tạo phòng:", requestData);
+
+    $.post('./api/phancong.php?action=taophong', requestData)
+        .done(function (response) {
+            console.log("Phản hồi từ API taophong:", response);
+            if (response.room_id) {
+                currentRoomId = response.room_id;
+                localStorage.setItem('currentRoomId', currentRoomId);
+                alert('Mã phòng: ' + currentRoomId);
+                loadMessages();
             }
-        },
-        error: function(xhr, status, error) {
-            console.error('Lỗi khi lấy thông tin:', error);
-            $('#xemtt').html('<div class="col">Lỗi khi tải thông tin.</div>');
-        }
-    });
+        })
+        .fail(function (xhr, status, error) {
+            console.error("Lỗi API taophong:", status, error);
+        });
+}
+
+
+function joinRoom() {
+    let roomId = $('#room-id-input').val();
+    if (!roomId) return alert('Nhập mã phòng!');
+    
+    currentRoomId = roomId;
+    localStorage.setItem('currentRoomId', currentRoomId);
+    console.log("Tham gia phòng:", roomId);
+
+    loadMessages();
 }
 
 function loadMessages() {
-   
-    $.ajax({
-        url: './api/api.php?action=xemtinnhan',
-        type: 'GET',
-        dataType: 'json',
-        success: function(response) {
-         
-            var eventHtml = '';
-            if (Array.isArray(response) && response.length > 0) {
-                response.forEach(function(event) {
-                    if (event.sender_type === "guide") {
-                        eventHtml += `<p><b>Nhân viên chăm sóc khách hàng :</b> ${event.message}</p>`;
-                    } else if (event.sender_type === "user") {
-                        eventHtml += `<p><b>Bạn :</b> ${event.message}</p>`;
-                    }
-                });
-                $('#messages').html(eventHtml);
-            } else {
-                $('#messages').html('<div class="col">Không có tin nhắn.</div>');
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error('Lỗi khi lấy tin nhắn:', error);
-            $('#messages').html('<div class="col">Lỗi khi tải tin nhắn.</div>');
-        }
-    });
-}
+    if (!currentRoomId) return;
+    
+    console.log("Tải tin nhắn cho phòng:", currentRoomId);
 
-
-
-
-function guitinnhan() {
-    $('#guitinnhan').submit(function (e) {
-        e.preventDefault();
-
-        // Thu thập dữ liệu form
-        var formData = new FormData(this);
-
-        $.ajax({
-            type: 'POST',
-            url: './api/api.php',
-            data: formData,
-            contentType: false, // Bắt buộc khi sử dụng FormData
-            processData: false, // Ngăn jQuery xử lý dữ liệu
-            success: function (response) {
-                console.log(response);
-                if (response === 'success') {
-                   
-                    
-                }  else  {
-                    openPopup('Thông báo', 'lỗi');
-                }
-            },
-            error: function (xhr, status, error) {
-                console.log('AJAX error:', error);
-                openPopup('Lỗi', 'Không thể kết nối với máy chủ');
-            }
+    $.getJSON(`./api/api.php?action=xemtinnhan&room_id=${currentRoomId}`)
+        .done(function (data) {
+            console.log("Tin nhắn nhận được:", data);
+            let messages = '';
+            data.forEach(msg => {
+                let sender = msg.sender_type === 'user' ? 'Bạn' : 'Nhân viên';
+                messages += `<p><b>${sender}:</b> ${msg.message}</p>`;
+            });
+            $('#messages').html(messages);
+        })
+        .fail(function (xhr, status, error) {
+            console.error("Lỗi API xemtinnhan:", status, error);
         });
-    });
 }
 
-function markMessagesAsRead(guide_id) {
-    $.ajax({
-        url: './api/api.php?action=mark_as_read',
-        type: 'GET',
-        data: { guide_id: guide_id },
-        success: function(response) {
-            $('#chat-icon').removeClass('new-message'); // Xóa chấm đỏ sau khi đọc
-        }
-    });
-}
+function sendMessage() {
+    let message = $('#message-input').val().trim();
+    if (!currentRoomId || message === '') {
+        alert("Vui lòng nhập tin nhắn!");
+        return;
+    }
 
-function markMessagesAsRead() {
-    var receiver_id = $('#receiver_id').val(); // Lấy giá trị của receiver_id
-    if (!receiver_id) return;
+    let requestData = {
+        sender_id: sessionId,  // ID người gửi từ session
+        room_id: currentRoomId,
+        sender_type: 'user',
+        message: message
+    };
 
-    $.ajax({
-        url: './api/api.php?action=mark_as_read',
-        type: 'GET',
-        data: { receiver_id: receiver_id }, // Gửi ID người nhận
-        success: function(response) {
-            console.log(response);
-            $('#chat-icon').removeClass('new-message'); // Xóa chấm đỏ khi đọc
-        },
-        error: function(xhr, status, error) {
-            console.error("Lỗi khi đánh dấu tin nhắn đã đọc:", error);
-        }
-    });
-}
+    console.log("🔄 Gửi tin nhắn:", requestData);
 
+    $.post('./api/phancong.php?action=guitinnhan', requestData)
+    .done(function (response) {
+        try {
+            let jsonResponse = JSON.parse(response); // Chắc chắn dữ liệu là JSON
+            console.log("✅ Tin nhắn gửi thành công:", jsonResponse);
 
-// Khi receiver_id thay đổi, thực hiện load tin nhắn
-$('#receiver_id').on('change', function() {
-    markMessagesAsRead(); // Gọi khi thay đổi người nhận
-    loadMessages();
-});
-
-
-
-function checkNewMessages() {
-    $.ajax({
-        url: './api/api.php?action=check_new_messages',
-        type: 'GET',
-        dataType: 'json',
-        success: function(response) {
-            if (response.new_messages > 0) {
-                $('#chat-icon').addClass('new-message');
+            if (jsonResponse.success) {
+                $('#message-input').val('');
+                loadMessages();
             } else {
-                $('#chat-icon').removeClass('new-message');
+                console.error("❌ Lỗi từ API:", jsonResponse.message);
             }
+        } catch (error) {
+            console.error("❌ Lỗi JSON parse:", error, response);
         }
+    })
+    .fail(function (xhr, status, error) {
+        console.error("❌ Lỗi API guitinnhan:", status, error, xhr.responseText);
     });
-}
-setInterval(checkNewMessages, 1000);
 
-$(document).ready(function () {
-    // Toggle hiển thị chatbox khi bấm icon
+}
+
+
+
+    $('#create-room').click(createRoom);
+    $('#join-room').click(joinRoom);
+    $('#send-btn').click(sendMessage);
+    fetchEmployees();
+    if (currentRoomId) loadMessages();
+    setInterval(loadMessages, 5000);
     $("#chat-icon").click(function () {
         $("#chat-box").toggle();
-        markMessagesAsRead();
+        
     });
-
-    // Gọi các hàm chat
-    guitinnhan();
-    xemtt();
-    setInterval(loadMessages, 1000)
 
 });
 </script>
+

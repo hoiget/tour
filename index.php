@@ -81,6 +81,7 @@ console.log("Session ID:", sessionId); // Kiểm tra giá trị
     <!-- Main CSS File -->
     <link href="assets/css/indexx.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/popup.css">
+    <link rel="stylesheet" href="assets/css/tim.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -126,10 +127,10 @@ console.log("Session ID:", sessionId); // Kiểm tra giá trị
                     <li><a href="index.php?about">Giới thiệu</a></li>
                     <li class="dropdown"><a href="#"><span>Dịch vụ</span> <i
                                 class="bi bi-chevron-down toggle-dropdown"></i></a>
-                        <ul>
-                            <li class="dropdown">
+                        <ul >
+                            <li class="dropdown" style="">
                                 <a href="index.php?tour"><span>Đặt tour</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                                <ul class="submenu-right">
+                                <ul class="submenu-right" style="position: absolute;left: 100%;top: 0;background-color: black;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);z-index: 999;margin-left:10px;">
                                     <li><a href="index.php?tour&mien=Nam">Tour miền nam</a></li>
                                     <li><a href="index.php?tour&mien=Bắc">Tour miền bắc</a></li>
                                     <li><a href="index.php?tour&mien=Trung">Tour miền trung</a></li>

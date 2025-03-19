@@ -245,8 +245,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
       
-            $method = $_POST['method'] ?? '';
-    
+        $method = $_POST['method'] ?? '';
+   
           
     
     
@@ -287,7 +287,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $payment_status,
             $refund,
             $datetime,
-            $participants  
+            $participants   
         );
     
         if ($stmt_order->execute()) {
@@ -500,25 +500,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         $stmt->close();
     } 
-    elseif ($action == "guitinnhan") {
-        $user_id = $_SESSION['id'];
-        $sender_type = "user"; // Xác định người gửi là user
-        $receiver_id = $_POST['receiver_id']; // Hướng dẫn viên (employees.id)
-        $message = trim($_POST['message']);
     
-        if (!empty($message)) {
-            $stmt = $conn->prepare("INSERT INTO messages (sender_id, receiver_id, sender_type, message) VALUES (?, ?, ?, ?)");
-            $stmt->bind_param("iiss",$user_id, $receiver_id , $sender_type, $message);
-            
-            if ($stmt->execute()) {
-                echo "success";
-            } else {
-                echo "Có lỗi xảy ra:" . $conn->error;
-            }
-            $stmt->close();
-        } 
-    
-    } elseif ($action === 'danhgiatour') {
+     elseif ($action === 'danhgiatour') {
         // Nhận dữ liệu từ POST
         $tourId = isset($_POST['tour']) ? (int) $_POST['tour'] : 0;
         $rating = isset($_POST['star']) ? (int) $_POST['star'] : 0;
@@ -604,15 +587,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $tour_duration = $_POST['tour_duration'];
        
         $phuongtien = $_POST['phuongtien'];
+        $ks = $_POST['khachsan'];
+        $taixe = $_POST['taixe'];
 
        
         // Chèn dữ liệu vào bảng feedback
-        $sql = "INSERT INTO request_tour(user_id, customer_name, tour_name, departure_date, tour_price, itinerary, tour_duration,phuongtien)
-        VALUES (?, ?, ?, ?, ?, ?, ?,?)";
+        $sql = "INSERT INTO request_tour(user_id, customer_name, tour_name, departure_date, tour_price, itinerary, tour_duration,phuongtien,idks,idtx)
+        VALUES (?, ?, ?, ?, ?, ?, ?,?,?,?)";
 
        
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("isssisss", $user_id, $customer_name, $tour_name, $departure_date, $tour_price, $itinerary, $tour_duration, $phuongtien);
+        $stmt->bind_param("isssisssii", $user_id, $customer_name, $tour_name, $departure_date, $tour_price, $itinerary, $tour_duration, $phuongtien,$ks,$taixe);
 
         if ($stmt->execute()) {
             echo "Phản hồi của bạn đã được gửi thành công!";
@@ -1421,23 +1406,19 @@ ORDER BY
         }
         exit;
     }  elseif ($action == "xemtinnhan") {
-        $user_id = $_SESSION['id'];
-       
-        $query = "
-        SELECT * FROM messages 
-        WHERE sender_id='$user_id'
-        ORDER BY created_at ASC";
-        $result = $conn->query($query);
+        $room_id = $_GET['room_id'];
 
-        $users = [];
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $users[] = $row; // Lưu từng bản ghi vào mảng
-            }
-        }
+    $stmt = $conn->prepare("SELECT sender_id, sender_type, message FROM messages WHERE room_id = ? ORDER BY created_at ASC");
+    $stmt->bind_param("s", $room_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-        echo json_encode($users); // Trả về JSON
-        exit;
+    $messages = [];
+    while ($row = $result->fetch_assoc()) {
+        $messages[] = $row;
+    }
+
+    echo json_encode($messages);
     } 
     elseif ($action == "xemthongtiner") {
         $user_id = $_SESSION['id'];
@@ -1827,6 +1808,7 @@ ORDER BY
         echo json_encode($users); // Trả về JSON
         exit;
     } 
+    
     if ($action == "xemyeuthich") {
 
         $query = "SELECT departure_time.*,tour_images.*,tour.*,tour.id AS tourid FROM tour LEFT JOIN tour_images ON tour.id = tour_images.id_tour LEFT JOIN departure_time ON tour.id = departure_time.id_tour  WHERE Orders < Max_participant AND Orders >= 1 
@@ -1845,7 +1827,7 @@ ORDER BY
         exit;
     } elseif ($action == "check_new_messages") {
         $user_id = $_SESSION['id'];
-        $query = "SELECT COUNT(*) AS total FROM messages WHERE is_read = 0 AND sender_id = '$user_id' AND sender_type = 'guide'";
+        $query = "SELECT COUNT(*) as new_messages FROM messages WHERE is_read = 0 AND sender_id = '$user_id' AND sender_type = 'guide'";
         $result = $conn->query($query);
         $row = $result->fetch_assoc();
         echo json_encode(['new_messages' => $row['total']]);
@@ -1858,7 +1840,58 @@ ORDER BY
         }
         echo json_encode(['success' => true]);
         exit;
+    }if ($action == 'danhsachcskh') {
+     
+    
+        $sql = "SELECT id,Name FROM employees WHERE Permissions = 'CSKH'";
+        
+    
+        $stmt = $conn->prepare($sql);
+        
+        if (!empty($phuongtien)) {
+            $stmt->bind_param("s", $phuongtien);
+        }
+    
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $drivers = [];
+    
+        while ($row = $result->fetch_assoc()) {
+            $drivers[] = $row;
+        }
+    
+        echo json_encode($drivers);
+        exit;
     }
+    if ($action == 'xemtaixe') {
+        $phuongtien = isset($_GET['phuongtien']) ? $_GET['phuongtien'] : '';
+    
+        $sql = "SELECT * FROM drivers";
+        if (!empty($phuongtien)) {
+            $sql .= " WHERE vehicle_type = ?";
+        }
+    
+        $stmt = $conn->prepare($sql);
+        
+        if (!empty($phuongtien)) {
+            $stmt->bind_param("s", $phuongtien);
+        }
+    
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $drivers = [];
+    
+        while ($row = $result->fetch_assoc()) {
+            $drivers[] = $row;
+        }
+    
+        echo json_encode($drivers);
+        exit;
+    }
+    
+ 
+
+    
     
 
 

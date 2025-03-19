@@ -268,16 +268,19 @@ function selectPayment(selectedOption) {
           <span id="totalad">0</span> VNĐ
         </div>
         <div>
-          <label for="children">Trẻ em (dưới 11 tuổi):</label>
-          <input type="number" id="children" name="children" value="0" min="0" oninput="calculateTotal();generateForms();">
+          <label for="children">Trẻ em (dưới 11 tuổi):</label><br>
+          <input style="width:100%" type="number" id="children" name="children" value="0" min="0" oninput="calculateTotal();generateForms();"><br>
           <span id="totalchild">0</span> VNĐ
         </div>
       </div>
 
       <div class="form-row">
         
+       
         <div>
+         
           <label for="babies">Em bé (dưới 2 tuổi, miễn phí):</label>
+
           <input type="number" id="babies" name="babies" value="0" min="0"  oninput="calculateTotal();generateForms();">
         </div>
         

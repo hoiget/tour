@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="./assets/css/layout.css">
+
 <style>
     .editable {
       display: inline-block;
@@ -14,6 +15,7 @@
            
             
         }
+   
         h2 {
             color:rgb(68, 147, 230);
         }
@@ -192,7 +194,7 @@
     </section><!-- /Hero Section -->
     <section id="tim" class="tim">
   
-    <div class="container2">
+    <div class="container19">
         <div class="tab-container">
             <div class="tab active" id="tour-tab">
                 <i class="fas fa-bus"></i> Tour
