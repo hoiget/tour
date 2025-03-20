@@ -126,7 +126,7 @@ $(document).ready(function () {
     loadRoomList();
 
     // Kiểm tra tin nhắn mới mỗi 5 giây
-    setInterval(checkNewMessages, 5000);
+  
 
     // Load tin nhắn tự động nếu đã chọn mã phòng
     setInterval(function () {
@@ -143,14 +143,17 @@ $(document).ready(function () {
 
     // Khi chọn phòng, cập nhật input ẩn `customer_id`
     $('#room-select').on('change', function () {
-        let selectedOption = $(this).find(':selected'); 
-        let customerId = selectedOption.data('customer-id') || ''; 
-        $('#customer_id').val(customerId);
-        let room_id = $(this).val();
-        if (room_id) {
-            loadMessages();
-        }
-    });
+    let selectedOption = $(this).find(':selected'); 
+    let customerId = selectedOption.data('customer-id') || ''; 
+    console.log("customerId:", customerId); // Kiểm tra dữ liệu
+    $('#customer_id').val(customerId);
+
+    let room_id = $(this).val();
+    console.log("room_id selected:", room_id); // Kiểm tra giá trị
+    if (room_id) {
+        loadMessages();
+    }
+});
 });
 
 // ✅ Load danh sách mã phòng của nhân viên
@@ -172,6 +175,7 @@ function loadMessages() {
     if (!room_id) return;
 
     $.getJSON('./api/apia.php?action=xemtinnhan&room_id=' + room_id, function (response) {
+        console.log("Server Response:", response);
         if (Array.isArray(response)) {
             let chatHtml = '';
             response.forEach(msg => {
@@ -188,18 +192,26 @@ function loadMessages() {
 
 // ✅ Gửi tin nhắn vào phòng chat
 function sendMessage() {
+  
     let message = $('#message-input').val().trim();
     let room_id = $('#room-select').val();
     let sender_id = $('#customer_id').val(); // ID của nhân viên
-    let receiver_id = $('#receiver_id ').val(); // ID khách hàng
+    let receiver_id = $('#receiver_id').val(); // ID khách hàng
 
-    console.log("room_id:", room_id);
-    console.log("sender_id:", sender_id);
-    console.log("receiver_id:", receiver_id);
-    console.log("message:", message);
-
-    if (!message || !room_id || !sender_id || !receiver_id) {
-        alert("Lỗi: Thiếu thông tin! (Hãy kiểm tra mã phòng và tài khoản nhân viên)");
+    if (!message) {
+        alert("Vui lòng nhập tin nhắn.");
+        return;
+    }
+    if (!room_id) {
+        alert("Vui lòng chọn mã phòng.");
+        return;
+    }
+    if (!sender_id) {
+        alert("Lỗi: Không tìm thấy ID người gửi.");
+        return;
+    }
+    if (!receiver_id) {
+        alert("Lỗi: Không tìm thấy ID người nhận.");
         return;
     }
 
@@ -227,19 +239,10 @@ function sendMessage() {
     });
 }
 
+
 // ✅ Kiểm tra tin nhắn mới
 
-$('#room-select').on('change', function () {
-    let selectedOption = $(this).find(':selected'); 
-    let customerId = selectedOption.data('customer-id') || ''; 
-    console.log("customerId:", customerId); // Kiểm tra dữ liệu
-    $('#customer_id').val(customerId);
 
-    let room_id = $(this).val();
-    console.log("room_id selected:", room_id); // Kiểm tra giá trị
-    if (room_id) {
-        loadMessages();
-    }
-});
+
 
 </script>

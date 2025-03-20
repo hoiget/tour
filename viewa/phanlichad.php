@@ -129,7 +129,7 @@
         <thead>
             <tr>
                 <th>Mã NV</th>
-                <th>Họ tên</th>
+                <th>Tên</th>
                 <th>Ca làm</th>
                 <th colspan="31">Ngày</th>
                <?php
@@ -187,7 +187,7 @@ function renderSchedule(employees, shifts) {
     // Tạo tiêu đề cột
     let headerRow = `<tr>
         <th>Mã NV</th>
-        <th>Họ tên</th>
+        <th>Tên</th>
         <th>Ca làm</th>`;
     
     for (let day = 1; day <= daysInMonth; day++) {
@@ -328,9 +328,16 @@ function exportToPDF() {
     doc.setFont("times", "bold");
 
     doc.setFontSize(14);
-    doc.text(`Bảng Phân Công Công Việc - Tháng ${selectedMonth}/${currentYear}`, 14, 15);
+    doc.text(`Phân Công  - Tháng ${selectedMonth}/${currentYear}`, 14, 15);
+    doc.text(`Chú thích`, 14, 20);
+    doc.setFontSize(9);
+    doc.text(`V: Ngày Làm  | X: Không phép  | P: Phép`, 14, 25);
+    doc.text(`Ca 1: 8h -> 12h`, 14, 30);
+    doc.text(`Ca 2: 1h -> 5h`, 14, 35);
+    doc.text(`Ca 3: 6h -> 10h`, 14, 40);
+  
     doc.setFontSize(10);
-    doc.text(`Ngày xuất: ${exportDate}`, 270, 15, { align: "right" });
+    doc.text(`Ngày: ${exportDate}`, 270, 15, { align: "right" });
 
     let headers = [];
     let data = [];
@@ -372,12 +379,15 @@ function exportToPDF() {
     for (let i = 3; i < headers.length; i++) {
         columnStyles[i] = { cellWidth: 7.5 }; // Cột ngày (1-31) nhỏ hơn
     }
+    let finalY = doc.lastAutoTable.finalY + 10;
+
+
 
     // Xuất PDF với AutoTable
     doc.autoTable({
         head: [headers],
         body: data,
-        startY: 25,
+        startY: 45,
         styles: { fontSize: 8, cellPadding: 1.5, halign: "center" }, // Font dữ liệu lớn hơn
         headStyles: { fillColor: [0, 123, 255], textColor: 255, fontSize: 10 }, // Font tiêu đề lớn hơn
         columnStyles: columnStyles,

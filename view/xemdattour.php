@@ -111,6 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['Booking_id'])) {
 
     // Viết nội dung vào PDF
     $pdf->writeHTML($html, true, false, true, false, '');
+    
     ob_end_clean(); // Dọn dẹp bộ đệm đầu ra trước khi gửi PDF
     // Xuất file PDF
     $pdf->Output('booking_details_' . $bookingId . '.pdf', 'D'); // 'D' để tải file xuống

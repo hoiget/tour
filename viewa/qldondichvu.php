@@ -1,4 +1,6 @@
 <link rel="stylesheet" href="./assets/css/form.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
 <style>
         body {
             font-family: Arial, sans-serif;
@@ -136,7 +138,7 @@
             background-color: #0056b3;
         }
     
-.table-container,.form-container {
+.form-container {
     width: 100%; /* Chiều rộng đầy đủ */
     overflow-x: auto; /* Cuộn ngang nếu nội dung vượt quá chiều rộng */
     overflow-y: auto; /* Cuộn dọc nếu cần */
@@ -150,6 +152,44 @@
     color: white;
            
 }
+.containerql {
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    margin: 20px auto;
+}
+
+.table-container {
+    width: 80%;
+    overflow-x: auto;
+    border-radius: 8px;
+    background-color: white;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.qr-container {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-left: 10px;
+}
+
+.qr-container h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+#qrcode {
+    margin-top: 10px;
+}
+
     </style>
 
 <h1>Quản lý dịch vụ tour</h1>
@@ -194,7 +234,9 @@
 </div>
 
 
-<div class="table-container">
+<div class="containerql">
+    <!-- Khu vực bảng (70%) -->
+    <div class="table-container">
         <table>
             <thead>
                 <tr>
@@ -212,15 +254,21 @@
                     <th>Action</th>
                 </tr>
             </thead>
-           
             <tbody id="employee-table">
+                <!-- Dữ liệu sẽ được load từ AJAX -->
             </tbody>
-                <!-- Add more rows as needed -->
-           
         </table>
-</div>
     </div>
+    
+    <!-- Khu vực QR Code (30%) -->
+    <div class="qr-container">
+        <h2>QR Code</h2>
+        <div id="qrcode"></div>
+    </div>
+</div>
 
+    </div>
+   
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 <script>
@@ -268,7 +316,8 @@
                             <button class="btn delete" onclick="huydon('${event.Booking_id}')">🗑</button>
                             <button style="width:50px;height:30px" id="btn-sua" class="btn edit" data-bs-toggle="modal" data-bs-target="#ratingModal" onclick="openRatingModal1('${event.Booking_id}')">Sửa tour</button>
                             <button style="width:100px;height:30px" id="btn-xem" class="btn xem" data-bs-toggle="modal" data-bs-target="#ratingModalxem" onclick="openRatingModalxem('${event.Booking_id}')">Xem chi tiết</button>
-
+                            <button class="exportPdfBtn" data-booking-id="${event.Booking_id}">Xuất PDF</button> 
+                           
                             </div>
                     </td>
                 </tr> 
@@ -339,9 +388,10 @@ function searchkh(event) {
                        <div class="action-buttons">
                            <button class="btn edit" onclick="xacnhan('${event.Booking_id}')">✔</button>
                            <button class="btn delete" onclick="huydon('${event.Booking_id}')">🗑</button>
-                           <button style="width:50px;height:30px" id="btn-sua" class="btn edit" data-bs-toggle="modal" data-bs-target="#ratingModal" onclick="openRatingModal1('${event.Booking_id}')">Sửa tour</button>
-                         <button style="width:50px;height:30px" id="bt-xem" class="btn xem" data-bs-toggle="modal" data-bs-target="#ratingModalxem" onclick="openRatingModalxem('${event.Booking_id}')">Xem chi tiết</button>
-
+                            <button style="width:50px;height:30px" id="btn-sua" class="btn edit" data-bs-toggle="modal" data-bs-target="#ratingModal" onclick="openRatingModal1('${event.Booking_id}')">Sửa tour</button>
+                            <button style="width:100px;height:30px" id="btn-xem" class="btn xem" data-bs-toggle="modal" data-bs-target="#ratingModalxem" onclick="openRatingModalxem('${event.Booking_id}')">Xem chi tiết</button>
+                            <button class="exportPdfBtn" data-booking-id="${event.Booking_id}">Xuất PDF</button> 
+                           
                            </div>
                    </td>
                </tr> 
@@ -761,4 +811,29 @@ $(document).ready(function() {
 capnhathoadon();
     
    });
+</script>
+<script>
+    $(document).on('click', '.exportPdfBtn', function() {
+            const bookingId = $(this).data('booking-id');
+            if (!bookingId) {
+                alert("Vui lòng nhập Booking ID!");
+                return;
+            }
+
+            $.post('viewa/test.php', { Booking_id: bookingId }, function(response) {
+                let data = JSON.parse(response);
+                if (data.status === 'success') {
+                    // Hiển thị QR Code
+                    let qrContainer = document.getElementById('qrcode');
+                    qrContainer.innerHTML = ''; // Xóa QR cũ nếu có
+                    new QRCode(qrContainer, {
+                        text: data.pdf_url,
+                        width: 200,
+                        height: 200
+                    });
+                } else {
+                    alert('Lỗi khi tạo PDF!');
+                }
+            });
+        });
 </script>

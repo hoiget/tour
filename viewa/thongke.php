@@ -62,9 +62,30 @@
             padding: 5px;
             font-size: 16px;
         }
+        a{
+            text-decoration: none;
+            color: black;
+            font-size: 20px;
+            margin: 10px;
+            text-align: center;
+        }   #locationChart {
+    width: 500px !important;  /* Giảm kích thước chiều rộng */
+    height: 500px; /* Giảm kích thước chiều cao */
+    margin: auto;      /* Căn giữa */
+}
+#permissionChart{
+    width: 700px !important;
+    height: 600px !important;
+    margin:auto;
+   }
     </style>
+    <center><a href="#tour">Tour</a>
+    <a href="#ks">Khách sạn</a>
+<a href="#khachang">Khách hàng</a>
+<a href="#nhanvien">Nhân viên</a>
+</center>
 <!-- Tour -->
-    <div class="container">
+    <div class="container" id="tour">
         <div class="section-title">TOUR</div>
         <div class="grid">
           <div id="thongke"></div>
@@ -129,10 +150,10 @@
         <h2>Biểu đồ tỉ lệ đơn đặt tour</h2>
         <canvas id="bookingChart"></canvas>
     </div>
-
+<hr>
 <!-- Room -->
-    <div class="container">
-        <div class="section-title">ROOM</div>
+    <div class="container" id="ks">
+        <div class="section-title" >ROOM</div>
         <div class="grid">
           <div id="thongkeks"></div>
         </div>
@@ -184,21 +205,123 @@
         <canvas id="bookingChartnew"></canvas>
     </div>
 
-    <?php
-     if(isset($_SESSION['Admin_name'])){
-        echo""; }
-    elseif($role == 'QL' || $role == 'CSKH'){
-    
-    
-    ?>
-      <div class="section-title">Tổng user</div>
-    <div class="grid">
-          <div id="thongkeuser"></div>
-    </div>
-    <?php }?>
+   <hr>
+<!-- Khách hàng -->
+<div class="container" id="khachang">
+<div class="section-title" >Khách hàng</div>
+<div class="card green">
+              
+<h2>Tổng số khách hàng: <span id="totalCustomers">0</span></h2>
+            </div>
+
+<canvas id="ageChart" width="400" height="200"></canvas>
+<center><b>Biểu đồ cột thể hiện theo độ tuổi khách hàng</b></center> <br>
+<canvas id="locationChart" width="400" height="200"></canvas>
+<center><b>Biểu đồ tròn thống kê các khu vực của khách hàng</b></center> <br>
+
+</div>
+
+<hr>
+<!-- Nhân viên -->
+<div class="container" id="nhanvien">
+<div class="section-title" >Nhân viên</div>
+<div class="grid">
+<div class="card green">
+                <h3>Tổng số nhân viên</h3>
+                <p><span id="totalEmployees">0</span></p>
+            </div>
+            <div class="card red">
+                <h3>Nhân viên mới</h3>
+                <p><span id="newEmployees">0</span></p>
+            </div>
+            <div class="card blue">
+                <h3>Nhân viên cũ</h3>
+                <p><span id="oldEmployees">0</span></p>
+            </div>
+</div>
+
+
+<!-- Biểu đồ -->
+<canvas id="permissionChart" ></canvas>
+<center><b>Biểu đồ tròn thống kê các vai trò của nhân viên</b></center> <br>
+<canvas id="yearlyChart" ></canvas>
+<center><b>Biểu cột thống kê các nhân viên đã tuyển theo từng năm</b></center> <br>
+</div>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 <script>
+      document.addEventListener("DOMContentLoaded", function () {
+    fetch("./api/phancong.php?action=thong")
+        .then(response => response.json())
+        .then(data => {
+            // Hiển thị tổng số khách hàng
+            document.getElementById("totalCustomers").textContent = data.total_customers;
+
+            // Biểu đồ cột - Độ tuổi
+            const ctxAge = document.getElementById("ageChart").getContext("2d");
+            new Chart(ctxAge, {
+                type: "bar",
+                data: {
+                    labels: Object.keys(data.age_groups),
+                    datasets: [{
+                        label: "Số khách hàng",
+                        data: Object.values(data.age_groups),
+                        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0"]
+                    }]
+                }
+            });
+
+            // Biểu đồ tròn - Khu vực
+            const ctxLocation = document.getElementById("locationChart").getContext("2d");
+            new Chart(ctxLocation, {
+                type: "pie",
+                data: {
+                    labels: Object.keys(data.location_data),
+                    datasets: [{
+                        data: Object.values(data.location_data),
+                        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF"]
+                    }]
+                }
+            });
+        })
+        fetch("./api/phancong.php?action=thongnv")
+        .then(response => response.json())
+        .then(data => {
+            // Hiển thị số lượng nhân viên
+            document.getElementById("totalEmployees").textContent = data.total_employees;
+            document.getElementById("newEmployees").textContent = data.new_employees;
+            document.getElementById("oldEmployees").textContent = data.old_employees;
+
+            // Biểu đồ tròn - Phân quyền
+            const ctxPermission = document.getElementById("permissionChart").getContext("2d");
+            new Chart(ctxPermission, {
+                type: "pie",
+                data: {
+                    labels: Object.keys(data.permission_count),
+                    datasets: [{
+                        data: Object.values(data.permission_count),
+                        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"]
+                    }]
+                }
+            });
+
+            // Biểu đồ cột - Nhân viên tuyển theo năm
+            const ctxYearly = document.getElementById("yearlyChart").getContext("2d");
+            new Chart(ctxYearly, {
+                type: "bar",
+                data: {
+                    labels: Object.keys(data.yearly_hiring),
+                    datasets: [{
+                        label: "Số nhân viên tuyển",
+                        data: Object.values(data.yearly_hiring),
+                        backgroundColor: "#36A2EB"
+                    }]
+                }
+            });
+        })
+        .catch(error => console.error("Lỗi tải dữ liệu:", error));
+});
+
     function thongke() {
     $.ajax({
         url: './api/apia.php?action=get_thongke',
@@ -257,7 +380,7 @@
                 events.forEach(function(event) {
                     eventHtml += `
                      <div class="card green">
-                <h3>Tổng tour</h3>
+                <h3>Tổng phòng</h3>
                 <p>${event.total_rooms}</p>
             </div>
             <div class="card red">

@@ -68,13 +68,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         // Cập nhật thông tin người dùng
-        $insert_query = "INSERT INTO employees (Employee_code, Name,Username, Password, Email, Phone_number, Address, Created_at) 
-        VALUES (?, ?, ?, MD5(?), ?, ?, ? , ?)";
-
+        $prefix = substr($ma, 0, 2); // Lấy 2 ký tự đầu
+        switch ($prefix) {
+            case 'QL':
+                $permissions = 'QL';
+                break;
+            case 'CS':
+                $permissions = 'CSKH';
+                break;
+            case 'HD':
+                $permissions = 'HDV';
+                break;
+            default:
+                echo 'invalid_code'; // Nếu không khớp với mẫu nào, báo lỗi
+                exit;
+        }
+    
+        // Cập nhật thông tin người dùng
+        $insert_query = "INSERT INTO employees (Employee_code, Name, Username, Password, Email, Phone_number, Address, Created_at, Permissions) 
+                         VALUES (?, ?, ?, MD5(?), ?, ?, ?, ?, ?)";
+    
         // Sử dụng prepared statements để tránh SQL injection
         $stmt = $conn->prepare($insert_query);
-        $stmt->bind_param("ssssssss", $ma, $username, $username, $password, $email, $phone, $address, $date);
-
+        $stmt->bind_param("sssssssss", $ma, $username, $username, $password, $email, $phone, $address, $date, $permissions);
+    
 
 
         // Thực thi câu truy vấn
@@ -2921,7 +2938,7 @@ elseif ($action == "xemtinnhan") {
                             JOIN user_credit u ON m.sender_id = u.id
                             WHERE m.room_id = ?
                             ORDER BY m.created_at ASC");
-    $stmt->bind_param("i", $room_id);
+    $stmt->bind_param("s", $room_id);
     $stmt->execute();
     $result = $stmt->get_result();
     echo json_encode($result->fetch_all(MYSQLI_ASSOC));

@@ -67,9 +67,23 @@
     border-radius: 8px;
     background-color: white; /* Đảm bảo nền trắng cho vùng cuộn */
 }
+.legend {
+            margin-top: 15px;
+            padding: 10px;
+        }
+
+        .legend span {
+            margin-right: 20px;
+        }
     </style>
 <center>
-
+<div class="legend">
+        <h4>Chú thích:</h4>
+        <span>Quản lý:QL + mã </span>
+        <span>Chăm sóc khách hàng: CS + mã</span>
+        <span>Hướng dẫn viên: HD + mã</span> <br>
+        
+</div>
     <div class="form-container">
         <h2>TẠO TÀI KHOẢN NHÂN VIÊN</h2>
        

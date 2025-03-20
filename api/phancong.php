@@ -144,6 +144,103 @@ elseif ($action == "guitinnhan") {
 
     $stmt->close();
 }
+if($action == "thong"){
+    $query = "SELECT Datetime, Address FROM user_credit";
+    $result = mysqli_query($conn, $query);
+    
+    $total_customers = 0;
+    $age_groups = [
+        "1-18" => 0,
+        "19-40" => 0,
+        "41-50" => 0,
+        "51+" => 0
+    ];
+    
+    $location_data = [];
+    $current_year = date("Y");
+    
+    while ($row = mysqli_fetch_assoc($result)) {
+        $total_customers++; // Tính tổng khách hàng
+    
+        // Tính tuổi từ năm đăng ký
+        $year_registered = date("Y", strtotime($row['Datetime']));
+        $age = $current_year - $year_registered;
+    
+        // Nhóm tuổi
+        if ($age >= 1 && $age <= 18) {
+            $age_groups["1-18"]++;
+        } elseif ($age >= 19 && $age <= 40) {
+            $age_groups["19-40"]++;
+        } elseif ($age >= 41 && $age <= 50) {
+            $age_groups["41-50"]++;
+        } else {
+            $age_groups["51+"]++;
+        }
+    
+        // Nhóm khu vực
+        $location = trim($row['Address']);
+        if (!empty($location)) {
+            if (!isset($location_data[$location])) {
+                $location_data[$location] = 0;
+            }
+            $location_data[$location]++;
+        }
+    }
+    
+    echo json_encode([
+        "total_customers" => $total_customers,
+        "age_groups" => $age_groups,
+        "location_data" => $location_data
+    ]);
+}if($action == "thongnv"){
 
+$current_date = date("Y-m-d");
+$six_months_ago = date("Y-m-d", strtotime("-6 months"));
+
+// Khởi tạo dữ liệu thống kê
+$total_employees = 0;
+$new_employees = 0;
+$old_employees = 0;
+$permission_count = ["QL" => 0, "CSKH" => 0, "HDV" => 0];
+$yearly_hiring = [];
+
+// Truy vấn danh sách nhân viên
+$query = "SELECT Created_at, Permissions FROM employees";
+$result = mysqli_query($conn, $query);
+
+while ($row = mysqli_fetch_assoc($result)) {
+    $total_employees++;
+
+    // Xác định nhân viên mới/cũ
+    if ($row['Created_at'] >= $six_months_ago) {
+        $new_employees++;
+    } else {
+        $old_employees++;
+    }
+
+    // Đếm theo quyền
+    $permission = $row['Permissions'];
+    if (isset($permission_count[$permission])) {
+        $permission_count[$permission]++;
+    }
+
+    // Thống kê theo năm tuyển dụng
+    $year = date("Y", strtotime($row['Created_at']));
+    if (!isset($yearly_hiring[$year])) {
+        $yearly_hiring[$year] = 0;
+    }
+    $yearly_hiring[$year]++;
+}
+
+// Xuất JSON
+echo json_encode([
+    "total_employees" => $total_employees,
+    "new_employees" => $new_employees,
+    "old_employees" => $old_employees,
+    "permission_count" => $permission_count,
+    "yearly_hiring" => $yearly_hiring
+]);
+
+}
 
 
