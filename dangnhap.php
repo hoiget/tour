@@ -32,8 +32,12 @@
                         <input type="password" id="password" name="password" placeholder="Mật khẩu">
                         <i class="far fa-eye" id="eye" onclick="togglePasswordVisibility('password', 'eye')"></i>
                     </div>
+                    
+                    <div class="h-captcha" data-sitekey="7cc22840-c9f4-49f0-942c-f3f0e9ce8f08"></div>
                     <button type="submit" onclick="showlogio()">Đăng nhập</button>
+                    
                 </form>
+                <script src="https://hcaptcha.com/1/api.js" async defer></script>
                 <table style="width:100%">
                     <tr>
                         <td > <p><a href="dangky.php">Chưa có tài khoản</a></p></td>
@@ -86,6 +90,11 @@ function showlogio() {
         return;
     }
 
+    let captchaResponse = hcaptcha.getResponse();
+    if (!captchaResponse) {
+        openPopup('Lỗi Captcha', 'Vui lòng xác nhận captcha trước khi đăng nhập.');
+        return;
+    }
     $(document).ready(function() {
         $('#loginform').submit(function(e) {
            
@@ -100,7 +109,11 @@ function showlogio() {
                     } else if (response === 'staff' || response === 'admin') {
                         openPopup('Đăng nhập thành công', '');
                         window.location.href = 'indexa.php'; // Điều hướng nhân viên & admin
-                    } else {
+                    }else if (response  === 'captcha_failed') {
+                        openPopup('Lỗi Captcha', response.message);
+                        hcaptcha.reset();
+                    }
+                    else {
                         openPopup('Đăng nhập thất bại', 'Thông tin không chính xác.');
                     }
                 },
