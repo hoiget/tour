@@ -1279,7 +1279,62 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $stmt->close();
 }
-}
+}elseif ($action == "suataixe") {
+    $ma = $_POST['id']; // ID người dùng
+    $hoten=$_POST['ten'];
+    $sdt=$_POST['sdt'];
+    $email=$_POST['em'];
+    $loai=$_POST['loai'];
+    $bien=$_POST['bs'];
+    $status=$_POST['status'];
+    if (empty($hoten) || empty($sdt) || empty($email) || empty($loai) || empty($bien)) {
+        echo  'Thiếu dữ liệu đầu vào';
+        exit;
+    }
+   
+
+
+    $update_query = "UPDATE drivers SET name = ?, phone = ?,email = ?,	vehicle_type = ?,vehicle_plate = ?,status = ? WHERE driver_id = ?";
+    $stmt = $conn->prepare($update_query);
+    $stmt->bind_param("ssssssi", $hoten, $sdt,$email,$loai,$bien,$status, $ma);
+
+
+    if ($stmt->execute()) {
+        echo 'update_success';
+    } else {
+        echo 'error_points';
+    }
+
+
+} elseif ($action == "themtaixe") {
+
+
+    $hoten=$_POST['ten'];
+    $sdt=$_POST['sdt'];
+    $email=$_POST['em'];
+    $loai=$_POST['loai'];
+    $bien=$_POST['bs'];
+    $status=$_POST['status'];
+    if (empty($hoten) || empty($sdt) || empty($email) || empty($loai) || empty($bien)) {
+        echo  'Thiếu dữ liệu đầu vào';
+        exit;
+    }
+
+    
+
+    $insert_query = "INSERT INTO drivers (name,phone,email,vehicle_type,vehicle_plate,status) VALUES (?,?,?,?,?,?)";
+    $stmt = $conn->prepare($insert_query);
+    $stmt->bind_param("ssssss",$hoten, $sdt,$email,$loai,$bien,$status);
+
+
+    if ($stmt->execute()) {
+        echo 'insert_success';
+    } else {
+        echo 'error_points';
+    }
+
+
+} 
 
 }
 
@@ -2942,6 +2997,67 @@ elseif ($action == "xemtinnhan") {
     $stmt->execute();
     $result = $stmt->get_result();
     echo json_encode($result->fetch_all(MYSQLI_ASSOC));
+}elseif ($action == "xemtaixe") {
+
+    $query = "SELECT * FROM drivers ";
+    $result = $conn->query($query);
+
+    $users = [];
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $users[] = $row; // Lưu từng bản ghi vào mảng
+        }
+    }
+
+    echo json_encode($users); // Trả về JSON
+    
+} elseif ($action == "xemtaixe1") {
+$id=$_GET['idtx'];
+    $query = "SELECT * FROM drivers WHERE driver_id='$id'";
+    $result = $conn->query($query);
+
+    $users = [];
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $users[] = $row; // Lưu từng bản ghi vào mảng
+        }
+    }
+
+    echo json_encode($users); // Trả về JSON
+    
+} elseif ($action == "xoataixe") {
+
+    $id = $_GET['idt'];
+
+    // Kiểm tra xem người dùng đã tồn tại trong cơ sở dữ liệu chưa
+
+    $insert_query = "DELETE FROM drivers WHERE driver_id = '$id'";
+
+
+    if ($conn->query($insert_query) === TRUE) {
+        echo 'gui';
+    } else {
+        echo 'kotc';
+    }
+
+
+
+} elseif ($action == "timtaixe") {
+    $id = $_GET['TX'];
+    $query = "SELECT * FROM drivers
+       WHERE driver_id='$id' OR name LIKE '%$id%'
+     ";
+    $result = $conn->query($query);
+
+    $users = [];
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $users[] = $row; // Lưu từng bản ghi vào mảng
+        }
+    }
+
+    echo json_encode($users); // Trả về JSON
+    exit;
 }
 
 // API gửi tin nhắn vào phòng chat

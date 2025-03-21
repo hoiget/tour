@@ -336,6 +336,12 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
             </a>
             
           </li>
+          <li>
+            <a href="indexa.php?qltx">
+            <i class="bi-person-badge-fill"></i><span>Quản lý tài xế</span>
+            </a>
+            
+          </li>
       
           <li>
             <a href="indexa.php?qltintuc">
@@ -451,6 +457,9 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
     }if(isset($_REQUEST['cskh'])){
       $show = false;
       include_once("viewa/phannvcs.php");
+    }if(isset($_REQUEST['qltx'])){
+      $show = false;
+      include_once("viewa/qltaixe.php");
     }
     if($show){
       include_once("viewa/thongke.php");

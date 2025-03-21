@@ -78,11 +78,60 @@
     height: 600px !important;
     margin:auto;
    }
+   .xuat {
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.xuat:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.xuat:active {
+    transform: scale(0.95);
+}
+
+/* Hiệu ứng sóng lan tỏa khi nhấp chuột */
+.xuat::after {
+    content: "";
+    position: absolute;
+    width: 300%;
+    height: 300%;
+    top: 50%;
+    left: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transition: transform 0.6s, opacity 0.6s;
+    transform: translate(-50%, -50%) scale(0);
+    border-radius: 50%;
+    opacity: 0;
+}
+
+.xuat:active::after {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    transition: transform 0.3s, opacity 0.3s;
+}
+
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <center><a href="#tour">Tour</a>
     <a href="#ks">Khách sạn</a>
 <a href="#khachang">Khách hàng</a>
 <a href="#nhanvien">Nhân viên</a>
+<button class="xuat" onclick="exportToPDF()">Xuất PDF</button>
+
+
+
 </center>
 <!-- Tour -->
     <div class="container" id="tour">
@@ -773,4 +822,34 @@ $(document).ready(function() {
       getBookingStatsks2();
       thongkeuser();
    });
+</script>
+<script>
+async function exportToPDF() {
+    const { jsPDF } = window.jspdf;
+    let doc = new jsPDF('p', 'mm', 'a4');
+
+    // Chụp từng phần nội dung
+    let elements = ['tour','bookingChart', 'ks','bookingChartnew', 'khachang', 'nhanvien'];
+    let yOffset = 10; // Khoảng cách giữa các phần
+
+    for (let id of elements) {
+        let element = document.getElementById(id);
+        if (!element) continue;
+
+        let canvas = await html2canvas(element, { scale: 2 });
+        let imgData = canvas.toDataURL('image/png');
+        
+        let imgWidth = 190; // Giới hạn theo chiều rộng A4
+        let imgHeight = (canvas.height * imgWidth) / canvas.width; 
+
+        if (yOffset + imgHeight > 290) { // Nếu trang không đủ chỗ, tạo trang mới
+            doc.addPage();
+            yOffset = 10;
+        }
+        doc.addImage(imgData, 'PNG', 10, yOffset, imgWidth, imgHeight);
+        yOffset += imgHeight + 10; // Cách dòng giữa các phần
+    }
+
+    doc.save("ThongKe.pdf"); // Lưu file PDF
+}
 </script>
