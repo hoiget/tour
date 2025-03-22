@@ -12,19 +12,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $action1 = isset($_POST['action']) ? $_POST['action'] : (isset($input['action']) ? $input['action'] : null);
 
     if ($action == "login") {
-        $hcaptcha_secret = "ES_4781381de64d47e7b45131b3d27e16a3"; // Thay bằng Secret Key của bạn
-        $hcaptcha_response = $_POST['h-captcha-response'];
+        // $hcaptcha_secret = "ES_4781381de64d47e7b45131b3d27e16a3"; // Thay bằng Secret Key của bạn
+        // $hcaptcha_response = $_POST['h-captcha-response'];
 
-        // Gửi request xác thực hCaptcha
-        $verify = file_get_contents("https://hcaptcha.com/siteverify?secret={$hcaptcha_secret}&response={$hcaptcha_response}");
-        $response_data = json_decode($verify, true);
+        // // Gửi request xác thực hCaptcha
+        // $verify = file_get_contents("https://hcaptcha.com/siteverify?secret={$hcaptcha_secret}&response={$hcaptcha_response}");
+        // $response_data = json_decode($verify, true);
     
-        if (!$response_data['success']) {
-            // Nếu thất bại, lấy lỗi chi tiết
-            $error_codes = isset($response_data['error-codes']) ? implode(", ", $response_data['error-codes']) : "Unknown error";
-            echo json_encode(["status" => "captcha_failed", "message" => "Lỗi Captcha: $error_codes"]);
-            exit();
-        }
+        // if (!$response_data['success']) {
+        //     // Nếu thất bại, lấy lỗi chi tiết
+        //     $error_codes = isset($response_data['error-codes']) ? implode(", ", $response_data['error-codes']) : "Unknown error";
+        //     echo json_encode(["status" => "captcha_failed", "message" => "Lỗi Captcha: $error_codes"]);
+        //     exit();
+        // }
 
         $loginInput = $_POST['email']; // Email hoặc số điện thoại
         $password = $_POST['password'];
@@ -604,7 +604,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $ks = $_POST['khachsan'];
         $taixe = $_POST['taixe'];
 
-       
+       if(empty($tour_name) || empty($departure_date) || empty($tour_price) || empty($itinerary) || empty($tour_duration)){
+        echo "empty";
+        exit;
+       }
         // Chèn dữ liệu vào bảng feedback
         $sql = "INSERT INTO request_tour(user_id, customer_name, tour_name, departure_date, tour_price, itinerary, tour_duration,phuongtien,idks,idtx)
         VALUES (?, ?, ?, ?, ?, ?, ?,?,?,?)";

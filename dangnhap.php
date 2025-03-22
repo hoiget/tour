@@ -33,11 +33,11 @@
                         <i class="far fa-eye" id="eye" onclick="togglePasswordVisibility('password', 'eye')"></i>
                     </div>
                     
-                    <div class="h-captcha" data-sitekey="7cc22840-c9f4-49f0-942c-f3f0e9ce8f08"></div>
+                    <!-- <div class="h-captcha" data-sitekey="7cc22840-c9f4-49f0-942c-f3f0e9ce8f08"></div> -->
                     <button type="submit" onclick="showlogio()">Đăng nhập</button>
                     
                 </form>
-                <script src="https://hcaptcha.com/1/api.js" async defer></script>
+                <!-- <script src="https://hcaptcha.com/1/api.js" async defer></script> -->
                 <table style="width:100%">
                     <tr>
                         <td > <p><a href="dangky.php">Chưa có tài khoản</a></p></td>
@@ -80,50 +80,40 @@ function closePopup() {
         overlay.style.display = 'none';
 }
 
+$(document).ready(function() {
+    $("#loginform").submit(function(e) {
+        e.preventDefault(); // Ngăn chặn load lại trang mặc định
 
-function showlogio() {
-    let email = document.getElementById('email').value;
-    let password = document.getElementById('password').value;
+        let email = $("#email").val().trim();
+        let password = $("#password").val().trim();
 
-    if (email === "" || password === "") {
-        openPopup('Lỗi', 'Vui lòng điền đầy đủ thông tin.');
-        return;
-    }
+        if (email === "" || password === "") {
+            openPopup("Lỗi", "Vui lòng điền đầy đủ thông tin.");
+            return;
+        }
 
-    let captchaResponse = hcaptcha.getResponse();
-    if (!captchaResponse) {
-        openPopup('Lỗi Captcha', 'Vui lòng xác nhận captcha trước khi đăng nhập.');
-        return;
-    }
-    $(document).ready(function() {
-        $('#loginform').submit(function(e) {
-           
-            $.ajax({
-                type: 'POST',
-                url: './api/api.php',
-                data: $(this).serialize(),
-                success: function(response) {
-                    if (response === 'customer') {
-                        openPopup('Đăng nhập thành công', '');
-                        window.location.href = 'index.php'; // Điều hướng khách hàng
-                    } else if (response === 'staff' || response === 'admin') {
-                        openPopup('Đăng nhập thành công', '');
-                        window.location.href = 'indexa.php'; // Điều hướng nhân viên & admin
-                    }else if (response  === 'captcha_failed') {
-                        openPopup('Lỗi Captcha', response.message);
-                        hcaptcha.reset();
-                    }
-                    else {
-                        openPopup('Đăng nhập thất bại', 'Thông tin không chính xác.');
-                    }
-                },
-                error: function() {
-                    openPopup('Lỗi kết nối', 'Không thể kết nối đến server.');
+        $.ajax({
+            type: "POST",
+            url: "./api/api.php",
+            data: $(this).serialize(),
+            success: function(response) {
+                if (response === "customer") {
+                    openPopup("Đăng nhập thành công", "");
+                    setTimeout(() => { window.location.href = "index.php"; }, 1000);
+                } else if (response === "staff" || response === "admin") {
+                    openPopup("Đăng nhập thành công", "");
+                    setTimeout(() => { window.location.href = "indexa.php"; }, 1000);
+                } else {
+                    openPopup("Đăng nhập thất bại", "Thông tin không chính xác.");
                 }
-            });
+            },
+            error: function() {
+                openPopup("Lỗi kết nối", "Không thể kết nối đến server.");
+            }
         });
     });
-}
+});
+
 
 function togglePasswordVisibility(inputId, iconId) {
     let passwordInput = document.getElementById(inputId);

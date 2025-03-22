@@ -172,8 +172,8 @@
   height: 250px;
   background-color: #f9f9f9;
   color:black;
-  background: url('./assets/img/thien.jpg') no-repeat center center fixed;
-  background-size: cover;
+ 
+  
 }
 
   </style>

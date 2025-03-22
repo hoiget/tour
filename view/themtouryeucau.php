@@ -79,8 +79,8 @@
 <div class="mb-3">
     <label for="tour_duration" class="form-label">Thời Gian Tour</label>
     <span>
-        <input type="number" id="days" placeholder="Số ngày"> ngày
-        <input type="number" id="nights" placeholder="Số đêm"> đêm
+        <input type="number" id="days" placeholder="" style="width: 50px; border-radius: 5px"> ngày
+        <input type="number" id="nights" placeholder="" style="width: 50px; border-radius: 5px"> đêm
     </span>
     <input type="hidden" name="tour_duration" id="tour_duration">
 </div>
@@ -205,8 +205,11 @@ $(document).ready(function () {
                     setTimeout(function () {
                         window.location.href = 'index.php?custom_tour';
                     }, 2000);
-                } else {
-                    openPopup('Lỗi', response);
+                }else if(response.trim() === 'empty'){
+                    openPopup('Thông báo', 'Thiếu dữ liệu!');
+                } 
+                else {
+                    openPopup('Lỗi', );
                 }
             },
             error: function (xhr, status, error) {
