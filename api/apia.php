@@ -502,6 +502,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $timetour = $_POST['no']; // Ngày ở
         $discount = $_POST['gg']; // Giảm giá
         $vehicle = $_POST['PT']; // Phương tiện
+        $ks = $_POST['khachsan']; // Phương tiện
         $vung = $_POST['vung']; // Phương tiện
         $departure_dates = json_decode($_POST["departure_dates"], true);
         $order = 0;
@@ -526,11 +527,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     // Thêm dữ liệu vào bảng tour
                     $insert_tour_query = "
                         INSERT INTO tour (Name, Style, Price, Child_price_percen, Max_participant, Min_participant, 
-                        Description, Status, Depart, DepartureLocation, Itinerary, employeesId, type, timetour, discount, vehicle,vung) 
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
+                        Description, Status, Depart, DepartureLocation, Itinerary, employeesId, type, timetour, discount, vehicle,vung,idks) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)";
                     $stmt_tour = $conn->prepare($insert_tour_query);
                     $stmt_tour->bind_param(
-                        "ssissssssssississ",
+                        "ssissssssssississi",
                         $name,
                         $style,
                         $price,
@@ -547,7 +548,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $timetour,
                         $discount,
                         $vehicle,
-                        $vung
+                        $vung,
+                        $ks
                     );
                     $stmt_tour->execute();
 
@@ -1612,6 +1614,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             $query = "SELECT 
             tour.*, 
             tour.id AS idtour, 
+            tour.Name AS tourname, 
+             tour.Price AS tourprice,
+            rooms.*,
+            rooms.id AS idroom,
+            rooms.Name AS roomname,
+               rooms.Price AS roomprice,
             tour_images.*, 
             departure_time.*, 
             departure_time.id AS iddepart, 
@@ -1623,6 +1631,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         LEFT JOIN departure_time ON tour.id = departure_time.id_tour 
         LEFT JOIN employees ON tour.employeesId = employees.id 
         LEFT JOIN departure_dates ON tour.id = departure_dates.tour_id
+        LEFT JOIN rooms ON tour.idks = rooms.id
          WHERE tour.id='$code'
         GROUP BY tour.id 
        ";
@@ -2032,17 +2041,25 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $query = "SELECT 
             tour.*, 
             tour.id AS idtour, 
+            tour.Name AS tourname, 
+            tour.Price AS tourprice,
             tour_images.*, 
             departure_time.*, 
             departure_time.id AS iddepart, 
             employees.Name AS tennhanvien, 
             employees.id, 
+            rooms.*,
+            rooms.id AS idroom,
+            rooms.Name AS roomname,
+            rooms.Price AS roomprice,
+
             GROUP_CONCAT(DISTINCT departure_dates.departure_date ORDER BY departure_dates.departure_date ASC) AS departure_dates
         FROM tour 
         LEFT JOIN tour_images ON tour.id = tour_images.id_tour 
         LEFT JOIN departure_time ON tour.id = departure_time.id_tour 
         LEFT JOIN employees ON tour.employeesId = employees.id 
         LEFT JOIN departure_dates ON tour.id = departure_dates.tour_id
+         LEFT JOIN rooms ON tour.idks = rooms.id
         GROUP BY tour.id 
        
         
@@ -2068,6 +2085,13 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 tour.*, 
                 tour.id AS idtour, 
                 tour_images.*, 
+                 tour.id AS idtour, 
+            tour.Name AS tourname, 
+             tour.Price AS tourprice,
+            rooms.*,
+            rooms.id AS idroom,
+            rooms.Name AS roomname,
+               rooms.Price AS roomprice,
                 departure_time.*, 
                 departure_time.id AS iddepart, 
                 employees.Name AS tennhanvien, 
@@ -2079,6 +2103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             LEFT JOIN departure_time ON tour.id = departure_time.id_tour 
             LEFT JOIN employees ON tour.employeesId = employees.id 
             LEFT JOIN departure_dates ON tour.id = departure_dates.tour_id
+             LEFT JOIN rooms ON tour.idks = rooms.id
             WHERE tour.id = '$id'  -- ✅ Đưa WHERE lên trước GROUP BY
             GROUP BY tour.id
         ";

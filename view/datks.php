@@ -172,14 +172,14 @@ function xemks() {
       type: 'GET',
       dataType: 'json',
       success: function (response) {
-       
+       console.log(response)
         if (Array.isArray(response) && response.length > 0) {
           const event = response[0]; // Lấy phần tử đầu tiên
           const eventHtml = `
         <div class="form-row">
         <div>
           <label for="tour-code">Mã khách sạn:</label>
-          <input type="text" id="ks-code" name="ks_id" value="${event.id}" readonly>
+          <input type="text" id="ks-code" name="ks_id" value="${event.idroom}" readonly>
         </div>
         <div>
           <label for="tour-name">Tên khách sạn:</label>
@@ -228,8 +228,8 @@ function xemks() {
                         <input type="number" id="adults" name="adults" value="${event.Adult}" min="0" oninput="calculateTotal()">
                     </div>
                     <div>
-                        <label for="children">Trẻ em:</label>
-                        <input type="number" id="children" name="children" value="${event.Children}" min="0" oninput="calculateTotal()">
+                        <label for="children">Trẻ em:</label><br>
+                        <input type="number" style="width:100%" id="children" name="children" value="${event.Children}" min="0" oninput="calculateTotal()">
                     </div>
                     <div>
                         <label for="babies">Em bé:</label>

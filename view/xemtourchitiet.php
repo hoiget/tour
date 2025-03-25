@@ -125,7 +125,10 @@ h3{
     color: #333;
     text-align: center;
 }
-
+.past-date {
+    text-decoration: line-through;
+    color: gray;
+}
 </style>
 <main class="main-content">
 
@@ -218,11 +221,20 @@ function xemdanhgiarating() {
                                 <li><strong>Khởi hành:</strong><div class="departure-box">`;
 
                     // Lặp danh sách ngày khởi hành và hiển thị trong box
-                                departureDates.forEach(date => {
-                                    let parts = date.split('-'); // Tách năm, tháng, ngày
-                                    let formattedDate = `${parts[2]}/${parts[1]}`; // Định dạng lại thành DD/MM
-                                    eventHtml += `<span class="departure-date">${formattedDate}</span>`;
-                                });
+                    departureDates.forEach(date => {
+    let parts = date.split('-'); // Tách năm, tháng, ngày
+    let formattedDate = `${parts[2]}/${parts[1]}`; // Định dạng lại thành DD/MM
+
+    // Chuyển đổi thành định dạng Date để so sánh
+    let departureDate = new Date(parts[0], parts[1] - 1, parts[2]); 
+    let today = new Date();
+    today.setHours(0, 0, 0, 0); // Đặt giờ về 0 để so sánh chính xác
+
+    let isPast = departureDate < today ? 'past-date' : ''; // Nếu ngày nhỏ hơn hôm nay, thêm class 'past-date'
+
+    eventHtml += `<span class="departure-date ${isPast}">${formattedDate}</span>`;
+});
+
 
                                 eventHtml += `(${event.Orders || '0'} lượt đặt)</div></li>
                                 <li><strong>Phương tiện:</strong> ${event.vehicle}</li>

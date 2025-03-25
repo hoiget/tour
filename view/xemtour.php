@@ -145,6 +145,10 @@ a{
     color: #333;
     text-align: center;
 }
+.past-date {
+    text-decoration: line-through;
+    color: gray;
+}
 
 </style>
     <div class="container2">
@@ -260,10 +264,19 @@ function xemtour() {
 
                     // Lặp danh sách ngày khởi hành và hiển thị trong box
                     departureDates.forEach(date => {
-                        let parts = date.split('-'); // Tách năm, tháng, ngày
-                        let formattedDate = `${parts[2]}/${parts[1]}`; // Định dạng lại thành DD/MM
-                        eventHtml += `<span class="departure-date">${formattedDate}</span>`;
-                    });
+    let parts = date.split('-'); // Tách năm, tháng, ngày
+    let formattedDate = `${parts[2]}/${parts[1]}`; // Định dạng lại thành DD/MM
+
+    // Chuyển đổi thành định dạng Date để so sánh
+    let departureDate = new Date(parts[0], parts[1] - 1, parts[2]); 
+    let today = new Date();
+    today.setHours(0, 0, 0, 0); // Đặt giờ về 0 để so sánh chính xác
+
+    let isPast = departureDate < today ? 'past-date' : ''; // Nếu ngày nhỏ hơn hôm nay, thêm class 'past-date'
+
+    eventHtml += `<span class="departure-date ${isPast}">${formattedDate}</span>`;
+});
+
 
                     eventHtml += `</div>
                                 <strong>Giá từ:</strong> 
@@ -331,10 +344,19 @@ function xemtourtheomien(mien) {
 
                     // Lặp danh sách ngày khởi hành và hiển thị trong box
                     departureDates.forEach(date => {
-                        let parts = date.split('-'); // Tách năm, tháng, ngày
-                        let formattedDate = `${parts[2]}/${parts[1]}`; // Định dạng lại thành DD/MM
-                        eventHtml += `<span class="departure-date">${formattedDate}</span>`;
-                    });
+    let parts = date.split('-'); // Tách năm, tháng, ngày
+    let formattedDate = `${parts[2]}/${parts[1]}`; // Định dạng lại thành DD/MM
+
+    // Chuyển đổi thành định dạng Date để so sánh
+    let departureDate = new Date(parts[0], parts[1] - 1, parts[2]); 
+    let today = new Date();
+    today.setHours(0, 0, 0, 0); // Đặt giờ về 0 để so sánh chính xác
+
+    let isPast = departureDate < today ? 'past-date' : ''; // Nếu ngày nhỏ hơn hôm nay, thêm class 'past-date'
+
+    eventHtml += `<span class="departure-date ${isPast}">${formattedDate}</span>`;
+});
+
 
                     eventHtml += `</div>
                                 <strong>Giá từ:</strong> 
@@ -400,10 +422,19 @@ function timKiemTourtype(type) {
 
                     // Lặp danh sách ngày khởi hành và hiển thị trong box
                     departureDates.forEach(date => {
-                        let parts = date.split('-'); // Tách năm, tháng, ngày
-                        let formattedDate = `${parts[2]}/${parts[1]}`; // Định dạng lại thành DD/MM
-                        eventHtml += `<span class="departure-date">${formattedDate}</span>`;
-                    });
+    let parts = date.split('-'); // Tách năm, tháng, ngày
+    let formattedDate = `${parts[2]}/${parts[1]}`; // Định dạng lại thành DD/MM
+
+    // Chuyển đổi thành định dạng Date để so sánh
+    let departureDate = new Date(parts[0], parts[1] - 1, parts[2]); 
+    let today = new Date();
+    today.setHours(0, 0, 0, 0); // Đặt giờ về 0 để so sánh chính xác
+
+    let isPast = departureDate < today ? 'past-date' : ''; // Nếu ngày nhỏ hơn hôm nay, thêm class 'past-date'
+
+    eventHtml += `<span class="departure-date ${isPast}">${formattedDate}</span>`;
+});
+
 
                     eventHtml += `</div>
                                 <strong>Giá từ:</strong> 
@@ -472,10 +503,19 @@ function timKiemThongTin(name, date, budget) {
 
                     // Lặp danh sách ngày khởi hành và hiển thị trong box
                     departureDates.forEach(date => {
-                        let parts = date.split('-'); // Tách năm, tháng, ngày
-                        let formattedDate = `${parts[2]}/${parts[1]}`; // Định dạng lại thành DD/MM
-                        eventHtml += `<span class="departure-date">${formattedDate}</span>`;
-                    });
+    let parts = date.split('-'); // Tách năm, tháng, ngày
+    let formattedDate = `${parts[2]}/${parts[1]}`; // Định dạng lại thành DD/MM
+
+    // Chuyển đổi thành định dạng Date để so sánh
+    let departureDate = new Date(parts[0], parts[1] - 1, parts[2]); 
+    let today = new Date();
+    today.setHours(0, 0, 0, 0); // Đặt giờ về 0 để so sánh chính xác
+
+    let isPast = departureDate < today ? 'past-date' : ''; // Nếu ngày nhỏ hơn hôm nay, thêm class 'past-date'
+
+    eventHtml += `<span class="departure-date ${isPast}">${formattedDate}</span>`;
+});
+
 
                     eventHtml += `</div>
                                 <strong>Giá từ:</strong> 
@@ -544,10 +584,19 @@ $.ajax({
 
                     // Lặp danh sách ngày khởi hành và hiển thị trong box
                     departureDates.forEach(date => {
-                        let parts = date.split('-'); // Tách năm, tháng, ngày
-                        let formattedDate = `${parts[2]}/${parts[1]}`; // Định dạng lại thành DD/MM
-                        eventHtml += `<span class="departure-date">${formattedDate}</span>`;
-                    });
+    let parts = date.split('-'); // Tách năm, tháng, ngày
+    let formattedDate = `${parts[2]}/${parts[1]}`; // Định dạng lại thành DD/MM
+
+    // Chuyển đổi thành định dạng Date để so sánh
+    let departureDate = new Date(parts[0], parts[1] - 1, parts[2]); 
+    let today = new Date();
+    today.setHours(0, 0, 0, 0); // Đặt giờ về 0 để so sánh chính xác
+
+    let isPast = departureDate < today ? 'past-date' : ''; // Nếu ngày nhỏ hơn hôm nay, thêm class 'past-date'
+
+    eventHtml += `<span class="departure-date ${isPast}">${formattedDate}</span>`;
+});
+
 
                     eventHtml += `</div>
                                 <strong>Giá từ:</strong> 
@@ -688,10 +737,19 @@ if(urlParams.has('mien')) {
 
                     // Lặp danh sách ngày khởi hành và hiển thị trong box
                     departureDates.forEach(date => {
-                        let parts = date.split('-'); // Tách năm, tháng, ngày
-                        let formattedDate = `${parts[2]}/${parts[1]}`; // Định dạng lại thành DD/MM
-                        eventHtml += `<span class="departure-date">${formattedDate}</span>`;
-                    });
+    let parts = date.split('-'); // Tách năm, tháng, ngày
+    let formattedDate = `${parts[2]}/${parts[1]}`; // Định dạng lại thành DD/MM
+
+    // Chuyển đổi thành định dạng Date để so sánh
+    let departureDate = new Date(parts[0], parts[1] - 1, parts[2]); 
+    let today = new Date();
+    today.setHours(0, 0, 0, 0); // Đặt giờ về 0 để so sánh chính xác
+
+    let isPast = departureDate < today ? 'past-date' : ''; // Nếu ngày nhỏ hơn hôm nay, thêm class 'past-date'
+
+    eventHtml += `<span class="departure-date ${isPast}">${formattedDate}</span>`;
+});
+
 
                     eventHtml += `</div>
                                 <strong>Giá từ:</strong> 

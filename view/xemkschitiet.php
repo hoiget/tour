@@ -95,6 +95,8 @@
 h3,p{
     color:black;
 }
+
+
 </style>
 <main class="main-content">
     <a href="index.php?ks">Quay lại</a>
@@ -175,7 +177,7 @@ function xemdanhgiaratingks() {
                 
                   <h3 style="color:black;font-size:20px">Chi tiết phòng</h3>
                   <ul>
-                    <li><strong>Mã ks:</strong> ${event.id}</li>
+                    <li><strong>Mã ks:</strong> ${event.idroom}</li>
                     <li><strong>Diện tích:</strong> ${event.Area}</li>
                     <li><strong>Người lớn:</strong> ${event.Adult} người</li>
                     <li><strong>Trẻ em:</strong> ${event.Children} người</li>
@@ -190,7 +192,7 @@ function xemdanhgiaratingks() {
                   </div>
                   <center>`
                   if(event.Status == 'Hoạt động'){
-                     eventHtml += `<a href="index.php?datks=${event.id}">
+                     eventHtml += `<a href="index.php?datks=${event.idroom}">
                         <button class="but" type="submit">Đặt phòng</button>
                     </a>`
                   }else{

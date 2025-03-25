@@ -198,6 +198,11 @@
                                
                                 <input type="text" id="ten" name="ten" value="">
                             </div>
+                            <div>
+                                <label for="Title">Chọn khách sạn:</label>
+                               
+                                <div id="ks"></div>
+                            </div>
                              <div>
                                 <label for="Title">Phong cách:</label>
                                
@@ -349,6 +354,7 @@
             <tr>
                 <th>ID</th>
                 <th>Tên tour</th>
+                <th>Tên khách sạn</th>
                 <th>Phong cách</th>
                 <th>Gía</th>
                 <th>Ảnh</th>
@@ -416,9 +422,11 @@
                      
                       <tr>
                     <td>${event.idtour}</td>
-                    <td>${event.Name}</td>
+                   
+                    <td>${event.tourname}</td>
+                    <td>${event.roomname}</td>
                     <td>${event.Style}</td>
-                    <td>${event.Price}</td>
+                    <td>${event.tourprice}</td>
                     <td><img style="width:50px;height:50px;" src="./assets/img/tour/${event.Image}" alt="${event.Thumb}" class="card-img-top"></td>
                     <td>${event.Child_price_percen}</td>
                     <td>${event.Max_participant}</td>
@@ -498,6 +506,11 @@ function openRatingModal(Id) {
                                 <label for="Title">Tên tour:</label>
                                
                                 <input type="text" id="ten" name="ten" value="${data[0].Name}">
+                            </div>
+                             <div>
+                                <label for="Title">Chọn khách sạn:</label>
+                               
+                                <input type="text" id="khachsan" name="khachsan" value="${data[0].roomname}" readonly>
                             </div>
                              <div>
                                 <label for="Title">Phong cách:</label>
@@ -751,9 +764,10 @@ function searchtour(event) {
                      
                      <tr>
                    <td>${event.idtour}</td>
-                   <td>${event.Name}</td>
+                    <td>${event.tourname}</td>
+                    <td>${event.roomname}</td>
                    <td>${event.Style}</td>
-                   <td>${event.Price}</td>
+                   <td>${event.tourprice}</td>
                    <td><img style="width:50px;height:50px;" src="./assets/img/tour/${event.Image}" alt="${event.Thumb}" class="card-img-top"></td>
                    <td>${event.Child_price_percen}</td>
                    <td>${event.Max_participant}</td>
@@ -767,7 +781,8 @@ function searchtour(event) {
                    <td>${event.type}</td>
                    <td>${event.timetour}</td>
                    <td>${event.discount}</td>
-                   <td>${event.vehicle}</td>`;
+                   <td>${event.vehicle}</td>
+                     <td>${event.vung}</td>`;
                
                    
                     eventHtml +=`<td>
@@ -796,6 +811,57 @@ $(document).ready(function() {
        themtour();
   xemtour();
       capnhatour();
+      xemks();
     
    });
+</script>
+<script>
+    $(document).ready(function () {
+    // Lắng nghe khi nhập tên tour
+    $('#ten').on('input', function () {
+        let tourName = $(this).val().trim(); // Lấy giá trị nhập vào
+        if (tourName.length > 2) { // Chỉ tìm kiếm nếu nhập ít nhất 3 ký tự
+            let diaDiem = layDiaDiem(tourName); // Hàm trích xuất địa điểm từ tên tour
+            if (diaDiem) {
+                xemks(diaDiem); // Gọi API tìm khách sạn theo địa điểm
+            }
+        }
+    });
+});
+
+// Hàm trích xuất địa điểm từ tên tour (ví dụ: "Tour Đà Nẵng 3N2Đ" -> "Đà Nẵng")
+function layDiaDiem(tourName) {
+    let regex = /\b([\p{L}]+(?:\s[\p{L}]+)?)\b/ui; // Lấy đúng 2 từ đầu tiên
+    let match = tourName.match(regex);
+    return match ? match[1].trim() : null;
+}
+
+// Hàm lấy danh sách khách sạn theo địa điểm
+function xemks(diaDiem = '') {
+    $.ajax({
+    url: `./api/api.php?action=xemkss&diadiem=${encodeURIComponent(diaDiem)}`,
+    type: 'GET',
+    dataType: 'json',
+    success: function (response) {
+        if (Array.isArray(response) && response.length > 0) {
+            let eventHtml = '<select class="form-control" id="khachsan" name="khachsan" required>';
+            eventHtml += '<option value="">Chọn khách sạn</option>'; // Tuỳ chọn mặc định
+
+            response.forEach(function (event) {
+                eventHtml += `<option value="${event.id}">${event.Name} - ${event.Diadiem}</option>`;
+            });
+
+            eventHtml += '</select>';
+            $('#ks').html(eventHtml);
+        } else {
+            $('#ks').html('<div class="col">Không tìm thấy khách sạn phù hợp.</div>');
+        }
+    },
+    error: function (xhr, status, error) {
+        console.error('Lỗi khi tải thông tin khách sạn:', xhr.responseText);
+        $('#ks').html(`<div class="col text-danger">Lỗi: ${xhr.status} - ${xhr.statusText}<br>${xhr.responseText}</div>`);
+    }
+});
+
+}
 </script>

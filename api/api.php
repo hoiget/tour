@@ -753,7 +753,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 FROM tour 
                 INNER JOIN tour_images ON tour.id = tour_images.id_tour 
                 LEFT JOIN departure_time ON tour.id = departure_time.id_tour  
-                WHERE Orders < Max_participant 
+                WHERE Orders < Max_participant AND  departure_time.ngaykhoihanh >= NOW()
                 GROUP BY tour.id
                 ORDER BY MIN(departure_time.ngaykhoihanh) ASC";  
     
@@ -875,7 +875,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 FROM tour 
                 INNER JOIN tour_images ON tour.id = tour_images.id_tour 
                 LEFT JOIN departure_time ON tour.id = departure_time.id_tour  
-               WHERE Orders < Max_participant AND tour.type = '$type'
+               WHERE Orders < Max_participant AND tour.type = '$type' AND  departure_time.ngaykhoihanh >= NOW()
                 GROUP BY tour.id
                 ORDER BY MIN(departure_time.ngaykhoihanh) ASC";
 
@@ -911,7 +911,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 INNER JOIN tour_images ON tour.id = tour_images.id_tour 
                 LEFT JOIN departure_time ON tour.id = departure_time.id_tour  
                 
-                WHERE Orders < Max_participant AND 1=1 
+                WHERE Orders < Max_participant AND  departure_time.ngaykhoihanh >= NOW() AND 1=1 
         ";
         // Thêm điều kiện tìm kiếm
         if (!empty($name)) {
@@ -962,7 +962,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     } elseif ($action == "xemkschitiet") {
         $id = $_GET['idks'];
         $query = "SELECT 
-            r.*, r.Name as room_name,
+            r.*, r.Name as room_name,r.id AS idroom,
             f.*, 
             f.Name AS feature_name, 
             fa.*,
@@ -1119,7 +1119,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     } elseif ($action == "xemks") {
         $id = $_GET['datks'];
         $query = "SELECT 
-        r.*, r.Name as room_name,
+        r.*, r.Name as room_name,r.id AS idroom,
         f.*, 
         f.Name AS feature_name, 
         fa.*,

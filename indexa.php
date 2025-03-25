@@ -290,7 +290,12 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
           <span>Viết báo cáo</span>
         </a>
       </li><!-- End Dashboard Nav -->   
-         
+      <li class="nav-item">
+        <a class="nav-link " href="indexa.php?baonv">
+        <i class="bi bi-info-circle"></i>
+          <span>Xem báo cáo</span>
+        </a>
+      </li><!-- End Dashboard Nav -->   
           <?php } ?>
       <?php if($role == 'QL'){?>
       <li class="nav-item">
@@ -528,6 +533,9 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
     } if(isset($_REQUEST['baocao'])){
       $show = false;
       include_once("viewa/baocao.php");
+    }  if(isset($_REQUEST['baonv'])){
+      $show = false;
+      include_once("viewa/xembaocaonv.php");
     } 
     if($show){
       include_once("viewa/lich.php");
