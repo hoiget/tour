@@ -242,5 +242,84 @@ echo json_encode([
 ]);
 
 }
+if ($action === 'autoAssignShifts') {
+    $month = $_POST['month'];
+    $year = $_POST['year'];
+
+    // Lấy danh sách nhân viên
+    $employees = $conn->query("SELECT id FROM employees")->fetch_all(MYSQLI_ASSOC);
+    
+    // Xác định số ngày trong tháng
+    $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+    
+    // Các loại ca làm việc có thể chọn
+    $shiftTypes = ['Ca 1', 'Ca 2', 'Ca 3', 'X']; // X là nghỉ
+
+    foreach ($employees as $employee) {
+        for ($day = 1; $day <= $daysInMonth; $day++) {
+            $date = sprintf("%04d-%02d-%02d", $year, $month, $day);
+            $randomShift = $shiftTypes[array_rand($shiftTypes)];
+
+            // Chỉ thêm nếu chưa có ca làm việc
+            $check = $conn->prepare("SELECT id FROM schedule WHERE employee_id = ? AND shift_date = ?");
+            $check->bind_param("is", $employee['id'], $date);
+            $check->execute();
+            $result = $check->get_result();
+
+            if ($result->num_rows === 0) {
+                $stmt = $conn->prepare("INSERT INTO schedule (employee_id, shift_type, shift_date, status) VALUES (?, ?, ?, ?)");
+                $status = ($randomShift === 'X') ? 'P' : 'V';
+                $stmt->bind_param("isss", $employee['id'], $randomShift, $date, $status);
+                $stmt->execute();
+            }
+        }
+    }
+
+    echo json_encode(['status' => 'success', 'message' => 'Đã tự động phân công ca!']);
+}
+
+
+if ($action === 'submitReport') {
+    $guide_id = intval($_POST['guide_id']);
+    $admin_id = intval($_POST['admin_id']);
+    $report_type = $_POST['report_type'];
+    $report_content = $_POST['report_content'];
+
+    $file_name = NULL; // Mặc định không có file
+
+    // Xử lý file nếu có upload
+    if (!empty($_FILES['report_file']['name'])) {
+        $file_name = time() . "_" . basename($_FILES['report_file']['name']);
+        $target_dir = "../uploads/reports/";
+        $target_file = $target_dir . $file_name;
+
+        $file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        $allowed_types = array("pdf", "doc", "docx");
+
+        if (!in_array($file_type, $allowed_types)) {
+            die("❌ Chỉ chấp nhận file PDF hoặc Word!");
+        }
+
+        if (!move_uploaded_file($_FILES["report_file"]["tmp_name"], $target_file)) {
+            die("❌ Lỗi khi tải file lên server!");
+        }
+    }
+
+    // Chèn vào database
+    $stmt = $conn->prepare("INSERT INTO reports (guide_id, report_type, report_content, report_file,approved_by) VALUES (?, ?, ?, ?,?)");
+    $stmt->bind_param("isssi", $guide_id, $report_type, $report_content, $file_name,$admin_id);
+    
+    if ($stmt->execute()) {
+        echo "✅ Báo cáo đã được gửi thành công!";
+    } else {
+        echo "❌ Lỗi khi gửi báo cáo!";
+    }
+
+    $stmt->close();
+}
+
+
+?>
+
 
 

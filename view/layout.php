@@ -140,6 +140,7 @@
 }
 .tour-info {
         padding: 10px;
+        color:black;
     }
     .tour-name1 {
         font-size: 16px;
@@ -175,23 +176,77 @@
  
   
 }
-
+.img-fluid{
+  width: 100%;
+  height: 200px;
+}
   </style>
   <link rel="stylesheet" href="./assets/css/timkiem.css">
   <section id="hero" class="hero section">
-<div class="container">
-        <div class="row justify-content-center">
-          <div class="col-lg-6 text-center" data-aos="fade-up" data-aos-delay="100">
-          <h2><span>Chào mừng đến với </span><span class="underlight">GoWander Travel</span>, cánh cửa dẫn lối đến<span> những hành trình khó quên</span></h2>
-          <p>Khám phá những điểm đến tuyệt đẹp, hòa mình vào nền văn hóa đa dạng và tạo nên những kỷ niệm đáng nhớ. Hãy để chúng tôi đồng hành cùng bạn trong chuyến phiêu lưu sắp tới với các trải nghiệm độc đáo và ưu đãi hấp dẫn.</p>
-          <a href="#" class="btn-get-started">Lên kế hoạch ngay</a>
-         
+    
+  <ul class='slider' id="xemlayout">
+ 
+  </ul>
+  <nav class='nav'>
+    <ion-icon class='btn prev' name="arrow-back-outline"></ion-icon>
+    <ion-icon class='btn next' name="arrow-forward-outline"></ion-icon>
+  </nav>
 
-          </div>
-        </div>
-      </div>
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <script>
+    // Slider navigation logic
+    const slider = document.querySelector('.slider');
 
-    </section><!-- /Hero Section -->
+    function activate(e) {
+      const items = document.querySelectorAll('.item');
+      if (e.target.matches('.next')) {
+        slider.append(items[0]);
+      } else if (e.target.matches('.prev')) {
+        slider.prepend(items[items.length - 1]);
+      }
+    }
+
+    document.addEventListener('click', activate, false);
+
+    // AJAX function to dynamically load slides
+    function xemlayout() {
+      $.ajax({
+        url: './api/api.php?action=xemlayout',
+        type: 'GET',
+        dataType: 'json', // Automatically parses JSON string into an object/array
+        success: function (response) {
+          if (Array.isArray(response) && response.length > 0) {
+            let eventHtml = '';
+            response.forEach(function (tour) {
+              eventHtml += `
+                <li class='item' style="background-image: url('./assets/img/tour/${tour.Image}')">
+                  <div class='content'>
+                   <h1>Tour du lịch</h1>
+                    <h2 class='title' style="color:white">${tour.Name}</h2>
+                    <p class='description' style=" color: #FFFFFF;font-size:18px">${tour.Thumb}</p>
+                     <a href="index.php?idtour=${tour.id}&xemdanhgiatour=${tour.id}&xemdanhgiarating=${tour.id}"><button>Read More</button></a>
+                  </div>
+                </li>`;
+            });
+            $('#xemlayout').html(eventHtml);
+          } else {
+            $('#xemlayout').html('<div class="col">No information found.</div>');
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error('Error fetching data:', error);
+          $('#xemlayout').html('<div class="col">An error occurred while loading the data.</div>');
+        }
+      });
+    }
+
+    // Initialize on document ready
+    $(document).ready(function () {
+      xemlayout();
+    });
+  </script>
+</section><!-- /Hero Section -->
     <section id="tim" class="tim">
   
     <div class="container19">
@@ -290,71 +345,7 @@
 </section>
 
 
-    <section id="hero" class="hero section">
-    
-  <ul class='slider' id="xemlayout">
- 
-  </ul>
-  <nav class='nav'>
-    <ion-icon class='btn prev' name="arrow-back-outline"></ion-icon>
-    <ion-icon class='btn next' name="arrow-forward-outline"></ion-icon>
-  </nav>
-
-  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-  <script>
-    // Slider navigation logic
-    const slider = document.querySelector('.slider');
-
-    function activate(e) {
-      const items = document.querySelectorAll('.item');
-      if (e.target.matches('.next')) {
-        slider.append(items[0]);
-      } else if (e.target.matches('.prev')) {
-        slider.prepend(items[items.length - 1]);
-      }
-    }
-
-    document.addEventListener('click', activate, false);
-
-    // AJAX function to dynamically load slides
-    function xemlayout() {
-      $.ajax({
-        url: './api/api.php?action=xemlayout',
-        type: 'GET',
-        dataType: 'json', // Automatically parses JSON string into an object/array
-        success: function (response) {
-          if (Array.isArray(response) && response.length > 0) {
-            let eventHtml = '';
-            response.forEach(function (tour) {
-              eventHtml += `
-                <li class='item' style="background-image: url('./assets/img/tour/${tour.Image}')">
-                  <div class='content'>
-                   <h1>Tour du lịch</h1>
-                    <h2 class='title' style="color:white">${tour.Name}</h2>
-                    <p class='description' style=" color: #FFFFFF;font-size:18px">${tour.Thumb}</p>
-                     <a href="index.php?idtour=${tour.id}&xemdanhgiatour=${tour.id}&xemdanhgiarating=${tour.id}"><button>Read More</button></a>
-                  </div>
-                </li>`;
-            });
-            $('#xemlayout').html(eventHtml);
-          } else {
-            $('#xemlayout').html('<div class="col">No information found.</div>');
-          }
-        },
-        error: function (xhr, status, error) {
-          console.error('Error fetching data:', error);
-          $('#xemlayout').html('<div class="col">An error occurred while loading the data.</div>');
-        }
-      });
-    }
-
-    // Initialize on document ready
-    $(document).ready(function () {
-      xemlayout();
-    });
-  </script>
-</section>
+  
 <section id="giam" class="giam">
  
 <div class="containere">
@@ -510,97 +501,63 @@
    
   </section>
  <!-- Gallery Section -->
-    <section id="gallery" class="gallery section">
-
-      <div class="container-fluid" data-aos="fade-up" data-aos-delay="100">
-
-        <div class="row gy-4 justify-content-center">
-
-          <div class="col-xl-3 col-lg-4 col-md-6">
-            <div class="gallery-item h-100">
-              <img src="assets/img/gallery/gallery-1.jpg" class="img-fluid" alt="">
-              <div class="gallery-links d-flex align-items-center justify-content-center">
-                <a href="assets/img/gallery/gallery-1.jpg" title="Gallery 1" class="glightbox preview-link"><i class="bi bi-arrows-angle-expand"></i></a>
-                <a href="gallery-single.html" class="details-link"><i class="bi bi-link-45deg"></i></a>
-              </div>
-            </div>
-          </div><!-- End Gallery Item -->
-
-          <div class="col-xl-3 col-lg-4 col-md-6">
-            <div class="gallery-item h-100">
-              <img src="assets/img/gallery/gallery-2.jpg" class="img-fluid" alt="">
-              <div class="gallery-links d-flex align-items-center justify-content-center">
-                <a href="assets/img/gallery/gallery-2.jpg" title="Gallery 2" class="glightbox preview-link"><i class="bi bi-arrows-angle-expand"></i></a>
-                <a href="gallery-single.html" class="details-link"><i class="bi bi-link-45deg"></i></a>
-              </div>
-            </div>
-          </div><!-- End Gallery Item -->
-
-          <div class="col-xl-3 col-lg-4 col-md-6">
-            <div class="gallery-item h-100">
-              <img src="assets/img/gallery/gallery-3.jpg" class="img-fluid" alt="">
-              <div class="gallery-links d-flex align-items-center justify-content-center">
-                <a href="assets/img/gallery/gallery-3.jpg" title="Gallery 3" class="glightbox preview-link"><i class="bi bi-arrows-angle-expand"></i></a>
-                <a href="gallery-single.html" class="details-link"><i class="bi bi-link-45deg"></i></a>
-              </div>
-            </div>
-          </div><!-- End Gallery Item -->
-
-          <div class="col-xl-3 col-lg-4 col-md-6">
-            <div class="gallery-item h-100">
-              <img src="assets/img/gallery/gallery-4.jpg" class="img-fluid" alt="">
-              <div class="gallery-links d-flex align-items-center justify-content-center">
-                <a href="assets/img/gallery/gallery-4.jpg" title="Gallery 4" class="glightbox preview-link"><i class="bi bi-arrows-angle-expand"></i></a>
-                <a href="gallery-single.html" class="details-link"><i class="bi bi-link-45deg"></i></a>
-              </div>
-            </div>
-          </div><!-- End Gallery Item -->
-
-          <div class="col-xl-3 col-lg-4 col-md-6">
-            <div class="gallery-item h-100">
-              <img src="assets/img/gallery/gallery-5.jpg" class="img-fluid" alt="">
-              <div class="gallery-links d-flex align-items-center justify-content-center">
-                <a href="assets/img/gallery/gallery-5.jpg" title="Gallery 5" class="glightbox preview-link"><i class="bi bi-arrows-angle-expand"></i></a>
-                <a href="gallery-single.html" class="details-link"><i class="bi bi-link-45deg"></i></a>
-              </div>
-            </div>
-          </div><!-- End Gallery Item -->
-
-          <div class="col-xl-3 col-lg-4 col-md-6">
-            <div class="gallery-item h-100">
-              <img src="assets/img/gallery/gallery-6.jpg" class="img-fluid" alt="">
-              <div class="gallery-links d-flex align-items-center justify-content-center">
-                <a href="assets/img/gallery/gallery-6.jpg" title="Gallery 6" class="glightbox preview-link"><i class="bi bi-arrows-angle-expand"></i></a>
-                <a href="gallery-single.html" class="details-link"><i class="bi bi-link-45deg"></i></a>
-              </div>
-            </div>
-          </div><!-- End Gallery Item -->
-
-          <div class="col-xl-3 col-lg-4 col-md-6">
-            <div class="gallery-item h-100">
-              <img src="assets/img/gallery/gallery-7.jpg" class="img-fluid" alt="">
-              <div class="gallery-links d-flex align-items-center justify-content-center">
-                <a href="assets/img/gallery/gallery-7.jpg" title="Gallery 7" class="glightbox preview-link"><i class="bi bi-arrows-angle-expand"></i></a>
-                <a href="gallery-single.html" class="details-link"><i class="bi bi-link-45deg"></i></a>
-              </div>
-            </div>
-          </div><!-- End Gallery Item -->
-
-          <div class="col-xl-3 col-lg-4 col-md-6">
-            <div class="gallery-item h-100">
-              <img src="assets/img/gallery/gallery-8-2.jpg" class="img-fluid" alt="">
-              <div class="gallery-links d-flex align-items-center justify-content-center">
-                <a href="assets/img/gallery/gallery-8-2.jpg" title="Gallery 8" class="glightbox preview-link"><i class="bi bi-arrows-angle-expand"></i></a>
-                <a href="gallery-single.html" class="details-link"><i class="bi bi-link-45deg"></i></a>
-              </div>
-            </div>
-          </div><!-- End Gallery Item -->
-
+ <section id="gallery" class="gallery section">
+    <div class="container-fluid" data-aos="fade-up" data-aos-delay="100">
+        <div class="row gy-4 justify-content-center" id="gallery-content">
+            <!-- Danh sách tour sẽ được tải vào đây bằng AJAX -->
         </div>
+    </div>
+</section>
 
-      </div>
+<script>
+$(document).ready(function () {
+    $.ajax({
+        url: './api/api.php?action=get_upcoming_tours',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            let html = '';
+            if (data.length === 0) {
+                html = '<p class="text-center">Không có tour sắp khởi hành.</p>';
+            } else {
+                data.forEach(function (tour) {
+                    let imagePath = tour.Image ? `assets/img/tour/${tour.Image}` : 'assets/img/no-image.jpg';
+                    let priceFormatted = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(tour.Price);
 
+                    html += `<div class="col-xl-3 col-lg-4 col-md-6">
+                                <div class="gallery-item h-100">
+                                    <img src="${imagePath}" class="img-fluid" alt="${tour.tour_name}">
+                                    <div class="gallery-links d-flex align-items-center justify-content-center">
+                                        <a href="${imagePath}" title="${tour.tour_name}" class="glightbox preview-link">
+                                            <i class="bi bi-arrows-angle-expand"></i>
+                                        </a>
+                                      
+                                         <a href="index.php?idtour=${tour.tour_id}&xemdanhgiatour=${tour.tour_id}&xemdanhgiarating=${tour.tour_id}" class="details-link">
+                                            <i class="bi bi-link-45deg"></i>
+                                        </a>
+                                    </div>
+                                    <div class="tour-info text-center mt-2">
+                                        <h5 style="color:black">${tour.tour_name}</h5>
+                                        <p><strong>Khởi hành:</strong> ${tour.departure_date}</p>
+                                        <p><strong>Địa điểm:</strong> ${tour.DepartureLocation}</p>
+                                        <p><strong>Giá:</strong> ${priceFormatted}</p>
+                                    </div>
+                                </div>
+                            </div>`;
+                });
+            }
+            $('#gallery-content').html(html);
+        },
+        error: function (xhr, status, error) {
+            console.error('Lỗi AJAX:', status, error, xhr.responseText); // Ghi log vào console
+            $('#gallery-content').html(`
+                <p class="text-center text-danger">
+                    Không thể tải danh sách tour. Lỗi: ${status} - ${error}
+                </p>
+                <pre class="bg-light p-2 border">${xhr.responseText}</pre>
+            `);
+        }
+    });
+});
 
-  
-
-      </section><!-- /Gallery Section -->
+</script>

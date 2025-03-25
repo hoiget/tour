@@ -290,6 +290,8 @@
 </div>
 
 
+           <div id="thongkenv1"></div>
+
 <!-- Biểu đồ -->
 <canvas id="permissionChart" ></canvas>
 <center><b>Biểu đồ tròn thống kê các vai trò của nhân viên</b></center> <br>
@@ -415,6 +417,60 @@
 
     });
     }
+    function thongkenv1() {
+    $.ajax({
+        url: './api/apia.php?action=thongkenv1',
+        type: 'GET',
+        dataType: 'json',
+        success: function(response) {
+            console.log("Dữ liệu API trả về:", response);
+
+            if (Array.isArray(response) && response.length > 0) {
+                var events = response;
+                var eventHtml = ''; 
+                eventHtml +='<div class="grid">';
+                events.forEach(function(event) {
+            if(event.status == 'V'){
+                eventHtml += `
+
+                        <div class="card green">
+                            <h3>Nhân viên đang làm</h3>
+                            <p>${event.total}</p>
+                        </div> `
+            }
+            if(event.status == 'X'){
+                eventHtml += `
+
+                        <div class="card red">
+                            <h3>Nhân viên nghỉ không phép</h3>
+                            <p>${event.total}</p>
+                        </div> `
+            }
+            if(event.status == 'P'){
+                eventHtml += `
+
+                        <div class="card blue">
+                             <h3>Nhân viên nghỉ có phép</h3>
+                            <p>${event.total}</p>
+                        </div> `
+            }
+                   
+                });
+                eventHtml +='</div>';
+                $('#thongkenv1').html(eventHtml);
+            } else {
+                $('#thongkenv1').html('<div class="col">Không có dữ liệu thống kê.</div>');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Lỗi khi lấy thông tin:', error);
+            console.error('Chi tiết:', xhr.responseText);
+            $('#thongkenv1').html('<div class="col">Đã xảy ra lỗi khi tải dữ liệu.</div>');
+        }
+    });
+}
+
+
 
     function thongkeks() {
     $.ajax({
@@ -821,6 +877,7 @@ $(document).ready(function() {
       getBookingStats2();
       getBookingStatsks2();
       thongkeuser();
+      thongkenv1();
    });
 </script>
 <script>

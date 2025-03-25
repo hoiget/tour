@@ -88,6 +88,7 @@
         
     </div>
     <button id="exportPDF">Xuất PDF</button>
+    <button id="autoAssign">Tự động phân công</button>
 
     <!-- <div class="form-container">
         <h3>Thêm ca cho nhân viên</h3>
@@ -230,7 +231,7 @@ function renderSchedule(employees, shifts) {
                 const shift = shiftsForEmployee.find(s => new Date(s.shift_date).getDate() === day);
 
                 if (shift) {
-                    cell.textContent = shift.status || '✓';
+                    cell.textContent = shift.status || '';
                     cell.dataset.shiftId = shift.id;
                 } else {
                     cell.textContent = "";
@@ -406,6 +407,25 @@ function exportToPDF() {
 }
 
 document.getElementById("exportPDF").addEventListener("click", exportToPDF);
+
+</script>
+<script>
+    document.getElementById("autoAssign").addEventListener("click", function () {
+    const month = document.getElementById("monthSelect").value;
+    const year = new Date().getFullYear();
+
+    fetch("./api/phancong.php?action=autoAssignShifts", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({ month, year })
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+        fetchSchedule(); // Cập nhật lại bảng sau khi tự động phân công
+    })
+    .catch(error => console.error("Lỗi tự động phân công:", error));
+});
 
 </script>
 </body>

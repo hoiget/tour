@@ -139,6 +139,7 @@ console.log("Session ID:", sessionId); // Kiểm tra giá trị
                                     <li><a href="index.php?tour&mien=Ngoài nước">Tour nước ngoài</a></li>
                                     <?php if(isset($_SESSION['Email']) && isset($_SESSION['sdt'])) { ?>
                                     <li><a href="index.php?custom_tour">Tour theo yêu cầu</a></li>
+                                    <li><a href="index.php?thuexe">Thuê xe theo yêu cầu</a></li>
                                     <?php }?>
 
                                 </ul>          
@@ -272,7 +273,10 @@ if(isset($_REQUEST['idttks'])){
 if(isset($_REQUEST['custom_tour'])){
     $show = false;
     include_once("view/themtouryeucau.php");
- }
+ }if(isset($_REQUEST['thuexe'])){
+  $show = false;
+  include_once("view/thuexe.php");
+}
 include_once("view/mes.php");
 }
 if($show){

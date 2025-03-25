@@ -34,6 +34,14 @@
             background-color: #17a2b8;
             border: none;
         }
+        label{
+            color:black;
+        }
+        #tuoi {
+            font-size: 18px;
+            
+            color: black;
+        }
     </style>
 </head>
 <body>
@@ -136,39 +144,56 @@
     });
 }
 
-      function get_user_info() {
+function get_user_info() {
     $.ajax({
         url: './api/api.php?action=get_user_info',
         type: 'GET',
-        dataType: 'json', // Tự động phân tích chuỗi JSON thành object/mảng
+        dataType: 'json',
         success: function(response) {
             if (Array.isArray(response) && response.length > 0) {
                 var events = response;
                 var eventHtml = '';
                 events.forEach(function(event) {
+                    // Tính tuổi
+                    let tuoi = calculateAge(event.Datetime);
+
                     eventHtml += `
                     <div class="row mb-3">
                         <div class="col-md-4">
                             <label for="name" class="form-label">Tên</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Nhập tên" value="${event.Name}">
+                            <input type="text" class="form-control" id="name" name="name" value="${event.Name}">
                         </div>
                         <div class="col-md-4">
                             <label for="phone" class="form-label">Số điện thoại</label>
-                            <input type="text" class="form-control" id="phone" name="phone" placeholder="Nhập số điện thoại" value="${event.sdt}" readonly>
+                            <input type="text" class="form-control" id="phone" name="phone" value="${event.sdt}" readonly>
                         </div>
+                        <div class="col-md-4">
+                            <label for="address" class="form-label">Địa chỉ</label>
+                            <input type="text" class="form-control" id="dc" name="dc" value="${event.Address}">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
                         <div class="col-md-4">
                             <label for="dob" class="form-label">Ngày sinh</label>
                             <input type="date" class="form-control" id="ns" name="ns" value="${event.Datetime}">
                         </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-12">
-                            <label for="address" class="form-label">Địa chỉ</label>
-                            <input type="text" class="form-control" id="dc" name="dc" placeholder="Nhập địa chỉ" value="${event.Address}">
+                        <div class="col-md-4">
+                            <label class="form-label">Tuổi</label>
+                            <input type="text" class="form-control" id="tuoi" value="${tuoi}" readonly>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="text" class="form-control" id="EM" name="EM" value="${event.Email}" readonly>
                         </div>
                     </div>`;
                 });
                 $('#ttcn').html(eventHtml);
+
+                // Gán sự kiện tính tuổi khi thay đổi ngày sinh
+                document.getElementById("ns").addEventListener("change", function () {
+                    let tuoi = calculateAge(this.value);
+                    document.getElementById("tuoi").value = tuoi;
+                });
             } else {
                 $('#ttcn').html('<div class="col">Không tìm thấy thông tin người dùng.</div>');
             }
@@ -178,6 +203,20 @@
             $('#ttcn').html('<div class="col">Đã xảy ra lỗi khi tải thông tin người dùng.</div>');
         }
     });
+}
+
+// Hàm tính tuổi từ ngày sinh
+function calculateAge(dob) {
+    if (!dob) return "Chưa có";
+    let birthDate = new Date(dob);
+    let today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    let monthDiff = today.getMonth() - birthDate.getMonth();
+
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+    return age;
 }
 function get_anh() {
     $.ajax({
@@ -211,5 +250,6 @@ function get_anh() {
         get_anh();
     });
     </script>
+   
 </body>
 </html>

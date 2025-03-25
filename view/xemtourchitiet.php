@@ -108,6 +108,23 @@ h3{
 .review p{
     color:black;
 }
+.departure-box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 5px;
+}
+
+.departure-date {
+    background-color: #f8f9fa; /* Màu nền nhẹ */
+    border: 1px solid #ddd; /* Viền nhẹ */
+    padding: 5px 10px;
+    border-radius: 5px; /* Bo góc */
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+}
 
 </style>
 <main class="main-content">
@@ -181,6 +198,7 @@ function xemdanhgiarating() {
             
             if (Array.isArray(response) && response.length > 0) {
                 const event = response[0]; // Lấy phần tử đầu tiên
+                let departureDates = event.ngaykhoihanh ? event.ngaykhoihanh.split(', ') : [];
                 let eventHtml = `
                     <h2 style="color:black">${event.Name}</h2>
                     
@@ -197,7 +215,16 @@ function xemdanhgiarating() {
                                 <li><strong>Kiểu tour:</strong> ${event.Style}</li>
                                 <li><strong>Số người tham gia:</strong> ${event.Max_participant} (tối thiểu: ${event.Min_participant} người)</li>
                                 <li><strong>Thời gian:</strong> ${event.timetour}</li>
-                                <li><strong>Khởi hành:</strong> ${event.Depart} (${event.Orders || '0'} lượt đặt)</li>
+                                <li><strong>Khởi hành:</strong><div class="departure-box">`;
+
+                    // Lặp danh sách ngày khởi hành và hiển thị trong box
+                                departureDates.forEach(date => {
+                                    let parts = date.split('-'); // Tách năm, tháng, ngày
+                                    let formattedDate = `${parts[2]}/${parts[1]}`; // Định dạng lại thành DD/MM
+                                    eventHtml += `<span class="departure-date">${formattedDate}</span>`;
+                                });
+
+                                eventHtml += `(${event.Orders || '0'} lượt đặt)</div></li>
                                 <li><strong>Phương tiện:</strong> ${event.vehicle}</li>
                                 <li><strong>Xuất phát:</strong> ${event.DepartureLocation}</li>
                                

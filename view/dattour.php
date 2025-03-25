@@ -206,11 +206,7 @@ button:hover {
         <span>Thanh toán VNPAY</span>
        
     </div>
-    <div class="payment-option" data-method="momo" onclick="selectPayment(this)">
-        <div class="checkbox"></div>
-        <img style="padding-right:10px" src="./assets/img/momo.png" width=50px height=30px alt="">
-        <span>Thanh toán MoMo</span>
-    </div>
+  
 </div>
 
 
@@ -351,29 +347,34 @@ document.addEventListener('DOMContentLoaded', async function () {
             }
         },
         dateClick: function (info) {
-            let selectedDate = new Date(info.dateStr);
-            let today = new Date();
-            today.setHours(0, 0, 0, 0); // Đặt giờ về 00:00 để chỉ so sánh ngày
+    let selectedDate = new Date(info.dateStr);
+    let today = new Date();
+    today.setHours(0, 0, 0, 0); // Đặt giờ về 00:00 để chỉ so sánh ngày
 
-            if (selectedDate <= today) {
-                openPopup("Bạn chỉ có thể chọn ngày sau hôm nay!", '');
-                return;
-            }
+    // Tạo ngày giới hạn (ngày hiện tại + 1)
+    let limitDate = new Date(today);
+    limitDate.setDate(today.getDate() + 1);
 
-            let selectedEvent = calendar.getEvents().find(event => event.startStr === info.dateStr);
-            if (selectedEvent && selectedEvent.extendedProps.isAvailable) {
-                document.getElementById('ns').value = info.dateStr;
+    if (selectedDate < limitDate) { // Không cho chọn trước ngày khởi hành 1 ngày
+        openPopup("Bạn không thể chọn ngày khởi hành này!", '');
+        return;
+    }
 
-                const dateStr = info.dateStr; 
-                const [year, month, day] = dateStr.split("-");
-                const formattedDate = `${day}/${month}/${year}`;
-                document.getElementById('ns1').innerText = formattedDate;
+    let selectedEvent = calendar.getEvents().find(event => event.startStr === info.dateStr);
+    if (selectedEvent && selectedEvent.extendedProps.isAvailable) {
+        document.getElementById('ns').value = info.dateStr;
 
-                openPopup("Bạn đã chọn ngày khởi hành: " + formattedDate, '');
-            } else {
-                openPopup("Ngày này không khả dụng!", '');
-            }
-        }
+        const dateStr = info.dateStr; 
+        const [year, month, day] = dateStr.split("-");
+        const formattedDate = `${day}/${month}/${year}`;
+        document.getElementById('ns1').innerText = formattedDate;
+
+        openPopup("Bạn đã chọn ngày khởi hành: " + formattedDate, '');
+    } else {
+        openPopup("Ngày này không khả dụng!", '');
+    }
+}
+
     });
 
     calendar.render();

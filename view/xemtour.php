@@ -128,15 +128,36 @@ a{
     text-decoration:none;
     color:black;
 }
+.departure-box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 5px;
+}
+
+.departure-date {
+    background-color: #f8f9fa; /* Màu nền nhẹ */
+    border: 1px solid #ddd; /* Viền nhẹ */
+    padding: 5px 10px;
+    border-radius: 5px; /* Bo góc */
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+}
+
 </style>
     <div class="container2">
         <!-- Menu Tabs -->
         <div class="menu-tabs">
-            <button>Tour cao cấp</button>
-            <button>Tour tiêu chuẩn</button>
-            <button>Tour tiết kiệm</button>
-            <button>Tour khuyến mãi</button>
-        </div>
+    <button data-filter="caocap">Tour cao cấp</button>
+    <button data-filter="tieuchuan">Tour tiêu chuẩn</button>
+    <button data-filter="tietkiem">Tour tiết kiệm</button>
+    <button data-filter="khuyenmai">Tour khuyến mãi</button>
+</div>
+
+
+
 
         <!-- Search Bar -->
         <div class="search-bar">
@@ -206,12 +227,12 @@ function xemtour() {
     $.ajax({
         url: './api/api.php?action=xemtour',
         type: 'GET',
-        dataType: 'json', // Tự động phân tích chuỗi JSON thành object/mảng
+        dataType: 'json',
         cache: false,
         success: function(response) {
-            $('#xemtour').html('');  // 🔥 Xóa hết nội dung cũ trước khi cập nhật
-            $('.tour-cards').remove(); 
-            
+            $('#xemtour').html('');
+            $('.tour-cards').remove();
+
             if (Array.isArray(response) && response.length > 0) {
                 var events = response;
                 var eventHtml = '';
@@ -219,46 +240,59 @@ function xemtour() {
                     if (index % 3 === 0) {
                         eventHtml += '<div class="tour-cards">';
                     }
+                    
+                    let departureDates = event.ngaykhoihanh ? event.ngaykhoihanh.split(', ') : [];
+
                     eventHtml += `
-                            <div class="tour-card">
-                            <a href="index.php?idtour=${event.tourid}&xemdanhgiatour=${event.tourid}&xemdanhgiarating=${event.tourid}"><img src="./assets/img/tour/${event.Image}" alt=""> </a>
+                        <div class="tour-card">
                             <a href="index.php?idtour=${event.tourid}&xemdanhgiatour=${event.tourid}&xemdanhgiarating=${event.tourid}">
-                            <h4>${event.Name}<h4>
-                            <p>Mã tour: ${event.tourid}
-                            <br>
-                            Khởi hành: ${event.DepartureLocation}
-                            <br>Thời gian: ${event.timetour}
-                            <br>Phương tiện: ${event.vehicle}</p>
-                            Gía từ:
-                            <br> <span style="color:red">`
-                            if (parseInt(event.discount)==0) {
-                                eventHtml+=parseInt(event.Price).toLocaleString('vi-VN') + ` đ `
-                            }else if(parseInt(event.discount) > 0){
-                             eventHtml+=
-                                parseInt(event.discount).toLocaleString('vi-VN') + ` đ 
-                                
-                            `}
-                            eventHtml +=  `</span></a>
-                         
-                         `;
-                        
-                       
-                     eventHtml += `</div>`;
+                                <img src="./assets/img/tour/${event.Image}" alt=""> 
+                            </a>
+                            <a href="index.php?idtour=${event.tourid}&xemdanhgiatour=${event.tourid}&xemdanhgiarating=${event.tourid}">
+                                <h4>${event.Name}</h4>
+                                <p>
+                                    Mã tour: ${event.tourid} <br>
+                                    Thời gian: ${event.timetour} <br>
+                                    Phương tiện: ${event.vehicle}
+                                </p>
+                                <strong>Khởi hành:</strong>
+                                <div class="departure-box">`;
+
+                    // Lặp danh sách ngày khởi hành và hiển thị trong box
+                    departureDates.forEach(date => {
+                        let parts = date.split('-'); // Tách năm, tháng, ngày
+                        let formattedDate = `${parts[2]}/${parts[1]}`; // Định dạng lại thành DD/MM
+                        eventHtml += `<span class="departure-date">${formattedDate}</span>`;
+                    });
+
+                    eventHtml += `</div>
+                                <strong>Giá từ:</strong> 
+                                <br> <span style="color:red">`;
+
+                    if (parseInt(event.discount) == 0) {
+                        eventHtml += parseInt(event.Price).toLocaleString('vi-VN') + ` đ`;
+                    } else if (parseInt(event.discount) > 0) {
+                        eventHtml += parseInt(event.discount).toLocaleString('vi-VN') + ` đ`;
+                    }
+
+                    eventHtml += `</span></a></div>`;
+
                     if ((index + 1) % 3 === 0 || (index + 1) === events.length) {
                         eventHtml += '</div>';
                     }
                 });
                 $('#xemtour').html(eventHtml);
             } else {
-                $('#xemtour').html('<div class="col">Không tìm thấy thông tin người dùng.</div>');
+                $('#xemtour').html('<div class="col">Không tìm thấy thông tin tour.</div>');
             }
         },
         error: function(xhr, status, error) {
             console.error('Lỗi khi lấy thông tin:', error);
-            $('#xemtour').html('<div class="col">Đã xảy ra lỗi khi tải thông tin người dùng.</div>');
+            $('#xemtour').html('<div class="col">Đã xảy ra lỗi khi tải thông tin tour.</div>');
         }
     });
 }
+
 
 function xemtourtheomien(mien) {
     $.ajax({
@@ -267,43 +301,54 @@ function xemtourtheomien(mien) {
         dataType: 'json',
         cache: false,
         success: function(response) {
-            $('#xemtour').html('');  // 🔥 Xóa hết nội dung cũ trước khi cập nhật
-            $('.tour-cards').remove(); 
+            $('#xemtour').html('');
+            $('.tour-cards').remove();
+
             if (Array.isArray(response) && response.length > 0) {
+                var events = response;
                 var eventHtml = '';
-                response.forEach(function(event, index) {
-                    if (index % 3 === 0) eventHtml += '<div class="tour-cards">';
+                events.forEach(function(event, index) {
+                    if (index % 3 === 0) {
+                        eventHtml += '<div class="tour-cards">';
+                    }
                     
+                    let departureDates = event.ngaykhoihanh ? event.ngaykhoihanh.split(', ') : [];
+
                     eventHtml += `
                         <div class="tour-card">
                             <a href="index.php?idtour=${event.tourid}&xemdanhgiatour=${event.tourid}&xemdanhgiarating=${event.tourid}">
-                                <img src="./assets/img/tour/${event.Image}" alt="">
+                                <img src="./assets/img/tour/${event.Image}" alt=""> 
                             </a>
                             <a href="index.php?idtour=${event.tourid}&xemdanhgiatour=${event.tourid}&xemdanhgiarating=${event.tourid}">
-                                
-                             <h4>${event.Name}<h4>
-                            <p>Mã tour: ${event.tourid}
-                            <br>
-                            Khởi hành: ${event.DepartureLocation}
-                            <br>Thời gian: ${event.timetour}
-                            <br>Phương tiện: ${event.vehicle}</p>
-                            Gía từ:
-                            <br> <span style="color:red">`
-                            if (parseInt(event.discount)==0) {
-                                eventHtml+=parseInt(event.Price).toLocaleString('vi-VN') + ` đ `
-                            }else if(parseInt(event.discount) > 0){
-                             eventHtml+=
-                                parseInt(event.discount).toLocaleString('vi-VN') + ` đ 
-                                
-                            `}
-                            eventHtml +=  `</span></a>
-                         
-                         `;
-                        
-                       
-                     eventHtml += `</div>`;
+                                <h4>${event.Name}</h4>
+                                <p>
+                                    Mã tour: ${event.tourid} <br>
+                                    Thời gian: ${event.timetour} <br>
+                                    Phương tiện: ${event.vehicle}
+                                </p>
+                                <strong>Khởi hành:</strong>
+                                <div class="departure-box">`;
 
-                    if ((index + 1) % 3 === 0 || (index + 1) === response.length) {
+                    // Lặp danh sách ngày khởi hành và hiển thị trong box
+                    departureDates.forEach(date => {
+                        let parts = date.split('-'); // Tách năm, tháng, ngày
+                        let formattedDate = `${parts[2]}/${parts[1]}`; // Định dạng lại thành DD/MM
+                        eventHtml += `<span class="departure-date">${formattedDate}</span>`;
+                    });
+
+                    eventHtml += `</div>
+                                <strong>Giá từ:</strong> 
+                                <br> <span style="color:red">`;
+
+                    if (parseInt(event.discount) == 0) {
+                        eventHtml += parseInt(event.Price).toLocaleString('vi-VN') + ` đ`;
+                    } else if (parseInt(event.discount) > 0) {
+                        eventHtml += parseInt(event.discount).toLocaleString('vi-VN') + ` đ`;
+                    }
+
+                    eventHtml += `</span></a></div>`;
+
+                    if ((index + 1) % 3 === 0 || (index + 1) === events.length) {
                         eventHtml += '</div>';
                     }
                 });
@@ -325,47 +370,58 @@ function timKiemTourtype(type) {
         dataType: 'json',
         cache: false,
         success: function (response) {
-            $('#xemtour').html('');  // 🔥 Xóa hết nội dung cũ trước khi cập nhật
-            $('.tour-cards').remove(); 
+            $('#xemtour').html('');
+            $('.tour-cards').remove();
+
             if (Array.isArray(response) && response.length > 0) {
-                var tours = response;
-                var tourHtml = '';
-                tours.forEach(function (tour, index) {
+                var events = response;
+                var eventHtml = '';
+                events.forEach(function(event, index) {
                     if (index % 3 === 0) {
-                        tourHtml += '<div class="tour-cards">';
+                        eventHtml += '<div class="tour-cards">';
                     }
-                    tourHtml += `
+                    
+                    let departureDates = event.ngaykhoihanh ? event.ngaykhoihanh.split(', ') : [];
+
+                    eventHtml += `
                         <div class="tour-card">
-                            <a href="index.php?idtour=${tour.tourid}&xemdanhgiatour=${tour.tourid}&xemdanhgiarating=${tour.tourid}">
-                                <img src="./assets/img/tour/${tour.Image}" alt="Tour Image">
+                            <a href="index.php?idtour=${event.tourid}&xemdanhgiatour=${event.tourid}&xemdanhgiarating=${event.tourid}">
+                                <img src="./assets/img/tour/${event.Image}" alt=""> 
                             </a>
-                            <a href="index.php?idtour=${tour.tourid}&xemdanhgiatour=${tour.tourid}&xemdanhgiarating=${tour.tourid}">
-                                 <h4>${tour.Name}<h4>
-                            <p>Mã tour: ${tour.tourid}
-                            <br>
-                            Khởi hành: ${tour.DepartureLocation}
-                            <br>Thời gian: ${tour.timetour}
-                            <br>Phương tiện: ${tour.vehicle}</p>
-                            Gía từ:
-                            <br> <span style="color:red">`
-                            if (parseInt(tour.discount)==0) {
-                                tourHtml+=parseInt(tour.Price).toLocaleString('vi-VN') + ` đ `
-                            }else if(parseInt(tour.discount) > 0){
-                                tourHtml+=
-                                parseInt(tour.discount).toLocaleString('vi-VN') + ` đ 
-                                
-                            `}
-                            tourHtml +=  `</span></a>
-                         
-                         `;
-                        
-                       
-                         tourHtml += `</div>`;
-                    if ((index + 1) % 3 === 0 || (index + 1) === tours.length) {
-                        tourHtml += '</div>';
+                            <a href="index.php?idtour=${event.tourid}&xemdanhgiatour=${event.tourid}&xemdanhgiarating=${event.tourid}">
+                                <h4>${event.Name}</h4>
+                                <p>
+                                    Mã tour: ${event.tourid} <br>
+                                    Thời gian: ${event.timetour} <br>
+                                    Phương tiện: ${event.vehicle}
+                                </p>
+                                <strong>Khởi hành:</strong>
+                                <div class="departure-box">`;
+
+                    // Lặp danh sách ngày khởi hành và hiển thị trong box
+                    departureDates.forEach(date => {
+                        let parts = date.split('-'); // Tách năm, tháng, ngày
+                        let formattedDate = `${parts[2]}/${parts[1]}`; // Định dạng lại thành DD/MM
+                        eventHtml += `<span class="departure-date">${formattedDate}</span>`;
+                    });
+
+                    eventHtml += `</div>
+                                <strong>Giá từ:</strong> 
+                                <br> <span style="color:red">`;
+
+                    if (parseInt(event.discount) == 0) {
+                        eventHtml += parseInt(event.Price).toLocaleString('vi-VN') + ` đ`;
+                    } else if (parseInt(event.discount) > 0) {
+                        eventHtml += parseInt(event.discount).toLocaleString('vi-VN') + ` đ`;
+                    }
+
+                    eventHtml += `</span></a></div>`;
+
+                    if ((index + 1) % 3 === 0 || (index + 1) === events.length) {
+                        eventHtml += '</div>';
                     }
                 });
-                $('#xemtour').html(tourHtml);
+                $('#xemtour').html(eventHtml);
             } else {
                 $('#xemtour').html('<div class="col">Không tìm thấy tour nào.</div>');
             }
@@ -386,47 +442,58 @@ function timKiemThongTin(name, date, budget) {
         dataType: 'json',
         cache: false,
         success: function (response) {
-            $('#xemtour').html('');  // 🔥 Xóa hết nội dung cũ trước khi cập nhật
-            $('.tour-cards').remove(); 
+            $('#xemtour').html('');
+            $('.tour-cards').remove();
+
             if (Array.isArray(response) && response.length > 0) {
-                var tours = response;
-                var tourHtml = '';
-                tours.forEach(function (tour, index) {
+                var events = response;
+                var eventHtml = '';
+                events.forEach(function(event, index) {
                     if (index % 3 === 0) {
-                        tourHtml += '<div class="tour-cards">';
+                        eventHtml += '<div class="tour-cards">';
                     }
-                    tourHtml += `
+                    
+                    let departureDates = event.ngaykhoihanh ? event.ngaykhoihanh.split(', ') : [];
+
+                    eventHtml += `
                         <div class="tour-card">
-                            <a href="index.php?idtour=${tour.tourid}&xemdanhgiatour=${tour.tourid}&xemdanhgiarating=${tour.tourid}">
-                                <img src="./assets/img/tour/${tour.Image}" alt="Tour Image">
+                            <a href="index.php?idtour=${event.tourid}&xemdanhgiatour=${event.tourid}&xemdanhgiarating=${event.tourid}">
+                                <img src="./assets/img/tour/${event.Image}" alt=""> 
                             </a>
-                            <a href="index.php?idtour=${tour.tourid}&xemdanhgiatour=${tour.tourid}&xemdanhgiarating=${tour.tourid}">
-                                   <h4>${tour.Name}<h4>
-                            <p>Mã tour: ${tour.tourid}
-                            <br>
-                            Khởi hành: ${tour.DepartureLocation}
-                            <br>Thời gian: ${tour.timetour}
-                            <br>Phương tiện: ${tour.vehicle}</p>
-                            Gía từ: 
-                            <br> <span style="color:red">`
-                            if (parseInt(tour.discount)==0) {
-                                tourHtml+=parseInt(tour.Price).toLocaleString('vi-VN') + ` đ `
-                            }else if(parseInt(tour.discount) > 0){
-                                tourHtml+=
-                                parseInt(tour.discount).toLocaleString('vi-VN') + ` đ 
-                                
-                            `}
-                            tourHtml +=  `</span></a>
-                         
-                         `;
-                        
-                       
-                         tourHtml += `</div>`;
-                    if ((index + 1) % 3 === 0 || (index + 1) === tours.length) {
-                        tourHtml += '</div>';
+                            <a href="index.php?idtour=${event.tourid}&xemdanhgiatour=${event.tourid}&xemdanhgiarating=${event.tourid}">
+                                <h4>${event.Name}</h4>
+                                <p>
+                                    Mã tour: ${event.tourid} <br>
+                                    Thời gian: ${event.timetour} <br>
+                                    Phương tiện: ${event.vehicle}
+                                </p>
+                                <strong>Khởi hành:</strong>
+                                <div class="departure-box">`;
+
+                    // Lặp danh sách ngày khởi hành và hiển thị trong box
+                    departureDates.forEach(date => {
+                        let parts = date.split('-'); // Tách năm, tháng, ngày
+                        let formattedDate = `${parts[2]}/${parts[1]}`; // Định dạng lại thành DD/MM
+                        eventHtml += `<span class="departure-date">${formattedDate}</span>`;
+                    });
+
+                    eventHtml += `</div>
+                                <strong>Giá từ:</strong> 
+                                <br> <span style="color:red">`;
+
+                    if (parseInt(event.discount) == 0) {
+                        eventHtml += parseInt(event.Price).toLocaleString('vi-VN') + ` đ`;
+                    } else if (parseInt(event.discount) > 0) {
+                        eventHtml += parseInt(event.discount).toLocaleString('vi-VN') + ` đ`;
+                    }
+
+                    eventHtml += `</span></a></div>`;
+
+                    if ((index + 1) % 3 === 0 || (index + 1) === events.length) {
+                        eventHtml += '</div>';
                     }
                 });
-                $('#xemtour').html(tourHtml);
+                $('#xemtour').html(eventHtml);
             } else {
                 $('#xemtour').html('<div class="col">Không tìm thấy tour nào.</div>');
             }
@@ -447,47 +514,58 @@ $.ajax({
     dataType: 'json',
     cache: false,
     success: function (response) {
-        $('#xemtour').html('');  // 🔥 Xóa hết nội dung cũ trước khi cập nhật
-        $('.tour-cards').remove(); 
-        if (Array.isArray(response) && response.length > 0) {
-            var tours = response;
-            var tourHtml = '';
-            tours.forEach(function (tour, index) {
-                if (index % 3 === 0) {
-                    tourHtml += '<div class="tour-cards">';
-                }
-                tourHtml += `
-                    <div class="tour-card">
-                        <a href="index.php?idtour=${tour.tourid}&xemdanhgiatour=${tour.tourid}&xemdanhgiarating=${tour.tourid}">
-                            <img src="./assets/img/tour/${tour.Image}" alt="Tour Image">
-                        </a>
-                        <a href="index.php?idtour=${tour.tourid}&xemdanhgiatour=${tour.tourid}&xemdanhgiarating=${tour.tourid}">
-                               <h4>${tour.Name}<h4>
-                            <p>Mã tour: ${tour.tourid}
-                            <br>
-                            Khởi hành: ${tour.DepartureLocation}
-                            <br>Thời gian: ${tour.timetour}
-                            <br>Phương tiện: ${tour.vehicle}</p>
-                            Gía từ:
-                            <br> <span style="color:red">`
-                            if (parseInt(tour.discount)==0) {
-                                tourHtml+=parseInt(tour.Price).toLocaleString('vi-VN') + ` đ `
-                            }else if(parseInt(tour.discount) > 0){
-                                tourHtml+=
-                                parseInt(tour.discount).toLocaleString('vi-VN') + ` đ 
-                                
-                            `}
-                            tourHtml +=  `</span></a>
-                         
-                         `;
-                        
-                       
-                         tourHtml += `</div>`;
-                if ((index + 1) % 3 === 0 || (index + 1) === tours.length) {
-                    tourHtml += '</div>';
-                }
-            });
-            $('#xemtour').html(tourHtml);
+        $('#xemtour').html('');
+            $('.tour-cards').remove();
+
+            if (Array.isArray(response) && response.length > 0) {
+                var events = response;
+                var eventHtml = '';
+                events.forEach(function(event, index) {
+                    if (index % 3 === 0) {
+                        eventHtml += '<div class="tour-cards">';
+                    }
+                    
+                    let departureDates = event.ngaykhoihanh ? event.ngaykhoihanh.split(', ') : [];
+
+                    eventHtml += `
+                        <div class="tour-card">
+                            <a href="index.php?idtour=${event.tourid}&xemdanhgiatour=${event.tourid}&xemdanhgiarating=${event.tourid}">
+                                <img src="./assets/img/tour/${event.Image}" alt=""> 
+                            </a>
+                            <a href="index.php?idtour=${event.tourid}&xemdanhgiatour=${event.tourid}&xemdanhgiarating=${event.tourid}">
+                                <h4>${event.Name}</h4>
+                                <p>
+                                    Mã tour: ${event.tourid} <br>
+                                    Thời gian: ${event.timetour} <br>
+                                    Phương tiện: ${event.vehicle}
+                                </p>
+                                <strong>Khởi hành:</strong>
+                                <div class="departure-box">`;
+
+                    // Lặp danh sách ngày khởi hành và hiển thị trong box
+                    departureDates.forEach(date => {
+                        let parts = date.split('-'); // Tách năm, tháng, ngày
+                        let formattedDate = `${parts[2]}/${parts[1]}`; // Định dạng lại thành DD/MM
+                        eventHtml += `<span class="departure-date">${formattedDate}</span>`;
+                    });
+
+                    eventHtml += `</div>
+                                <strong>Giá từ:</strong> 
+                                <br> <span style="color:red">`;
+
+                    if (parseInt(event.discount) == 0) {
+                        eventHtml += parseInt(event.Price).toLocaleString('vi-VN') + ` đ`;
+                    } else if (parseInt(event.discount) > 0) {
+                        eventHtml += parseInt(event.discount).toLocaleString('vi-VN') + ` đ`;
+                    }
+
+                    eventHtml += `</span></a></div>`;
+
+                    if ((index + 1) % 3 === 0 || (index + 1) === events.length) {
+                        eventHtml += '</div>';
+                    }
+                });
+                $('#xemtour').html(eventHtml);
         } else {
             $('#xemtour').html('<div class="col">Không tìm thấy tour nào.</div>');
         }
@@ -549,6 +627,109 @@ if(urlParams.has('mien')) {
         console.log("Tìm kiếm với:", name, date, budget, type);
         timKiemThongTin(name, date, budget, type);
     });
+});
+
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    let tourData = []; // Lưu danh sách tour để lọc lại khi nhấn nút
+
+    // Lấy danh sách tour từ API
+    function xemtour() {
+        $.ajax({
+            url: './api/api.php?action=xemtour',
+            type: 'GET',
+            dataType: 'json',
+            cache: false,
+            success: function (response) {
+                if (Array.isArray(response) && response.length > 0) {
+                    tourData = response; // Lưu dữ liệu
+                    renderTourList(tourData); // Hiển thị toàn bộ tour ban đầu
+                } else {
+                    $('#xemtour').html('<div class="col">Không có tour nào.</div>');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Lỗi khi lấy dữ liệu:', error);
+                $('#xemtour').html('<div class="col">Lỗi tải danh sách tour.</div>');
+            }
+        });
+    }
+
+    // Hàm hiển thị danh sách tour
+    function renderTourList(data) {
+        $('#xemtour').html(''); // Xóa nội dung cũ
+        let eventHtml = '';
+
+        data.forEach(function (tour,index) {
+            let price = parseInt(tour.Price); // Chuyển giá thành số nguyên
+            let discount = parseInt(tour.discount) || 0; // Lấy giá giảm
+
+                if (index % 3 === 0) {
+                        eventHtml += '<div class="tour-cards">';
+                }
+                    
+                    let departureDates = tour.ngaykhoihanh ? tour.ngaykhoihanh.split(', ') : [];
+
+                    eventHtml += `
+                        <div class="tour-card">
+                            <a href="index.php?idtour=${tour.tourid}&xemdanhgiatour=${tour.tourid}&xemdanhgiarating=${tour.tourid}">
+                                <img src="./assets/img/tour/${tour.Image}" alt=""> 
+                            </a>
+                            <a href="index.php?idtour=${tour.tourid}&xemdanhgiatour=${tour.tourid}&xemdanhgiarating=${tour.tourid}">
+                                <h4>${tour.Name}</h4>
+                                <p>
+                                    Mã tour: ${tour.tourid} <br>
+                                    Thời gian: ${tour.timetour} <br>
+                                    Phương tiện: ${tour.vehicle}
+                                </p>
+                                <strong>Khởi hành:</strong>
+                                <div class="departure-box">`;
+
+                    // Lặp danh sách ngày khởi hành và hiển thị trong box
+                    departureDates.forEach(date => {
+                        let parts = date.split('-'); // Tách năm, tháng, ngày
+                        let formattedDate = `${parts[2]}/${parts[1]}`; // Định dạng lại thành DD/MM
+                        eventHtml += `<span class="departure-date">${formattedDate}</span>`;
+                    });
+
+                    eventHtml += `</div>
+                                <strong>Giá từ:</strong> 
+                                <br> <p>Giá: <span style="color:red">
+                        ${discount > 0 ? discount.toLocaleString('vi-VN') : price.toLocaleString('vi-VN')} đ
+                    </span></p>`;
+
+                  
+
+                    eventHtml += `</a></div>`;
+
+                    if ((index + 1) % 3 === 0 || (index + 1) === data.length) {
+                        eventHtml += '</div>';
+                    }
+        });
+
+        $('#xemtour').html(eventHtml);
+    }
+
+    // Xử lý khi nhấn nút lọc
+    $('.menu-tabs button').click(function () {
+        let filterType = $(this).data('filter');
+        let filteredTours = [];
+
+        if (filterType === "caocap") {
+            filteredTours = tourData.filter(tour => parseInt(tour.Price) >= 10000000);
+        } else if (filterType === "tieuchuan") {
+            filteredTours = tourData.filter(tour => parseInt(tour.Price) >= 5000000 && parseInt(tour.Price) < 10000000);
+        } else if (filterType === "tietkiem") {
+            filteredTours = tourData.filter(tour => parseInt(tour.Price) < 5000000);
+        } else if (filterType === "khuyenmai") {
+            filteredTours = tourData.filter(tour => parseInt(tour.discount) > 0);
+        }
+
+        renderTourList(filteredTours); // Cập nhật danh sách tour theo bộ lọc
+    });
+
+    xemtour(); // Gọi API khi tải trang
 });
 
 </script>

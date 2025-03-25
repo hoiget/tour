@@ -106,6 +106,7 @@ color:black;
         <div id="messages"></div>
         
         <input type="hidden" name="room_id" id="room_id">
+      
         <input type="hidden" name="receiver_id" id="receiver_id" value="<?= $_SESSION['id'] ?? '' ?>">
         <input type="hidden" name="sender_id" id="customer_id">
 
@@ -125,15 +126,14 @@ $(document).ready(function () {
     // Load danh sách phòng chat của nhân viên
     loadRoomList();
 
-    // Kiểm tra tin nhắn mới mỗi 5 giây
-  
+
 
     // Load tin nhắn tự động nếu đã chọn mã phòng
     setInterval(function () {
         if ($("#room-select").val()) {
             loadMessages();
         }
-    }, 2000);
+    }, 1000);
 
     // Gửi tin nhắn khi submit form
     $("#guitinnhan").submit(function (e) {
@@ -149,6 +149,7 @@ $(document).ready(function () {
     $('#customer_id').val(customerId);
 
     let room_id = $(this).val();
+
     console.log("room_id selected:", room_id); // Kiểm tra giá trị
     if (room_id) {
         loadMessages();
@@ -163,12 +164,31 @@ function loadRoomList() {
         response.forEach(room => {
             options += `<option value="${room.room_id}" data-customer-id="${room.id}">
                         Phòng ${room.room_id} (${room.customer_name})
+                        
                         </option>`;
         });
         $('#room-select').html(options);
     });
 }
-
+function xong(id) {
+       
+       fetch('./api/apia.php?action=xong&id=' + id)
+           .then(response => response.text())
+          
+           .then(data => {
+               
+               if (data === 'gui') {
+                   // Chuyển hướng người dùng sau khi cập nhật thành công
+                   openPopup('xong thành công', '');
+                   setTimeout(function() {
+                       window.location.href = 'indexa.php';
+                   }, 1000);
+               } else {
+                   openPopup('Xóa không thành công','');
+               }
+           })
+           .catch(error => console.error('Lỗi:', error));
+}
 // ✅ Load tin nhắn trong phòng chat
 function loadMessages() {
     let room_id = $('#room-select').val();
@@ -181,7 +201,10 @@ function loadMessages() {
             response.forEach(msg => {
                 let sender = msg.sender_type === "user" ? `Khách hàng ${msg.customer_name}` : "Bạn";
                 chatHtml += `<p><b>${sender}:</b> ${msg.message}</p>`;
+               
+                
             });
+          
             $('#messages').html(chatHtml);
             $('#room_id').val(room_id);
         } else {

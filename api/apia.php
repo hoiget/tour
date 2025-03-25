@@ -1335,7 +1335,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 } 
-
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -2977,7 +2976,7 @@ if ($action == "danhsach_phong_chat") {
     $stmt = $conn->prepare("SELECT c.room_id, u.Name as customer_name,u.id
                             FROM chat_rooms c
                             JOIN user_credit u ON c.user_id = u.id
-                            WHERE c.employee_id = ?");
+                            WHERE c.employee_id = ? AND c.Action = 0");
     $stmt->bind_param("i", $user_id);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -3058,13 +3057,65 @@ $id=$_GET['idtx'];
 
     echo json_encode($users); // Trả về JSON
     exit;
+}elseif ($action == "thongkenv1") {
+   
+    $query = "SELECT 
+    status, 
+    COUNT(*) AS total
+FROM schedule
+WHERE shift_date = CURDATE()
+GROUP BY status;
+";
+    $result = $conn->query($query);
+
+    $users = [];
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+
+            $users[] = $row; // Lưu từng bản ghi vào mảng
+        }
+    }
+
+    echo json_encode($users); // Trả về JSON
+    exit;
 }
 
 // API gửi tin nhắn vào phòng chat
 
 
 
+elseif ($action == "xong") {
+    
+    $id=$_GET['id'];
+        $query = "UPDATE chat_rooms SET Action = 1 WHERE id='$id'";
 
+    
+        if ($conn->query($query) === TRUE) {
+            echo 'gui';
+        } else {
+            echo 'kotc';
+        }
+        
+    } if ($action == 'approveReport') {
+        $id = $_GET['id'];
+        $admin_id =$_SESSION['Sr_no'];; // ID admin hiện tại (lấy từ session)
+    
+        $stmt = $conn->prepare("UPDATE reports SET status = 'approved', approved_by = ?, approved_at = NOW() WHERE id = ?");
+        $stmt->execute([$admin_id, $id]);
+    
+        echo json_encode(['status' => 'success', 'message' => 'Báo cáo đã được duyệt!']);
+    }
+    
+    if ($action == 'rejectReport') {
+        $id = $_GET['id'];
+    
+        $stmt = $conn->prepare("UPDATE reports SET status = 'rejected' WHERE id = ?");
+        $stmt->execute([$id]);
+    
+        echo json_encode(['status' => 'success', 'message' => 'Báo cáo đã bị từ chối!']);
+    }
+    
+    
 
 
        

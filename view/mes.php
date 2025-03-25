@@ -222,7 +222,7 @@ function sendMessage() {
     $('#send-btn').click(sendMessage);
     fetchEmployees();
     if (currentRoomId) loadMessages();
-    setInterval(loadMessages, 5000);
+    setInterval(loadMessages, 1000);
     $("#chat-icon").click(function () {
         $("#chat-box").toggle();
         

@@ -234,6 +234,12 @@ if (isset($_SESSION['login_time']) && ($currentTime - $_SESSION['login_time'] > 
         </a>
       </li><!-- End Dashboard Nav -->
       <li class="nav-item">
+        <a class="nav-link " href="indexa.php?xembaocao">
+        <i class="bi bi-chat-square-dots"></i>
+          <span>xem báo cáo</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+      <li class="nav-item">
         <a class="nav-link " href="indexa.php?PL">
         <i class="bi bi-calendar-check"></i>
           <span>Phân lịch nhân viên</span>
@@ -278,7 +284,12 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
           <span>xem dịch vụ</span>
         </a>
       </li><!-- End Dashboard Nav -->
-     
+      <li class="nav-item">
+        <a class="nav-link " href="indexa.php?baocao">
+        <i class="bi bi-info-circle"></i>
+          <span>Viết báo cáo</span>
+        </a>
+      </li><!-- End Dashboard Nav -->   
          
           <?php } ?>
       <?php if($role == 'QL'){?>
@@ -413,6 +424,9 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
   }if(isset($_REQUEST['PQ'])){
     $show = false;
     include_once("viewa/phanquyen.php");
+  }if(isset($_REQUEST['xembaocao'])){
+    $show = false;
+    include_once("viewa/xembaocao.php");
   }
   if($show){
     include_once("viewa/thongke.php");
@@ -511,6 +525,9 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
     } if(isset($_REQUEST['xemdv'])){
       $show = false;
       include_once("viewa/xemdichvu.php");
+    } if(isset($_REQUEST['baocao'])){
+      $show = false;
+      include_once("viewa/baocao.php");
     } 
     if($show){
       include_once("viewa/lich.php");

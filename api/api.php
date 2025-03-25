@@ -646,7 +646,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
         $stmt->close();
         echo "cập nhật thành công!";
+    }elseif($action == 'rent_car'){
+        $customer_name = $_POST['customer_name'] ?? '';
+        $customer_phone = $_POST['customer_phone'] ?? '';
+        $customer_email = $_POST['customer_email'] ?? '';
+        $vehicle_type = $_POST['vehicle_type'] ?? '';
+        $driver_id = $_POST['driver_id'] ?? '';
+        $pickup_time = $_POST['pickup_time'] ?? '';
+        $pickup_location = $_POST['pickup_location'] ?? '';
+        $dropoff_location = $_POST['dropoff_location'] ?? '';
+        $notes = $_POST['notes'] ?? '';
+    
+        if (empty($customer_name) || empty($customer_phone) || empty($pickup_time) || empty($pickup_location) || empty($dropoff_location)) {
+            echo json_encode(["error" => "Vui lòng nhập đầy đủ thông tin!"]);
+            exit;
+        }
+    
+        $stmt = $conn->prepare("INSERT INTO rentals (customer_name, customer_phone, customer_email, vehicle_type, driver_id, pickup_time, pickup_location, dropoff_location, notes, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())");
+        $stmt->bind_param("ssssissss", $customer_name, $customer_phone, $customer_email, $vehicle_type, $driver_id, $pickup_time, $pickup_location, $dropoff_location, $notes);
+    
+        if ($stmt->execute()) {
+            echo json_encode(["success" => "Đặt xe thành công!"]);
+        } else {
+            echo json_encode(["error" => "Lỗi khi đặt xe: " . $conn->error]);
+        }
+        $stmt->close();
     }
+    
+   
     
     
 }
@@ -714,36 +741,51 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         echo json_encode($users); // Trả về JSON
         exit;
     } elseif ($action == "xemtour") {
-        $query = "SELECT departure_time.*, tour_images.*, tour.*, tour.id AS tourid 
-        FROM tour 
-        INNER JOIN tour_images ON tour.id = tour_images.id_tour 
-        LEFT JOIN departure_time ON tour.id = departure_time.id_tour  
-        WHERE Orders < Max_participant 
-        GROUP BY tour.id 
-        ORDER BY departure_time.ngaykhoihanh ASC";  // Lấy ngày sớm nhất
-  
-
+        $query = "SELECT 
+                    tour.id AS tourid, 
+                    tour.Name, 
+                    tour.Price, 
+                    tour.discount, 
+                    tour.vehicle, 
+                    tour.timetour, 
+                    tour_images.Image, 
+                    GROUP_CONCAT(DISTINCT departure_time.ngaykhoihanh ORDER BY departure_time.ngaykhoihanh ASC SEPARATOR ', ') AS ngaykhoihanh
+                FROM tour 
+                INNER JOIN tour_images ON tour.id = tour_images.id_tour 
+                LEFT JOIN departure_time ON tour.id = departure_time.id_tour  
+                WHERE Orders < Max_participant 
+                GROUP BY tour.id
+                ORDER BY MIN(departure_time.ngaykhoihanh) ASC";  
+    
         $result = $conn->query($query);
-
         $res = [];
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                $res[] = $row; // Lưu từng bản ghi vào mảng
+                $res[] = $row;
             }
         }
-
-        echo json_encode($res); // Trả về JSON
+    
+        echo json_encode($res);
         exit;
-    }elseif ($action == "xemtourtheomien") {
+    }
+    elseif ($action == "xemtourtheomien") {
 
         $mien = $_GET['mien'];
-        $query = "SELECT departure_time.*, tour_images.*, tour.*, tour.id AS tourid 
-        FROM tour 
-        INNER JOIN tour_images ON tour.id = tour_images.id_tour 
-        LEFT JOIN departure_time ON tour.id = departure_time.id_tour  
-        WHERE Orders < Max_participant AND vung = '$mien'
-        GROUP BY tour.id 
-        ORDER BY departure_time.ngaykhoihanh ASC ";
+        $query = "SELECT 
+                    tour.id AS tourid, 
+                    tour.Name, 
+                    tour.Price, 
+                    tour.discount, 
+                    tour.vehicle, 
+                    tour.timetour, 
+                    tour_images.Image, 
+                    GROUP_CONCAT(DISTINCT departure_time.ngaykhoihanh ORDER BY departure_time.ngaykhoihanh ASC SEPARATOR ', ') AS ngaykhoihanh
+                FROM tour 
+                INNER JOIN tour_images ON tour.id = tour_images.id_tour 
+                LEFT JOIN departure_time ON tour.id = departure_time.id_tour  
+                 WHERE Orders < Max_participant AND vung = '$mien'
+                GROUP BY tour.id
+                ORDER BY MIN(departure_time.ngaykhoihanh) ASC";
 
        
 
@@ -779,11 +821,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     } elseif ($action == "xemtourchitiet") {
         $id = $_GET['idtour'];
         $query = "
+          
         SELECT 
             tour.*,
             tour.id AS idtour, 
             tour_images.*,
-            departure_time.*
+            departure_time.*,
+            GROUP_CONCAT(DISTINCT departure_time.ngaykhoihanh ORDER BY departure_time.ngaykhoihanh ASC SEPARATOR ', ') AS ngaykhoihanh
+
         FROM 
             tour 
         LEFT JOIN 
@@ -818,8 +863,21 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             echo json_encode(["error" => "Invalid type"]);
             exit;
         }
-        $query = "SELECT departure_time.*,tour_images.*,tour.*,tour.id AS tourid FROM tour INNER JOIN tour_images ON tour.id = tour_images.id_tour LEFT JOIN departure_time ON tour.id = departure_time.id_tour  WHERE Orders < Max_participant AND tour.type = '$type' GROUP BY tour.id 
-        ORDER BY departure_time.ngaykhoihanh ASC";
+        $query = "SELECT 
+                    tour.id AS tourid, 
+                    tour.Name, 
+                    tour.Price, 
+                    tour.discount, 
+                    tour.vehicle, 
+                    tour.timetour, 
+                    tour_images.Image, 
+                    GROUP_CONCAT(DISTINCT departure_time.ngaykhoihanh ORDER BY departure_time.ngaykhoihanh ASC SEPARATOR ', ') AS ngaykhoihanh
+                FROM tour 
+                INNER JOIN tour_images ON tour.id = tour_images.id_tour 
+                LEFT JOIN departure_time ON tour.id = departure_time.id_tour  
+               WHERE Orders < Max_participant AND tour.type = '$type'
+                GROUP BY tour.id
+                ORDER BY MIN(departure_time.ngaykhoihanh) ASC";
 
        
         $result = $conn->query($query);
@@ -840,32 +898,40 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $budget = isset($_GET['budget']) ? $_GET['budget'] : '';
     
         // Tạo câu truy vấn động
-        $query = "SELECT departure_time.*,tour_images.*,tour.*,tour.id AS tourid 
-        FROM tour 
-        INNER JOIN tour_images ON tour.id = tour_images.id_tour 
-        LEFT JOIN departure_time ON tour.id = departure_time.id_tour 
-        LEFT JOIN departure_dates ON tour.id = departure_dates.tour_id
-        WHERE Orders < Max_participant AND 1=1 
+        $query = "SELECT 
+                    tour.id AS tourid, 
+                    tour.Name, 
+                    tour.Price, 
+                    tour.discount, 
+                    tour.vehicle, 
+                    tour.timetour, 
+                    tour_images.Image, 
+                    GROUP_CONCAT(DISTINCT departure_time.ngaykhoihanh ORDER BY departure_time.ngaykhoihanh ASC SEPARATOR ', ') AS ngaykhoihanh
+                FROM tour 
+                INNER JOIN tour_images ON tour.id = tour_images.id_tour 
+                LEFT JOIN departure_time ON tour.id = departure_time.id_tour  
+                
+                WHERE Orders < Max_participant AND 1=1 
         ";
         // Thêm điều kiện tìm kiếm
         if (!empty($name)) {
-            $query .= " AND tour.Name LIKE '%$name%' GROUP BY tour.id 
-        ORDER BY departure_time.ngaykhoihanh ASC";
+            $query .= " AND tour.Name LIKE '%$name%' GROUP BY tour.id
+                ORDER BY MIN(departure_time.ngaykhoihanh) ASC";
         }
         if (!empty($date)) {
-            $query .= " AND departure_dates.departure_date = '$date' GROUP BY tour.id 
-        ORDER BY departure_time.ngaykhoihanh ASC";
+            $query .= " AND departure_time.ngaykhoihanh = '$date' GROUP BY tour.id
+                ORDER BY MIN(departure_time.ngaykhoihanh) ASC";
         }
         if (!empty($budget)) {
             if ($budget == 'low') {
-                $query .= " AND tour.price < 5000000 GROUP BY tour.id 
-        ORDER BY departure_time.ngaykhoihanh ASC";
+                $query .= " AND tour.price < 5000000 GROUP BY tour.id
+                ORDER BY MIN(departure_time.ngaykhoihanh) ASC";
             } elseif ($budget == 'medium') {
-                $query .= " AND tour.price BETWEEN 5000000 AND 10000000 GROUP BY tour.id 
-        ORDER BY departure_time.ngaykhoihanh ASC";
+                $query .= " AND tour.price BETWEEN 5000000 AND 10000000 GROUP BY tour.id
+                ORDER BY MIN(departure_time.ngaykhoihanh) ASC";
             } elseif ($budget == 'high') {
-                $query .= " AND tour.price > 10000000 GROUP BY tour.id 
-        ORDER BY departure_time.ngaykhoihanh ASC";
+                $query .= " AND tour.price > 10000000 GROUP BY tour.id
+                ORDER BY MIN(departure_time.ngaykhoihanh) ASC";
             }
         }
        
@@ -879,21 +945,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
         echo json_encode($res); // Trả về JSON
         exit;
-    } elseif ($action == "xemks") {
-        $query = " SELECT * FROM rooms r JOIN rooms_features rf ON r.id = rf.Room_id JOIN rooms_facilities rfa ON r.id = rfa.Room_id JOIN rooms_images ri ON r.id = ri.Room_id";
-
-        $result = $conn->query($query);
-
-        $res = [];
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $res[] = $row; // Lưu từng bản ghi vào mảng
-            }
-        }
-
-        echo json_encode($res); // Trả về JSON
-        exit;
-    } elseif ($action == "xemlayout1") {
+    }  elseif ($action == "xemlayout1") {
         $query = " SELECT * FROM rooms r JOIN rooms_features rf ON r.id = rf.Room_id JOIN rooms_facilities rfa ON r.id = rfa.Room_id JOIN rooms_images ri ON r.id = ri.Room_id LIMIT 6";
 
         $result = $conn->query($query);
@@ -1858,17 +1910,12 @@ ORDER BY
         echo json_encode(['success' => true]);
         exit;
     }if ($action == 'danhsachcskh') {
-     
-    
-        $sql = "SELECT id,Name FROM employees WHERE Permissions = 'CSKH'";
-        
+        $sql = "SELECT id, Name 
+                FROM employees 
+                WHERE Permissions = 'CSKH' 
+                ";
     
         $stmt = $conn->prepare($sql);
-        
-        if (!empty($phuongtien)) {
-            $stmt->bind_param("s", $phuongtien);
-        }
-    
         $stmt->execute();
         $result = $stmt->get_result();
         $drivers = [];
@@ -1880,6 +1927,7 @@ ORDER BY
         echo json_encode($drivers);
         exit;
     }
+    
     if ($action == 'xemtaixe') {
         $phuongtien = isset($_GET['phuongtien']) ? $_GET['phuongtien'] : '';
     
@@ -1905,8 +1953,76 @@ ORDER BY
         echo json_encode($drivers);
         exit;
     }
+    if ($action == 'get_upcoming_tours') {
+        $sql = "SELECT 
+                t.id AS tour_id,
+                t.Name AS tour_name,
+                t.Style,
+                t.Price,
+                t.DepartureLocation,
+                t.timetour,
+                t.vehicle,
+                ti.Image,  -- Cột ảnh của tour
+                d.departure_date
+            FROM tour t
+            JOIN departure_dates d ON t.id = d.tour_id
+            JOIN tour_images ti ON t.id = ti.id_tour
+            WHERE d.departure_date >= CURDATE()
+            AND d.is_available = 1
+            ORDER BY d.departure_date ASC
+            LIMIT 8";
     
- 
+        $result = $conn->query($sql);
+        $tours = [];
+    
+        while ($row = $result->fetch_assoc()) {
+            $tours[] = $row;
+        }
+    
+        echo json_encode($tours);
+        exit();
+    }
+    if ($action == 'xemkss') {
+        $diadiem = isset($_GET['diadiem']) ? trim($_GET['diadiem']) : '';
+
+    try {
+        $sql = "SELECT id, Name, Diadiem FROM rooms";
+        
+        if (!empty($diadiem)) {
+            $sql .= " WHERE Diadiem LIKE ?";
+            $stmt = $conn->prepare($sql);
+            $search = "%$diadiem%";
+            $stmt->bind_param("s", $search);
+        } else {
+            $stmt = $conn->prepare($sql);
+        }
+
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $hotels = $result->fetch_all(MYSQLI_ASSOC);
+
+        echo json_encode($hotels);
+    } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode(["error" => "Lỗi truy vấn SQL: " . $e->getMessage()]);
+    }
+    exit;
+    }
+    if($action == 'get_drivers'){
+        $sql = "SELECT driver_id, name, phone, email, vehicle_type, vehicle_plate, status FROM drivers WHERE vehicle_type = 'Xe khách'";
+        $result = $conn->query($sql);
+    
+        if ($result->num_rows > 0) {
+            $drivers = [];
+            while ($row = $result->fetch_assoc()) {
+                $drivers[] = $row;
+            }
+            echo json_encode($drivers);
+        } else {
+            echo json_encode(["message" => "Không có tài xế nào"]);
+        }
+    }
+    
 
     
     
