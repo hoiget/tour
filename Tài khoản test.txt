@@ -1,0 +1,7 @@
+ADMIN: TK:Phuc MK:Phuc
+
+NV quản lý: TK:NV1@gmail.com MK:NV1
+NV chăm sóc khách hàng: TK:NV2@gmail.com MK:NV2
+Hướng dẫn viên: TK:NV3@gmail.com MK:NV3 HOẶC TK:NV4@gmail.com MK:NV4
+
+kHÁCH HÀNG: TK:phuc@gmail.com MK:hayhay123
