@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($action == "login") {
        
 
-        $loginInput = $_POST['email']; // Email hoặc số điện thoại
+        $loginInput = $_POST['email']; // Email hoặc số điện thoạis
         $password = $_POST['password'];
 
         $sql = "SELECT failed_attempts, is_locked FROM user_credit WHERE Email = ? OR sdt = ?";
