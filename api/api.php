@@ -100,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 exit();
             } else{
                 $conn->query("UPDATE user_credit SET failed_attempts = $failed_attempts WHERE (Email = '$loginInput' OR sdt = '$loginInput')");
-                echo 'error';
+                
             }
            
           
@@ -111,7 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         
         
-        // Kiểm tra trong bảng employees (Nhân viên)
+       
         $sql = "SELECT * FROM employees WHERE (Email = ? OR Phone_number = ?) AND Password = MD5(?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("sss", $loginInput, $loginInput, $password);

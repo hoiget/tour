@@ -321,6 +321,19 @@ h3,h5{
             background-color: #ccc;
             cursor: not-allowed;
         }
+        .calendar-btn {
+    background-color: #007bff; /* Màu xanh */
+    color: white; /* Chữ màu trắng */
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.calendar-btn:hover {
+    background-color:rgb(7, 16, 27); /* Màu xanh đậm khi hover */
+    color:white;
+}
 
 
     </style>
@@ -469,6 +482,13 @@ function xemtrangthai() {
                             if (event.Payment_status == '2') {
                                 eventHtml += `<button type="button" class="btn review" data-bs-toggle="modal" data-bs-target="#ratingModaldanhgia" onclick="openRatingModal(${event.Booking_id})">Đánh giá Tour</button>`;
                                 eventHtml += `<button class="exportPdfBtn" data-booking-id="${event.Booking_id}">Xuất PDF</button> `
+                                eventHtml += `
+                                    <button class="btn calendar-btn" 
+                                        onclick="addToGoogleCalendar('${event.Tour_name}', '${event.Datetime}', '08:00', 'Địa điểm tour', '${event.Day_depart}')">
+                                        📅 Thêm vào Google Calendar
+                                    </button>
+                                `;
+
                             } else {
                                 if(event.method == "vnpay"){
                                 eventHtml += `<button class="btn review"><a style="text-decoration:none;color:white" href="index.php?idtt=${event.Booking_id}">Thanh toán</a></button>`;
@@ -524,6 +544,44 @@ function xemtrangthai() {
         }
     });
 }
+function addToGoogleCalendar(tourName, tourDate, tourTime, tourLocation, dayDepart) {
+    console.log("Tour Name:", tourName);
+    console.log("Tour Date:", tourDate);
+    console.log("Tour Time:", tourTime);
+    console.log("Tour Duration:", dayDepart);
+
+    // Chuyển đổi `tourDate` thành định dạng `YYYY-MM-DD`
+    let dateParts = tourDate.split(" ");
+    let formattedDate = dateParts[0]; // Lấy phần ngày (bỏ giờ nếu có)
+
+    let fullDateTime = new Date(formattedDate + "T" + tourTime + ":00");
+
+    if (isNaN(fullDateTime)) {
+        console.error("Invalid Date:", fullDateTime);
+        alert("Lỗi: Ngày đặt tour không hợp lệ.");
+        return;
+    }
+
+    // Chuyển đổi `Day_depart` thành số ngày (vd: "4 ngày 3 đêm" => lấy số 4)
+    let tourDays = parseInt(dayDepart.match(/\d+/)?.[0] || "1", 10);
+
+    // Tính `endDate` bằng cách cộng thêm số ngày vào `startDate`
+    let endDateObj = new Date(fullDateTime);
+    endDateObj.setDate(endDateObj.getDate() + tourDays);
+
+    // Format ngày tháng theo Google Calendar
+    const startDate = fullDateTime.toISOString().replace(/-|:|\.\d+/g, "");
+    const endDate = endDateObj.toISOString().replace(/-|:|\.\d+/g, "");
+
+    const calendarUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(tourName)}
+        &dates=${startDate}/${endDate}
+        &location=${encodeURIComponent(tourLocation)}
+        &details=${encodeURIComponent(`Tour kéo dài ${dayDepart}.`)}`;
+
+    window.open(calendarUrl, "_blank");
+}
+
+
 function huydontour(idve, participants, idtour) {
     fetch(`./api/api.php?action=huydontour&id=${idve}&participants=${participants}&idtour=${idtour}`)
         .then(response => response.text())

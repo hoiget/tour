@@ -383,6 +383,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $discount = $_POST['gg'];
         $vehicle = $_POST['PT'];
         $vung = $_POST['vung'];
+        $order = 0;
         $departure_dates = json_decode($_POST["departure_dates"], true);
         $conn->begin_transaction();
 
@@ -436,7 +437,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $insert_schedule_query = "INSERT INTO tour_schedule (id_tour, Name, Date, Schedule, Locations) VALUES (?,?,?,?,?)";
                 $stmt_schedule = $conn->prepare($insert_schedule_query);
                 
-               
+                $insert_depart_query = "INSERT INTO departure_time (id_tour, Orders,Day_depart,ngaykhoihanh) VALUES (?, ?,?,?)";
+                $stmt_depart = $conn->prepare($insert_depart_query);
                 // Duyệt mảng ngày khởi hành và thêm vào database
                 foreach ($departure_dates as $date) {
                     // Thêm vào departure_dates
@@ -447,11 +449,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $stmt_schedule->bind_param("issss", $id, $name, $date, $timetour, $departure_location);
                     $stmt_schedule->execute();
 
-                    
+                    $stmt_depart->bind_param("iiss", $id, $order, $timetour,$date);
+                    $stmt_depart->execute();
                   
                 }
             }
-
+           
             // Xử lý ảnh nếu có
             if (isset($_FILES['anh']) && $_FILES['anh']['error'] == 0) {
                 $file = $_FILES['anh']['tmp_name'];
