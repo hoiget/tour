@@ -83,7 +83,8 @@ function closePopup() {
         popup.style.display = 'none';
         overlay.style.display = 'none';
 }
-function showss() {
+$(document).ready(function() {
+    $("#registerForm").submit(function(e) {
     // Lấy các phần tử từ biểu mẫu
     let name = document.getElementById('name').value.trim();
     let email = document.getElementById('email').value.trim();
@@ -168,7 +169,8 @@ function showss() {
             openPopup('Lỗi', 'Đã xảy ra lỗi trong quá trình xử lý. Vui lòng thử lại sau!');
         }
     });
-}
+});
+});
 function togglePasswordVisibility(inputId, iconId) {
     let passwordInput = document.getElementById(inputId);
     let eyeIcon = document.getElementById(iconId);
