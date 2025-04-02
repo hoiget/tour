@@ -75,6 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['Address'] = $user['Address'];
             $_SESSION['profile'] = $user['profile'];
             $_SESSION['Datetime'] = $user['Datetime'];
+            $_SESSION['login_type'] = $user['login_type'];
             $_SESSION['role'] = 'customer'; // Đánh dấu là khách hàng
     
             echo 'customer';
@@ -1573,8 +1574,8 @@ ORDER BY
         exit;
     }  elseif ($action == "xemtinnhan") {
         $room_id = $_GET['room_id'];
-
-    $stmt = $conn->prepare("SELECT sender_id, sender_type, message FROM messages WHERE room_id = ? ORDER BY created_at ASC");
+        $user_id = $_SESSION['id'];
+    $stmt = $conn->prepare("SELECT sender_id, sender_type, message FROM messages WHERE room_id = ? AND sender_id='$user_id'  ORDER BY created_at ASC");
     $stmt->bind_param("s", $room_id);
     $stmt->execute();
     $result = $stmt->get_result();

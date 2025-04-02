@@ -6,15 +6,20 @@ ob_start();
 session_start();
 
 // Kiểm tra nếu người dùng đã đăng nhập
-if (isset($_SESSION['Email']) && isset($_SESSION['sdt'])) {
+if (isset($_SESSION['Email'])  || isset($_SESSION['sdt'] )) {
+ 
+    $user_id = $_SESSION['id']; // Lấy id từ session
+    $username = $_SESSION['Name']; // Lấy tên người dùng từ session
+    $email = $_SESSION['Email'];
+    $sdt = $_SESSION['sdt']; // Lưu số điện thoại
+    $dia_chi = $_SESSION['Address']; 
+    $profile = $_SESSION['profile']; 
+    $namsinh = $_SESSION['Datetime']; 
+  
+  
+   
    // Lưu thông tin người dùng từ session
-   $user_id = $_SESSION['id']; // Lấy id từ session
-   $username = $_SESSION['Name']; // Lấy tên người dùng từ session
-   $email = $_SESSION['Email'];
-   $sdt = $_SESSION['sdt']; // Lưu số điện thoại
-   $dia_chi = $_SESSION['Address']; 
-   $profile = $_SESSION['profile']; 
-   $namsinh = $_SESSION['Datetime']; 
+  
 
    // Tạo cookie phiên (chỉ tồn tại đến khi đóng trình duyệt)
    setcookie('login_cookie', $email, 0, "/"); // Cookie phiên
@@ -137,7 +142,7 @@ console.log("Session ID:", sessionId); // Kiểm tra giá trị
                                     <li><a href="index.php?tour&mien=Trung">Tour miền trung</a></li>
                                     <li><a href="index.php?tour&mien=Tây">Tour miền tây</a></li>
                                     <li><a href="index.php?tour&mien=Ngoài nước">Tour nước ngoài</a></li>
-                                    <?php if(isset($_SESSION['Email']) && isset($_SESSION['sdt'])) { ?>
+                                    <?php if(isset($_SESSION['Email']) || isset($_SESSION['sdt'])) { ?>
                                     <li><a href="index.php?custom_tour">Tour theo yêu cầu</a></li>
                                     <li><a href="index.php?thuexe">Thuê xe theo yêu cầu</a></li>
                                     <?php }?>
@@ -152,11 +157,11 @@ console.log("Session ID:", sessionId); // Kiểm tra giá trị
                     <li><a href="index.php?tintuc">Tin tức</a></li>
                     <li><a href="index.php?contact">Liên hệ</a></li>
                     <?php
-if (!isset($_SESSION['Email']) && !isset($_SESSION['sdt'])) {
+if (!isset($_SESSION['Email']) || !isset($_SESSION['sdt'])) {
 ?>
                     <li><a href="dangnhap.php"> <i class="fas fa-user"></i>Đăng nhập</a></li>
                     <li><a href="dangky.php"><i class="fas fa-user-plus"></i>ĐĂNG KÝ</a></li>
-                    <?php }elseif(isset($_SESSION['Email']) && isset($_SESSION['sdt'])) {?>
+                    <?php }elseif(isset($_SESSION['Email']) || isset($_SESSION['sdt'])) {?>
                     <?php
 
 ?>
@@ -233,7 +238,7 @@ if(isset($_REQUEST['idtour'])){
   include_once("view/xemkschitiet.php");
 }
 
-if(isset($_SESSION['Email']) && isset($_SESSION['sdt'])) {
+if(isset($_SESSION['Email']) || isset($_SESSION['sdt'])) {
 if(isset($_REQUEST['dattour'])){
   $show = false;
   include_once("view/dattour.php");

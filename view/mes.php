@@ -2,10 +2,10 @@
     /* Icon tin nhắn */
 #chat-icon {
     position: fixed;
-    bottom: 20px;
-    left: 20px;
-    width: 50px;
-    height: 50px;
+    bottom: 90px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
     background-color: #007bff;
     color: white;
     border-radius: 50%;
@@ -26,8 +26,9 @@
 /* Chatbox ẩn mặc định */
 #chat-box {
     position: fixed;
-    bottom: 80px;
-    left: 20px;
+    bottom: 160px;
+    
+    right: 20px;
     width: 400px;
     background: white;
     border-radius: 10px;

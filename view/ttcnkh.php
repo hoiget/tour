@@ -152,6 +152,7 @@ function get_user_info() {
         type: 'GET',
         dataType: 'json',
         success: function(response) {
+            console.log(response)
             if (Array.isArray(response) && response.length > 0) {
                 var events = response;
                 var eventHtml = '';
@@ -166,7 +167,7 @@ function get_user_info() {
                             <input type="text" class="form-control" id="name" name="name" value="${event.Name}">
                         </div>
                         <div class="col-md-4">
-                            <label for="phone" class="form-label">Số điện thoại</label>
+                            <label for="phone" class="form-label" title="Bắt buộc">Số điện thoại <span style="color:red" title="Bắt buộc">*<span></label>
                             <input type="text" class="form-control" id="phone" name="phone" value="${event.sdt}">
                         </div>
                         <div class="col-md-4">
@@ -176,7 +177,7 @@ function get_user_info() {
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-4">
-                            <label for="dob" class="form-label">Ngày sinh</label>
+                            <label for="dob" class="form-label" title="Bắt buộc">Ngày sinh <span style="color:red" title="Bắt buộc">*<span></label>
                             <input type="date" class="form-control" id="ns" name="ns" value="${event.Datetime}">
                         </div>
                         <div class="col-md-4">
@@ -290,6 +291,6 @@ function get_anh() {
         xemdiem();
     });
     </script>
-   
+
 </body>
 </html>
