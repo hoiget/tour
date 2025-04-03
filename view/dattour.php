@@ -291,11 +291,15 @@ function selectPayment(selectedOption) {
        </div>
         
       </div>
-
+<hr>
       <div class="form-row">
-        <div></div>
         <div>
         
+        </div>
+        <div>
+        <input type="hidden" id="single-room" name="tienks" value="1000000"> <!-- Giá phòng đơn -->
+        <p>Tổng phòng đơn: <span id="totalsingle">0</span> VND</p>
+
           <label for="total-price">Tổng tiền:</label>
           <div id="xemtour1"></div>
         </div>
@@ -532,7 +536,8 @@ function xemdattour() {
           <input type="text" id="arrival" name="arrival" value="${event.vehicle}" min="1" readonly>
         </div>
         <div>
-          
+           <label for="arrival">Tên khách sạn:</label>
+          <input type="text" id="ks" name="ks" value="${event.roomname}" min="1" readonly>
           <input type="text" hidden id="depart_id" name="depart_id" value="${event.iddeparture || 'không có'}" min="1" readonly>
         </div>
       </div>
@@ -679,49 +684,52 @@ function calculateTotal() {
 
     const totalPeople = adults + children + babies;
     const remainingSlots = maxParticipants - currentOrder;
+    
     if (diem > diemfull) {
       openPopup("Số điểm còn lại là: " + diemfull + ' điểm','');
       document.getElementById("diem").value = diemfull;
         diem = diemfull; // Cập nhật lại giá trị
     }
+    
     if (totalPeople > remainingSlots) {
       openPopup("Số lượng khách vượt quá số chỗ còn lại!","Số lượng người còn lại là " + remainingSlots);
-        // Điều chỉnh số lượng sao cho không vượt quá
-        if (adults > 0) {
-            document.getElementById("adults").value = Math.max(0, adults - (totalPeople - remainingSlots));
-        } else if (children > 0) {
-            document.getElementById("children").value = Math.max(0, children - (totalPeople - remainingSlots));
-        } else if (babies > 0) {
-            document.getElementById("babies").value = Math.max(0, babies - (totalPeople - remainingSlots));
-        }
         return;
     }
 
-    // Kiểm tra xem các input giá có tồn tại không
+    // Kiểm tra giá tour có tồn tại không
     const priceInput = document.getElementById("price");
     const childInput = document.getElementById("child");
+    const singleRoomInput = document.getElementById("single-room"); // Giá phòng đơn
 
-    if (!priceInput || !childInput) {
+    if (!priceInput || !childInput || !singleRoomInput) {
         console.warn("Giá tour chưa được tải, không thể tính tổng.");
         return;
     }
 
-    const adultPrice = parseInt(priceInput.value) || 0; // Giá người lớn
-    const childRate = parseFloat(childInput.value) / 100 || 0; // Tỷ lệ giá trẻ em (5-11 tuổi)
+    const adultPrice = parseInt(priceInput.value) || 0;
+    const childRate = parseFloat(childInput.value) / 100 || 0;
     const babyPrice = 0; // Em bé miễn phí
+    const singleRoomPrice = parseInt(singleRoomInput.value) || 0;
+
+    // Đếm số người chọn phòng đơn
+    const singleRoomCheckboxes = document.querySelectorAll('input[name="phongdon"]:checked');
+    const singleRoomCount = singleRoomCheckboxes.length;
+    const totalSingleRoom = singleRoomCount * singleRoomPrice;
 
     // Tính tổng giá trị
     const totalAdult = adults * adultPrice;
     const totalChild = children * (adultPrice * childRate);
-    const totaldiem = - diem * 100;
-    const total = totalAdult + totalChild + (babies * babyPrice) + totaldiem;
-   
-    // Hiển thị tổng tiền (bỏ dấu chấm nếu có)
+    const totaldiem = -diem * 100;
+    const total = totalAdult + totalChild + (babies * babyPrice) + totaldiem + totalSingleRoom;
+
+    // Hiển thị tổng tiền
     document.getElementById("total-price").value = total.toLocaleString('vi-VN').replace(/\./g, '');
     document.getElementById("totalad").innerText = totalAdult.toLocaleString('vi-VN');
     document.getElementById("totalchild").innerText = totalChild.toLocaleString('vi-VN');
     document.getElementById("totaldiem").innerText = totaldiem.toLocaleString('vi-VN');
+    document.getElementById("totalsingle").innerText = totalSingleRoom.toLocaleString('vi-VN');
 }
+
 
 
 // Tính tiền ngay khi trang được tải lần đầu
@@ -757,8 +765,9 @@ function getFormData(containerId) {
         const hoten = form.querySelector('input[name="hot"]').value;
         const ngaysinh = form.querySelector('input[name="ngaysi"]').value;
         const gioitinh = form.querySelector('select[name="gioit"]').value;
+        const phongdon = form.querySelector('input[name="phongdon"]')?.checked || false; // Kiểm tra nếu có checkbox phòng đơn
 
-        data.push({ hoten, ngaysinh, gioitinh });
+        data.push({ hoten, ngaysinh, gioitinh, phongdon });
     }
     return data;
 }
@@ -768,7 +777,7 @@ function createForm(containerId, label, count, type, existingData = []) {
     container.innerHTML = "";
  
     for (let i = 0; i < count; i++) {
-        const data = existingData[i] || { hoten: "", ngaysinh: "", gioitinh: "Nam" };
+        const data = existingData[i] || { hoten: "", ngaysinh: "", gioitinh: "Nam", phongdon: false };
 
         const formHtml = `
             <div class="passenger-form">
@@ -786,22 +795,43 @@ function createForm(containerId, label, count, type, existingData = []) {
                 </select>
                 
                 <input type="hidden" name="phanloai" value="${label}" required>
+
+                ${type === "adult" ? `
+                <label>Phòng đơn:</label>
+                <input type="checkbox" name="phongdon" value="1" onchange="calculateTotal()" ${data.phongdon ? "checked" : ""}>
+                ` : ""}
             </div>
         `;
         container.innerHTML += formHtml;
     }
 }
 
+
 function validateDOB(input) {
     const selectedDate = new Date(input.value);
-    const currentYear = new Date().getFullYear();
-    const selectedYear = selectedDate.getFullYear();
-
-    if (selectedYear >= currentYear) {
-      openPopup("Ngày sinh không hợp lệ! Vui lòng chọn năm nhỏ hơn năm hiện tại.","");
+    const currentDate = new Date();
+    const age = currentDate.getFullYear() - selectedDate.getFullYear();
+    
+    if (selectedDate > currentDate) {
+        openPopup("Ngày sinh không hợp lệ! Vui lòng chọn năm nhỏ hơn năm hiện tại.","");
         input.value = ""; // Xóa giá trị không hợp lệ
+        return;
+    }
+
+    const formType = input.closest(".passenger-form").querySelector('input[name="phanloai"]').value;
+
+    if (formType.includes("Người lớn") && age < 12) {
+        openPopup("Người lớn phải từ 12 tuổi trở lên!","Vui lòng nhập đúng độ tuổi.");
+        input.value = "";
+    } else if (formType.includes("Trẻ em") && (age < 2 || age > 11)) {
+        openPopup("Trẻ em phải từ 2 đến 11 tuổi!","Vui lòng nhập đúng độ tuổi.");
+        input.value = "";
+    } else if (formType.includes("Em bé") && age >= 2) {
+        openPopup("Em bé phải dưới 2 tuổi!","Vui lòng nhập đúng độ tuổi.");
+        input.value = "";
     }
 }
+
 
 // Gọi lần đầu
 generateForms();

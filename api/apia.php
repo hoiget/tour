@@ -1082,7 +1082,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $ngaysinh = $_POST['ngaysi']; // Mảng ngày sinh
         $gioitinhs = $_POST['gioit']; // Mảng giới tính
         $phanloai=$_POST['phanloai']; 
-
+        $tenks=$_POST['ks'];
+        $tienks=$_POST['tienks'];
 
       
             $method = $_POST['method'] ?? '';
@@ -1136,8 +1137,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
             // 2. Thêm vào bảng booking_detail_tour
             $insert_detail_query = "INSERT INTO booking_detail_tour (
-                Booking_id, Tour_name, Price, Total_pay, User_name, Phone_num, Address
-            ) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                Booking_id, Tour_name, Price, Total_pay, User_name, Phone_num, Address,tenks,tienks
+            ) VALUES (?, ?, ?, ?, ?, ?, ?,?,?)";
             $stmt_detail = $conn->prepare($insert_detail_query);
     
             if (!$stmt_detail) {
@@ -1146,14 +1147,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
     
             $stmt_detail->bind_param(
-                "issssss",
+                "issssssss",
                 $booking_id,
                 $tour_name,
                 $price,
                 $total_pay,
                 $user_name,
                 $phone_num,
-                $address
+                $address,
+                $tenks,
+                $tienks
             );
     
             if ($stmt_detail->execute()) {
@@ -2423,6 +2426,7 @@ ORDER BY departure_time.ngaykhoihanh ASC
         participant.*,
         tour.id AS tourid,
         tour.Child_price_percen
+        
     FROM 
         booking_ordertour 
     LEFT JOIN 
@@ -2433,6 +2437,7 @@ ORDER BY departure_time.ngaykhoihanh ASC
         participant ON booking_ordertour.Booking_id = participant.idbook
     LEFT JOIN
         tour ON booking_ordertour.Tour_id = tour.id
+        
     WHERE 
         booking_ordertour.Booking_id = '$id' OR departure_time.id = '$id'
 ";
@@ -3177,8 +3182,39 @@ elseif ($action == "xong") {
 
 
 
-    }
+    } elseif ($action == "xemtkkhoa") {
+       
+        $query = "SELECT * FROM user_credit where is_locked = 1";
+        $result = $conn->query($query);
 
+        $users = [];
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $users[] = $row; // Lưu từng bản ghi vào mảng
+            }
+        }
+
+        echo json_encode($users); // Trả về JSON
+        exit;
+    }
+    elseif ($action == "mokhoa") {
+
+        $id = $_GET['id'];
+       
+        // Kiểm tra xem người dùng đã tồn tại trong cơ sở dữ liệu chưa
+
+        $insert_query = "UPDATE user_credit SET failed_attempts = 0,is_locked=0,unlock_token=null WHERE id = '$id'";
+
+
+        if ($conn->query($insert_query) === TRUE) {
+            echo 'gui';
+        } else {
+            echo 'kotc';
+        }
+
+
+
+    }
 
        
 

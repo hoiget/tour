@@ -299,7 +299,9 @@ function selectPayment(selectedOption) {
       <div class="form-row">
         <div></div>
         <div>
-        
+        <input type="hidden" id="single-room" name="tienks" value="1000000"> <!-- Giá phòng đơn -->
+        <p>Tổng phòng đơn: <span id="totalsingle">0</span> VND</p>
+
           <label for="total-price">Tổng tiền:</label>
           <div id="xemtour1"></div>
         </div>
@@ -434,7 +436,8 @@ function xemdattour() {
           <input type="text" id="arrival" name="arrival" value="${event.vehicle}" min="1" readonly>
         </div>
         <div>
-          
+          <label for="arrival">Tên khách sạn:</label>
+          <input type="text" id="ks" name="ks" value="${event.roomname}" min="1" readonly>
           <input type="text" hidden id="depart_id" name="depart_id" value="${event.iddeparture || 'không có'}" min="1" readonly>
         </div>
       </div>
@@ -533,7 +536,7 @@ function xemdattour() {
                 if (response === 'insert_success') {
                     openPopup('Thông báo', 'Đặt thành công!');
                     setTimeout(function () {
-                        window.location.href = 'indexa.php?xemdattour';
+                        window.location.href = 'indexa.php?qldichvu';
                     }, 2000);
                 } else if (response === 'missing_data') {
                     openPopup('Thông báo', 'Dữ liệu còn thiếu. Vui lòng kiểm tra lại!');
@@ -597,6 +600,7 @@ function calculateTotal() {
     // Kiểm tra xem các input giá có tồn tại không
     const priceInput = document.getElementById("price");
     const childInput = document.getElementById("child");
+    const singleRoomInput = document.getElementById("single-room"); // Giá phòng đơn
 
     if (!priceInput || !childInput) {
         console.warn("Giá tour chưa được tải, không thể tính tổng.");
@@ -606,16 +610,23 @@ function calculateTotal() {
     const adultPrice = parseInt(priceInput.value) || 0; // Giá người lớn
     const childRate = parseFloat(childInput.value) / 100 || 0; // Tỷ lệ giá trẻ em (5-11 tuổi)
     const babyPrice = 0; // Em bé miễn phí
+    const singleRoomPrice = parseInt(singleRoomInput.value) || 0;
+
+// Đếm số người chọn phòng đơn
+    const singleRoomCheckboxes = document.querySelectorAll('input[name="phongdon"]:checked');
+    const singleRoomCount = singleRoomCheckboxes.length;
+    const totalSingleRoom = singleRoomCount * singleRoomPrice;
 
     // Tính tổng giá trị
     const totalAdult = adults * adultPrice;
     const totalChild = children * (adultPrice * childRate);
-    const total = totalAdult + totalChild + (babies * babyPrice);
-
+   
+    const total = totalAdult + totalChild + (babies * babyPrice) + totalSingleRoom;
     // Hiển thị tổng tiền (bỏ dấu chấm nếu có)
     document.getElementById("total-price").value = total.toLocaleString('vi-VN').replace(/\./g, '');
     document.getElementById("totalad").innerText = totalAdult.toLocaleString('vi-VN');
     document.getElementById("totalchild").innerText = totalChild.toLocaleString('vi-VN');
+    document.getElementById("totalsingle").innerText = totalSingleRoom.toLocaleString('vi-VN');
 }
 
 
@@ -623,41 +634,99 @@ function calculateTotal() {
 window.onload = calculateTotal;
 
 function generateForms() {
-    // Lấy số lượng từ input
     const adultCount = parseInt(document.getElementById("adults").value) || 0;
     const childCount = parseInt(document.getElementById("children").value) || 0;
     const babyCount = parseInt(document.getElementById("babies").value) || 0;
 
-    // Tạo form tương ứng
-    createForm("adult-forms", "Người lớn", adultCount, "adult");
-    createForm("children-forms", "Trẻ em (từ 2 -> 11 tuổi)", childCount, "child");
-    createForm("babies-forms", "Em bé (từ 2 -> 4 tuổi)", babyCount, "baby");
+    // Lưu dữ liệu hiện có
+    const existingData = saveExistingData();
+
+    createForm("adult-forms", "Người lớn", adultCount, "adult", existingData.adults);
+    createForm("children-forms", "Trẻ em (từ 2 -> 11 tuổi)", childCount, "child", existingData.children);
+    createForm("babies-forms", "Em bé (từ 2 -> 4 tuổi)", babyCount, "baby", existingData.babies);
 }
 
-function createForm(containerId, label, count, type) {
-    const container = document.getElementById(containerId);
-    container.innerHTML = ""; // Xóa form cũ trước khi tạo mới
+function saveExistingData() {
+    const data = {
+        adults: getFormData("adult-forms"),
+        children: getFormData("children-forms"),
+        babies: getFormData("babies-forms"),
+    };
+    return data;
+}
 
-    for (let i = 1; i <= count; i++) {
+function getFormData(containerId) {
+    const container = document.getElementById(containerId);
+    const forms = container.getElementsByClassName("passenger-form");
+    let data = [];
+
+    for (let form of forms) {
+        const hoten = form.querySelector('input[name="hot"]').value;
+        const ngaysinh = form.querySelector('input[name="ngaysi"]').value;
+        const gioitinh = form.querySelector('select[name="gioit"]').value;
+        const phongdon = form.querySelector('input[name="phongdon"]')?.checked || false; // Kiểm tra nếu có checkbox phòng đơn
+
+        data.push({ hoten, ngaysinh, gioitinh, phongdon });
+    }
+    return data;
+}
+function createForm(containerId, label, count, type, existingData = []) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = "";
+ 
+    for (let i = 0; i < count; i++) {
+        const data = existingData[i] || { hoten: "", ngaysinh: "", gioitinh: "Nam", phongdon: false };
+
         const formHtml = `
             <div class="passenger-form">
                 <h4>${label}</h4>
                 <label>Họ tên:</label>
-                <input type="text" name="hot" required>
+                <input type="text" name="hot" value="${data.hoten}" required>
 
                 <label>Ngày sinh:</label>
-                <input type="date" name="ngaysi" required>
+                <input type="date" name="ngaysi" value="${data.ngaysinh}" required onchange="validateDOB(this)">
                 
-
                 <label>Giới tính:</label>
                 <select name="gioit">
-                    <option value="Nam">Nam</option>
-                    <option value="Nữ">Nữ</option>
+                    <option value="Nam" ${data.gioitinh === "Nam" ? "selected" : ""}>Nam</option>
+                    <option value="Nữ" ${data.gioitinh === "Nữ" ? "selected" : ""}>Nữ</option>
                 </select>
+                
                 <input type="hidden" name="phanloai" value="${label}" required>
+
+                ${type === "adult" ? `
+                <label>Phòng đơn:</label>
+                <input type="checkbox" name="phongdon" value="1" onchange="calculateTotal()" ${data.phongdon ? "checked" : ""}>
+                ` : ""}
             </div>
         `;
         container.innerHTML += formHtml;
+    }
+}
+
+
+function validateDOB(input) {
+    const selectedDate = new Date(input.value);
+    const currentDate = new Date();
+    const age = currentDate.getFullYear() - selectedDate.getFullYear();
+    
+    if (selectedDate > currentDate) {
+        openPopup("Ngày sinh không hợp lệ! Vui lòng chọn năm nhỏ hơn năm hiện tại.","");
+        input.value = ""; // Xóa giá trị không hợp lệ
+        return;
+    }
+
+    const formType = input.closest(".passenger-form").querySelector('input[name="phanloai"]').value;
+
+    if (formType.includes("Người lớn") && age < 12) {
+        openPopup("Người lớn phải từ 12 tuổi trở lên!","Vui lòng nhập đúng độ tuổi.");
+        input.value = "";
+    } else if (formType.includes("Trẻ em") && (age < 2 || age > 11)) {
+        openPopup("Trẻ em phải từ 2 đến 11 tuổi!","Vui lòng nhập đúng độ tuổi.");
+        input.value = "";
+    } else if (formType.includes("Em bé") && age >= 2) {
+        openPopup("Em bé phải dưới 2 tuổi!","Vui lòng nhập đúng độ tuổi.");
+        input.value = "";
     }
 }
 

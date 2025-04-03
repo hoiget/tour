@@ -329,7 +329,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $diem = $_POST['diem'] ?? 0;
         $diemfull = $_POST['diemfull'] ?? 0;
         $diemfinal = max(0, $diemfull - $diem); // Đảm bảo điểm không âm
-    
+        $tenks=$_POST['ks'];
+        $tienks=$_POST['tienks'];
         $method = $_POST['method'] ?? '';
     
         // Kiểm tra dữ liệu đầu vào
@@ -375,8 +376,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
             // 2. Thêm vào bảng booking_detail_tour
             $insert_detail_query = "INSERT INTO booking_detail_tour 
-                (Booking_id, Tour_name, Price, Total_pay, User_name, Phone_num, Address) 
-                VALUES (?, ?, ?, ?, ?, ?, ?)";
+                (Booking_id, Tour_name, Price, Total_pay, User_name, Phone_num, Address,tenks,tienks) 
+                VALUES (?, ?, ?, ?, ?, ?, ?,?,?)";
             $stmt_detail = $conn->prepare($insert_detail_query);
     
             if (!$stmt_detail) {
@@ -385,14 +386,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
     
             $stmt_detail->bind_param(
-                "issssss",
+                "issssssss",
                 $booking_id,
                 $tour_name,
                 $price,
                 $total_pay,
                 $user_name,
                 $phone_num,
-                $address
+                $address,
+                $tenks,
+                $tienks
             );
     
             if ($stmt_detail->execute()) {
@@ -1256,7 +1259,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         departure_time.id AS iddeparture,
         departure_time.*,
         MIN(tour.Price) AS Price,
-        departure_dates.*
+        departure_dates.*,
+        rooms.id AS idroom,
+        rooms.Name AS roomname
     FROM 
         tour 
     LEFT JOIN 
@@ -1265,6 +1270,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         departure_time ON tour.id = departure_time.id_tour 
     LEFT JOIN 
         departure_dates ON tour.id = departure_dates.tour_id
+    LEFT JOIN 
+        rooms ON tour.idks = rooms.id
     WHERE 
         tour.id = '$id'
    GROUP BY 
@@ -2179,6 +2186,7 @@ ORDER BY
         }
         exit();
     }
+
     
    
     

@@ -517,6 +517,13 @@ function openRatingModal1(Id) {
                                      
                                 </div>
                             </div>
+                              <div class="form-row">
+                                <div>
+                                    <label for="arrival">Tên khách sạn:</label>
+                                    <input type="text" id="arrival" value="${item.tenks}" readonly>
+                                </div>
+                               
+                            </div>
                         </div>
 
                         <!-- Thông tin giá -->
@@ -528,6 +535,11 @@ function openRatingModal1(Id) {
                                     <input type="text" id="adult_price" name="adult_price" value="${item.Price}" >
                                     <input type="hidden" id="child_rate" name="child_rate" value="${item.Child_price_percen}" >
                                 </div>
+                                   <div>
+                                    <label for="price">Tổng tiền phòng:</label> <br>
+                                   <input type="text" id="total-price" value="${item.tienks}" readonly>
+                                </div>
+                                <div></div>
                                 <div>
                                     <label for="total-price">Tổng tiền:</label>
                                     <input type="text" id="total-price" name="" value="${item.Total_pay}" >
@@ -684,6 +696,12 @@ function openRatingModalxem(Id) {
                                      
                                 </div>
                             </div>
+                             <div class="form-row">
+                                <div>
+                                    <label for="arrival">Tên khách sạn: ${item.tenks}</label>
+                                </div>
+                                
+                            </div>
                         </div>
                          <br><br>
                         <!-- Thông tin giá -->
@@ -692,6 +710,9 @@ function openRatingModalxem(Id) {
                             <div class="form-row">
                                 <div>
                                     <label for="price">Giá vé: ${item.Price}</label>
+                                </div>
+                                 <div>
+                                    <label for="price">Tổng tiền phòng: ${item.tienks}</label>
                                 </div>
                                 <div>
                                     <label for="total-price">Tổng tiền: ${item.Total_pay}</label>

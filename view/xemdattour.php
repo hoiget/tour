@@ -665,6 +665,13 @@ function huydontour(idve, participants, idtour) {
                                     <input type="text" id="participants" value="${item.participants}" readonly>
                                 </div>
                             </div>
+                             <div class="form-row">
+                                <div>
+                                    <label for="arrival">Tên khách sạn:</label>
+                                    <input type="text" id="arrival" value="${item.tenks}" readonly>
+                                </div>
+                               
+                            </div>
                         </div>
 
                         <!-- Thông tin giá -->
@@ -672,9 +679,14 @@ function huydontour(idve, participants, idtour) {
                             <h3>Thông tin giá</h3>
                             <div class="form-row">
                                 <div>
-                                    <label for="price">Giá vé:</label>
-                                    <input type="text" id="price" value="${item.Price}" readonly>
+                                    <label for="price">Giá vé:</label> <br>
+                                    <input style="width:100%;height:65%" type="text" id="price" value="${item.Price}" readonly>
                                 </div>
+                                 <div>
+                                    <label for="price">Tổng tiền phòng:</label> <br>
+                                   <input type="text" id="total-price" value="${item.tienks}" readonly>
+                                </div>
+                                <div></div>
                                 <div>
                                     <label for="total-price">Tổng tiền:</label>
                                     <input type="text" id="total-price" value="${item.Total_pay}" readonly>
@@ -799,6 +811,13 @@ function openRatingModal1(Id) {
                                      
                                 </div>
                             </div>
+                             <div class="form-row">
+                                <div>
+                                    <label for="arrival">Tên khách sạn:</label>
+                                    <input type="text" id="arrival" value="${item.tenks}" readonly>
+                                </div>
+                               
+                            </div>
                         </div>
 
                         <!-- Thông tin giá -->
@@ -810,6 +829,11 @@ function openRatingModal1(Id) {
                                     <input type="text" id="adult_price" name="adult_price" value="${item.Price}" readonly>
                                     <input type="hidden" id="child_rate" name="child_rate" value="${item.Child_price_percen}" readonly>
                                 </div>
+                                 <div>
+                                    <label for="price">Tổng tiền phòng:</label> <br>
+                                   <input type="text" id="total-price" value="${item.tienks}" readonly>
+                                </div>
+                                <div></div>
                                 <div>
                                     <label for="total-price">Tổng tiền:</label>
                                     <input type="text" id="total-price" name="" value="${item.Total_pay}" readonly>

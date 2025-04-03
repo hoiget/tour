@@ -253,6 +253,12 @@ if (isset($_SESSION['login_time']) && ($currentTime - $_SESSION['login_time'] > 
           <span>Phân quyền nhân viên</span>
         </a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link " href="indexa.php?TKK">
+        <i class="bi bi-person-gear"></i>
+          <span>Tài khoản bị khóa</span>
+        </a>
+      </li>
       <?php
 }
 elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
@@ -440,6 +446,9 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
   }if(isset($_REQUEST['xembaocao'])){
     $show = false;
     include_once("viewa/xembaocao.php");
+  }if(isset($_REQUEST['TKK'])){
+    $show = false;
+    include_once("viewa/TKK.php");
   }
   if($show){
     include_once("viewa/thongke.php");
