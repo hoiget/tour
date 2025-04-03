@@ -2187,6 +2187,82 @@ ORDER BY
         exit();
     }
 
+    elseif ($action == "xemtourgoiy") {
+        $tourId = isset($_GET['idtour']) ? intval($_GET['idtour']) : 0;
+    
+        if ($tourId > 0) {
+            // Lấy thông tin tour hiện tại
+            $query = "SELECT Name FROM tour WHERE id = ?";
+            $stmt = $conn->prepare($query);
+            $stmt->bind_param("i", $tourId);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $tour = $result->fetch_assoc();
+    
+            if ($tour) {
+                $tourName = $tour['Name'];
+    
+                // Lấy danh sách tour có cùng tên (trừ tour hiện tại)
+                $query2 = "SELECT 
+                            tour.id AS tourid, 
+                            tour.Name, 
+                            tour.Price, 
+                            tour.discount, 
+                            tour.vehicle, 
+                            tour.timetour, 
+                            tour_images.Image 
+                        FROM tour 
+                        INNER JOIN tour_images ON tour.id = tour_images.id_tour
+                        WHERE tour.Name LIKE ? AND tour.id != ?
+                        LIMIT 3";
+    
+                $stmt2 = $conn->prepare($query2);
+                $searchTerm = "%" . $tourName . "%";
+                $stmt2->bind_param("si", $searchTerm, $tourId);
+                $stmt2->execute();
+                $result2 = $stmt2->get_result();
+    
+                $res = [];
+                while ($row = $result2->fetch_assoc()) {
+                    $res[] = $row;
+                }
+    
+                // Nếu không có tour nào cùng tên, lấy tour ngẫu nhiên
+                if (empty($res)) {
+                    $query3 = "SELECT 
+                                tour.id AS tourid, 
+                                tour.Name, 
+                                tour.Price, 
+                                tour.discount, 
+                                tour.vehicle, 
+                                tour.timetour, 
+                                tour_images.Image 
+                            FROM tour 
+                            INNER JOIN tour_images ON tour.id = tour_images.id_tour
+                            WHERE tour.id != ?
+                            ORDER BY RAND()
+                            LIMIT 3";
+    
+                    $stmt3 = $conn->prepare($query3);
+                    $stmt3->bind_param("i", $tourId);
+                    $stmt3->execute();
+                    $result3 = $stmt3->get_result();
+    
+                    while ($row = $result3->fetch_assoc()) {
+                        $res[] = $row;
+                    }
+                }
+    
+                echo json_encode($res);
+            } else {
+                echo json_encode([]);
+            }
+        } else {
+            echo json_encode([]);
+        }
+        exit;
+    }
+    
     
    
     

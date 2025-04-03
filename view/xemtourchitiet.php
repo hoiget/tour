@@ -129,6 +129,14 @@ h3{
     text-decoration: line-through;
     color: gray;
 }
+.goiy{
+    color:blue;
+    
+}
+.card-img-top{
+    width: 100%;
+    height: 300px;
+}
 </style>
 <main class="main-content">
 
@@ -151,7 +159,8 @@ h3{
     </div>
 </div> <div id="xemchitiet123"></div>
            <div id="xemchitiet"></div>
-         
+            <center><h3 class="goiy">Các chương trình khác</h3></center>
+           <div id="goiYTour"></div>
 
         </main>
         
@@ -328,7 +337,51 @@ function xemdanhgia() {
     });
 };
 
+function goiYTours() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const idtour = urlParams.get('idtour'); // Lấy ID từ URL
+
+    $.ajax({
+        url: './api/api.php?action=xemtourgoiy&idtour=' + idtour,
+        type: 'GET',
+        dataType: 'json',
+        success: function (response) {
+            let tourHtml = "";
+            if (Array.isArray(response) && response.length > 0) {
+                tourHtml += `<div class="row">`;
+                response.forEach(function (tour) {
+                    tourHtml += `
+                        <div class="col-md-4">
+                            <div class="card">
+                                <img src="./assets/img/tour/${tour.Image}" class="card-img-top" alt="${tour.Name}">
+                                <div class="card-body">
+                                    <h5 class="card-title">${tour.Name}</h5>
+                                    <p class="card-text">
+                                        Giá: ${parseInt(tour.discount > 0 ? tour.discount : tour.Price).toLocaleString('vi-VN')} VNĐ<br>
+                                        Phương tiện: ${tour.vehicle}<br>
+                                        Thời gian: ${tour.timetour}
+                                    </p>
+                                    <center><a href="index.php?idtour=${tour.tourid}&xemdanhgiatour=${tour.tourid}&xemdanhgiarating=${tour.tourid}" class="btn btn-primary">
+                                    Xem cho tiết</a></center>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                tourHtml += `</div>`;
+            } else {
+                tourHtml = "<p>Không có tour nào cùng tên.</p>";
+            }
+            $('#goiYTour').html(tourHtml);
+        },
+        error: function () {
+            $('#goiYTour').html("<p>Lỗi khi tải danh sách tour gợi ý.</p>");
+        }
+    });
+}
+
 $(document).ready(function() {
+    goiYTours();
     xemtourchitiet();
     xemdanhgia();
     xemdanhgiarating();
