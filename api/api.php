@@ -922,14 +922,13 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     } elseif ($action == "xemtourchitiet") {
         $id = $_GET['idtour'];
         $query = "
-          
         SELECT 
             tour.*,
             tour.id AS idtour, 
             tour_images.*,
             departure_time.*,
-            GROUP_CONCAT(DISTINCT departure_time.ngaykhoihanh ORDER BY departure_time.ngaykhoihanh ASC SEPARATOR ', ') AS ngaykhoihanh
-
+            GROUP_CONCAT(DISTINCT departure_time.ngaykhoihanh ORDER BY departure_time.ngaykhoihanh ASC SEPARATOR ', ') AS ngaykhoihanh,
+            GROUP_CONCAT(DISTINCT CONCAT(departure_time.ngaykhoihanh, ':', departure_time.Orders) ORDER BY departure_time.ngaykhoihanh ASC SEPARATOR ', ') AS orders_info
         FROM 
             tour 
         LEFT JOIN 
@@ -938,7 +937,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             departure_time ON tour.id = departure_time.id_tour
         WHERE 
             tour.id = '$id'
+        GROUP BY 
+            tour.id
     ";
+    
 
         // Thực hiện truy vấn
         $result = $conn->query($query);
@@ -2210,10 +2212,14 @@ ORDER BY
                             tour.discount, 
                             tour.vehicle, 
                             tour.timetour, 
-                            tour_images.Image 
+                            tour_images.Image, 
+                            departure_time.*
                         FROM tour 
                         INNER JOIN tour_images ON tour.id = tour_images.id_tour
-                        WHERE tour.Name LIKE ? AND tour.id != ?
+                        INNER JOIN departure_time ON tour.id = departure_time.id_tour
+                        WHERE tour.Name LIKE ? AND tour.id != ? AND  departure_time.ngaykhoihanh >= NOW()
+                        GROUP BY tour.id
+                        ORDER BY MIN(departure_time.ngaykhoihanh) ASC
                         LIMIT 3";
     
                 $stmt2 = $conn->prepare($query2);
@@ -2229,19 +2235,27 @@ ORDER BY
     
                 // Nếu không có tour nào cùng tên, lấy tour ngẫu nhiên
                 if (empty($res)) {
-                    $query3 = "SELECT 
-                                tour.id AS tourid, 
-                                tour.Name, 
-                                tour.Price, 
-                                tour.discount, 
-                                tour.vehicle, 
-                                tour.timetour, 
-                                tour_images.Image 
-                            FROM tour 
-                            INNER JOIN tour_images ON tour.id = tour_images.id_tour
-                            WHERE tour.id != ?
-                            ORDER BY RAND()
-                            LIMIT 3";
+                    $query3 = "SELECT * FROM (
+                                    SELECT 
+                                        tour.id AS tourid, 
+                                        tour.Name, 
+                                        tour.Price, 
+                                        tour.discount, 
+                                        tour.vehicle, 
+                                        tour.timetour, 
+                                        tour_images.Image,
+                                        MIN(departure_time.ngaykhoihanh) AS first_departure
+                                    FROM tour 
+                                    INNER JOIN tour_images ON tour.id = tour_images.id_tour
+                                    INNER JOIN departure_time ON tour.id = departure_time.id_tour
+                                    WHERE tour.id != ? AND departure_time.ngaykhoihanh >= NOW()
+                                    GROUP BY tour.id
+                                    ORDER BY first_departure ASC
+                                    LIMIT 10 -- Chọn 10 tour gần nhất trước
+                                ) AS sorted_tours
+                                ORDER BY RAND()
+                                LIMIT 3;
+                                ";
     
                     $stmt3 = $conn->prepare($query3);
                     $stmt3->bind_param("i", $tourId);

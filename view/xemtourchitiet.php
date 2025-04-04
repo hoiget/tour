@@ -207,91 +207,92 @@ function xemdanhgiarating() {
         type: 'GET',
         dataType: 'json',
         success: function (response) {
-            
-            if (Array.isArray(response) && response.length > 0) {
-                const event = response[0]; // Lấy phần tử đầu tiên
-                let departureDates = event.ngaykhoihanh ? event.ngaykhoihanh.split(', ') : [];
-                let eventHtml = `
-                    <h2 style="color:black">${event.Name}</h2>
-                    
-                    <div class="tour-details">
-                        <div class="image">
-                            <img src="./assets/img/tour/${event.Image}" alt="Tour du lịch" />
-                            <br><br><h2 style="color:black">Thông tin tour</h2>
-                       
-                        </div>
-                        <div class="details">
-                            <h3 style="color:black;font-size:20px">Chi tiết Tour</h3>
-                            <ul>
-                                <li><strong>Mã tour:</strong> ${event.idtour}</li>
-                                <li><strong>Kiểu tour:</strong> ${event.Style}</li>
-                                <li><strong>Số người tham gia:</strong> ${event.Max_participant} (tối thiểu: ${event.Min_participant} người)</li>
-                                <li><strong>Thời gian:</strong> ${event.timetour}</li>
-                                <li><strong>Khởi hành:</strong><div class="departure-box">`;
+    if (Array.isArray(response) && response.length > 0) {
+        const event = response[0]; // Lấy phần tử đầu tiên
+        let departureDates = event.ngaykhoihanh ? event.ngaykhoihanh.split(', ') : [];
+        let ordersInfo = event.orders_info ? event.orders_info.split(', ') : [];
 
-                    // Lặp danh sách ngày khởi hành và hiển thị trong box
-                    departureDates.forEach(date => {
-    let parts = date.split('-'); // Tách năm, tháng, ngày
-    let formattedDate = `${parts[2]}/${parts[1]}`; // Định dạng lại thành DD/MM
+        // Chuyển ordersInfo thành object { "YYYY-MM-DD": số lượt đặt }
+        let ordersMap = {};
+        ordersInfo.forEach(info => {
+            let [date, orders] = info.split(':');
+            ordersMap[date] = orders;
+        });
 
-    // Chuyển đổi thành định dạng Date để so sánh
-    let departureDate = new Date(parts[0], parts[1] - 1, parts[2]); 
-    let today = new Date();
-    today.setHours(0, 0, 0, 0); // Đặt giờ về 0 để so sánh chính xác
+        let eventHtml = `
+            <h2 style="color:black">${event.Name}</h2>
+            <div class="tour-details">
+                <div class="image">
+                    <img src="./assets/img/tour/${event.Image}" alt="Tour du lịch" />
+                    <br><br><h2 style="color:black">Thông tin tour</h2>
+                </div>
+                <div class="details">
+                    <h3 style="color:black;font-size:20px">Chi tiết Tour</h3>
+                    <ul>
+                        <li><strong>Mã tour:</strong> ${event.idtour}</li>
+                        <li><strong>Kiểu tour:</strong> ${event.Style}</li>
+                        <li><strong>Số người tham gia:</strong> ${event.Max_participant} (tối thiểu: ${event.Min_participant} người)</li>
+                        <li><strong>Thời gian:</strong> ${event.timetour}</li>
+                        <li><strong>Khởi hành:</strong>
+                            <div class="departure-box">`;
 
-    let isPast = departureDate < today ? 'past-date' : ''; // Nếu ngày nhỏ hơn hôm nay, thêm class 'past-date'
+        // Lặp danh sách ngày khởi hành và hiển thị với số lượt đặt
+        departureDates.forEach(date => {
+            let parts = date.split('-'); // Tách năm, tháng, ngày
+            let formattedDate = `${parts[2]}/${parts[1]}`; // Định dạng lại thành DD/MM
 
-    eventHtml += `<span class="departure-date ${isPast}">${formattedDate}</span>`;
-});
+            // Chuyển đổi thành định dạng Date để so sánh với ngày hiện tại
+            let departureDate = new Date(parts[0], parts[1] - 1, parts[2]);
+            let today = new Date();
+            today.setHours(0, 0, 0, 0); // Đặt giờ về 0 để so sánh chính xác
 
+            let isPast = departureDate < today ? 'past-date' : ''; // Nếu ngày nhỏ hơn hôm nay, thêm class 'past-date'
 
-                                eventHtml += `(${event.Orders || '0'} lượt đặt)</div></li>
-                                <li><strong>Phương tiện:</strong> ${event.vehicle}</li>
-                                <li><strong>Xuất phát:</strong> ${event.DepartureLocation}</li>
-                               
-                            </ul>
-                            <div class="details1">`
-                            if (parseInt(event.discount)==0) {
-                                eventHtml+= `<strong>Giá tour:</strong> `+ parseInt(event.Price).toLocaleString('vi-VN') + ` VNĐ `
-                            }else if(parseInt(event.discount) > 0){
-                             eventHtml+=`
-                                <strong>Giá tour:</strong> `+ parseInt(event.discount).toLocaleString('vi-VN') + ` VNĐ - 
-                                <del style="color:white">`+ parseInt(event.Price).toLocaleString('vi-VN') + ` VNĐ</del>
-                            `}
-                            eventHtml+=`
-                            </div>
-                            <center>
-                            `
-                            
-                                if (parseInt(event.Orders) >= parseInt(event.Max_participant)) {
-                               
-                               eventHtml +='<span style="color:red">Lượt đặt đã hết</span>'
-                           }else{
-                               eventHtml += ` <a href="index.php?dattour=${event.idtour}">
-                                   <button class="but" type="submit">Đặt tour</button>
-                               </a>`
-                           }
-                         
-                              eventHtml += `
-                            </center>
-                        
-                        </div>
-                    </div>
-                    <p class="ndo" style="color:black; font-size:20px; white-space: pre-line;">
-                    <b>Lịch trình:</b> 
-                    ${event.Itinerary} 
-                    <b>Nội dung:</b>
-                    ${event.Description}</p>
-                        
-                        `;
+            let ordersCount = ordersMap[date] || 0; // Lấy số lượt đặt từ object `ordersMap`
 
-                // Load đánh giá của tour
-             
-                $('#xemchitiet').html(eventHtml);
-            } else {
-                $('#xemchitiet').html('Không tìm thấy tour với ID ' + idtour);
-            }
-        },
+            eventHtml += `<span class="departure-date ${isPast}">${formattedDate} (${ordersCount} lượt đặt)</span>`;
+        });
+
+        eventHtml += `</div></li>
+                        <li><strong>Phương tiện:</strong> ${event.vehicle}</li>
+                        <li><strong>Xuất phát:</strong> ${event.DepartureLocation}</li>
+                    </ul>
+                    <div class="details1">`;
+
+        if (parseInt(event.discount) === 0) {
+            eventHtml += `<strong>Giá tour:</strong> ` + parseInt(event.Price).toLocaleString('vi-VN') + ` VNĐ `;
+        } else if (parseInt(event.discount) > 0) {
+            eventHtml += `<strong>Giá tour:</strong> ` + parseInt(event.discount).toLocaleString('vi-VN') + ` VNĐ - 
+                          <del style="color:white">` + parseInt(event.Price).toLocaleString('vi-VN') + ` VNĐ</del>`;
+        }
+
+        eventHtml += `</div>
+                    <center>`;
+
+        if (parseInt(event.Orders) >= parseInt(event.Max_participant)) {
+            eventHtml += '<span style="color:red">Lượt đặt đã hết</span>';
+        } else {
+            eventHtml += `<a href="index.php?dattour=${event.idtour}">
+                            <button class="but" type="submit">Đặt tour</button>
+                          </a>`;
+        }
+
+        eventHtml += `</center>
+                </div>
+            </div>
+            <p class="ndo" style="color:black; font-size:20px; white-space: pre-line;">
+                <b>Lịch trình:</b> 
+                ${event.Itinerary} 
+                <b>Nội dung:</b>
+                ${event.Description}
+            </p>`;
+
+        $('#xemchitiet').html(eventHtml);
+    } else {
+        $('#xemchitiet').html('Không tìm thấy tour với ID ' + idtour);
+    }
+}
+,
         error: function (xhr, status, error) {
             console.error('Lỗi khi lấy tour:', error);
             $('#xemchitiet').html('Đã xảy ra lỗi khi tải thông tin tour.');
@@ -346,6 +347,7 @@ function goiYTours() {
         type: 'GET',
         dataType: 'json',
         success: function (response) {
+            console.log(response);
             let tourHtml = "";
             if (Array.isArray(response) && response.length > 0) {
                 tourHtml += `<div class="row">`;
