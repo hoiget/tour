@@ -210,55 +210,67 @@ if (isset($_SESSION['login_time']) && ($currentTime - $_SESSION['login_time'] > 
 ?>
 
       <li class="nav-item">
-        <a class="nav-link " href="indexa.php">
+        <a class="nav-link" href="indexa.php">
         <i class="bi bi-house"></i>
           <span>Trang chủ</span>
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link " href="indexa.php?taonhanvien">
+        <a class="nav-link" href="indexa.php?taonhanvien">
         <i class="bi bi-person-plus"></i>
           <span>Tạo nhân viên</span>
         </a>
       </li><!-- End Dashboard Nav -->
       <li class="nav-item">
-        <a class="nav-link " href="indexa.php?qlnhanvien">
+        <a class="nav-link" href="indexa.php?qlnhanvien">
         <i class="bi bi-gear"></i>
           <span>Quản lý nhân viên</span>
         </a>
       </li><!-- End Dashboard Nav -->
       <li class="nav-item">
-        <a class="nav-link " href="indexa.php?feedback">
+        <a class="nav-link" href="indexa.php?feedback">
         <i class="bi bi-chat-square-dots"></i>
           <span>xem feedback</span>
         </a>
       </li><!-- End Dashboard Nav -->
       <li class="nav-item">
-        <a class="nav-link " href="indexa.php?xembaocao">
+        <a class="nav-link" href="indexa.php?xembaocao">
         <i class="bi bi-table"></i>
 
           <span>xem báo cáo</span>
         </a>
       </li><!-- End Dashboard Nav -->
       <li class="nav-item">
-        <a class="nav-link " href="indexa.php?PL">
+        <a class="nav-link" href="indexa.php?PL">
         <i class="bi bi-calendar-check"></i>
           <span>Phân lịch nhân viên</span>
         </a>
       </li><!-- End Dashboard Nav -->
       <!-- End Dashboard Nav -->
       <li class="nav-item">
-        <a class="nav-link " href="indexa.php?PQ">
+        <a class="nav-link" href="indexa.php?PQ">
         <i class="bi bi-person-gear"></i>
           <span>Phân quyền nhân viên</span>
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link " href="indexa.php?TKK">
-        <i class="bi bi-person-gear"></i>
+        <a class="nav-link" href="indexa.php?TKK">
+        <i class="bi bi-lock-fill"></i>
           <span>Tài khoản bị khóa</span>
         </a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="indexa.php?qldichvu">
+        <i class="bi bi-clipboard-check"></i>
+        <span>Quản lý đơn tour</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="indexa.php?qldichvuks">
+        <i class="bi bi-building"></i>
+          <span>Quản lý đơn dịch vụ khách sạn</span>
+        </a>
+          </li>
       <?php
 }
 elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
@@ -392,12 +404,12 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
          <?php if($role == 'CSKH'){?>
           <li>
             <a href="indexa.php?qldichvu">
-            <i class="bi bi-lightbulb"></i><span>Quản lý đơn tour</span>
+            <i class="bi bi-clipboard-check"></i></i><span>Quản lý đơn tour</span>
             </a>
           </li>
           <li>
             <a href="indexa.php?qldichvuks">
-            <i class="bi bi-lightbulb"></i><span>Quản lý đơn dịch vụ khách sạn</span>
+            <i class="bi bi-building"></i><span>Quản lý đơn dịch vụ khách sạn</span>
             </a>
           </li>
 
@@ -449,6 +461,12 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
   }if(isset($_REQUEST['TKK'])){
     $show = false;
     include_once("viewa/TKK.php");
+  } if(isset($_REQUEST['qldichvu'])){
+    $show = false;
+    include_once("viewa/qldondichvu.php");
+  }if(isset($_REQUEST['qldichvuks'])){
+    $show = false;
+    include_once("viewa/qldondichvuks.php");
   }
   if($show){
     include_once("viewa/thongke.php");
