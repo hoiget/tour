@@ -170,32 +170,48 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $content = $_POST['Content'];
         $ngtao = $_POST['emid'];
         $date = date("Y-m-d");
+        
+        // Xử lý ảnh tải lên
         $file = $_FILES['anh']['tmp_name'];
         $name = $_FILES['anh']['name'];
         $loai = $_FILES['anh']['type'];
-
-        // Xử lý ảnh tải lên
+    
+        // Xử lý video tải lên
+        $video = $_FILES['video']['tmp_name'];
+        $videoName = $_FILES['video']['name'];
+        $videoType = $_FILES['video']['type'];
+    
+        // Kiểm tra định dạng ảnh
         if ($loai != "image/jpg" && $loai != "image/jpeg" && $loai != "image/png") {
             echo 'invalid_image';
             exit;
         }
-
-
-
-        if (move_uploaded_file($file, "../assets/img/gallery/" . $name)) {  // Thêm người dùng mới vào cơ sở dữ liệu
-            $insert_query = "INSERT INTO news (Title,dereption,Image,Content,Published_at,employeesId) VALUES (?, ?, ?, ?, ?, ?)";
-            $stmt = $conn->prepare($insert_query);
-            $stmt->bind_param("ssssss", $tieude, $noidung, $name, $content, $date, $ngtao);
-
-
-            if ($stmt->execute()) {
-                echo 'insert_success';
+    
+        // Kiểm tra định dạng video
+        if ($videoType != "video/mp4" && $videoType != "video/avi" && $videoType != "video/mov") {
+            echo 'invalid_video';
+            exit;
+        }
+    
+        // Xử lý tải ảnh lên
+        if (move_uploaded_file($file, "../assets/img/gallery/" . $name)) {
+            // Xử lý tải video lên
+            if (move_uploaded_file($video, "../assets/img/video/" . $videoName)) {
+                // Thêm tin tức vào cơ sở dữ liệu
+                $insert_query = "INSERT INTO news (Title, dereption, Image, Content, Video, Published_at, employeesId) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                $stmt = $conn->prepare($insert_query);
+                $stmt->bind_param("sssssss", $tieude, $noidung, $name, $content, $videoName, $date, $ngtao);
+    
+                if ($stmt->execute()) {
+                    echo 'insert_success';
+                } else {
+                    echo 'error_points';
+                }
             } else {
-                echo 'error_points';
+                echo 'upload_video_error';
             }
-
         } else {
-            echo 'upload_error';
+            echo 'upload_image_error';
         }
     } elseif ($action == "capnhattintuc") {
         $ma = $_POST['id'];
@@ -204,47 +220,66 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $content = $_POST['Content']; // Content
         $ngtao = $_POST['emid']; // Người tạo
         $date = date("Y-m-d");
-
+    
         // Kiểm tra xem có file ảnh được gửi lên không
         if (isset($_FILES['anh']) && $_FILES['anh']['error'] == 0) {
             $file = $_FILES['anh']['tmp_name'];
             $name = $_FILES['anh']['name'];
             $loai = $_FILES['anh']['type'];
-
+    
             // Kiểm tra định dạng ảnh
             if ($loai != "image/jpg" && $loai != "image/jpeg" && $loai != "image/png") {
                 echo 'invalid_image';
                 exit;
             }
-
+    
             // Xử lý tải ảnh lên thư mục
             if (move_uploaded_file($file, "../assets/img/gallery/" . $name)) {
                 // Cập nhật tin tức với ảnh
                 $update_query = "UPDATE news SET Title = ?, dereption = ?, Image = ?, Content = ?, Published_at = ?, employeesId = ? WHERE id = ?";
                 $stmt = $conn->prepare($update_query);
-                $stmt->bind_param("sssssii", $tieude, $noidung, $name, $content, $date, $ngtao, $ma);
-
+                $stmt->bind_param("ssssssi", $tieude, $noidung, $name, $content, $date, $ngtao, $ma);
+    
                 if ($stmt->execute()) {
                     echo 'update_success';
                 } else {
                     echo 'error_points';
                 }
             } else {
-                echo 'upload_error';
-            }
-        } else {
-            // Cập nhật tin tức mà không có ảnh
-            $update_query = "UPDATE news SET Title = ?, dereption = ?, Content = ?, Published_at = ?, employeesId = ? WHERE id = ?";
-            $stmt = $conn->prepare($update_query);
-            $stmt->bind_param("ssssii", $tieude, $noidung, $content, $date, $ngtao, $ma);
-
-            if ($stmt->execute()) {
-                echo 'update_success';
-            } else {
-                echo 'error_points';
+                echo 'upload_image_error';
             }
         }
-    } elseif ($action == "capnhatuser") {
+    
+        // Kiểm tra video nếu có
+        if (isset($_FILES['video']) && $_FILES['video']['error'] == 0) {
+            $video = $_FILES['video']['tmp_name'];
+            $videoName = $_FILES['video']['name'];
+            $videoType = $_FILES['video']['type'];
+    
+            // Kiểm tra định dạng video
+            if ($videoType != "video/mp4" && $videoType != "video/avi" && $videoType != "video/mov") {
+                echo 'invalid_video';
+                exit;
+            }
+    
+            // Xử lý tải video lên thư mục
+            if (move_uploaded_file($video, "../assets/img/video/" . $videoName)) {
+                // Cập nhật tin tức với video
+                $update_query = "UPDATE news SET Title = ?, dereption = ?, Content = ?, Video = ?, Published_at = ?, employeesId = ? WHERE id = ?";
+                $stmt = $conn->prepare($update_query);
+                $stmt->bind_param("ssssssi", $tieude, $noidung, $content, $videoName, $date, $ngtao, $ma);
+    
+                if ($stmt->execute()) {
+                    echo 'update_success';
+                } else {
+                    echo 'error_points';
+                }
+            } else {
+                echo 'upload_video_error';
+            }
+        }
+    }
+     elseif ($action == "capnhatuser") {
         $ma = $_POST['id']; // ID người dùng
         $name = $_POST['name']; // Tên
         $address = $_POST['address']; // Địa chỉ

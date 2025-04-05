@@ -201,6 +201,11 @@
                                 <label for="anh">Chọn ảnh mới:</label>
                                 <input type="file" id="anh" name="anh">
                             </div>
+                            <div>
+                            <label for="video">Chọn video mới:</label>
+                                <!-- Chọn video mới -->
+                            <input type="file" id="video" name="video" accept="video/mp4,video/avi,video/mov">
+                            </div>
                         </div>
                       
                         <div class="form-group">
@@ -231,6 +236,7 @@
                     <th>Tiêu đề</th>
                     <th>Nội dung</th>
                     <th>Ảnh</th>
+                    <th>video</th>
                     <th>Content</th>
                     <th>Ngày tạo</th>
                     <th>người tạo</th>
@@ -264,6 +270,7 @@
                     <td class="description">${event.Title}</td>
                     <td class="description">${event.dereption}</td>
                     <td><img style="width:50px;height:50px;" src="./assets/img/gallery/${event.Image}" alt="${event.Title}" class="card-img-top"></td>
+                    <td >${event.video}</td>
                     <td class="description">${event.Content}</td>
                     <td>${event.Published_at}</td>
                     <td>${event.Name}</td>`;
@@ -342,6 +349,22 @@ function openRatingModal(Id) {
                                 <input type="file" id="anh" name="anh">
                             </div>
                         </div>
+                         <div class="form-group">
+                            <div>
+                                <label for="video">Video hiện tại:</label>
+                                <!-- Hiển thị video hiện tại -->
+                                <video width="500" height="400" controls>
+                                    <source src="./assets/img/video/${data[0].video}" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                            <div>
+                                <label for="video">Chọn video mới:</label>
+                                <!-- Chọn video mới -->
+                                <input type="file" id="video" name="video" accept="video/mp4,video/avi,video/mov">
+                            </div>
+                        </div>
+
                       
                         <div class="form-group">
                          <div>
@@ -389,6 +412,8 @@ function themtintuc() {
                     openPopup('Thông báo', 'Thêm không thành công');
                 } else if (response === 'upload_error') {
                     openPopup('Thông báo', 'Không upload ảnh được');
+                }else if (response === 'invalid_video') {
+                    openPopup('Thông báo', 'Không đúng loại video (mp4, avi, mov)');
                 }
             },
             error: function (xhr, status, error) {
@@ -425,6 +450,8 @@ function capnhattintuc() {
                     openPopup('Thông báo', 'Cập nhật không thành công');
                 } else if (response === 'upload_error') {
                     openPopup('Thông báo', 'Không upload ảnh được');
+                }else if (response === 'invalid_video') {
+                    openPopup('Thông báo', 'Không đúng loại video (mp4, avi, mov)');
                 }
             },
             error: function (xhr, status, error) {
