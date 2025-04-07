@@ -800,7 +800,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     if ($action == "get_anh") {
         $email = $_SESSION['Email']; // Lấy email từ session
         $phone = $_SESSION['sdt'];
-        $query = "SELECT profile FROM user_credit where Email='$email' OR sdt='$phone'";
+        $query = "SELECT profile,login_type FROM user_credit where Email='$email' OR sdt='$phone'";
         $result = $conn->query($query);
 
         $users = [];
@@ -2193,8 +2193,8 @@ ORDER BY
         $tourId = isset($_GET['idtour']) ? intval($_GET['idtour']) : 0;
     
         if ($tourId > 0) {
-            // Lấy thông tin tour hiện tại
-            $query = "SELECT Name FROM tour WHERE id = ?";
+            // Lấy tên tour và vùng miền
+            $query = "SELECT Name, vung FROM tour WHERE id = ?";
             $stmt = $conn->prepare($query);
             $stmt->bind_param("i", $tourId);
             $stmt->execute();
@@ -2203,39 +2203,90 @@ ORDER BY
     
             if ($tour) {
                 $tourName = $tour['Name'];
+                $region = $tour['vung'];
     
-                // Lấy danh sách tour có cùng tên (trừ tour hiện tại)
-                $query2 = "SELECT 
-                            tour.id AS tourid, 
-                            tour.Name, 
-                            tour.Price, 
-                            tour.discount, 
-                            tour.vehicle, 
-                            tour.timetour, 
-                            tour_images.Image, 
-                            departure_time.*
-                        FROM tour 
-                        INNER JOIN tour_images ON tour.id = tour_images.id_tour
-                        INNER JOIN departure_time ON tour.id = departure_time.id_tour
-                        WHERE tour.Name LIKE ? AND tour.id != ? AND  departure_time.ngaykhoihanh >= NOW()
-                        GROUP BY tour.id
-                        ORDER BY MIN(departure_time.ngaykhoihanh) ASC
-                        LIMIT 3";
+                // Tách tên tour thành từ khóa
+                $keywords = preg_split('/[-:,]/', $tourName);
+                $likeConditions = [];
+                $params = [];
+                $types = '';
     
-                $stmt2 = $conn->prepare($query2);
-                $searchTerm = "%" . $tourName . "%";
-                $stmt2->bind_param("si", $searchTerm, $tourId);
-                $stmt2->execute();
-                $result2 = $stmt2->get_result();
-    
-                $res = [];
-                while ($row = $result2->fetch_assoc()) {
-                    $res[] = $row;
+                foreach ($keywords as $keyword) {
+                    $keyword = trim($keyword);
+                    if (!empty($keyword)) {
+                        $likeConditions[] = "tour.Name LIKE ?";
+                        $params[] = "%" . $keyword . "%";
+                        $types .= 's';
+                    }
                 }
     
-                // Nếu không có tour nào cùng tên, lấy tour ngẫu nhiên
+                $res = [];
+    
+                // Nếu có keyword để tìm
+                if (!empty($likeConditions)) {
+                    $query2 = "SELECT 
+                                    tour.id AS tourid, 
+                                    tour.Name, 
+                                    tour.Price, 
+                                    tour.discount, 
+                                    tour.vehicle, 
+                                    tour.timetour, 
+                                    tour_images.Image, 
+                                    departure_time.*
+                                FROM tour 
+                                INNER JOIN tour_images ON tour.id = tour_images.id_tour
+                                INNER JOIN departure_time ON tour.id = departure_time.id_tour
+                                WHERE (" . implode(" OR ", $likeConditions) . ")
+                                    AND tour.id != ? 
+                                    AND departure_time.ngaykhoihanh >= NOW()
+                                GROUP BY tour.id
+                                ORDER BY MIN(departure_time.ngaykhoihanh) ASC
+                                LIMIT 3";
+                    $params[] = $tourId;
+                    $types .= 'i';
+    
+                    $stmt2 = $conn->prepare($query2);
+                    $stmt2->bind_param($types, ...$params);
+                    $stmt2->execute();
+                    $result2 = $stmt2->get_result();
+    
+                    while ($row = $result2->fetch_assoc()) {
+                        $res[] = $row;
+                    }
+                }
+    
+                // Nếu không có gợi ý theo tên, tìm theo vùng miền
+                if (empty($res) && !empty($region)) {
+                    $query3 = "SELECT 
+                                    tour.id AS tourid, 
+                                    tour.Name, 
+                                    tour.Price, 
+                                    tour.discount, 
+                                    tour.vehicle, 
+                                    tour.timetour, 
+                                    tour_images.Image, 
+                                    departure_time.*
+                                FROM tour 
+                                INNER JOIN tour_images ON tour.id = tour_images.id_tour
+                                INNER JOIN departure_time ON tour.id = departure_time.id_tour
+                                WHERE tour.vung = ? AND tour.id != ? 
+                                    AND departure_time.ngaykhoihanh >= NOW()
+                                GROUP BY tour.id
+                                ORDER BY MIN(departure_time.ngaykhoihanh) ASC
+                                LIMIT 3";
+                    $stmt3 = $conn->prepare($query3);
+                    $stmt3->bind_param("si", $region, $tourId);
+                    $stmt3->execute();
+                    $result3 = $stmt3->get_result();
+    
+                    while ($row = $result3->fetch_assoc()) {
+                        $res[] = $row;
+                    }
+                }
+    
+                // Nếu vẫn không có, chọn tour ngẫu nhiên
                 if (empty($res)) {
-                    $query3 = "SELECT * FROM (
+                    $query4 = "SELECT * FROM (
                                     SELECT 
                                         tour.id AS tourid, 
                                         tour.Name, 
@@ -2251,18 +2302,16 @@ ORDER BY
                                     WHERE tour.id != ? AND departure_time.ngaykhoihanh >= NOW()
                                     GROUP BY tour.id
                                     ORDER BY first_departure ASC
-                                    LIMIT 10 -- Chọn 10 tour gần nhất trước
+                                    LIMIT 10
                                 ) AS sorted_tours
                                 ORDER BY RAND()
-                                LIMIT 3;
-                                ";
+                                LIMIT 3";
+                    $stmt4 = $conn->prepare($query4);
+                    $stmt4->bind_param("i", $tourId);
+                    $stmt4->execute();
+                    $result4 = $stmt4->get_result();
     
-                    $stmt3 = $conn->prepare($query3);
-                    $stmt3->bind_param("i", $tourId);
-                    $stmt3->execute();
-                    $result3 = $stmt3->get_result();
-    
-                    while ($row = $result3->fetch_assoc()) {
+                    while ($row = $result4->fetch_assoc()) {
                         $res[] = $row;
                     }
                 }
@@ -2276,6 +2325,8 @@ ORDER BY
         }
         exit;
     }
+    
+    
     
     
    

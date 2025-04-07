@@ -268,9 +268,16 @@ function get_anh() {
                 var events = response;
                 var eventHtml = '';
                 events.forEach(function(event) {
+                if(event.login_type == "facebook"){
+                    eventHtml += `
+                    <img src="${event.profile}" alt="Avatar" class="avatar mb-3">
+                   `;
+                }else{
                     eventHtml += `
                     <img src="assets/img/user/${event.profile}" alt="Avatar" class="avatar mb-3">
                    `;
+                }
+                   
                 });
                 $('#anhnen').html(eventHtml);
             } else {

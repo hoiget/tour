@@ -474,11 +474,17 @@ function xemtrangthai() {
                     }
 
                     if (event.refund == '0') {
-                        eventHtml += `<div  id="orderDetails_${event.Booking_id}"></div>`
+                        if (event.Payment_status == '1') {
+                                eventHtml += `<div  id="orderDetails_${event.Booking_id}"></div>`
+                            }
+
                         if (event.Booking_status == '1') {
                             eventHtml += '<button class="btn review">Chưa xác nhận</button>';
                         } else if (event.Booking_status == '2') {
+                            
+                           
                             eventHtml += '<button class="btn review">Đã xác nhận</button>';
+                            
                             if (event.Payment_status == '2') {
                                 eventHtml += `<button type="button" class="btn review" data-bs-toggle="modal" data-bs-target="#ratingModaldanhgia" onclick="openRatingModal(${event.Booking_id})">Đánh giá Tour</button>`;
                                 eventHtml += `<button class="exportPdfBtn" data-booking-id="${event.Booking_id}">Xuất PDF</button> `
@@ -490,6 +496,7 @@ function xemtrangthai() {
                                 `;
 
                             } else {
+                               
                                 if(event.method == "vnpay"){
                                 eventHtml += `<button class="btn review"><a style="text-decoration:none;color:white" href="index.php?idtt=${event.Booking_id}">Thanh toán</a></button>`;
                                 }else if(event.method == "momo"){

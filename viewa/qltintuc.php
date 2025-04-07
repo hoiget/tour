@@ -353,15 +353,18 @@ function openRatingModal(Id) {
                             <div>
                                 <label for="video">Video hiện tại:</label>
                                 <!-- Hiển thị video hiện tại -->
-                                <video width="500" height="400" controls>
-                                    <source src="./assets/img/video/${data[0].video}" type="video/mp4">
-                                    Your browser does not support the video tag.
-                                </video>
+                                 <iframe width="500" height="400" 
+                                    src="https://www.youtube.com/embed/${data[0].video}" 
+                                    title="YouTube video player" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                    allowfullscreen>
+                                </iframe>
                             </div>
                             <div>
                                 <label for="video">Chọn video mới:</label>
                                 <!-- Chọn video mới -->
-                                <input type="file" id="video" name="video" accept="video/mp4,video/avi,video/mov">
+                                <input type="text" id="video" name="video">
                             </div>
                         </div>
 

@@ -177,10 +177,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $loai = $_FILES['anh']['type'];
     
         // Xử lý video tải lên
-        $video = $_FILES['video']['tmp_name'];
-        $videoName = $_FILES['video']['name'];
-        $videoType = $_FILES['video']['type'];
-    
+       $videoName = $_POST['video'];
         // Kiểm tra định dạng ảnh
         if ($loai != "image/jpg" && $loai != "image/jpeg" && $loai != "image/png") {
             echo 'invalid_image';
@@ -188,15 +185,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     
         // Kiểm tra định dạng video
-        if ($videoType != "video/mp4" && $videoType != "video/avi" && $videoType != "video/mov") {
-            echo 'invalid_video';
-            exit;
-        }
     
         // Xử lý tải ảnh lên
         if (move_uploaded_file($file, "../assets/img/gallery/" . $name)) {
             // Xử lý tải video lên
-            if (move_uploaded_file($video, "../assets/img/video/" . $videoName)) {
+          
                 // Thêm tin tức vào cơ sở dữ liệu
                 $insert_query = "INSERT INTO news (Title, dereption, Image, Content, Video, Published_at, employeesId) VALUES (?, ?, ?, ?, ?, ?, ?)";
                 $stmt = $conn->prepare($insert_query);
@@ -207,9 +200,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 } else {
                     echo 'error_points';
                 }
-            } else {
-                echo 'upload_video_error';
-            }
+           
         } else {
             echo 'upload_image_error';
         }
@@ -220,7 +211,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $content = $_POST['Content']; // Content
         $ngtao = $_POST['emid']; // Người tạo
         $date = date("Y-m-d");
-    
+        $videoName = $_POST['video']; // Video name
         // Kiểm tra xem có file ảnh được gửi lên không
         if (isset($_FILES['anh']) && $_FILES['anh']['error'] == 0) {
             $file = $_FILES['anh']['tmp_name'];
@@ -251,19 +242,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     
         // Kiểm tra video nếu có
-        if (isset($_FILES['video']) && $_FILES['video']['error'] == 0) {
-            $video = $_FILES['video']['tmp_name'];
-            $videoName = $_FILES['video']['name'];
-            $videoType = $_FILES['video']['type'];
-    
-            // Kiểm tra định dạng video
-            if ($videoType != "video/mp4" && $videoType != "video/avi" && $videoType != "video/mov") {
-                echo 'invalid_video';
-                exit;
-            }
+        if (!empty($videoName)) {
+          
     
             // Xử lý tải video lên thư mục
-            if (move_uploaded_file($video, "../assets/img/video/" . $videoName)) {
+           
                 // Cập nhật tin tức với video
                 $update_query = "UPDATE news SET Title = ?, dereption = ?, Content = ?, Video = ?, Published_at = ?, employeesId = ? WHERE id = ?";
                 $stmt = $conn->prepare($update_query);
@@ -274,9 +257,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 } else {
                     echo 'error_points';
                 }
-            } else {
-                echo 'upload_video_error';
-            }
+           
         }
     }
      elseif ($action == "capnhatuser") {
@@ -2898,7 +2879,7 @@ ORDER BY departure_time.ngaykhoihanh ASC
         LEFT JOIN assignment_tour ON tour_schedule.id = assignment_tour.id_toursche
         LEFT JOIN employees ON assignment_tour.employid = employees.id
         LEFT JOIN departure_time ON tour_schedule.Date = departure_time.ngaykhoihanh
-        WHERE (tour_schedule.id = '$code' OR tour_schedule.Name LIKE '%$code%')";
+        WHERE (tour_schedule.id_tour = '$code' OR tour_schedule.Name LIKE '%$code%')";
     
         // Nếu có ngày khởi hành được nhập, thêm điều kiện lọc
         if (!empty($date)) {

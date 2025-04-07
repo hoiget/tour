@@ -86,27 +86,21 @@
    
 }
 
-
 .tour-cards {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 15px;
-    
-   
-
 }
 
 .tour-card {
-    width: 30%; /* Đảm bảo 3 phần tử trên 1 hàng */
     margin-bottom: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
     overflow: hidden;
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    
 }
+
 
 .tour-card img {
     width: 100%;
@@ -149,6 +143,7 @@ a{
     text-decoration: line-through;
     color: gray;
 }
+
 
 </style>
     <div class="container2">

@@ -71,7 +71,10 @@
   background-color: #5a6368;
   transform: translateY(-3px);
 }
-
+.carousel-item iframe {
+  max-width: 70%;
+  
+}
 @media (max-width: 767px) {
   #tintuc-detail h2 {
     font-size: 2rem;
@@ -80,6 +83,11 @@
   #tintuc-detail .tt {
     font-size: 16px;
   }
+  .carousel-item iframe {
+    max-width: 70%;
+    height: auto;
+  
+}
 }
 
 </style>
@@ -110,10 +118,10 @@
             newsHtml += `
               <div class="col-md-4 mb-4">
                 <div class="card news-card">
-                  <img src="./assets/img/gallery/${item.Image}" alt="${item.Title}" class="card-img-top">
+                  <a href="#" class="view-details" data-id="${item.id}"><img src="./assets/img/gallery/${item.Image}" alt="${item.Title}" class="card-img-top"></a>
                   <div class="card-body">
                     <h5 class="card-title">${item.Title}</h5>
-                    <a href="#" class="btn btn-primary view-details" data-id="${item.id}">Xem Chi Tiết</a>
+                    <center><a href="#" class="btn btn-primary view-details" data-id="${item.id}">Xem Chi Tiết</a></center>
                   </div>
                 </div>
               </div>`;
@@ -151,7 +159,7 @@
               <h2 style="color:black">${item.Title}</h2>
 
               <!-- Carousel for images and video -->
-              <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+              <div id="carouselExample" class="carousel slide" data-bs-ride="false">
                 <div class="carousel-inner">
                   <!-- Show images in the carousel -->
                   <div class="carousel-item active">
@@ -160,10 +168,13 @@
                   ${item.video ? `
                   <!-- Show video in the carousel -->
                   <div class="carousel-item">
-                    <video width="900" height="600" controls autoplay>
-                      <source src="./assets/img/video/${item.video}" type="video/mp4">
-                      Your browser does not support the video tag.
-                    </video>
+                     <iframe width="900" height="600" 
+                    src="https://www.youtube.com/embed/${item.video}?autoplay=1&rel=0" 
+                    title="YouTube video player" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
                   </div>
                   ` : ''}
                 </div>

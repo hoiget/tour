@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th4 02, 2025 lúc 07:00 AM
+-- Thời gian đã tạo: Th4 07, 2025 lúc 05:04 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -57,13 +57,8 @@ CREATE TABLE `assignment_tour` (
 --
 
 INSERT INTO `assignment_tour` (`idass`, `id_toursche`, `employid`) VALUES
-(13, 44, 7),
-(14, 10, 3),
-(15, 22, 3),
-(16, 53, 3),
-(17, 3, 7),
-(18, 4, 3),
-(32, 7, 3);
+(34, 196, 3),
+(35, 195, 7);
 
 -- --------------------------------------------------------
 
@@ -105,18 +100,18 @@ CREATE TABLE `booking_detail_tour` (
   `Total_pay` varchar(255) NOT NULL,
   `User_name` text NOT NULL,
   `Phone_num` text NOT NULL,
-  `Address` text NOT NULL
+  `Address` text NOT NULL,
+  `tenks` varchar(255) NOT NULL,
+  `tienks` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `booking_detail_tour`
 --
 
-INSERT INTO `booking_detail_tour` (`Sr_no`, `Booking_id`, `Tour_name`, `Price`, `Total_pay`, `User_name`, `Phone_num`, `Address`) VALUES
-(73, 183, 'Huế', '900000', '900000', 'Phuc Hung', '0987389890', 'sssss'),
-(75, 185, 'Tour Miền Tây Sông Nước', '1000000', '1000000', 'Phuc Hung', '0987389890', 'sssss'),
-(103, 213, 'Đà Nẵng', '1600000', '2240000', 'Phuc Hung', '0987389890', 'sssss'),
-(104, 214, 'Hà Nội', '1900000', '1900000', 'Phuc Hung', '0987389890', 'sssss');
+INSERT INTO `booking_detail_tour` (`Sr_no`, `Booking_id`, `Tour_name`, `Price`, `Total_pay`, `User_name`, `Phone_num`, `Address`, `tenks`, `tienks`) VALUES
+(116, 232, 'Phú Quốc', '4900000', '5895000', 'Phuc Hung', '0987389890', 'sssss', 'Aquasun Hotel', '1000000'),
+(117, 233, 'Đà Nẵng', '2400000', '3105300', 'Phuc Hung', '0987389890', 'sssss', 'Aquasun Hotel', '1000000');
 
 -- --------------------------------------------------------
 
@@ -170,10 +165,8 @@ CREATE TABLE `booking_ordertour` (
 --
 
 INSERT INTO `booking_ordertour` (`Booking_id`, `User_id`, `Tour_id`, `Departure_id`, `Arrival`, `Booking_status`, `Payment_status`, `refund`, `Datetime`, `participants`, `created_at`) VALUES
-(183, 1, 48, 57, 'Xe khách', '2', '2', 0, '2025-03-21', 1, '2025-03-11 09:29:22'),
-(185, 1, 51, 70, 'Xe khách', '2', '2', 0, '2025-03-30', 1, '2025-03-13 08:31:11'),
-(213, 1, 47, 55, 'Máy bay', '2', '1', 0, '2025-04-01', 2, '2025-03-19 06:32:34'),
-(214, 1, 46, 50, 'Máy bay', '2', '1', 0, '2025-03-24', 1, '2025-03-24 09:49:46');
+(232, 1, 50, 69, 'Xe khách', '2', '2', 0, '2025-04-13', 1, '2025-04-07 09:29:19'),
+(233, 1, 47, 54, 'Máy bay', '2', '2', 0, '2025-05-14', 1, '2025-04-07 09:32:43');
 
 -- --------------------------------------------------------
 
@@ -245,7 +238,8 @@ INSERT INTO `customer_assignment` (`id`, `customer_id`, `employee_id`, `assigned
 (18, 1, 2, '2025-03-14 09:53:21'),
 (21, 12, 9, '2025-03-14 10:27:48'),
 (22, 13, 9, '2025-03-15 03:08:38'),
-(24, 17, 9, '2025-04-01 01:08:09');
+(24, 17, 9, '2025-04-01 01:08:09'),
+(25, 20, 11, '2025-04-02 10:04:17');
 
 -- --------------------------------------------------------
 
@@ -265,65 +259,11 @@ CREATE TABLE `departure_dates` (
 --
 
 INSERT INTO `departure_dates` (`id`, `tour_id`, `departure_date`, `is_available`) VALUES
-(56, 46, '2025-03-31', 1),
-(57, 46, '2025-03-24', 1),
 (58, 47, '2025-04-08', 1),
-(59, 47, '2025-04-01', 1),
-(60, 47, '2025-02-25', 1),
-(61, 48, '2025-03-21', 1),
-(62, 48, '2025-03-28', 1),
-(63, 48, '2025-04-04', 1),
-(64, 49, '2025-03-18', 1),
-(65, 49, '2025-03-25', 1),
-(66, 49, '2025-04-01', 1),
-(67, 49, '2025-02-25', 1),
-(68, 50, '2025-03-30', 1),
-(69, 50, '2025-04-06', 1),
 (70, 50, '2025-04-13', 1),
-(71, 51, '2025-03-30', 1),
-(72, 51, '2025-04-06', 1),
-(73, 51, '2025-03-09', 1),
-(74, 52, '2025-02-28', 1),
-(75, 52, '2025-03-14', 1),
-(76, 52, '2025-03-21', 1),
-(77, 53, '2025-03-08', 1),
-(78, 53, '2025-03-15', 1),
-(79, 53, '2025-03-22', 1),
-(80, 54, '2025-03-01', 1),
-(81, 54, '2025-03-15', 1),
-(82, 54, '2025-03-22', 1),
-(83, 55, '2025-03-08', 1),
-(84, 55, '2025-03-15', 1),
-(85, 55, '2025-03-22', 1),
-(86, 56, '2025-03-14', 1),
-(87, 56, '2025-03-21', 1),
-(88, 56, '2025-03-28', 1),
-(89, 57, '2025-03-12', 1),
-(90, 57, '2025-03-19', 1),
-(91, 57, '2025-03-26', 1),
 (92, 57, '2025-04-16', 1),
-(93, 58, '2025-02-28', 1),
-(94, 58, '2025-03-14', 1),
-(95, 58, '2025-03-28', 1),
 (96, 59, '2025-07-10', 1),
-(97, 59, '2025-03-28', 1),
 (98, 59, '2025-04-18', 1),
-(99, 60, '2025-03-08', 1),
-(100, 60, '2025-03-15', 1),
-(101, 60, '2025-03-22', 1),
-(102, 61, '2025-03-01', 1),
-(103, 61, '2025-03-15', 1),
-(104, 61, '2025-03-29', 1),
-(105, 62, '2025-03-14', 1),
-(106, 62, '2025-03-28', 1),
-(107, 62, '2025-04-04', 1),
-(108, 63, '2025-03-07', 1),
-(109, 63, '2025-03-14', 1),
-(110, 63, '2025-03-28', 1),
-(111, 63, '2025-04-04', 1),
-(112, 64, '2025-03-10', 1),
-(113, 64, '2025-03-17', 1),
-(114, 64, '2025-03-24', 1),
 (115, 64, '2025-04-07', 1),
 (117, 46, '2025-05-09', 1),
 (121, 46, '2025-04-20', 1),
@@ -333,7 +273,63 @@ INSERT INTO `departure_dates` (`id`, `tour_id`, `departure_date`, `is_available`
 (125, 49, '2025-05-03', 1),
 (126, 52, '2025-04-18', 1),
 (127, 52, '2025-04-30', 1),
-(128, 52, '2025-05-01', 1);
+(128, 52, '2025-05-01', 1),
+(129, 47, '2025-05-14', 1),
+(130, 47, '2025-06-11', 1),
+(131, 47, '2025-12-19', 1),
+(132, 46, '2025-12-19', 1),
+(133, 48, '2025-12-26', 1),
+(134, 49, '2025-12-25', 1),
+(135, 49, '2025-07-11', 1),
+(136, 50, '2025-12-12', 1),
+(137, 50, '2025-07-17', 1),
+(138, 51, '2025-07-10', 1),
+(139, 51, '2025-06-05', 1),
+(140, 51, '2025-12-26', 1),
+(141, 52, '2025-12-31', 1),
+(142, 52, '2025-09-17', 1),
+(143, 64, '2025-06-12', 1),
+(144, 64, '2025-07-11', 1),
+(145, 64, '2025-12-24', 1),
+(146, 63, '2025-04-30', 1),
+(147, 63, '2025-07-18', 1),
+(148, 63, '2025-12-10', 1),
+(149, 62, '2025-04-30', 1),
+(150, 62, '2025-05-02', 1),
+(151, 62, '2025-11-01', 1),
+(152, 62, '2025-12-20', 1),
+(153, 61, '2025-04-30', 1),
+(154, 61, '2025-05-11', 1),
+(155, 61, '2025-12-20', 1),
+(156, 60, '2025-04-24', 1),
+(157, 60, '2025-05-04', 1),
+(158, 60, '2025-05-11', 1),
+(159, 60, '2025-12-20', 1),
+(160, 60, '2025-10-16', 1),
+(161, 58, '2025-04-29', 1),
+(162, 58, '2025-05-07', 1),
+(163, 58, '2025-07-17', 1),
+(164, 58, '2025-12-20', 1),
+(165, 57, '2025-09-12', 1),
+(166, 57, '2025-12-09', 1),
+(167, 53, '2025-04-25', 1),
+(168, 53, '2025-06-20', 1),
+(169, 53, '2025-12-27', 1),
+(170, 54, '2025-04-16', 1),
+(171, 54, '2025-07-18', 1),
+(172, 54, '2025-05-04', 1),
+(173, 54, '2025-12-20', 1),
+(174, 55, '2025-04-23', 1),
+(175, 55, '2025-06-13', 1),
+(176, 55, '2025-07-11', 1),
+(177, 55, '2025-11-21', 1),
+(178, 56, '2025-04-17', 1),
+(179, 56, '2025-04-30', 1),
+(180, 56, '2025-05-09', 1),
+(181, 56, '2025-06-20', 1),
+(182, 56, '2025-10-22', 1),
+(183, 59, '2025-04-25', 1),
+(184, 59, '2025-05-02', 1);
 
 -- --------------------------------------------------------
 
@@ -354,88 +350,12 @@ CREATE TABLE `departure_time` (
 --
 
 INSERT INTO `departure_time` (`id`, `id_tour`, `Day_depart`, `ngaykhoihanh`, `Orders`) VALUES
-(50, 46, '2 ngày 1 đêm', NULL, 0),
-(51, 46, '2 ngày 1 đêm', '2025-03-31', 3),
-(52, 46, '2 ngày 1 đêm', '2025-03-24', 3),
-(54, 47, '2 ngày 1 đêm', '2025-04-08', 0),
-(55, 47, '2 ngày 1 đêm', '2025-04-01', 11),
-(56, 47, '2 ngày 1 đêm', '2025-02-25', 0),
-(57, 48, '2 ngày 1 đêm', NULL, 0),
-(58, 48, '2 ngày 1 đêm', '2025-03-21', 1),
-(59, 48, '2 ngày 1 đêm', '2025-03-28', 1),
-(60, 48, '2 ngày 1 đêm', '2025-04-04', 12),
-(61, 49, '3 ngày 2 đêm', NULL, 0),
-(62, 49, '3 ngày 2 đêm', '2025-03-18', 0),
-(63, 49, '3 ngày 2 đêm', '2025-03-25', 0),
-(64, 49, '3 ngày 2 đêm', '2025-04-01', 1),
-(65, 49, '3 ngày 2 đêm', '2025-02-25', 0),
-(66, 50, '5 ngày 4 đêm', NULL, 0),
-(67, 50, '5 ngày 4 đêm', '2025-03-30', 4),
-(68, 50, '5 ngày 4 đêm', '2025-04-06', 0),
-(69, 50, '5 ngày 4 đêm', '2025-04-13', 0),
-(70, 51, '4 ngày 3 đêm', NULL, 0),
-(71, 51, '4 ngày 3 đêm', '2025-03-30', 2),
-(72, 51, '4 ngày 3 đêm', '2025-04-06', 0),
-(73, 51, '4 ngày 3 đêm', '2025-03-09', 0),
-(74, 52, '3 ngày 2 đêm', NULL, 0),
-(75, 52, '3 ngày 2 đêm', '2025-02-28', 0),
-(76, 52, '3 ngày 2 đêm', '2025-03-14', 0),
-(77, 52, '3 ngày 2 đêm', '2025-03-21', 0),
-(78, 53, '2 ngày 1 đêm', NULL, 0),
-(79, 53, '2 ngày 1 đêm', '2025-03-08', 0),
-(80, 53, '2 ngày 1 đêm', '2025-03-15', 0),
-(81, 53, '2 ngày 1 đêm', '2025-03-22', 1),
-(82, 54, '2 ngày 1 đêm', NULL, 0),
-(83, 54, '2 ngày 1 đêm', '2025-03-01', 0),
-(84, 54, '2 ngày 1 đêm', '2025-03-15', 0),
-(85, 54, '2 ngày 1 đêm', '2025-03-22', 0),
-(86, 55, '3 ngày 2 đêm', NULL, 0),
-(87, 55, '3 ngày 2 đêm', '2025-03-08', 0),
-(88, 55, '3 ngày 2 đêm', '2025-03-15', 0),
-(89, 55, '3 ngày 2 đêm', '2025-03-22', 0),
-(90, 56, '1 ngày', NULL, 0),
-(91, 56, '1 ngày', '2025-03-14', 0),
-(92, 56, '1 ngày', '2025-03-21', 0),
-(93, 56, '1 ngày', '2025-03-28', 0),
-(94, 57, '1 ngày', NULL, 0),
-(95, 57, '1 ngày', '2025-03-12', 0),
-(96, 57, '1 ngày', '2025-03-19', 0),
-(97, 57, '1 ngày', '2025-03-26', 0),
+(54, 47, '2 ngày 1 đêm', '2025-04-08', 2),
+(69, 50, '5 ngày 4 đêm', '2025-04-13', 2),
 (98, 57, '1 ngày', '2025-04-16', 0),
-(99, 58, '2 ngày 1 đêm', NULL, 0),
-(100, 58, '2 ngày 1 đêm', '2025-02-28', 0),
-(101, 58, '2 ngày 1 đêm', '2025-03-14', 0),
-(102, 58, '2 ngày 1 đêm', '2025-03-28', 0),
-(103, 59, '3 ngày 2 đêm', NULL, 0),
 (104, 59, '3 ngày 2 đêm', '2025-07-10', 0),
-(105, 59, '3 ngày 2 đêm', '2025-03-28', 0),
 (106, 59, '3 ngày 2 đêm', '2025-04-18', 0),
-(107, 60, '2 ngày 1 đêm', NULL, 0),
-(108, 60, '2 ngày 1 đêm', '2025-03-08', 0),
-(109, 60, '2 ngày 1 đêm', '2025-03-15', 0),
-(110, 60, '2 ngày 1 đêm', '2025-03-22', 0),
-(111, 61, '5 ngày 4 đêm', NULL, 0),
-(112, 61, '5 ngày 4 đêm', '2025-03-01', 0),
-(113, 61, '5 ngày 4 đêm', '2025-03-15', 0),
-(114, 61, '5 ngày 4 đêm', '2025-03-29', 0),
-(115, 62, '6 ngày 5 đêm', NULL, 0),
-(116, 62, '6 ngày 5 đêm', '2025-03-14', 0),
-(117, 62, '6 ngày 5 đêm', '2025-03-28', 0),
-(118, 62, '6 ngày 5 đêm', '2025-04-04', 1),
-(119, 63, '7 ngày 6 đêm', NULL, 0),
-(120, 63, '7 ngày 6 đêm', '2025-03-07', 0),
-(121, 63, '7 ngày 6 đêm', '2025-03-14', 0),
-(122, 63, '7 ngày 6 đêm', '2025-03-28', 0),
-(123, 63, '7 ngày 6 đêm', '2025-04-04', 6),
-(124, 64, '4 ngày 3 đêm', NULL, 0),
-(125, 64, '4 ngày 3 đêm', '2025-03-10', 0),
-(126, 64, '4 ngày 3 đêm', '2025-03-17', 0),
-(127, 64, '4 ngày 3 đêm', '2025-03-24', 0),
 (128, 64, '4 ngày 3 đêm', '2025-04-07', 0),
-(129, 52, '3 ngày 2 đêm', '2025-03-20', NULL),
-(130, 52, '3 ngày 2 đêm', '2025-03-27', NULL),
-(131, NULL, '2 ngày 1 đêm', '2025-04-18', NULL),
-(132, NULL, '2 ngày 1 đêm', '2025-04-19', NULL),
 (133, 46, '2 ngày 1 đêm', '2025-04-20', 0),
 (134, 46, '2 ngày 1 đêm', '2025-04-18', 0),
 (135, 48, '2 ngày 1 đêm', '2025-05-01', 0),
@@ -443,7 +363,63 @@ INSERT INTO `departure_time` (`id`, `id_tour`, `Day_depart`, `ngaykhoihanh`, `Or
 (137, 49, '3 ngày 2 đêm', '2025-05-03', 0),
 (138, 52, '3 ngày 2 đêm', '2025-04-18', 0),
 (139, 52, '3 ngày 2 đêm', '2025-04-30', 0),
-(140, 52, '3 ngày 2 đêm', '2025-05-01', 0);
+(140, 52, '3 ngày 2 đêm', '2025-05-01', 2),
+(141, 47, '2 ngày 1 đêm', '2025-05-14', 1),
+(142, 47, '2 ngày 1 đêm', '2025-06-11', 0),
+(143, 47, '2 ngày 1 đêm', '2025-12-19', 0),
+(144, 46, '2 ngày 1 đêm', '2025-12-19', 0),
+(145, 48, '2 ngày 1 đêm', '2025-12-26', 0),
+(146, 49, '3 ngày 2 đêm', '2025-12-25', 0),
+(147, 49, '3 ngày 2 đêm', '2025-07-11', 0),
+(148, 50, '5 ngày 4 đêm', '2025-12-12', 0),
+(149, 50, '5 ngày 4 đêm', '2025-07-17', 0),
+(150, 51, '4 ngày 3 đêm', '2025-07-10', 0),
+(151, 51, '4 ngày 3 đêm', '2025-06-05', 0),
+(152, 51, '4 ngày 3 đêm', '2025-12-26', 0),
+(153, 52, '3 ngày 2 đêm', '2025-12-31', 0),
+(154, 52, '3 ngày 2 đêm', '2025-09-17', 0),
+(155, 64, '4 ngày 3 đêm', '2025-06-12', 0),
+(156, 64, '4 ngày 3 đêm', '2025-07-11', 0),
+(157, 64, '4 ngày 3 đêm', '2025-12-24', 0),
+(158, 63, '7 ngày 6 đêm', '2025-04-30', 0),
+(159, 63, '7 ngày 6 đêm', '2025-07-18', 0),
+(160, 63, '7 ngày 6 đêm', '2025-12-10', 0),
+(161, 62, '6 ngày 5 đêm', '2025-04-30', 0),
+(162, 62, '6 ngày 5 đêm', '2025-05-02', 0),
+(163, 62, '6 ngày 5 đêm', '2025-11-01', 0),
+(164, 62, '6 ngày 5 đêm', '2025-12-20', 0),
+(165, 61, '5 ngày 4 đêm', '2025-04-30', 0),
+(166, 61, '5 ngày 4 đêm', '2025-05-11', 0),
+(167, 61, '5 ngày 4 đêm', '2025-12-20', 0),
+(168, 60, '2 ngày 1 đêm', '2025-04-24', 0),
+(169, 60, '2 ngày 1 đêm', '2025-05-04', 0),
+(170, 60, '2 ngày 1 đêm', '2025-05-11', 0),
+(171, 60, '2 ngày 1 đêm', '2025-12-20', 0),
+(172, 60, '2 ngày 1 đêm', '2025-10-16', 0),
+(173, 58, '2 ngày 1 đêm', '2025-04-29', 0),
+(174, 58, '2 ngày 1 đêm', '2025-05-07', 0),
+(175, 58, '2 ngày 1 đêm', '2025-07-17', 0),
+(176, 58, '2 ngày 1 đêm', '2025-12-20', 0),
+(177, 57, '1 ngày', '2025-09-12', 0),
+(178, 57, '1 ngày', '2025-12-09', 0),
+(179, 53, '2 ngày 1 đêm', '2025-04-25', 0),
+(180, 53, '2 ngày 1 đêm', '2025-06-20', 0),
+(181, 53, '2 ngày 1 đêm', '2025-12-27', 0),
+(182, 54, '2 ngày 1 đêm', '2025-04-16', 0),
+(183, 54, '2 ngày 1 đêm', '2025-07-18', 0),
+(184, 54, '2 ngày 1 đêm', '2025-05-04', 0),
+(185, 54, '2 ngày 1 đêm', '2025-12-20', 0),
+(186, 55, '3 ngày 2 đêm', '2025-04-23', 0),
+(187, 55, '3 ngày 2 đêm', '2025-06-13', 0),
+(188, 55, '3 ngày 2 đêm', '2025-07-11', 0),
+(189, 55, '3 ngày 2 đêm', '2025-11-21', 0),
+(190, 56, '1 ngày', '2025-04-17', 0),
+(191, 56, '1 ngày', '2025-04-30', 0),
+(192, 56, '1 ngày', '2025-05-09', 0),
+(193, 56, '1 ngày', '2025-06-20', 0),
+(194, 56, '1 ngày', '2025-10-22', 0),
+(195, 59, '3 ngày 2 đêm', '2025-04-25', 0),
+(196, 59, '3 ngày 2 đêm', '2025-05-02', 0);
 
 -- --------------------------------------------------------
 
@@ -672,6 +648,7 @@ CREATE TABLE `news` (
   `dereption` text NOT NULL,
   `Image` varchar(255) DEFAULT NULL,
   `Content` text DEFAULT NULL,
+  `video` varchar(255) NOT NULL,
   `Published_at` date DEFAULT NULL,
   `employeesId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -680,12 +657,15 @@ CREATE TABLE `news` (
 -- Đang đổ dữ liệu cho bảng `news`
 --
 
-INSERT INTO `news` (`id`, `Title`, `dereption`, `Image`, `Content`, `Published_at`, `employeesId`) VALUES
-(2, 'Khám phá kỳ quan thế giới tại Việt Nam\r\nViệt Nam tự hào với nhiều kỳ quan thiên nhiên được công nhận trên toàn thế giới.', '1. Lên kế hoạch và đặt trước\r\nLên kế hoạch sớm giúp bạn có thời gian so sánh giá và đặt vé máy bay, khách sạn, hoặc tour du lịch với mức giá ưu đãi nhất. Các ưu đãi và giảm giá thường xuất hiện khi bạn đặt trước từ vài tháng, đặc biệt vào những dịp thấp điểm du lịch.\r\n\r\n2. Chọn phương tiện di chuyển tiết kiệm\r\nNgoài việc sử dụng máy bay giá rẻ, bạn cũng có thể cân nhắc các phương tiện như tàu, xe buýt hoặc xe khách. Những phương tiện này không chỉ tiết kiệm chi phí mà còn mang đến trải nghiệm thú vị về văn hóa địa phương.\r\n\r\n3. Ăn uống địa phương thay vì nhà hàng du lịch\r\nThay vì ăn tại các nhà hàng dành cho khách du lịch, bạn có thể thử các quán ăn bình dân của người dân địa phương. Giá cả tại các quán này thường rẻ hơn nhiều và bạn còn có thể thưởng thức những món ăn độc đáo, truyền thống.\r\n\r\n4. Tận dụng các chương trình giảm giá và ưu đãi\r\nNhiều địa điểm du lịch, bảo tàng, hoặc công viên giải trí cung cấp các chương trình giảm giá vào những ngày nhất định trong tuần hoặc cho khách du lịch theo nhóm. Hãy tìm hiểu trước và lên kế hoạch tham quan vào những thời điểm này để tiết kiệm chi phí.\r\n\r\n5. Chọn những điểm đến ít đông đúc\r\nThay vì đến những điểm du lịch nổi tiếng, bạn có thể lựa chọn các địa điểm ít người biết đến. Những nơi này không chỉ rẻ hơn mà còn giúp bạn tránh khỏi cảnh đông đúc, quá tải, mang đến trải nghiệm yên bình và thú vị hơn.\r\n\r\nHy vọng với những mẹo này, bạn sẽ có một chuyến du lịch đáng nhớ mà không phải lo lắng về chi phí!', 'gallery-3.jpg', 'Việt Nam là điểm đến lý tưởng với phong cảnh thiên nhiên tuyệt đẹp, từ Vịnh Hạ Long đến động Phong Nha. Đây là nơi bạn có thể trải nghiệm vẻ đẹp hùng vĩ và văn hóa độc đáo của đất nước hình chữ S.', '2025-01-05', 1),
-(3, '5 mẹo du lịch tiết kiệm chi ph.,Học cách tiết kiệm khi đi du lịch mà vẫn tận hưởng trọn vẹn hành trình.', '1. Lên kế hoạch và đặt trước\r\nViệc lên kế hoạch du lịch sớm giúp bạn tiết kiệm chi phí cho các dịch vụ như vé máy bay, khách sạn và các hoạt động tham quan. Đặt vé máy bay và phòng khách sạn trước ít nhất 1-2 tháng sẽ giúp bạn tìm được các ưu đãi hấp dẫn và tránh tình trạng giá tăng vào giờ chót.\r\n\r\n2. Chọn phương tiện di chuyển giá rẻ\r\nThay vì lựa chọn các hãng hàng không đắt đỏ, bạn có thể tham khảo các chuyến bay giá rẻ hoặc các phương tiện như tàu hỏa, xe buýt, hoặc xe thuê. Những phương tiện này thường có chi phí thấp hơn, đặc biệt khi bạn di chuyển trong các khu vực gần nhau.\r\n\r\n3. Ở trong các hostel hoặc nhà nghỉ\r\nKhách sạn 5 sao có thể mang đến trải nghiệm sang trọng, nhưng giá cả lại rất cao. Thay vào đó, bạn có thể chọn ở trong các hostel hoặc nhà nghỉ bình dân. Đây không chỉ là giải pháp tiết kiệm chi phí mà còn giúp bạn kết nối với những du khách khác, tạo ra những trải nghiệm thú vị.\r\n\r\n4. Ăn uống tại các quán địa phương\r\nĂn tại các nhà hàng cao cấp hoặc khu vực du lịch nổi tiếng sẽ khiến chi phí ăn uống của bạn tăng lên đáng kể. Hãy thử ăn tại các quán ăn địa phương, nơi bạn có thể thưởng thức những món ăn đặc sản với giá cả hợp lý hơn rất nhiều.\r\n\r\n5. Tận dụng các ưu đãi và khuyến mãi\r\nTrước chuyến đi, hãy tìm hiểu và sử dụng các ưu đãi du lịch như thẻ giảm giá, combo vé tham quan hoặc các chương trình khuyến mãi từ các công ty du lịch. Nhiều bảo tàng, công viên, hay điểm tham quan cũng có giảm giá vào những ngày đặc biệt hoặc cho nhóm đông người.\r\n\r\nVới những mẹo trên, bạn có thể có một chuyến du lịch thú vị mà không lo bị vượt quá ngân sách!', 'gallery-2.jpg', 'Du lịch không nhất thiết phải tốn kém. Chúng tôi chia sẻ những mẹo hữu ích giúp bạn tiết kiệm từ việc chọn thời điểm đặt vé, tìm khách sạn giá rẻ, đến các phương án ăn uống và mua sắm hợp lý.', '2025-01-04', 1),
-(4, 'Top 10 điểm đến không thể bỏ qua năm 2025', 'Toulouse, Pháp\r\nThành phố này nổi tiếng với cảnh quan sông Garonne thơ mộng và nền văn hóa nghệ thuật phong phú. Toulouse được đánh giá là điểm đến lý tưởng cho kỳ nghỉ cuối tuần hoàn hảo. \r\nNYPOST\r\n\r\nCameroon\r\nVới bãi biển đẹp, công viên quốc gia ít người biết đến và cuộc sống về đêm sôi động, Cameroon là điểm đến hấp dẫn cho những ai tìm kiếm trải nghiệm mới mẻ. \r\nNYPOST\r\n\r\nLow Country và Coastal Georgia, Hoa Kỳ\r\nKhu vực này nổi tiếng với lịch sử phong phú và nền ẩm thực đa dạng, đặc biệt là các món ăn hải sản tươi ngon. \r\nNYPOST\r\n\r\nBoise, Idaho\r\nThành phố này kết hợp giữa di sản công nghiệp và văn hóa thủ công, mang đến trải nghiệm độc đáo cho du khách. \r\nNYPOST\r\n\r\nMount Hood và Columbia River Gorge, Oregon, Hoa Kỳ\r\nVới cảnh quan thiên nhiên hùng vĩ, khu vực này là thiên đường cho những ai yêu thích hoạt động ngoài trời như leo núi và đi bộ đường dài. \r\nNYPOST\r\n\r\nReykjavik, Iceland\r\nThủ đô của Iceland nổi tiếng với cảnh quan thiên nhiên độc đáo và các hoạt động như ngắm cực quang và tắm suối nước nóng. \r\nCRYSTAL BAY\r\n\r\nSiwa Oasis, Ai Cập\r\nNằm ở sa mạc phía tây Ai Cập, Siwa Oasis là điểm đến ít người biết đến với cảnh quan sa mạc hùng vĩ và nền văn hóa độc đáo. \r\nCRYSTAL BAY\r\n\r\nTasmania, Úc\r\nVới vẻ đẹp hoang sơ và nền văn hóa phong phú, Tasmania là điểm đến lý tưởng cho những ai yêu thích thiên nhiên và khám phá. \r\nVOGUE\r\n\r\nKyoto, Nhật Bản\r\nThành phố này nổi tiếng với các đền chùa cổ kính và mùa hoa anh đào nở rộ, mang đến trải nghiệm văn hóa độc đáo. \r\nVOGUE\r\n\r\nInner Hebrides, Scotland\r\nQuần đảo này ít người biết đến với cảnh quan thiên nhiên hoang sơ và nền văn hóa Scotland đặc trưng. \r\nVOGUE\r\n\r\nPatmos, Hy Lạp\r\nHòn đảo này nổi tiếng với lịch sử lâu dài và cảnh quan biển đẹp, là điểm đến lý tưởng cho những ai tìm kiếm sự yên bình. \r\nVOGUE\r\n\r\nHy vọng danh sách trên sẽ giúp bạn lựa chọn được điểm đến phù hợp cho chuyến du lịch trong năm 2025.', 'gallery-4.jpg', 'Từ các thành phố sôi động đến những vùng đất yên bình, năm 2025 mang đến cơ hội khám phá những địa điểm tuyệt vời. Danh sách này bao gồm các địa danh nổi bật trên toàn cầu, hứa hẹn tạo nên những kỷ niệm đáng nhớ.', '2025-01-03', 1),
-(5, 'Làm thế nào để có một chuyến đi an toàn?Những lưu ý quan trọng để đảm bảo an toàn trong mỗi chuyến hành trình.', '1. Lên kế hoạch chi tiết\r\nTìm hiểu về điểm đến: Trước khi đi, nghiên cứu về địa điểm bạn sẽ đến, bao gồm các vấn đề an ninh, khí hậu, văn hóa, và các quy định địa phương.\r\nThực hiện đăng ký thông tin chuyến đi: Nếu đi nước ngoài, bạn có thể đăng ký thông tin chuyến đi tại đại sứ quán hoặc lãnh sự quán để nhận hỗ trợ nếu cần.\r\n2. Mua bảo hiểm du lịch\r\nBảo hiểm y tế và tai nạn: Mua bảo hiểm du lịch bao gồm bảo hiểm y tế, bảo hiểm tai nạn và mất hành lý. Điều này giúp bạn tránh những chi phí phát sinh bất ngờ trong trường hợp xảy ra sự cố.\r\n3. Giữ an toàn tài sản\r\nMang ít tiền mặt: Chỉ mang một ít tiền mặt và sử dụng thẻ tín dụng hoặc thẻ ghi nợ để thanh toán khi cần.\r\nGiữ tài sản an toàn: Sử dụng túi xách hoặc ba lô chống trộm và luôn giữ đồ đạc quan trọng (hộ chiếu, tiền bạc, thẻ tín dụng) bên mình hoặc trong két sắt tại khách sạn.\r\n4. Tuân thủ các quy định an ninh\r\nKiểm tra tình hình an ninh địa phương: Trước khi đi, tìm hiểu xem có bất kỳ cảnh báo an ninh hoặc tình hình khẩn cấp nào ở địa phương không.\r\nTuân thủ các quy định về an ninh tại sân bay: Đảm bảo bạn tuân thủ các quy định về hành lý xách tay và không mang theo các vật phẩm bị cấm.\r\n5. Sức khỏe trong chuyến đi\r\nMang theo thuốc cần thiết: Nếu bạn có bệnh lý hoặc cần thuốc đặc biệt, hãy mang theo đủ thuốc và các giấy tờ liên quan.\r\nCập nhật tiêm phòng: Đảm bảo bạn đã tiêm phòng đầy đủ theo yêu cầu của quốc gia bạn đến, đặc biệt là khi đi du lịch tới các khu vực có nguy cơ cao (ví dụ: sốt xuất huyết, sốt rét).\r\n6. Giữ liên lạc thường xuyên\r\nChia sẻ kế hoạch chuyến đi: Chia sẻ với người thân, bạn bè về lịch trình chuyến đi, nơi bạn ở và các số điện thoại khẩn cấp.\r\nMạng di động và kết nối: Đảm bảo bạn có phương thức liên lạc với gia đình và bạn bè trong trường hợp cần thiết.\r\n7. Chú ý khi di chuyển\r\nSử dụng phương tiện công cộng an toàn: Khi di chuyển trong thành phố, hãy chọn phương tiện công cộng hoặc taxi uy tín. Tránh di chuyển một mình vào ban đêm ở những khu vực vắng vẻ.\r\nCảnh giác với lừa đảo: Cảnh giác với các hình thức lừa đảo, đặc biệt là khi đi du lịch một mình hoặc tới những nơi đông đúc.\r\n8. Giữ sức khỏe thể chất và tinh thần\r\nUống đủ nước và ăn uống hợp lý: Tránh ăn thực phẩm không rõ nguồn gốc, và luôn uống đủ nước để duy trì sức khỏe.\r\nNghỉ ngơi đầy đủ: Chuyến đi sẽ thú vị hơn nếu bạn nghỉ ngơi đầy đủ, đặc biệt là khi tham gia các hoạt động ngoài trời hoặc du lịch mạo hiểm.\r\nBằng cách chuẩn bị tốt và tuân thủ các lời khuyên trên, bạn sẽ có một chuyến đi an toàn và tận hưởng trọn vẹn hành trình của mình.', 'gallery-5.jpg', 'An toàn là yếu tố hàng đầu khi đi du lịch. Bài viết cung cấp các lời khuyên thiết thực để bạn luôn an tâm trên mọi hành trình, từ việc chuẩn bị hành lý đến cách ứng phó khi gặp sự cố bất ngờ.g', '2025-01-12', 1),
-(8, 'Xu Hướng Du Lịch 2025: Những Tour Hot Nhất Trong Năm', 'Du lịch năm 2025 đang chứng kiến sự thay đổi mạnh mẽ với các xu hướng mới, từ những điểm đến độc đáo đến những trải nghiệm du lịch bền vững. Hãy cùng khám phá những tour hot nhất trong năm mà bạn không nên bỏ lỡ!\r\n\r\n1. Du Lịch Trải Nghiệm Sinh Thái - Côn Đảo\r\n\r\n\r\nCôn Đảo ngày càng trở thành điểm đến thu hút với vẻ đẹp hoang sơ, biển xanh trong và hệ sinh thái phong phú. Du khách có thể tham gia các hoạt động như lặn biển ngắm san hô, thăm rừng nguyên sinh và tìm hiểu lịch sử tại nhà tù Côn Đảo.\r\n\r\n2. Tour Cao Nguyên Mộc Châu - Khám Phá Vùng Đất Hoa\r\n\r\n\r\nMộc Châu không chỉ nổi tiếng với những đồi chè xanh bát ngát mà còn là thiên đường của các loài hoa nở quanh năm. Tháng 1-3 là mùa hoa mận, hoa đào khoe sắc rực rỡ, tạo nên bức tranh thiên nhiên tuyệt đẹp.\r\n\r\n3. Du Lịch Cao Cấp Tại Maldives\r\n\r\n\r\nMaldives vẫn giữ vững vị trí là điểm đến du lịch nghỉ dưỡng sang trọng hàng đầu thế giới. Những biệt thự trên mặt nước, bãi biển cát trắng và dịch vụ 5 sao là lựa chọn lý tưởng cho kỳ nghỉ xa hoa.\r\n\r\n4. Hành Trình Khám Phá Nhật Bản Mùa Hoa Anh Đào\r\n\r\n\r\nDu lịch Nhật Bản vào mùa xuân luôn thu hút đông đảo du khách bởi vẻ đẹp của hoa anh đào. Các thành phố như Tokyo, Kyoto, Osaka đều tổ chức lễ hội hoa anh đào với không gian lãng mạn, đậm chất văn hóa.\r\n\r\n5. Hành Trình Du Lịch Hàn Quốc - Trải Nghiệm Văn Hóa Kpop\r\n\r\n\r\nHàn Quốc không chỉ nổi tiếng với ẩm thực phong phú mà còn là thiên đường dành cho fan Kpop. Du khách có thể tham quan các địa điểm quay MV, ghé thăm các quán cà phê của thần tượng và tận hưởng không khí sôi động tại Seoul.\r\n\r\nXu hướng du lịch năm nay tập trung vào trải nghiệm thiên nhiên, văn hóa và nghỉ dưỡng đẳng cấp. Hãy lên kế hoạch ngay hôm nay để không bỏ lỡ những chuyến đi đáng nhớ!\r\n\r\n', 'tt.jpg', 'Xu Hướng Du Lịch 2025', '2025-03-06', 1);
+INSERT INTO `news` (`id`, `Title`, `dereption`, `Image`, `Content`, `video`, `Published_at`, `employeesId`) VALUES
+(2, 'Khám phá kỳ quan thế giới tại Việt Nam\r\nViệt Nam tự hào với nhiều kỳ quan thiên nhiên được công nhận trên toàn thế giới.', '1. Lên kế hoạch và đặt trước\r\nLên kế hoạch sớm giúp bạn có thời gian so sánh giá và đặt vé máy bay, khách sạn, hoặc tour du lịch với mức giá ưu đãi nhất. Các ưu đãi và giảm giá thường xuất hiện khi bạn đặt trước từ vài tháng, đặc biệt vào những dịp thấp điểm du lịch.\r\n\r\n2. Chọn phương tiện di chuyển tiết kiệm\r\nNgoài việc sử dụng máy bay giá rẻ, bạn cũng có thể cân nhắc các phương tiện như tàu, xe buýt hoặc xe khách. Những phương tiện này không chỉ tiết kiệm chi phí mà còn mang đến trải nghiệm thú vị về văn hóa địa phương.\r\n\r\n3. Ăn uống địa phương thay vì nhà hàng du lịch\r\nThay vì ăn tại các nhà hàng dành cho khách du lịch, bạn có thể thử các quán ăn bình dân của người dân địa phương. Giá cả tại các quán này thường rẻ hơn nhiều và bạn còn có thể thưởng thức những món ăn độc đáo, truyền thống.\r\n\r\n4. Tận dụng các chương trình giảm giá và ưu đãi\r\nNhiều địa điểm du lịch, bảo tàng, hoặc công viên giải trí cung cấp các chương trình giảm giá vào những ngày nhất định trong tuần hoặc cho khách du lịch theo nhóm. Hãy tìm hiểu trước và lên kế hoạch tham quan vào những thời điểm này để tiết kiệm chi phí.\r\n\r\n5. Chọn những điểm đến ít đông đúc\r\nThay vì đến những điểm du lịch nổi tiếng, bạn có thể lựa chọn các địa điểm ít người biết đến. Những nơi này không chỉ rẻ hơn mà còn giúp bạn tránh khỏi cảnh đông đúc, quá tải, mang đến trải nghiệm yên bình và thú vị hơn.\r\n\r\nHy vọng với những mẹo này, bạn sẽ có một chuyến du lịch đáng nhớ mà không phải lo lắng về chi phí!', 'gallery-3.jpg', 'Việt Nam là điểm đến lý tưởng với phong cảnh thiên nhiên tuyệt đẹp, từ Vịnh Hạ Long đến động Phong Nha. Đây là nơi bạn có thể trải nghiệm vẻ đẹp hùng vĩ và văn hóa độc đáo của đất nước hình chữ S.', 'MZarE7xP6rk', '2025-04-06', 1),
+(3, '5 mẹo du lịch tiết kiệm chi ph.,Học cách tiết kiệm khi đi du lịch mà vẫn tận hưởng trọn vẹn hành trình.', '1. Lên kế hoạch và đặt trước\r\nViệc lên kế hoạch du lịch sớm giúp bạn tiết kiệm chi phí cho các dịch vụ như vé máy bay, khách sạn và các hoạt động tham quan. Đặt vé máy bay và phòng khách sạn trước ít nhất 1-2 tháng sẽ giúp bạn tìm được các ưu đãi hấp dẫn và tránh tình trạng giá tăng vào giờ chót.\r\n\r\n2. Chọn phương tiện di chuyển giá rẻ\r\nThay vì lựa chọn các hãng hàng không đắt đỏ, bạn có thể tham khảo các chuyến bay giá rẻ hoặc các phương tiện như tàu hỏa, xe buýt, hoặc xe thuê. Những phương tiện này thường có chi phí thấp hơn, đặc biệt khi bạn di chuyển trong các khu vực gần nhau.\r\n\r\n3. Ở trong các hostel hoặc nhà nghỉ\r\nKhách sạn 5 sao có thể mang đến trải nghiệm sang trọng, nhưng giá cả lại rất cao. Thay vào đó, bạn có thể chọn ở trong các hostel hoặc nhà nghỉ bình dân. Đây không chỉ là giải pháp tiết kiệm chi phí mà còn giúp bạn kết nối với những du khách khác, tạo ra những trải nghiệm thú vị.\r\n\r\n4. Ăn uống tại các quán địa phương\r\nĂn tại các nhà hàng cao cấp hoặc khu vực du lịch nổi tiếng sẽ khiến chi phí ăn uống của bạn tăng lên đáng kể. Hãy thử ăn tại các quán ăn địa phương, nơi bạn có thể thưởng thức những món ăn đặc sản với giá cả hợp lý hơn rất nhiều.\r\n\r\n5. Tận dụng các ưu đãi và khuyến mãi\r\nTrước chuyến đi, hãy tìm hiểu và sử dụng các ưu đãi du lịch như thẻ giảm giá, combo vé tham quan hoặc các chương trình khuyến mãi từ các công ty du lịch. Nhiều bảo tàng, công viên, hay điểm tham quan cũng có giảm giá vào những ngày đặc biệt hoặc cho nhóm đông người.\r\n\r\nVới những mẹo trên, bạn có thể có một chuyến du lịch thú vị mà không lo bị vượt quá ngân sách!', 'gallery-2.jpg', 'Du lịch không nhất thiết phải tốn kém. Chúng tôi chia sẻ những mẹo hữu ích giúp bạn tiết kiệm từ việc chọn thời điểm đặt vé, tìm khách sạn giá rẻ, đến các phương án ăn uống và mua sắm hợp lý.', 'MVrwPSTW5Vo', '2025-04-06', 1),
+(4, 'Top 10 điểm đến không thể bỏ qua năm 2025', 'Toulouse, Pháp\r\nThành phố này nổi tiếng với cảnh quan sông Garonne thơ mộng và nền văn hóa nghệ thuật phong phú. Toulouse được đánh giá là điểm đến lý tưởng cho kỳ nghỉ cuối tuần hoàn hảo. \r\nNYPOST\r\n\r\nCameroon\r\nVới bãi biển đẹp, công viên quốc gia ít người biết đến và cuộc sống về đêm sôi động, Cameroon là điểm đến hấp dẫn cho những ai tìm kiếm trải nghiệm mới mẻ. \r\nNYPOST\r\n\r\nLow Country và Coastal Georgia, Hoa Kỳ\r\nKhu vực này nổi tiếng với lịch sử phong phú và nền ẩm thực đa dạng, đặc biệt là các món ăn hải sản tươi ngon. \r\nNYPOST\r\n\r\nBoise, Idaho\r\nThành phố này kết hợp giữa di sản công nghiệp và văn hóa thủ công, mang đến trải nghiệm độc đáo cho du khách. \r\nNYPOST\r\n\r\nMount Hood và Columbia River Gorge, Oregon, Hoa Kỳ\r\nVới cảnh quan thiên nhiên hùng vĩ, khu vực này là thiên đường cho những ai yêu thích hoạt động ngoài trời như leo núi và đi bộ đường dài. \r\nNYPOST\r\n\r\nReykjavik, Iceland\r\nThủ đô của Iceland nổi tiếng với cảnh quan thiên nhiên độc đáo và các hoạt động như ngắm cực quang và tắm suối nước nóng. \r\nCRYSTAL BAY\r\n\r\nSiwa Oasis, Ai Cập\r\nNằm ở sa mạc phía tây Ai Cập, Siwa Oasis là điểm đến ít người biết đến với cảnh quan sa mạc hùng vĩ và nền văn hóa độc đáo. \r\nCRYSTAL BAY\r\n\r\nTasmania, Úc\r\nVới vẻ đẹp hoang sơ và nền văn hóa phong phú, Tasmania là điểm đến lý tưởng cho những ai yêu thích thiên nhiên và khám phá. \r\nVOGUE\r\n\r\nKyoto, Nhật Bản\r\nThành phố này nổi tiếng với các đền chùa cổ kính và mùa hoa anh đào nở rộ, mang đến trải nghiệm văn hóa độc đáo. \r\nVOGUE\r\n\r\nInner Hebrides, Scotland\r\nQuần đảo này ít người biết đến với cảnh quan thiên nhiên hoang sơ và nền văn hóa Scotland đặc trưng. \r\nVOGUE\r\n\r\nPatmos, Hy Lạp\r\nHòn đảo này nổi tiếng với lịch sử lâu dài và cảnh quan biển đẹp, là điểm đến lý tưởng cho những ai tìm kiếm sự yên bình. \r\nVOGUE\r\n\r\nHy vọng danh sách trên sẽ giúp bạn lựa chọn được điểm đến phù hợp cho chuyến du lịch trong năm 2025.', 'gallery-4.jpg', 'Từ các thành phố sôi động đến những vùng đất yên bình, năm 2025 mang đến cơ hội khám phá những địa điểm tuyệt vời. Danh sách này bao gồm các địa danh nổi bật trên toàn cầu, hứa hẹn tạo nên những kỷ niệm đáng nhớ.', 'oguOqdI8Fhs', '2025-04-06', 1),
+(5, 'Làm thế nào để có một chuyến đi an toàn?Những lưu ý quan trọng để đảm bảo an toàn trong mỗi chuyến hành trình.', '1. Lên kế hoạch chi tiết\r\nTìm hiểu về điểm đến: Trước khi đi, nghiên cứu về địa điểm bạn sẽ đến, bao gồm các vấn đề an ninh, khí hậu, văn hóa, và các quy định địa phương.\r\nThực hiện đăng ký thông tin chuyến đi: Nếu đi nước ngoài, bạn có thể đăng ký thông tin chuyến đi tại đại sứ quán hoặc lãnh sự quán để nhận hỗ trợ nếu cần.\r\n2. Mua bảo hiểm du lịch\r\nBảo hiểm y tế và tai nạn: Mua bảo hiểm du lịch bao gồm bảo hiểm y tế, bảo hiểm tai nạn và mất hành lý. Điều này giúp bạn tránh những chi phí phát sinh bất ngờ trong trường hợp xảy ra sự cố.\r\n3. Giữ an toàn tài sản\r\nMang ít tiền mặt: Chỉ mang một ít tiền mặt và sử dụng thẻ tín dụng hoặc thẻ ghi nợ để thanh toán khi cần.\r\nGiữ tài sản an toàn: Sử dụng túi xách hoặc ba lô chống trộm và luôn giữ đồ đạc quan trọng (hộ chiếu, tiền bạc, thẻ tín dụng) bên mình hoặc trong két sắt tại khách sạn.\r\n4. Tuân thủ các quy định an ninh\r\nKiểm tra tình hình an ninh địa phương: Trước khi đi, tìm hiểu xem có bất kỳ cảnh báo an ninh hoặc tình hình khẩn cấp nào ở địa phương không.\r\nTuân thủ các quy định về an ninh tại sân bay: Đảm bảo bạn tuân thủ các quy định về hành lý xách tay và không mang theo các vật phẩm bị cấm.\r\n5. Sức khỏe trong chuyến đi\r\nMang theo thuốc cần thiết: Nếu bạn có bệnh lý hoặc cần thuốc đặc biệt, hãy mang theo đủ thuốc và các giấy tờ liên quan.\r\nCập nhật tiêm phòng: Đảm bảo bạn đã tiêm phòng đầy đủ theo yêu cầu của quốc gia bạn đến, đặc biệt là khi đi du lịch tới các khu vực có nguy cơ cao (ví dụ: sốt xuất huyết, sốt rét).\r\n6. Giữ liên lạc thường xuyên\r\nChia sẻ kế hoạch chuyến đi: Chia sẻ với người thân, bạn bè về lịch trình chuyến đi, nơi bạn ở và các số điện thoại khẩn cấp.\r\nMạng di động và kết nối: Đảm bảo bạn có phương thức liên lạc với gia đình và bạn bè trong trường hợp cần thiết.\r\n7. Chú ý khi di chuyển\r\nSử dụng phương tiện công cộng an toàn: Khi di chuyển trong thành phố, hãy chọn phương tiện công cộng hoặc taxi uy tín. Tránh di chuyển một mình vào ban đêm ở những khu vực vắng vẻ.\r\nCảnh giác với lừa đảo: Cảnh giác với các hình thức lừa đảo, đặc biệt là khi đi du lịch một mình hoặc tới những nơi đông đúc.\r\n8. Giữ sức khỏe thể chất và tinh thần\r\nUống đủ nước và ăn uống hợp lý: Tránh ăn thực phẩm không rõ nguồn gốc, và luôn uống đủ nước để duy trì sức khỏe.\r\nNghỉ ngơi đầy đủ: Chuyến đi sẽ thú vị hơn nếu bạn nghỉ ngơi đầy đủ, đặc biệt là khi tham gia các hoạt động ngoài trời hoặc du lịch mạo hiểm.\r\nBằng cách chuẩn bị tốt và tuân thủ các lời khuyên trên, bạn sẽ có một chuyến đi an toàn và tận hưởng trọn vẹn hành trình của mình.', 'gallery-5.jpg', 'An toàn là yếu tố hàng đầu khi đi du lịch. Bài viết cung cấp các lời khuyên thiết thực để bạn luôn an tâm trên mọi hành trình, từ việc chuẩn bị hành lý đến cách ứng phó khi gặp sự cố bất ngờ.g', 'NSnkb1IAjbE', '2025-04-06', 1),
+(8, 'Xu Hướng Du Lịch 2025: Những Tour Hot Nhất Trong Năm', 'Du lịch năm 2025 đang chứng kiến sự thay đổi mạnh mẽ với các xu hướng mới, từ những điểm đến độc đáo đến những trải nghiệm du lịch bền vững. Hãy cùng khám phá những tour hot nhất trong năm mà bạn không nên bỏ lỡ!\r\n\r\n1. Du Lịch Trải Nghiệm Sinh Thái - Côn Đảo\r\n\r\n\r\nCôn Đảo ngày càng trở thành điểm đến thu hút với vẻ đẹp hoang sơ, biển xanh trong và hệ sinh thái phong phú. Du khách có thể tham gia các hoạt động như lặn biển ngắm san hô, thăm rừng nguyên sinh và tìm hiểu lịch sử tại nhà tù Côn Đảo.\r\n\r\n2. Tour Cao Nguyên Mộc Châu - Khám Phá Vùng Đất Hoa\r\n\r\n\r\nMộc Châu không chỉ nổi tiếng với những đồi chè xanh bát ngát mà còn là thiên đường của các loài hoa nở quanh năm. Tháng 1-3 là mùa hoa mận, hoa đào khoe sắc rực rỡ, tạo nên bức tranh thiên nhiên tuyệt đẹp.\r\n\r\n3. Du Lịch Cao Cấp Tại Maldives\r\n\r\n\r\nMaldives vẫn giữ vững vị trí là điểm đến du lịch nghỉ dưỡng sang trọng hàng đầu thế giới. Những biệt thự trên mặt nước, bãi biển cát trắng và dịch vụ 5 sao là lựa chọn lý tưởng cho kỳ nghỉ xa hoa.\r\n\r\n4. Hành Trình Khám Phá Nhật Bản Mùa Hoa Anh Đào\r\n\r\n\r\nDu lịch Nhật Bản vào mùa xuân luôn thu hút đông đảo du khách bởi vẻ đẹp của hoa anh đào. Các thành phố như Tokyo, Kyoto, Osaka đều tổ chức lễ hội hoa anh đào với không gian lãng mạn, đậm chất văn hóa.\r\n\r\n5. Hành Trình Du Lịch Hàn Quốc - Trải Nghiệm Văn Hóa Kpop\r\n\r\n\r\nHàn Quốc không chỉ nổi tiếng với ẩm thực phong phú mà còn là thiên đường dành cho fan Kpop. Du khách có thể tham quan các địa điểm quay MV, ghé thăm các quán cà phê của thần tượng và tận hưởng không khí sôi động tại Seoul.\r\n\r\nXu hướng du lịch năm nay tập trung vào trải nghiệm thiên nhiên, văn hóa và nghỉ dưỡng đẳng cấp. Hãy lên kế hoạch ngay hôm nay để không bỏ lỡ những chuyến đi đáng nhớ!\r\n\r\n', 'tt.jpg', 'Xu Hướng Du Lịch 2025', 'Au6LqK1UH8g', '2025-04-06', 1),
+(9, '🎒 Du lịch trải nghiệm Tây Bắc – xu hướng mới của giới trẻ', 'Trong những năm gần đây, du lịch Tây Bắc đang trở thành một trào lưu mạnh mẽ trong cộng đồng giới trẻ yêu thích khám phá. Không còn chuộng những điểm đến quen thuộc và tiện nghi, nhiều bạn trẻ lựa chọn những chuyến đi “phượt” đầy thử thách đến các vùng núi như Mộc Châu, Tà Xùa, Y Tý, Hà Giang – nơi thiên nhiên còn giữ được nét hoang sơ, kỳ vĩ và văn hóa bản địa độc đáo.\r\n\r\nĐặc biệt, Hà Giang với những cung đường đèo quanh co như Mã Pí Lèng, Dốc Thẩm Mã, hay Đèo Ô Quy Hồ luôn là điểm đến \"must-try\" cho các tín đồ xê dịch. Không chỉ là hành trình chinh phục thử thách, du lịch đến đây còn là cơ hội để đắm chìm trong vẻ đẹp của những cánh đồng hoa tam giác mạch nở rộ vào cuối năm, hay ruộng bậc thang vàng óng mỗi mùa lúa chín.\r\n\r\nỞ Tà Xùa (Sơn La), săn mây vào buổi sớm đã trở thành trải nghiệm \"gây nghiện\" với những ai yêu thiên nhiên. Nơi đây còn được mệnh danh là \"thiên đường trên mây\" khi từng lớp sương giăng kín lối đi, tạo nên khung cảnh huyền ảo, mơ màng.\r\n\r\nY Tý (Lào Cai) cũng không kém phần hấp dẫn với những bản làng của người Hà Nhì, H\'Mông nằm lặng lẽ giữa mây trời. Những mái nhà trình tường, những nụ cười mộc mạc của người dân bản địa khiến hành trình trở nên đáng nhớ hơn bao giờ hết.\r\n\r\nNgoài cảnh sắc thiên nhiên, một phần không thể thiếu của trải nghiệm Tây Bắc là ẩm thực bản địa. Những món ăn đậm đà hương vị núi rừng như thắng cố, lạp xưởng, cá suối nướng, cơm lam… khiến bao người mê mẩn.\r\n\r\nVới sự hỗ trợ của các tour trải nghiệm hoặc những bạn dẫn đoàn có kinh nghiệm, việc du lịch Tây Bắc giờ đây vừa dễ tiếp cận hơn, vừa đảm bảo an toàn. Đây cũng là dịp để các bạn trẻ rời xa phố thị ồn ào, tìm về nơi bình yên, kết nối với thiên nhiên và chính mình.\r\n\r\nTây Bắc không chỉ là một vùng đất, mà còn là một hành trình đầy cảm hứng – nơi trái tim của những người trẻ được thắp sáng bởi đam mê khám phá, vượt qua giới hạn bản thân và yêu thêm đất nước mình qua từng chuyến đi.', 'du-lich-trai-nghiem.jpg', 'Các tour phượt Mộc Châu, Tà Xùa, Y Tý, Hà Giang đang thu hút đông đảo các bạn trẻ nhờ vào vẻ đẹp hoang sơ, những cung đường đèo kỳ vĩ và văn hóa bản địa độc đáo.', 'ks0mOYXeMJk', '2025-04-06', 1),
+(10, '🛫 Visa du lịch Hàn Quốc sẽ dễ dàng hơn từ tháng 5/2025', 'Tin vui cho những tín đồ yêu thích xứ sở kim chi: Bắt đầu từ tháng 5/2025, chính phủ Hàn Quốc sẽ chính thức nới lỏng các thủ tục cấp visa du lịch cho công dân Việt Nam. Đây là một phần trong chiến lược mới nhằm thu hút khách du lịch quốc tế và tăng cường quan hệ hợp tác du lịch – văn hóa giữa Hàn Quốc và Việt Nam.\r\n\r\nTheo thông tin từ Đại sứ quán Hàn Quốc tại Hà Nội, những thay đổi đáng chú ý bao gồm:\r\n\r\nRút ngắn thời gian xét duyệt visa từ 10 ngày xuống còn 5 ngày làm việc.\r\n\r\nMiễn nộp chứng minh tài chính đối với du khách có lịch sử du lịch tốt (từng đi Hàn Quốc, Nhật Bản, châu Âu… trong 5 năm gần nhất).\r\n\r\nƯu tiên xét duyệt nhanh cho những người đăng ký tour trọn gói từ các công ty du lịch được ủy quyền hoặc có thư mời từ phía Hàn Quốc.\r\n\r\nTăng số lượng visa 5 năm và 10 năm đối với một số nhóm đối tượng như giáo viên, công chức, người có thu nhập cao...\r\n\r\nĐặc biệt, với các tour du lịch Hàn Quốc từ Việt Nam đang rất được ưa chuộng – như Seoul – Nami – Everland, hay Busan – Jeju – thì chính sách này sẽ giúp khách hàng tiết kiệm đáng kể thời gian và công sức trong việc xin visa.\r\n\r\nCác công ty lữ hành lớn tại Việt Nam như Saigontourist, Vietravel, Fiditour cũng đã bắt đầu cập nhật các chương trình tour Hàn Quốc ưu đãi nhân dịp chính sách mới có hiệu lực. Nhiều combo trọn gói từ 12 – 15 triệu đồng đang được săn đón mạnh, đặc biệt trong dịp mùa hè và mùa lá đỏ 2025.\r\n\r\nChính phủ Hàn Quốc kỳ vọng lượng khách Việt Nam sẽ tăng ít nhất 30% trong năm 2025, đóng góp tích cực vào sự phục hồi ngành du lịch sau đại dịch và thúc đẩy giao lưu văn hóa hai nước.\r\n\r\nVới những thay đổi tích cực này, hành trình khám phá Seoul hiện đại, Gyeongju cổ kính hay ngắm hoa anh đào lãng mạn tại Hàn Quốc sẽ trở nên dễ dàng hơn bao giờ hết cho du khách Việt.', 'hqq.jpeg', 'Chính phủ Hàn Quốc vừa thông báo nới lỏng thủ tục xin visa cho công dân Việt Nam, áp dụng cho du khách có lịch sử du lịch tốt hoặc có vé tour từ các công ty uy tín.', 'RZzN-yH00Yg', '2025-04-06', 1),
+(11, '🌸 Lễ hội hoa anh đào Nhật Bản 2025 chính thức khởi động', 'Mùa xuân tại Nhật Bản luôn mang đến một màu sắc đặc biệt với lễ hội hoa anh đào, hay còn gọi là Sakura Matsuri. Mỗi năm, vào cuối tháng 3 và đầu tháng 4, cả Nhật Bản như khoác lên mình một tấm áo mới với sắc hồng và trắng của hoa anh đào nở rộ, tạo nên một cảnh tượng thiên nhiên tuyệt đẹp và là niềm tự hào của người dân xứ sở Phù Tang.\r\n\r\nNăm 2025, mùa lễ hội hoa anh đào sẽ chính thức khởi động từ cuối tháng 3 và kéo dài đến giữa tháng 4, khi hoa anh đào tại các thành phố lớn như Tokyo và Kyoto đạt độ nở đẹp nhất. Đây là thời điểm lý tưởng để du khách khám phá vẻ đẹp tuyệt vời của hoa anh đào trong không khí tươi mới, mát mẻ của mùa xuân.\r\n\r\n🎉 Tour Nhật Bản dịp lễ hội hoa anh đào 2025: \"Cháy vé\" nhanh chóng\r\nVới sức hút mạnh mẽ của lễ hội hoa anh đào, các tour du lịch Nhật Bản dịp này đang trở thành món quà hấp dẫn cho các gia đình, nhóm bạn và các cặp đôi. Những chương trình tour trọn gói bao gồm chuyến bay, khách sạn, vé tham quan và hướng dẫn viên luôn được các công ty du lịch trong và ngoài nước đưa ra với mức giá ưu đãi đặc biệt.\r\n\r\nNhiều công ty du lịch đang khai thác các tour đến Tokyo, Kyoto, Osaka, nơi có những công viên nổi tiếng như Ueno Park, Shinjuku Gyoen, và Maruyama Park. Đặc biệt, bạn sẽ được trải nghiệm hanami (ngắm hoa) – một truyền thống lâu đời của người Nhật, khi họ tụ tập cùng gia đình, bạn bè dưới những tán cây anh đào để thưởng thức ẩm thực, uống rượu sake và tận hưởng không khí trong lành.\r\n\r\n🌍 Những điểm ngắm hoa anh đào không thể bỏ qua\r\nTokyo: Công viên Ueno và công viên Shinjuku Gyoen là hai địa điểm nổi tiếng nhất. Tại Ueno, du khách có thể tham gia lễ hội hoa anh đào lớn nhất Tokyo, ngắm nhìn hàng nghìn cây hoa anh đào rực rỡ trong khi thưởng thức các món ăn đặc trưng của Nhật Bản.\r\n\r\nKyoto: Kyoto là nơi lưu giữ nhiều ngôi đền và chùa cổ kính, tạo nên sự kết hợp tuyệt vời giữa thiên nhiên và văn hóa. Công viên Maruyama và con đường Philosopher’s Path (Con đường triết học) là những địa điểm lý tưởng để ngắm hoa anh đào.\r\n\r\nHokkaido: Nếu bạn muốn tránh đám đông ở các thành phố lớn, Hokkaido với mùa hoa anh đào muộn hơn là lựa chọn tuyệt vời để tận hưởng không gian yên tĩnh và bình yên.\r\n\r\n💰 Ưu đãi hấp dẫn cho các tour hoa anh đào 2025\r\nCác tour du lịch Nhật Bản dịp hoa anh đào năm nay đặc biệt thu hút với các ưu đãi giảm giá lên đến 15-20%. Những tour trọn gói dành cho nhóm khách gia đình hoặc cặp đôi thường có các dịch vụ như:\r\n\r\nKhách sạn 4-5 sao gần các khu vực ngắm hoa.\r\n\r\nVé vào cửa các điểm tham quan nổi tiếng như đền Kinkaku-ji (Kyoto), tháp Tokyo Skytree (Tokyo), hay cung điện Hoàng gia.\r\n\r\nChương trình đặc biệt vào ngày lễ hội Sakura, với bữa tiệc hanami ngoài trời và hoạt động văn hóa truyền thống Nhật Bản.\r\n\r\nNhờ những chương trình khuyến mãi hấp dẫn này, các tour du lịch Nhật Bản dịp hoa anh đào đã nhanh chóng cháy vé và thu hút rất đông khách du lịch từ Việt Nam. Nếu bạn đang có kế hoạch du lịch Nhật Bản vào dịp lễ hội hoa anh đào 2025, hãy nhanh chóng đặt vé để có cơ hội trải nghiệm mùa xuân tuyệt vời tại xứ sở Phù Tang.\r\n\r\nMẹo: Đừng quên chuẩn bị cho mình một chiếc máy ảnh chất lượng để lưu lại những khoảnh khắc đẹp nhất bên những cây anh đào nở rộ và khung cảnh tuyệt vời tại Nhật Bản.', 'had.jpg', 'Mùa lễ hội hoa anh đào tại Tokyo và Kyoto sẽ bắt đầu từ cuối tháng 3 và kéo dài đến giữa tháng 4. Tour Nhật Bản dịp này đang “cháy vé” với hàng loạt ưu đãi hấp dẫn cho nhóm khách gia đình và cặp đôi.', 'Plp98VugaZo', '2025-04-06', 1);
 
 -- --------------------------------------------------------
 
@@ -707,11 +687,8 @@ CREATE TABLE `participant` (
 --
 
 INSERT INTO `participant` (`idpar`, `idbook`, `hoten`, `ngaysinh`, `gioitinh`, `phanloai`) VALUES
-(91, 183, 'Huy', '2019-11-11', 'Nam', 'Người lớn'),
-(93, 185, 'Phu', '2000-09-14', 'Nam', 'Người lớn'),
-(126, 213, 'Huy', '2016-06-17', 'Nam', 'Người lớn'),
-(127, 213, 'ssss', '2023-02-17', 'Nam', 'Trẻ em (từ 2 -> 11 tuổi)'),
-(128, 214, 'aa', '2021-06-24', 'Nam', 'Người lớn');
+(141, 232, 'Anh hùng', '2001-07-07', 'Nam', 'Người lớn'),
+(142, 233, 'ád', '1998-10-07', 'Nam', 'Người lớn');
 
 -- --------------------------------------------------------
 
@@ -732,10 +709,8 @@ CREATE TABLE `payments` (
 --
 
 INSERT INTO `payments` (`id`, `user_id`, `idbook`, `method`, `created_at`) VALUES
-(35, 1, 183, 'vnpay', '2025-03-11 02:29:22'),
-(37, 1, 185, 'vnpay', '2025-03-13 01:31:11'),
-(59, 1, 213, 'vnpay', '2025-03-17 02:32:34'),
-(60, 1, 214, 'vnpay', '2025-03-24 02:49:46');
+(70, 1, 232, 'vnpay', '2025-04-07 02:29:19'),
+(71, 1, 233, 'vnpay', '2025-04-07 02:32:43');
 
 -- --------------------------------------------------------
 
@@ -775,14 +750,6 @@ CREATE TABLE `rating_reviewtour` (
   `Username` varchar(255) DEFAULT NULL,
   `Datetime` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Đang đổ dữ liệu cho bảng `rating_reviewtour`
---
-
-INSERT INTO `rating_reviewtour` (`Sr_no`, `Booking_id`, `Tour_id`, `Rating`, `Review`, `Username`, `Datetime`) VALUES
-(16, 183, 48, 5, 'hh', 'Phuc Hung', '2025-03-11'),
-(17, 183, 48, 3, 'dd', 'Phuc Hung', '2025-03-11');
 
 -- --------------------------------------------------------
 
@@ -1273,7 +1240,277 @@ INSERT INTO `schedule` (`id`, `employee_id`, `shift_type`, `status`, `shift_date
 (1035, 12, 'Ca 1', 'V', '2025-03-29', '2025-03-25 02:41:01'),
 (1036, 12, 'Ca 1', 'V', '2025-03-30', '2025-03-25 02:41:01'),
 (1037, 12, 'Ca 3', 'V', '2025-03-31', '2025-03-25 02:41:01'),
-(1038, 1, 'Ca 2', 'X', '2025-03-07', '2025-03-25 02:41:13');
+(1038, 1, 'Ca 2', 'X', '2025-03-07', '2025-03-25 02:41:13'),
+(1039, 1, 'Ca 1', 'V', '2025-04-01', '2025-04-05 06:42:38'),
+(1040, 1, 'Ca 2', 'V', '2025-04-02', '2025-04-05 06:42:38'),
+(1041, 1, 'Ca 1', 'V', '2025-04-03', '2025-04-05 06:42:38'),
+(1042, 1, 'Ca 1', 'V', '2025-04-04', '2025-04-05 06:42:38'),
+(1043, 1, 'X', 'P', '2025-04-05', '2025-04-05 06:42:38'),
+(1044, 1, 'Ca 1', 'V', '2025-04-06', '2025-04-05 06:42:38'),
+(1045, 1, 'X', 'P', '2025-04-07', '2025-04-05 06:42:38'),
+(1046, 1, 'X', 'P', '2025-04-08', '2025-04-05 06:42:38'),
+(1047, 1, 'Ca 2', 'V', '2025-04-09', '2025-04-05 06:42:38'),
+(1048, 1, 'X', 'P', '2025-04-10', '2025-04-05 06:42:38'),
+(1049, 1, 'Ca 3', 'V', '2025-04-11', '2025-04-05 06:42:38'),
+(1050, 1, 'Ca 2', 'V', '2025-04-12', '2025-04-05 06:42:38'),
+(1051, 1, 'X', 'P', '2025-04-13', '2025-04-05 06:42:38'),
+(1052, 1, 'Ca 2', 'V', '2025-04-14', '2025-04-05 06:42:38'),
+(1053, 1, 'Ca 1', 'V', '2025-04-15', '2025-04-05 06:42:38'),
+(1054, 1, 'Ca 2', 'V', '2025-04-16', '2025-04-05 06:42:38'),
+(1055, 1, 'Ca 3', 'V', '2025-04-17', '2025-04-05 06:42:38'),
+(1056, 1, 'Ca 3', 'V', '2025-04-18', '2025-04-05 06:42:38'),
+(1057, 1, 'Ca 2', 'V', '2025-04-19', '2025-04-05 06:42:38'),
+(1058, 1, 'Ca 1', 'V', '2025-04-20', '2025-04-05 06:42:38'),
+(1059, 1, 'Ca 2', 'V', '2025-04-21', '2025-04-05 06:42:38'),
+(1060, 1, 'Ca 2', 'V', '2025-04-22', '2025-04-05 06:42:38'),
+(1061, 1, 'Ca 2', 'V', '2025-04-23', '2025-04-05 06:42:38'),
+(1062, 1, 'Ca 1', 'V', '2025-04-24', '2025-04-05 06:42:38'),
+(1063, 1, 'Ca 3', 'V', '2025-04-25', '2025-04-05 06:42:38'),
+(1064, 1, 'X', 'P', '2025-04-26', '2025-04-05 06:42:38'),
+(1065, 1, 'X', 'P', '2025-04-27', '2025-04-05 06:42:38'),
+(1066, 1, 'Ca 2', 'V', '2025-04-28', '2025-04-05 06:42:38'),
+(1067, 1, 'Ca 2', 'V', '2025-04-29', '2025-04-05 06:42:38'),
+(1068, 1, 'Ca 2', 'V', '2025-04-30', '2025-04-05 06:42:38'),
+(1069, 2, 'Ca 3', 'V', '2025-04-01', '2025-04-05 06:42:38'),
+(1070, 2, 'Ca 3', 'V', '2025-04-02', '2025-04-05 06:42:38'),
+(1071, 2, 'Ca 2', 'V', '2025-04-03', '2025-04-05 06:42:38'),
+(1072, 2, 'Ca 2', 'V', '2025-04-04', '2025-04-05 06:42:38'),
+(1073, 2, 'X', 'P', '2025-04-05', '2025-04-05 06:42:38'),
+(1074, 2, 'Ca 1', 'V', '2025-04-06', '2025-04-05 06:42:38'),
+(1075, 2, 'X', 'P', '2025-04-07', '2025-04-05 06:42:38'),
+(1076, 2, 'Ca 2', 'V', '2025-04-08', '2025-04-05 06:42:38'),
+(1077, 2, 'X', 'P', '2025-04-09', '2025-04-05 06:42:38'),
+(1078, 2, 'X', 'P', '2025-04-10', '2025-04-05 06:42:38'),
+(1079, 2, 'Ca 2', 'V', '2025-04-11', '2025-04-05 06:42:38'),
+(1080, 2, 'Ca 3', 'V', '2025-04-12', '2025-04-05 06:42:38'),
+(1081, 2, 'Ca 3', 'V', '2025-04-13', '2025-04-05 06:42:38'),
+(1082, 2, 'Ca 2', 'V', '2025-04-14', '2025-04-05 06:42:38'),
+(1083, 2, 'Ca 2', 'V', '2025-04-15', '2025-04-05 06:42:38'),
+(1084, 2, 'Ca 1', 'V', '2025-04-16', '2025-04-05 06:42:38'),
+(1085, 2, 'X', 'P', '2025-04-17', '2025-04-05 06:42:38'),
+(1086, 2, 'Ca 1', 'V', '2025-04-18', '2025-04-05 06:42:38'),
+(1087, 2, 'Ca 2', 'V', '2025-04-19', '2025-04-05 06:42:38'),
+(1088, 2, 'X', 'P', '2025-04-20', '2025-04-05 06:42:38'),
+(1089, 2, 'Ca 2', 'V', '2025-04-21', '2025-04-05 06:42:38'),
+(1090, 2, 'Ca 2', 'V', '2025-04-22', '2025-04-05 06:42:38'),
+(1091, 2, 'Ca 3', 'V', '2025-04-23', '2025-04-05 06:42:38'),
+(1092, 2, 'Ca 2', 'V', '2025-04-24', '2025-04-05 06:42:38'),
+(1093, 2, 'Ca 2', 'V', '2025-04-25', '2025-04-05 06:42:38'),
+(1094, 2, 'Ca 1', 'V', '2025-04-26', '2025-04-05 06:42:38'),
+(1095, 2, 'X', 'P', '2025-04-27', '2025-04-05 06:42:38'),
+(1096, 2, 'Ca 1', 'V', '2025-04-28', '2025-04-05 06:42:38'),
+(1097, 2, 'Ca 3', 'V', '2025-04-29', '2025-04-05 06:42:38'),
+(1098, 2, 'Ca 3', 'V', '2025-04-30', '2025-04-05 06:42:38'),
+(1099, 3, 'Ca 2', 'V', '2025-04-01', '2025-04-05 06:42:38'),
+(1100, 3, 'Ca 1', 'V', '2025-04-02', '2025-04-05 06:42:38'),
+(1101, 3, 'Ca 1', 'V', '2025-04-03', '2025-04-05 06:42:38'),
+(1102, 3, 'Ca 2', 'V', '2025-04-04', '2025-04-05 06:42:38'),
+(1103, 3, 'X', 'P', '2025-04-05', '2025-04-05 06:42:38'),
+(1104, 3, 'Ca 2', 'V', '2025-04-06', '2025-04-05 06:42:38'),
+(1105, 3, 'Ca 1', 'V', '2025-04-07', '2025-04-05 06:42:38'),
+(1106, 3, 'Ca 3', 'V', '2025-04-08', '2025-04-05 06:42:38'),
+(1107, 3, 'Ca 3', 'V', '2025-04-09', '2025-04-05 06:42:38'),
+(1108, 3, 'Ca 3', 'V', '2025-04-10', '2025-04-05 06:42:38'),
+(1109, 3, 'Ca 3', 'V', '2025-04-11', '2025-04-05 06:42:38'),
+(1110, 3, 'X', 'P', '2025-04-12', '2025-04-05 06:42:38'),
+(1111, 3, 'X', 'P', '2025-04-13', '2025-04-05 06:42:38'),
+(1112, 3, 'Ca 2', 'V', '2025-04-14', '2025-04-05 06:42:38'),
+(1113, 3, 'Ca 1', 'V', '2025-04-15', '2025-04-05 06:42:38'),
+(1114, 3, 'Ca 2', 'V', '2025-04-16', '2025-04-05 06:42:38'),
+(1115, 3, 'X', 'P', '2025-04-17', '2025-04-05 06:42:38'),
+(1116, 3, 'Ca 2', 'V', '2025-04-18', '2025-04-05 06:42:38'),
+(1117, 3, 'X', 'P', '2025-04-19', '2025-04-05 06:42:38'),
+(1118, 3, 'Ca 2', 'V', '2025-04-20', '2025-04-05 06:42:38'),
+(1119, 3, 'Ca 1', 'V', '2025-04-21', '2025-04-05 06:42:38'),
+(1120, 3, 'Ca 1', 'V', '2025-04-22', '2025-04-05 06:42:38'),
+(1121, 3, 'Ca 1', 'V', '2025-04-23', '2025-04-05 06:42:38'),
+(1122, 3, 'Ca 2', 'V', '2025-04-24', '2025-04-05 06:42:38'),
+(1123, 3, 'X', 'P', '2025-04-25', '2025-04-05 06:42:38'),
+(1124, 3, 'Ca 1', 'V', '2025-04-26', '2025-04-05 06:42:38'),
+(1125, 3, 'Ca 2', 'V', '2025-04-27', '2025-04-05 06:42:38'),
+(1126, 3, 'Ca 3', 'V', '2025-04-28', '2025-04-05 06:42:38'),
+(1127, 3, 'Ca 3', 'V', '2025-04-29', '2025-04-05 06:42:38'),
+(1128, 3, 'X', 'P', '2025-04-30', '2025-04-05 06:42:38'),
+(1129, 7, 'Ca 1', 'V', '2025-04-01', '2025-04-05 06:42:38'),
+(1130, 7, 'Ca 1', 'V', '2025-04-02', '2025-04-05 06:42:38'),
+(1131, 7, 'Ca 2', 'V', '2025-04-03', '2025-04-05 06:42:38'),
+(1132, 7, 'X', 'P', '2025-04-04', '2025-04-05 06:42:38'),
+(1133, 7, 'Ca 2', 'V', '2025-04-05', '2025-04-05 06:42:38'),
+(1134, 7, 'Ca 1', 'V', '2025-04-06', '2025-04-05 06:42:38'),
+(1135, 7, 'Ca 3', 'V', '2025-04-07', '2025-04-05 06:42:38'),
+(1136, 7, 'Ca 3', 'V', '2025-04-08', '2025-04-05 06:42:38'),
+(1137, 7, 'Ca 2', 'V', '2025-04-09', '2025-04-05 06:42:38'),
+(1138, 7, 'Ca 1', 'V', '2025-04-10', '2025-04-05 06:42:38'),
+(1139, 7, 'Ca 3', 'V', '2025-04-11', '2025-04-05 06:42:38'),
+(1140, 7, 'Ca 1', 'V', '2025-04-12', '2025-04-05 06:42:38'),
+(1141, 7, 'Ca 2', 'V', '2025-04-13', '2025-04-05 06:42:38'),
+(1142, 7, 'Ca 2', 'V', '2025-04-14', '2025-04-05 06:42:38'),
+(1143, 7, 'Ca 2', 'V', '2025-04-15', '2025-04-05 06:42:38'),
+(1144, 7, 'Ca 1', 'V', '2025-04-16', '2025-04-05 06:42:38'),
+(1145, 7, 'Ca 1', 'V', '2025-04-17', '2025-04-05 06:42:38'),
+(1146, 7, 'X', 'P', '2025-04-18', '2025-04-05 06:42:38'),
+(1147, 7, 'Ca 2', 'V', '2025-04-19', '2025-04-05 06:42:38'),
+(1148, 7, 'Ca 3', 'V', '2025-04-20', '2025-04-05 06:42:38'),
+(1149, 7, 'Ca 3', 'V', '2025-04-21', '2025-04-05 06:42:38'),
+(1150, 7, 'Ca 3', 'V', '2025-04-22', '2025-04-05 06:42:38'),
+(1151, 7, 'Ca 2', 'V', '2025-04-23', '2025-04-05 06:42:38'),
+(1152, 7, 'Ca 2', 'V', '2025-04-24', '2025-04-05 06:42:38'),
+(1153, 7, 'Ca 2', 'V', '2025-04-25', '2025-04-05 06:42:38'),
+(1154, 7, 'X', 'P', '2025-04-26', '2025-04-05 06:42:38'),
+(1155, 7, 'X', 'P', '2025-04-27', '2025-04-05 06:42:38'),
+(1156, 7, 'Ca 3', 'V', '2025-04-28', '2025-04-05 06:42:38'),
+(1157, 7, 'Ca 1', 'V', '2025-04-29', '2025-04-05 06:42:38'),
+(1158, 7, 'Ca 2', 'V', '2025-04-30', '2025-04-05 06:42:38'),
+(1159, 8, 'Ca 1', 'V', '2025-04-01', '2025-04-05 06:42:38'),
+(1160, 8, 'Ca 2', 'V', '2025-04-02', '2025-04-05 06:42:38'),
+(1161, 8, 'Ca 3', 'V', '2025-04-03', '2025-04-05 06:42:38'),
+(1162, 8, 'Ca 3', 'V', '2025-04-04', '2025-04-05 06:42:38'),
+(1163, 8, 'Ca 2', 'V', '2025-04-05', '2025-04-05 06:42:38'),
+(1164, 8, 'Ca 3', 'V', '2025-04-06', '2025-04-05 06:42:38'),
+(1165, 8, 'Ca 1', 'V', '2025-04-07', '2025-04-05 06:42:38'),
+(1166, 8, 'X', 'P', '2025-04-08', '2025-04-05 06:42:38'),
+(1167, 8, 'X', 'P', '2025-04-09', '2025-04-05 06:42:38'),
+(1168, 8, 'Ca 2', 'V', '2025-04-10', '2025-04-05 06:42:38'),
+(1169, 8, 'Ca 3', 'V', '2025-04-11', '2025-04-05 06:42:38'),
+(1170, 8, 'Ca 1', 'V', '2025-04-12', '2025-04-05 06:42:38'),
+(1171, 8, 'Ca 1', 'V', '2025-04-13', '2025-04-05 06:42:38'),
+(1172, 8, 'Ca 1', 'V', '2025-04-14', '2025-04-05 06:42:38'),
+(1173, 8, 'Ca 1', 'V', '2025-04-15', '2025-04-05 06:42:38'),
+(1174, 8, 'Ca 1', 'V', '2025-04-16', '2025-04-05 06:42:38'),
+(1175, 8, 'Ca 3', 'V', '2025-04-17', '2025-04-05 06:42:38'),
+(1176, 8, 'Ca 2', 'V', '2025-04-18', '2025-04-05 06:42:38'),
+(1177, 8, 'X', 'P', '2025-04-19', '2025-04-05 06:42:38'),
+(1178, 8, 'Ca 3', 'V', '2025-04-20', '2025-04-05 06:42:38'),
+(1179, 8, 'Ca 1', 'V', '2025-04-21', '2025-04-05 06:42:38'),
+(1180, 8, 'X', 'P', '2025-04-22', '2025-04-05 06:42:38'),
+(1181, 8, 'Ca 2', 'V', '2025-04-23', '2025-04-05 06:42:38'),
+(1182, 8, 'X', 'P', '2025-04-24', '2025-04-05 06:42:38'),
+(1183, 8, 'Ca 1', 'V', '2025-04-25', '2025-04-05 06:42:38'),
+(1184, 8, 'Ca 3', 'V', '2025-04-26', '2025-04-05 06:42:38'),
+(1185, 8, 'Ca 1', 'V', '2025-04-27', '2025-04-05 06:42:38'),
+(1186, 8, 'X', 'P', '2025-04-28', '2025-04-05 06:42:38'),
+(1187, 8, 'Ca 1', 'V', '2025-04-29', '2025-04-05 06:42:38'),
+(1188, 8, 'Ca 1', 'V', '2025-04-30', '2025-04-05 06:42:38'),
+(1189, 9, 'Ca 2', 'V', '2025-04-01', '2025-04-05 06:42:38'),
+(1190, 9, 'X', 'P', '2025-04-02', '2025-04-05 06:42:38'),
+(1191, 9, 'Ca 1', 'V', '2025-04-03', '2025-04-05 06:42:38'),
+(1192, 9, 'X', 'P', '2025-04-04', '2025-04-05 06:42:39'),
+(1193, 9, 'Ca 1', 'V', '2025-04-05', '2025-04-05 06:42:39'),
+(1194, 9, 'Ca 2', 'V', '2025-04-06', '2025-04-05 06:42:39'),
+(1195, 9, 'Ca 1', 'V', '2025-04-07', '2025-04-05 06:42:39'),
+(1196, 9, 'Ca 1', 'V', '2025-04-08', '2025-04-05 06:42:39'),
+(1197, 9, 'Ca 1', 'V', '2025-04-09', '2025-04-05 06:42:39'),
+(1198, 9, 'Ca 2', 'V', '2025-04-10', '2025-04-05 06:42:39'),
+(1199, 9, 'Ca 1', 'V', '2025-04-11', '2025-04-05 06:42:39'),
+(1200, 9, 'Ca 3', 'V', '2025-04-12', '2025-04-05 06:42:39'),
+(1201, 9, 'Ca 3', 'V', '2025-04-13', '2025-04-05 06:42:39'),
+(1202, 9, 'X', 'P', '2025-04-14', '2025-04-05 06:42:39'),
+(1203, 9, 'Ca 1', 'V', '2025-04-15', '2025-04-05 06:42:39'),
+(1204, 9, 'Ca 2', 'V', '2025-04-16', '2025-04-05 06:42:39'),
+(1205, 9, 'Ca 2', 'V', '2025-04-17', '2025-04-05 06:42:39'),
+(1206, 9, 'Ca 1', 'V', '2025-04-18', '2025-04-05 06:42:39'),
+(1207, 9, 'X', 'P', '2025-04-19', '2025-04-05 06:42:39'),
+(1208, 9, 'Ca 2', 'V', '2025-04-20', '2025-04-05 06:42:39'),
+(1209, 9, 'Ca 3', 'V', '2025-04-21', '2025-04-05 06:42:39'),
+(1210, 9, 'X', 'P', '2025-04-22', '2025-04-05 06:42:39'),
+(1211, 9, 'Ca 2', 'V', '2025-04-23', '2025-04-05 06:42:39'),
+(1212, 9, 'X', 'P', '2025-04-24', '2025-04-05 06:42:39'),
+(1213, 9, 'Ca 1', 'V', '2025-04-25', '2025-04-05 06:42:39'),
+(1214, 9, 'X', 'P', '2025-04-26', '2025-04-05 06:42:39'),
+(1215, 9, 'Ca 2', 'V', '2025-04-27', '2025-04-05 06:42:39'),
+(1216, 9, 'Ca 3', 'V', '2025-04-28', '2025-04-05 06:42:39'),
+(1217, 9, 'Ca 2', 'V', '2025-04-29', '2025-04-05 06:42:39'),
+(1218, 9, 'Ca 1', 'V', '2025-04-30', '2025-04-05 06:42:39'),
+(1219, 10, 'Ca 3', 'V', '2025-04-01', '2025-04-05 06:42:39'),
+(1220, 10, 'Ca 1', 'V', '2025-04-02', '2025-04-05 06:42:39'),
+(1221, 10, 'Ca 1', 'V', '2025-04-03', '2025-04-05 06:42:39'),
+(1222, 10, 'Ca 3', 'V', '2025-04-04', '2025-04-05 06:42:39'),
+(1223, 10, 'Ca 3', 'V', '2025-04-05', '2025-04-05 06:42:39'),
+(1224, 10, 'Ca 3', 'V', '2025-04-06', '2025-04-05 06:42:39'),
+(1225, 10, 'Ca 3', 'V', '2025-04-07', '2025-04-05 06:42:39'),
+(1226, 10, 'Ca 3', 'V', '2025-04-08', '2025-04-05 06:42:39'),
+(1227, 10, 'X', 'P', '2025-04-09', '2025-04-05 06:42:39'),
+(1228, 10, 'Ca 3', 'V', '2025-04-10', '2025-04-05 06:42:39'),
+(1229, 10, 'Ca 3', 'V', '2025-04-11', '2025-04-05 06:42:39'),
+(1230, 10, 'X', 'P', '2025-04-12', '2025-04-05 06:42:39'),
+(1231, 10, 'X', 'P', '2025-04-13', '2025-04-05 06:42:39'),
+(1232, 10, 'X', 'P', '2025-04-14', '2025-04-05 06:42:39'),
+(1233, 10, 'Ca 1', 'V', '2025-04-15', '2025-04-05 06:42:39'),
+(1234, 10, 'Ca 3', 'V', '2025-04-16', '2025-04-05 06:42:39'),
+(1235, 10, 'Ca 1', 'V', '2025-04-17', '2025-04-05 06:42:39'),
+(1236, 10, 'Ca 2', 'V', '2025-04-18', '2025-04-05 06:42:39'),
+(1237, 10, 'Ca 2', 'V', '2025-04-19', '2025-04-05 06:42:39'),
+(1238, 10, 'Ca 1', 'V', '2025-04-20', '2025-04-05 06:42:39'),
+(1239, 10, 'X', 'P', '2025-04-21', '2025-04-05 06:42:39'),
+(1240, 10, 'Ca 3', 'V', '2025-04-22', '2025-04-05 06:42:39'),
+(1241, 10, 'X', 'P', '2025-04-23', '2025-04-05 06:42:39'),
+(1242, 10, 'X', 'P', '2025-04-24', '2025-04-05 06:42:39'),
+(1243, 10, 'Ca 1', 'V', '2025-04-25', '2025-04-05 06:42:39'),
+(1244, 10, 'Ca 2', 'V', '2025-04-26', '2025-04-05 06:42:39'),
+(1245, 10, 'Ca 1', 'V', '2025-04-27', '2025-04-05 06:42:39'),
+(1246, 10, 'Ca 2', 'V', '2025-04-28', '2025-04-05 06:42:39'),
+(1247, 10, 'Ca 2', 'V', '2025-04-29', '2025-04-05 06:42:39'),
+(1248, 10, 'X', 'P', '2025-04-30', '2025-04-05 06:42:39'),
+(1249, 11, 'Ca 3', 'V', '2025-04-01', '2025-04-05 06:42:39'),
+(1250, 11, 'X', 'P', '2025-04-02', '2025-04-05 06:42:39'),
+(1251, 11, 'X', 'P', '2025-04-03', '2025-04-05 06:42:39'),
+(1252, 11, 'Ca 2', 'V', '2025-04-04', '2025-04-05 06:42:39'),
+(1253, 11, 'Ca 3', 'V', '2025-04-05', '2025-04-05 06:42:39'),
+(1254, 11, 'X', 'P', '2025-04-06', '2025-04-05 06:42:39'),
+(1255, 11, 'Ca 3', 'V', '2025-04-07', '2025-04-05 06:42:39'),
+(1256, 11, 'Ca 2', 'V', '2025-04-08', '2025-04-05 06:42:39'),
+(1257, 11, 'X', 'P', '2025-04-09', '2025-04-05 06:42:39'),
+(1258, 11, 'X', 'P', '2025-04-10', '2025-04-05 06:42:39'),
+(1259, 11, 'Ca 2', 'V', '2025-04-11', '2025-04-05 06:42:39'),
+(1260, 11, 'X', 'P', '2025-04-12', '2025-04-05 06:42:39'),
+(1261, 11, 'Ca 3', 'V', '2025-04-13', '2025-04-05 06:42:39'),
+(1262, 11, 'Ca 1', 'V', '2025-04-14', '2025-04-05 06:42:39'),
+(1263, 11, 'Ca 3', 'V', '2025-04-15', '2025-04-05 06:42:39'),
+(1264, 11, 'Ca 2', 'V', '2025-04-16', '2025-04-05 06:42:39'),
+(1265, 11, 'Ca 2', 'V', '2025-04-17', '2025-04-05 06:42:39'),
+(1266, 11, 'Ca 1', 'V', '2025-04-18', '2025-04-05 06:42:39'),
+(1267, 11, 'X', 'P', '2025-04-19', '2025-04-05 06:42:39'),
+(1268, 11, 'Ca 3', 'V', '2025-04-20', '2025-04-05 06:42:39'),
+(1269, 11, 'Ca 2', 'V', '2025-04-21', '2025-04-05 06:42:39'),
+(1270, 11, 'Ca 3', 'V', '2025-04-22', '2025-04-05 06:42:39'),
+(1271, 11, 'X', 'P', '2025-04-23', '2025-04-05 06:42:39'),
+(1272, 11, 'Ca 2', 'V', '2025-04-24', '2025-04-05 06:42:39'),
+(1273, 11, 'X', 'P', '2025-04-25', '2025-04-05 06:42:39'),
+(1274, 11, 'Ca 1', 'V', '2025-04-26', '2025-04-05 06:42:39'),
+(1275, 11, 'Ca 1', 'V', '2025-04-27', '2025-04-05 06:42:39'),
+(1276, 11, 'X', 'P', '2025-04-28', '2025-04-05 06:42:39'),
+(1277, 11, 'X', 'P', '2025-04-29', '2025-04-05 06:42:39'),
+(1278, 11, 'Ca 2', 'V', '2025-04-30', '2025-04-05 06:42:39'),
+(1279, 12, 'Ca 3', 'V', '2025-04-01', '2025-04-05 06:42:39'),
+(1280, 12, 'X', 'P', '2025-04-02', '2025-04-05 06:42:39'),
+(1281, 12, 'X', 'P', '2025-04-03', '2025-04-05 06:42:39'),
+(1282, 12, 'Ca 3', 'V', '2025-04-04', '2025-04-05 06:42:39'),
+(1283, 12, 'Ca 3', 'V', '2025-04-05', '2025-04-05 06:42:39'),
+(1284, 12, 'Ca 2', 'V', '2025-04-06', '2025-04-05 06:42:39'),
+(1285, 12, 'X', 'P', '2025-04-07', '2025-04-05 06:42:39'),
+(1286, 12, 'Ca 2', 'V', '2025-04-08', '2025-04-05 06:42:39'),
+(1287, 12, 'X', 'P', '2025-04-09', '2025-04-05 06:42:39'),
+(1288, 12, 'Ca 2', 'V', '2025-04-10', '2025-04-05 06:42:39'),
+(1289, 12, 'X', 'P', '2025-04-11', '2025-04-05 06:42:39'),
+(1290, 12, 'Ca 3', 'V', '2025-04-12', '2025-04-05 06:42:39'),
+(1291, 12, 'Ca 3', 'V', '2025-04-13', '2025-04-05 06:42:39'),
+(1292, 12, 'Ca 2', 'V', '2025-04-14', '2025-04-05 06:42:39'),
+(1293, 12, 'Ca 1', 'V', '2025-04-15', '2025-04-05 06:42:39'),
+(1294, 12, 'Ca 2', 'V', '2025-04-16', '2025-04-05 06:42:39'),
+(1295, 12, 'X', 'P', '2025-04-17', '2025-04-05 06:42:39'),
+(1296, 12, 'Ca 3', 'V', '2025-04-18', '2025-04-05 06:42:39'),
+(1297, 12, 'Ca 2', 'V', '2025-04-19', '2025-04-05 06:42:39'),
+(1298, 12, 'Ca 1', 'V', '2025-04-20', '2025-04-05 06:42:39'),
+(1299, 12, 'Ca 3', 'V', '2025-04-21', '2025-04-05 06:42:39'),
+(1300, 12, 'X', 'P', '2025-04-22', '2025-04-05 06:42:39'),
+(1301, 12, 'Ca 3', 'V', '2025-04-23', '2025-04-05 06:42:39'),
+(1302, 12, 'Ca 2', 'V', '2025-04-24', '2025-04-05 06:42:39'),
+(1303, 12, 'Ca 1', 'V', '2025-04-25', '2025-04-05 06:42:39'),
+(1304, 12, 'Ca 3', 'V', '2025-04-26', '2025-04-05 06:42:39'),
+(1305, 12, 'Ca 2', 'V', '2025-04-27', '2025-04-05 06:42:39'),
+(1306, 12, 'Ca 2', 'V', '2025-04-28', '2025-04-05 06:42:39'),
+(1307, 12, 'Ca 1', 'V', '2025-04-29', '2025-04-05 06:42:39'),
+(1308, 12, 'X', 'P', '2025-04-30', '2025-04-05 06:42:39');
 
 -- --------------------------------------------------------
 
@@ -1295,8 +1532,10 @@ CREATE TABLE `tichdiem` (
 
 INSERT INTO `tichdiem` (`idtd`, `idkh`, `hangTV`, `diem`, `sotour`) VALUES
 (3, 17, 'New', 100, 0),
-(20, 18, 'New', 100, 0),
-(21, 19, 'New', 100, 0);
+(22, 20, 'New', 100, 0),
+(23, 1, 'New', 1552, 0),
+(30, 27, 'New', 100, 0),
+(32, 29, 'New', 100, 0);
 
 -- --------------------------------------------------------
 
@@ -1332,24 +1571,24 @@ CREATE TABLE `tour` (
 
 INSERT INTO `tour` (`id`, `idks`, `Name`, `Style`, `Price`, `Child_price_percen`, `Max_participant`, `Min_participant`, `Description`, `Status`, `Depart`, `DepartureLocation`, `Itinerary`, `employeesId`, `type`, `timetour`, `discount`, `vehicle`, `vung`) VALUES
 (46, 9, 'Hà Nội', 'Hiện đại', 2400000, '45', 30, 10, 'Hà Nội, thủ đô của Việt Nam, nổi bật với sự kết hợp hài hòa giữa vẻ đẹp cổ kính và sự phát triển hiện đại. Nếu bạn có dịp đến thăm Hà Nội, một tour tham quan sẽ là cách tuyệt vời để khám phá những điểm đến nổi bật và tìm hiểu về lịch sử, văn hóa, cũng như ẩm thực đặc sắc của thành phố này.\\r\\n\\r\\nCác điểm tham quan nổi bật trong Tour Hà Nội:\\r\\nHoàn Kiếm và Hồ Gươm:\\r\\n\\r\\nĐây là biểu tượng của Hà Nội, gắn liền với câu chuyện lịch sử và truyền thuyết về thanh gươm. Du khách có thể tham quan đền Ngọc Sơn, tháp Rùa, và đi dạo quanh hồ để tận hưởng không gian yên bình giữa lòng thành phố.\\r\\nKhu phố cổ Hà Nội:\\r\\n\\r\\nKhu phố cổ là nơi lưu giữ nét đẹp truyền thống của Hà Nội với những ngôi nhà cổ, các con phố nhỏ hẹp và các cửa hàng bán đồ thủ công, đặc sản. Đây cũng là nơi bạn có thể thưởng thức nhiều món ăn đặc sản như phở, bún chả, nem rán.\\r\\nLăng Chủ tịch Hồ Chí Minh:\\r\\n\\r\\nLăng Hồ Chí Minh là nơi an nghỉ của Chủ tịch Hồ Chí Minh, vị lãnh tụ vĩ đại của dân tộc Việt Nam. Đây là một trong những điểm đến không thể thiếu trong hành trình khám phá Hà Nội.\\r\\nChùa Một Cột:\\r\\n\\r\\nĐây là ngôi chùa nổi tiếng với kiến trúc độc đáo, được xây dựng trên một cột đá duy nhất, mang đậm dấu ấn văn hóa Phật giáo của Hà Nội.\\r\\nBảo tàng Dân tộc học Việt Nam:\\r\\n\\r\\nMột trong những bảo tàng nổi bật tại Hà Nội, nơi lưu giữ và trưng bày các hiện vật, hình ảnh về các dân tộc và nền văn hóa đa dạng của Việt Nam.\\r\\nVăn Miếu – Quốc Tử Giám:\\r\\n\\r\\nLà trường đại học đầu tiên của Việt Nam, Văn Miếu không chỉ có giá trị lịch sử mà còn là biểu tượng của nền giáo dục Việt Nam xưa.\\r\\nHồ Tây:\\r\\n\\r\\nHồ Tây là hồ lớn nhất và đẹp nhất Hà Nội, thích hợp cho những ai muốn thư giãn, dạo bộ quanh hồ hoặc thưởng thức cà phê tại các quán ven hồ.\\r\\nHoạt động trong Tour Hà Nội:\\r\\nThưởng thức ẩm thực Hà Nội: Không thể thiếu khi tham gia tour Hà Nội là việc thưởng thức các món ăn đặc trưng như phở, bún thang, bún chả, cốm làng Vòng, và các loại chè truyền thống.\\r\\nTham quan các chợ truyền thống: Chợ Đồng Xuân, chợ Hàng Da, và chợ đêm Hà Nội là những nơi bạn có thể mua sắm đồ lưu niệm hoặc các sản phẩm thủ công độc đáo.\\r\\nDạo thuyền trên Hồ Tây hoặc Hồ Hoàn Kiếm: Trải nghiệm dạo thuyền giúp bạn cảm nhận không gian yên bình và lãng mạn của Hà Nội.\\r\\nThời gian lý tưởng cho Tour Hà Nội:\\r\\nHà Nội có bốn mùa rõ rệt, và mỗi mùa đều mang một vẻ đẹp đặc trưng:\\r\\n\\r\\nMùa xuân (tháng 1 – tháng 3): Thời tiết mát mẻ, cây cối đâm chồi nảy lộc, thích hợp cho việc tham quan.\\r\\nMùa hè (tháng 5 – tháng 8): Thời tiết ấm áp, phù hợp để tham quan các hồ, công viên và thưởng thức món ăn đường phố.\\r\\nMùa thu (tháng 9 – tháng 11): Mùa thu Hà Nội nổi tiếng với không khí mát mẻ, là thời điểm lý tưởng để dạo chơi và tận hưởng vẻ đẹp của các con phố cổ.\\r\\nMùa đông (tháng 12 – tháng 2): Mùa đông Hà Nội có khí lạnh, thích hợp cho những ai yêu thích sự yên tĩnh và lãng mạn.\', \'Active\', \'2025-01-17\', \'TP.Hồ Chí Minh\', \'Day 1:Hà Nội Day2:Hồ\', 1, \'Gia đình\', \'2 ngày 1 đêm\', 1900000, \'Máy bay\', \'Bắc\'),\r\n\r\n', 'Hoạt động', '2025-03-17', 'TP.Hồ Chí Minh', 'Day 1:Hà Nội \r\nDay2:Hồ', 1, 'Gia đình', '2 ngày 1 đêm', 1900000, 'Máy bay', 'Bắc'),
-(47, 9, 'Đà Nẵng', 'Cổ đại', 1600000, '40', 30, 10, 'Đà Nẵng, thành phố ven biển xinh đẹp của miền Trung Việt Nam, nổi bật với những bãi biển dài, cảnh quan thiên nhiên tuyệt đẹp, các di tích lịch sử, và ẩm thực đặc sắc. Tour Đà Nẵng là cơ hội tuyệt vời để khám phá một trong những thành phố năng động và phát triển bậc nhất của Việt Nam, nơi kết hợp giữa vẻ đẹp hiện đại và truyền thống.\\r\\n\\r\\nCác điểm tham quan nổi bật trong Tour Đà Nẵng:\\r\\nBà Nà Hills:\\r\\n\\r\\nBà Nà Hills là một trong những điểm du lịch nổi tiếng nhất tại Đà Nẵng, đặc biệt với cáp treo đạt kỷ lục thế giới về chiều dài. Bạn sẽ được thưởng ngoạn vẻ đẹp hùng vĩ của núi rừng và tham quan Cầu Vàng - cây cầu với đôi bàn tay khổng lồ nâng đỡ, tạo nên một khung cảnh độc đáo và ấn tượng.\\r\\nCầu Rồng:\\r\\n\\r\\nCầu Rồng là một trong những biểu tượng nổi bật của Đà Nẵng. Đặc biệt, vào mỗi cuối tuần, cầu Rồng có thể phun lửa và phun nước, tạo nên một cảnh tượng tuyệt vời thu hút nhiều du khách.\\r\\nBãi biển Mỹ Khê:\\r\\n\\r\\nVới bờ cát trắng mịn và làn nước trong xanh, Mỹ Khê là một trong những bãi biển đẹp nhất của Đà Nẵng, nơi du khách có thể thư giãn, tắm biển, tham gia các hoạt động thể thao dưới nước, hoặc thưởng thức các món hải sản tươi ngon.\\r\\nNgũ Hành Sơn:\\r\\n\\r\\nNgũ Hành Sơn là một nhóm năm ngọn núi đá vôi nổi bật, được đặt theo tên của các yếu tố trong ngũ hành (Kim, Mộc, Thủy, Hỏa, Thổ). Du khách có thể tham quan các chùa, động, và thưởng ngoạn toàn cảnh Đà Nẵng từ trên cao.\\r\\nChùa Linh Ứng:\\r\\n\\r\\nChùa Linh Ứng nằm trên bán đảo Sơn Trà, là một trong những ngôi chùa nổi tiếng với tượng Phật Bà Quan Âm cao nhất Việt Nam. Không gian yên tĩnh và cảnh quan tuyệt đẹp tại đây sẽ khiến bạn cảm thấy thư giãn và tĩnh tâm.\\r\\nCông viên Châu Á - Asia Park:\\r\\n\\r\\nLà khu vui chơi giải trí lớn với các trò chơi hấp dẫn, Asia Park đặc biệt nổi bật với Vòng quay mặt trời (Sun Wheel) cao nhất Việt Nam, từ đây du khách có thể nhìn ngắm toàn cảnh thành phố Đà Nẵng.\\r\\nCổ Viện Chàm:\\r\\n\\r\\nCổ Viện Chàm là nơi trưng bày các hiện vật văn hóa Chămpa cổ xưa, giúp du khách hiểu thêm về nền văn minh Chămpa từng phát triển mạnh mẽ tại miền Trung Việt Nam.\\r\\nHoạt động trong Tour Đà Nẵng:\\r\\nTham quan các điểm di tích lịch sử: Khám phá các ngôi chùa, di tích và bảo tàng như Chùa Linh Ứng, Cổ Viện Chàm, để tìm hiểu về lịch sử và văn hóa đặc sắc của Đà Nẵng và miền Trung.\\r\\nThưởng thức ẩm thực Đà Nẵng: Đà Nẵng nổi tiếng với các món ăn đặc sản như mì Quảng, bún chả cá, bánh tráng cuốn thịt heo, hải sản tươi sống. Đừng quên ghé qua các quán ăn ven biển để thưởng thức những món ngon.\\r\\nTrải nghiệm các hoạt động thể thao: Đà Nẵng có rất nhiều hoạt động thú vị như lướt sóng, chèo thuyền kayak, và các trò chơi thể thao dưới nước tại các bãi biển.\\r\\nThời gian lý tưởng cho Tour Đà Nẵng:\\r\\nMùa xuân (tháng 1 – tháng 3): Thời tiết mát mẻ và dễ chịu, rất thích hợp cho việc tham quan.\\r\\nMùa hè (tháng 5 – tháng 8): Thời gian lý tưởng để tắm biển và tham gia các hoạt động thể thao ngoài trời.\\r\\nMùa thu (tháng 9 – tháng 11): Thời tiết dễ chịu, không quá nóng và ít mưa, phù hợp để tham quan các điểm du lịch.\\r\\nMùa đông (tháng 12 – tháng 2): Mùa lạnh, thích hợp cho những ai muốn tránh cái cái nóng của mùa hè và tận hưởng không khí trong lành.', 'Active', '2025-03-25', 'TP.Hồ Chí Minh', 'Day 1:Đà nẵng', 1, 'Theo đoàn', '2 ngày 1 đêm', 0, 'Máy bay', 'Nam'),
-(48, 9, 'Huế', 'Hiện đại', 2400000, '30', 12, 1, 'thành phố cổ kính nằm bên dòng sông Hương, là một trong những điểm du lịch hấp dẫn nhất ở miền Trung Việt Nam. Nổi bật với di sản văn hóa phong phú, những công trình lịch sử, và cảnh sắc thiên nhiên đẹp như tranh vẽ, Huế luôn thu hút du khách với vẻ đẹp trầm mặc, huyền bí và lãng mạn. Tour Huế là cơ hội tuyệt vời để bạn khám phá những nét đặc sắc của vùng đất cố đô này.\\r\\n\\r\\nCác điểm tham quan nổi bật trong Tour Huế:\\r\\nKinh Thành Huế (Hoàng Cung):\\r\\n\\r\\nKinh Thành Huế là di sản văn hóa thế giới được UNESCO công nhận, là nơi vua Gia Long xây dựng trong thế kỷ 19, là trung tâm chính trị và văn hóa của triều đại Nguyễn. Bạn sẽ được tham quan Ngọ Môn, Cửu Đỉnh, Đại Nội, Điện Thái Hòa và nhiều công trình kiến trúc khác trong khu vực hoàng cung này.\\r\\nLăng Tẩm các vua Nguyễn:\\r\\n\\r\\nHuế nổi tiếng với các lăng tẩm của các vua triều Nguyễn, mỗi lăng có một kiến trúc riêng biệt và ẩn chứa câu chuyện lịch sử thú vị. Các lăng nổi tiếng như Lăng Khải Định, Lăng Minh Mạng, Lăng Gia Long, hay Lăng Tự Đức đều mang đậm dấu ấn kiến trúc cổ kính và sự trang nghiêm của triều đại Nguyễn.\\r\\nChùa Thiên Mụ:\\r\\n\\r\\nChùa Thiên Mụ là ngôi chùa cổ nhất và nổi tiếng nhất ở Huế, nằm trên đồi Hà Khê bên bờ sông Hương. Đây là một trong những biểu tượng của Huế, với kiến trúc độc đáo và tầm nhìn tuyệt đẹp ra sông Hương.\\r\\nSông Hương:\\r\\n\\r\\nSông Hương là một phần không thể thiếu trong Tour Huế, du khách có thể đi thuyền trên sông, tận hưởng cảnh đẹp hai bên bờ sông, chiêm ngưỡng các làng nghề truyền thống và thưởng thức những làn điệu ca Huế đặc sắc.\\r\\nChợ Đông Ba:\\r\\n\\r\\nChợ Đông Ba là chợ truyền thống lâu đời của Huế, nơi du khách có thể tìm mua những sản phẩm thủ công mỹ nghệ, đồ lưu niệm, quà tặng và các món ăn đặc sản nổi tiếng của Huế như bánh bèo, bánh nậm, cơm hến.\\r\\nCầu Trường Tiền:\\r\\n\\r\\nCầu Trường Tiền là biểu tượng của thành phố Huế, một cây cầu lịch sử nối liền hai bờ sông Hương. Cầu được xây dựng từ thời Pháp thuộc, mang một vẻ đẹp cổ kính, đặc biệt khi về đêm, ánh đèn lấp lánh phản chiếu trên mặt nước tạo nên cảnh tượng tuyệt đẹp.\\r\\nLàng nghề truyền thống Huế:\\r\\n\\r\\nHuế nổi tiếng với nhiều làng nghề truyền thống như làng nón lá Phú Cam, làng gốm Thanh Tiên, hay làng tranh dân gian. Bạn có thể tham quan các làng nghề này để tìm hiểu về quá trình sản xuất các sản phẩm thủ công mỹ nghệ độc đáo của Huế.\\r\\nHoạt động trong Tour Huế:\\r\\nTham quan các di tích lịch sử: Khám phá Kinh Thành Huế, các lăng tẩm của các vua Nguyễn, và các ngôi chùa, di tích văn hóa đặc sắc.\\r\\nThưởng thức ẩm thực Huế: Huế là thiên đường ẩm thực với các món ăn đặc trưng như bánh bèo, bánh nậm, bánh canh, cơm hến, bánh huế. Du khách có thể thưởng thức các món ăn truyền thống ngay tại các quán ăn, nhà hàng trong thành phố.\\r\\nTrải nghiệm văn hóa ca Huế: Ca Huế, loại hình âm nhạc truyền thống của Huế, là một phần không thể thiếu trong các tour tham quan. Bạn có thể nghe ca Huế trên sông Hương hoặc tại các nhà hát.\\r\\nThời gian lý tưởng cho Tour Huế:\\r\\nMùa xuân (tháng 1 – tháng 3): Thời tiết mát mẻ, dễ chịu, là thời điểm lý tưởng để tham quan các di tích và thưởng thức ẩm thực Huế.\\r\\nMùa hè (tháng 4 – tháng 6): Thời tiết nóng, thích hợp cho những ai muốn khám phá các bãi biển gần Huế như Lăng Cô.\\r\\nMùa thu (tháng 9 – tháng 11): Mùa mưa ở Huế, nhưng cũng là thời điểm Huế có khí hậu mát mẻ và ít khách du lịch, thích hợp cho những ai muốn tránh đám đông.\\r\\nMùa đông (tháng 12 – tháng 2): Huế trở nên lạnh và sương mù, tạo ra một không gian lãng mạn và huyền bí, phù hợp cho những chuyến du lịch nghỉ dưỡng.', 'Hoạt động', '2025-03-21', 'TP.Hồ Chí Minh', 'Lịch trình ngày 1:\r\nLịch trình ngày 2:', 1, 'Theo nhóm nhỏ', '2 ngày 1 đêm', 900000, 'Xe khách', 'Trung'),
-(49, 9, 'Sapa', 'Hiện đại', 2400000, '40', 40, 10, 'Sapa, một thị trấn nhỏ nằm ở phía Tây Bắc Việt Nam, nổi tiếng với những cảnh quan thiên nhiên hùng vĩ, văn hóa độc đáo của các dân tộc thiểu số, và khí hậu mát mẻ quanh năm. Đây là một điểm đến lý tưởng cho những ai yêu thích khám phá thiên nhiên, tận hưởng không khí trong lành và tìm hiểu về các phong tục tập quán đặc sắc của các cộng đồng dân tộc như H\\\'mông, Dao, Tày, Giáy. Tour Sapa mang đến cho du khách những trải nghiệm tuyệt vời về một vùng đất đầy bí ẩn và vẻ đẹp thiên nhiên.\\r\\n\\r\\nCác điểm tham quan nổi bật trong Tour Sapa:\\r\\nFansipan – Nóc nhà của Đông Dương:\\r\\n\\r\\nFansipan là đỉnh núi cao nhất Đông Dương, với độ cao 3.143m. Du khách có thể tham gia các tour leo núi, hoặc nếu không muốn leo, có thể đi cáp treo để chiêm ngưỡng toàn cảnh thiên nhiên hùng vĩ của Sapa từ trên cao.\\r\\nThị trấn Sapa:\\r\\n\\r\\nThị trấn Sapa nổi bật với những ngôi nhà có kiến trúc Pháp cổ, các khu chợ địa phương và không gian yên bình. Du khách có thể tản bộ dọc các con phố để cảm nhận vẻ đẹp thơ mộng của thị trấn này, thưởng thức các món ăn đặc sản và mua sắm các sản phẩm thủ công.\\r\\nBản Cát Cát:\\r\\n\\r\\nBản Cát Cát là một trong những bản làng của người H\\\'mông, nơi bạn có thể tìm hiểu về đời sống và văn hóa của người dân tộc thiểu số. Tại đây, bạn có thể tham quan các ngôi nhà truyền thống, xem các hoạt động sản xuất thổ cẩm, dệt vải và thưởng thức các món ăn đặc trưng.\\r\\nThung lũng Mường Hoa:\\r\\n\\r\\nThung lũng Mường Hoa nổi tiếng với những cánh đồng lúa bậc thang xanh mướt, những con suối trong vắt và những bãi đá cổ với những hình vẽ kỳ lạ. Đây là nơi lý tưởng để chụp ảnh và thưởng thức cảnh đẹp thiên nhiên hoang sơ.\\r\\nBản Tả Phìn:\\r\\n\\r\\nBản Tả Phìn là nơi sinh sống của người Dao Đỏ, nổi tiếng với nghề thêu tay và các sản phẩm thủ công mỹ nghệ. Du khách có thể tham gia các hoạt động tìm hiểu về văn hóa địa phương, ngắm cảnh và mua sắm các sản phẩm thủ công độc đáo.\\r\\nHồ Sapa:\\r\\n\\r\\nHồ Sapa là một trong những điểm du lịch nổi tiếng của thị trấn. Bạn có thể đi dạo quanh hồ, thư giãn và tận hưởng không khí trong lành của vùng núi cao.\\r\\nChợ Sapa:\\r\\n\\r\\nChợ Sapa là nơi tụ tập của các dân tộc thiểu số, đặc biệt là vào cuối tuần. Du khách có thể tìm mua các sản phẩm thủ công truyền thống như thổ cẩm, vòng tay, trang sức, và thưởng thức các món ăn đặc sản địa phương như thịt trâu gác bếp, xôi ngũ sắc.\\r\\nHoạt động trong Tour Sapa:\\r\\nTrekking và leo núi: Khám phá các bản làng xa xôi, leo núi Fansipan, hoặc trekking qua những con đường mòn, các thửa ruộng bậc thang.\\r\\nTham quan các bản làng: Ghé thăm các bản làng của người H\\\'mông, Dao, Tày, Giáy để tìm hiểu về đời sống và văn hóa đặc sắc của các dân tộc thiểu số.\\r\\nTrải nghiệm ẩm thực Sapa: Sapa nổi tiếng với các món ăn đặc sản như thịt trâu gác bếp, cá hồi Sapa, xôi ngũ sắc, măng rừng, và rượu cần.\\r\\nThăm các khu chợ: Chợ Sapa, chợ Tả Phìn, chợ Cát Cát… là những nơi bạn có thể mua sắm các sản phẩm thổ cẩm, đồ lưu niệm độc đáo.\\r\\nThời gian lý tưởng cho Tour Sapa:\\r\\nMùa xuân (tháng 1 – tháng 3): Đây là mùa hoa mận, hoa đào nở rộ, khung cảnh đẹp như tranh vẽ, thích hợp cho những ai muốn tận hưởng không khí mát mẻ và cảnh sắc tươi mới.\\r\\nMùa hè (tháng 4 – tháng 6): Thời gian lý tưởng để tham gia trekking, leo núi và khám phá thiên nhiên. Sapa vào mùa hè có khí hậu mát mẻ và dễ chịu, rất thích hợp cho các hoạt động ngoài trời.\\r\\nMùa thu (tháng 9 – tháng 11): Đây là mùa lúa chín, các cánh đồng lúa bậc thang ở Sapa khoác lên mình màu vàng óng ả. Đây là thời điểm tuyệt vời để thưởng thức cảnh sắc thiên nhiên tuyệt đẹp.\\r\\nMùa đông (tháng 12 – tháng 2): Sapa vào mùa đông có thể rất lạnh, thậm chí có tuyết rơi, tạo nên một không gian huyền bí và lãng mạn, rất thích hợp cho những ai yêu thích sự yên tĩnh và muốn trải nghiệm khí hậu lạnh.', 'Hoạt động', '2025-03-18', 'TP.Hồ Chí Minh', 'Lịch trình ngày 1:\r\nLịch trình ngày 2:\r\nLịch trình ngày 3:', 1, 'Theo đoàn', '3 ngày 2 đêm', 2900000, 'Du thuyền', 'Bắc'),
-(50, 9, 'Phú Quốc', 'Hiện đại', 5000000, '35', 50, 10, 'Phú Quốc, hòn đảo ngọc xinh đẹp của Việt Nam, nằm ở vịnh Thái Lan, được biết đến với bãi biển trong xanh, cát trắng mịn, thiên nhiên hoang sơ và hệ sinh thái phong phú. Đây là một trong những điểm du lịch hấp dẫn bậc nhất tại Việt Nam, thu hút du khách bởi cảnh quan thiên nhiên tuyệt vời, ẩm thực đặc sản độc đáo và những hoạt động giải trí thú vị. Tour Phú Quốc sẽ đưa bạn đến khám phá vẻ đẹp của thiên đường du lịch biển đảo này.\\r\\n\\r\\nCác điểm tham quan nổi bật trong Tour Phú Quốc:\\r\\nBãi Sao:\\r\\n\\r\\nBãi Sao là một trong những bãi biển đẹp nhất Phú Quốc, với cát trắng mịn và làn nước trong xanh. Nơi đây còn được biết đến với vẻ đẹp hoang sơ, là địa điểm lý tưởng để tắm biển, thư giãn và tham gia các hoạt động thể thao dưới nước như lướt ván, chèo thuyền kayak.\\r\\nVinpearl Safari Phú Quốc:\\r\\n\\r\\nVinpearl Safari là khu bảo tồn động vật bán hoang dã lớn nhất Việt Nam, nơi bạn có thể tham quan các loài động vật quý hiếm như hươu cao cổ, vượn, sư tử và các loài động vật hoang dã khác trong môi trường tự nhiên.\\r\\nCông viên giải trí VinWonders Phú Quốc:\\r\\n\\r\\nVinWonders Phú Quốc là công viên giải trí lớn, nơi du khách có thể trải nghiệm các trò chơi cảm giác mạnh, khám phá các khu vực chủ đề như Khu vui chơi nước, Thế giới phiêu lưu, và thưởng thức các chương trình biểu diễn đặc sắc.\\r\\nDinh Cậu:\\r\\n\\r\\nDinh Cậu là một ngôi đền nhỏ nằm trên một mỏm đá, với cảnh quan tuyệt đẹp hướng ra biển. Đây là nơi cầu bình an, may mắn và cũng là một điểm du lịch tâm linh quan trọng tại Phú Quốc.\\r\\nHòn Móng Tay:\\r\\n\\r\\nHòn Móng Tay là một hòn đảo nhỏ hoang sơ, với nước biển trong vắt và những bãi cát trắng mịn. Đây là một địa điểm lý tưởng để lặn ngắm san hô, tắm biển và tham gia các hoạt động ngoài trời.\\r\\nChùa Hộ Quốc (Thiền viện Trúc Lâm Phú Quốc):\\r\\n\\r\\nChùa Hộ Quốc là một trong những ngôi chùa lớn và đẹp tại Phú Quốc, được xây dựng theo kiến trúc cổ điển của Phật giáo. Tọa lạc trên đỉnh núi, chùa mang đến một không gian thanh tịnh, yên bình và có tầm nhìn rộng ra biển.\\r\\nChợ Dương Đông:\\r\\n\\r\\nChợ Dương Đông là một trong những khu chợ lớn và nhộn nhịp tại Phú Quốc. Du khách có thể đến đây để thưởng thức các món ăn đặc sản địa phương như hải sản tươi sống, bánh tét mật cật, nước mắm Phú Quốc và mua sắm các món quà lưu niệm.\\r\\nHoạt động trong Tour Phú Quốc:\\r\\nTắm biển và tham gia các hoạt động thể thao dưới nước: Phú Quốc nổi tiếng với các bãi biển đẹp như Bãi Sao, Bãi Dài, và Bãi Kem, là nơi lý tưởng để tắm biển, tham gia lướt sóng, chèo thuyền kayak và lặn ngắm san hô.\\r\\nKhám phá các đảo nhỏ: Du khách có thể tham gia các tour khám phá các đảo nhỏ quanh Phú Quốc như Hòn Móng Tay, Hòn Gầm Ghì, Hòn Đồi Mồi, để tận hưởng vẻ đẹp thiên nhiên hoang sơ và tham gia các hoạt động lặn ngắm san hô.\\r\\nThưởng thức ẩm thực Phú Quốc: Phú Quốc là thiên đường ẩm thực với các món hải sản tươi ngon như tôm hùm, cua huỳnh đế, nghêu, sò, ốc, đặc biệt là nước mắm Phú Quốc nổi tiếng. Du khách cũng có thể thưởng thức các món ăn đặc sản như bánh tét mật cật, bánh canh ghẹ.\\r\\nTham quan các di tích lịch sử và văn hóa: Ngoài các hoạt động giải trí, du khách cũng có thể tham quan các di tích lịch sử và văn hóa tại Phú Quốc, như Dinh Cậu, Chùa Hộ Quốc và các làng nghề truyền thống.\\r\\nThời gian lý tưởng cho Tour Phú Quốc:\\r\\nMùa khô (tháng 11 – tháng 4): Đây là thời gian lý tưởng để du lịch Phú Quốc, với thời tiết mát mẻ, ít mưa, rất thích hợp cho các hoạt động ngoài trời và tắm biển.\\r\\nMùa mưa (tháng 5 – tháng 10): Phú Quốc vẫn có vẻ đẹp riêng trong mùa mưa, nhưng thời tiết có thể không thuận lợi cho các hoạt động ngoài trời. Tuy nhiên, nếu bạn muốn tìm kiếm sự yên tĩnh và tránh đám đông, mùa mưa cũng là một lựa chọn.', 'Active', '2025-03-30', 'TP.Hồ Chí Minh', 'Lịch trình ngày 1:\r\nLịch trình ngày 2:', 1, 'Theo đoàn', '5 ngày 4 đêm', 4900000, 'Xe khách', 'Nam'),
+(47, 9, 'Đà Nẵng', 'Cổ đại', 1900000, '40', 30, 10, 'Đà Nẵng, thành phố ven biển xinh đẹp của miền Trung Việt Nam, nổi bật với những bãi biển dài, cảnh quan thiên nhiên tuyệt đẹp, các di tích lịch sử, và ẩm thực đặc sắc. Tour Đà Nẵng là cơ hội tuyệt vời để khám phá một trong những thành phố năng động và phát triển bậc nhất của Việt Nam, nơi kết hợp giữa vẻ đẹp hiện đại và truyền thống.\\r\\n\\r\\nCác điểm tham quan nổi bật trong Tour Đà Nẵng:\\r\\nBà Nà Hills:\\r\\n\\r\\nBà Nà Hills là một trong những điểm du lịch nổi tiếng nhất tại Đà Nẵng, đặc biệt với cáp treo đạt kỷ lục thế giới về chiều dài. Bạn sẽ được thưởng ngoạn vẻ đẹp hùng vĩ của núi rừng và tham quan Cầu Vàng - cây cầu với đôi bàn tay khổng lồ nâng đỡ, tạo nên một khung cảnh độc đáo và ấn tượng.\\r\\nCầu Rồng:\\r\\n\\r\\nCầu Rồng là một trong những biểu tượng nổi bật của Đà Nẵng. Đặc biệt, vào mỗi cuối tuần, cầu Rồng có thể phun lửa và phun nước, tạo nên một cảnh tượng tuyệt vời thu hút nhiều du khách.\\r\\nBãi biển Mỹ Khê:\\r\\n\\r\\nVới bờ cát trắng mịn và làn nước trong xanh, Mỹ Khê là một trong những bãi biển đẹp nhất của Đà Nẵng, nơi du khách có thể thư giãn, tắm biển, tham gia các hoạt động thể thao dưới nước, hoặc thưởng thức các món hải sản tươi ngon.\\r\\nNgũ Hành Sơn:\\r\\n\\r\\nNgũ Hành Sơn là một nhóm năm ngọn núi đá vôi nổi bật, được đặt theo tên của các yếu tố trong ngũ hành (Kim, Mộc, Thủy, Hỏa, Thổ). Du khách có thể tham quan các chùa, động, và thưởng ngoạn toàn cảnh Đà Nẵng từ trên cao.\\r\\nChùa Linh Ứng:\\r\\n\\r\\nChùa Linh Ứng nằm trên bán đảo Sơn Trà, là một trong những ngôi chùa nổi tiếng với tượng Phật Bà Quan Âm cao nhất Việt Nam. Không gian yên tĩnh và cảnh quan tuyệt đẹp tại đây sẽ khiến bạn cảm thấy thư giãn và tĩnh tâm.\\r\\nCông viên Châu Á - Asia Park:\\r\\n\\r\\nLà khu vui chơi giải trí lớn với các trò chơi hấp dẫn, Asia Park đặc biệt nổi bật với Vòng quay mặt trời (Sun Wheel) cao nhất Việt Nam, từ đây du khách có thể nhìn ngắm toàn cảnh thành phố Đà Nẵng.\\r\\nCổ Viện Chàm:\\r\\n\\r\\nCổ Viện Chàm là nơi trưng bày các hiện vật văn hóa Chămpa cổ xưa, giúp du khách hiểu thêm về nền văn minh Chămpa từng phát triển mạnh mẽ tại miền Trung Việt Nam.\\r\\nHoạt động trong Tour Đà Nẵng:\\r\\nTham quan các điểm di tích lịch sử: Khám phá các ngôi chùa, di tích và bảo tàng như Chùa Linh Ứng, Cổ Viện Chàm, để tìm hiểu về lịch sử và văn hóa đặc sắc của Đà Nẵng và miền Trung.\\r\\nThưởng thức ẩm thực Đà Nẵng: Đà Nẵng nổi tiếng với các món ăn đặc sản như mì Quảng, bún chả cá, bánh tráng cuốn thịt heo, hải sản tươi sống. Đừng quên ghé qua các quán ăn ven biển để thưởng thức những món ngon.\\r\\nTrải nghiệm các hoạt động thể thao: Đà Nẵng có rất nhiều hoạt động thú vị như lướt sóng, chèo thuyền kayak, và các trò chơi thể thao dưới nước tại các bãi biển.\\r\\nThời gian lý tưởng cho Tour Đà Nẵng:\\r\\nMùa xuân (tháng 1 – tháng 3): Thời tiết mát mẻ và dễ chịu, rất thích hợp cho việc tham quan.\\r\\nMùa hè (tháng 5 – tháng 8): Thời gian lý tưởng để tắm biển và tham gia các hoạt động thể thao ngoài trời.\\r\\nMùa thu (tháng 9 – tháng 11): Thời tiết dễ chịu, không quá nóng và ít mưa, phù hợp để tham quan các điểm du lịch.\\r\\nMùa đông (tháng 12 – tháng 2): Mùa lạnh, thích hợp cho những ai muốn tránh cái cái nóng của mùa hè và tận hưởng không khí trong lành.', 'Hoạt động', '2025-03-25', 'TP.Hồ Chí Minh', 'Day 1:Đà nẵng', 1, 'Theo đoàn', '2 ngày 1 đêm', 0, 'Máy bay', 'Nam'),
+(48, 9, 'Huế', 'Hiện đại', 1000000, '30', 12, 1, 'thành phố cổ kính nằm bên dòng sông Hương, là một trong những điểm du lịch hấp dẫn nhất ở miền Trung Việt Nam. Nổi bật với di sản văn hóa phong phú, những công trình lịch sử, và cảnh sắc thiên nhiên đẹp như tranh vẽ, Huế luôn thu hút du khách với vẻ đẹp trầm mặc, huyền bí và lãng mạn. Tour Huế là cơ hội tuyệt vời để bạn khám phá những nét đặc sắc của vùng đất cố đô này.\\r\\n\\r\\nCác điểm tham quan nổi bật trong Tour Huế:\\r\\nKinh Thành Huế (Hoàng Cung):\\r\\n\\r\\nKinh Thành Huế là di sản văn hóa thế giới được UNESCO công nhận, là nơi vua Gia Long xây dựng trong thế kỷ 19, là trung tâm chính trị và văn hóa của triều đại Nguyễn. Bạn sẽ được tham quan Ngọ Môn, Cửu Đỉnh, Đại Nội, Điện Thái Hòa và nhiều công trình kiến trúc khác trong khu vực hoàng cung này.\\r\\nLăng Tẩm các vua Nguyễn:\\r\\n\\r\\nHuế nổi tiếng với các lăng tẩm của các vua triều Nguyễn, mỗi lăng có một kiến trúc riêng biệt và ẩn chứa câu chuyện lịch sử thú vị. Các lăng nổi tiếng như Lăng Khải Định, Lăng Minh Mạng, Lăng Gia Long, hay Lăng Tự Đức đều mang đậm dấu ấn kiến trúc cổ kính và sự trang nghiêm của triều đại Nguyễn.\\r\\nChùa Thiên Mụ:\\r\\n\\r\\nChùa Thiên Mụ là ngôi chùa cổ nhất và nổi tiếng nhất ở Huế, nằm trên đồi Hà Khê bên bờ sông Hương. Đây là một trong những biểu tượng của Huế, với kiến trúc độc đáo và tầm nhìn tuyệt đẹp ra sông Hương.\\r\\nSông Hương:\\r\\n\\r\\nSông Hương là một phần không thể thiếu trong Tour Huế, du khách có thể đi thuyền trên sông, tận hưởng cảnh đẹp hai bên bờ sông, chiêm ngưỡng các làng nghề truyền thống và thưởng thức những làn điệu ca Huế đặc sắc.\\r\\nChợ Đông Ba:\\r\\n\\r\\nChợ Đông Ba là chợ truyền thống lâu đời của Huế, nơi du khách có thể tìm mua những sản phẩm thủ công mỹ nghệ, đồ lưu niệm, quà tặng và các món ăn đặc sản nổi tiếng của Huế như bánh bèo, bánh nậm, cơm hến.\\r\\nCầu Trường Tiền:\\r\\n\\r\\nCầu Trường Tiền là biểu tượng của thành phố Huế, một cây cầu lịch sử nối liền hai bờ sông Hương. Cầu được xây dựng từ thời Pháp thuộc, mang một vẻ đẹp cổ kính, đặc biệt khi về đêm, ánh đèn lấp lánh phản chiếu trên mặt nước tạo nên cảnh tượng tuyệt đẹp.\\r\\nLàng nghề truyền thống Huế:\\r\\n\\r\\nHuế nổi tiếng với nhiều làng nghề truyền thống như làng nón lá Phú Cam, làng gốm Thanh Tiên, hay làng tranh dân gian. Bạn có thể tham quan các làng nghề này để tìm hiểu về quá trình sản xuất các sản phẩm thủ công mỹ nghệ độc đáo của Huế.\\r\\nHoạt động trong Tour Huế:\\r\\nTham quan các di tích lịch sử: Khám phá Kinh Thành Huế, các lăng tẩm của các vua Nguyễn, và các ngôi chùa, di tích văn hóa đặc sắc.\\r\\nThưởng thức ẩm thực Huế: Huế là thiên đường ẩm thực với các món ăn đặc trưng như bánh bèo, bánh nậm, bánh canh, cơm hến, bánh huế. Du khách có thể thưởng thức các món ăn truyền thống ngay tại các quán ăn, nhà hàng trong thành phố.\\r\\nTrải nghiệm văn hóa ca Huế: Ca Huế, loại hình âm nhạc truyền thống của Huế, là một phần không thể thiếu trong các tour tham quan. Bạn có thể nghe ca Huế trên sông Hương hoặc tại các nhà hát.\\r\\nThời gian lý tưởng cho Tour Huế:\\r\\nMùa xuân (tháng 1 – tháng 3): Thời tiết mát mẻ, dễ chịu, là thời điểm lý tưởng để tham quan các di tích và thưởng thức ẩm thực Huế.\\r\\nMùa hè (tháng 4 – tháng 6): Thời tiết nóng, thích hợp cho những ai muốn khám phá các bãi biển gần Huế như Lăng Cô.\\r\\nMùa thu (tháng 9 – tháng 11): Mùa mưa ở Huế, nhưng cũng là thời điểm Huế có khí hậu mát mẻ và ít khách du lịch, thích hợp cho những ai muốn tránh đám đông.\\r\\nMùa đông (tháng 12 – tháng 2): Huế trở nên lạnh và sương mù, tạo ra một không gian lãng mạn và huyền bí, phù hợp cho những chuyến du lịch nghỉ dưỡng.', 'Hoạt động', '2025-03-21', 'TP.Hồ Chí Minh', 'Lịch trình ngày 1:\r\nLịch trình ngày 2:', 1, 'Theo nhóm nhỏ', '2 ngày 1 đêm', 900000, 'Xe khách', 'Trung'),
+(49, 9, 'Sapa', 'Hiện đại', 3100000, '40', 40, 10, 'Sapa, một thị trấn nhỏ nằm ở phía Tây Bắc Việt Nam, nổi tiếng với những cảnh quan thiên nhiên hùng vĩ, văn hóa độc đáo của các dân tộc thiểu số, và khí hậu mát mẻ quanh năm. Đây là một điểm đến lý tưởng cho những ai yêu thích khám phá thiên nhiên, tận hưởng không khí trong lành và tìm hiểu về các phong tục tập quán đặc sắc của các cộng đồng dân tộc như H\\\'mông, Dao, Tày, Giáy. Tour Sapa mang đến cho du khách những trải nghiệm tuyệt vời về một vùng đất đầy bí ẩn và vẻ đẹp thiên nhiên.\\r\\n\\r\\nCác điểm tham quan nổi bật trong Tour Sapa:\\r\\nFansipan – Nóc nhà của Đông Dương:\\r\\n\\r\\nFansipan là đỉnh núi cao nhất Đông Dương, với độ cao 3.143m. Du khách có thể tham gia các tour leo núi, hoặc nếu không muốn leo, có thể đi cáp treo để chiêm ngưỡng toàn cảnh thiên nhiên hùng vĩ của Sapa từ trên cao.\\r\\nThị trấn Sapa:\\r\\n\\r\\nThị trấn Sapa nổi bật với những ngôi nhà có kiến trúc Pháp cổ, các khu chợ địa phương và không gian yên bình. Du khách có thể tản bộ dọc các con phố để cảm nhận vẻ đẹp thơ mộng của thị trấn này, thưởng thức các món ăn đặc sản và mua sắm các sản phẩm thủ công.\\r\\nBản Cát Cát:\\r\\n\\r\\nBản Cát Cát là một trong những bản làng của người H\\\'mông, nơi bạn có thể tìm hiểu về đời sống và văn hóa của người dân tộc thiểu số. Tại đây, bạn có thể tham quan các ngôi nhà truyền thống, xem các hoạt động sản xuất thổ cẩm, dệt vải và thưởng thức các món ăn đặc trưng.\\r\\nThung lũng Mường Hoa:\\r\\n\\r\\nThung lũng Mường Hoa nổi tiếng với những cánh đồng lúa bậc thang xanh mướt, những con suối trong vắt và những bãi đá cổ với những hình vẽ kỳ lạ. Đây là nơi lý tưởng để chụp ảnh và thưởng thức cảnh đẹp thiên nhiên hoang sơ.\\r\\nBản Tả Phìn:\\r\\n\\r\\nBản Tả Phìn là nơi sinh sống của người Dao Đỏ, nổi tiếng với nghề thêu tay và các sản phẩm thủ công mỹ nghệ. Du khách có thể tham gia các hoạt động tìm hiểu về văn hóa địa phương, ngắm cảnh và mua sắm các sản phẩm thủ công độc đáo.\\r\\nHồ Sapa:\\r\\n\\r\\nHồ Sapa là một trong những điểm du lịch nổi tiếng của thị trấn. Bạn có thể đi dạo quanh hồ, thư giãn và tận hưởng không khí trong lành của vùng núi cao.\\r\\nChợ Sapa:\\r\\n\\r\\nChợ Sapa là nơi tụ tập của các dân tộc thiểu số, đặc biệt là vào cuối tuần. Du khách có thể tìm mua các sản phẩm thủ công truyền thống như thổ cẩm, vòng tay, trang sức, và thưởng thức các món ăn đặc sản địa phương như thịt trâu gác bếp, xôi ngũ sắc.\\r\\nHoạt động trong Tour Sapa:\\r\\nTrekking và leo núi: Khám phá các bản làng xa xôi, leo núi Fansipan, hoặc trekking qua những con đường mòn, các thửa ruộng bậc thang.\\r\\nTham quan các bản làng: Ghé thăm các bản làng của người H\\\'mông, Dao, Tày, Giáy để tìm hiểu về đời sống và văn hóa đặc sắc của các dân tộc thiểu số.\\r\\nTrải nghiệm ẩm thực Sapa: Sapa nổi tiếng với các món ăn đặc sản như thịt trâu gác bếp, cá hồi Sapa, xôi ngũ sắc, măng rừng, và rượu cần.\\r\\nThăm các khu chợ: Chợ Sapa, chợ Tả Phìn, chợ Cát Cát… là những nơi bạn có thể mua sắm các sản phẩm thổ cẩm, đồ lưu niệm độc đáo.\\r\\nThời gian lý tưởng cho Tour Sapa:\\r\\nMùa xuân (tháng 1 – tháng 3): Đây là mùa hoa mận, hoa đào nở rộ, khung cảnh đẹp như tranh vẽ, thích hợp cho những ai muốn tận hưởng không khí mát mẻ và cảnh sắc tươi mới.\\r\\nMùa hè (tháng 4 – tháng 6): Thời gian lý tưởng để tham gia trekking, leo núi và khám phá thiên nhiên. Sapa vào mùa hè có khí hậu mát mẻ và dễ chịu, rất thích hợp cho các hoạt động ngoài trời.\\r\\nMùa thu (tháng 9 – tháng 11): Đây là mùa lúa chín, các cánh đồng lúa bậc thang ở Sapa khoác lên mình màu vàng óng ả. Đây là thời điểm tuyệt vời để thưởng thức cảnh sắc thiên nhiên tuyệt đẹp.\\r\\nMùa đông (tháng 12 – tháng 2): Sapa vào mùa đông có thể rất lạnh, thậm chí có tuyết rơi, tạo nên một không gian huyền bí và lãng mạn, rất thích hợp cho những ai yêu thích sự yên tĩnh và muốn trải nghiệm khí hậu lạnh.', 'Hoạt động', '2025-03-18', 'TP.Hồ Chí Minh', 'Lịch trình ngày 1:\r\nLịch trình ngày 2:\r\nLịch trình ngày 3:', 1, 'Theo đoàn', '3 ngày 2 đêm', 2900000, 'Du thuyền', 'Bắc'),
+(50, 9, 'Phú Quốc', 'Hiện đại', 5500000, '35', 50, 10, 'Phú Quốc, hòn đảo ngọc xinh đẹp của Việt Nam, nằm ở vịnh Thái Lan, được biết đến với bãi biển trong xanh, cát trắng mịn, thiên nhiên hoang sơ và hệ sinh thái phong phú. Đây là một trong những điểm du lịch hấp dẫn bậc nhất tại Việt Nam, thu hút du khách bởi cảnh quan thiên nhiên tuyệt vời, ẩm thực đặc sản độc đáo và những hoạt động giải trí thú vị. Tour Phú Quốc sẽ đưa bạn đến khám phá vẻ đẹp của thiên đường du lịch biển đảo này.\\r\\n\\r\\nCác điểm tham quan nổi bật trong Tour Phú Quốc:\\r\\nBãi Sao:\\r\\n\\r\\nBãi Sao là một trong những bãi biển đẹp nhất Phú Quốc, với cát trắng mịn và làn nước trong xanh. Nơi đây còn được biết đến với vẻ đẹp hoang sơ, là địa điểm lý tưởng để tắm biển, thư giãn và tham gia các hoạt động thể thao dưới nước như lướt ván, chèo thuyền kayak.\\r\\nVinpearl Safari Phú Quốc:\\r\\n\\r\\nVinpearl Safari là khu bảo tồn động vật bán hoang dã lớn nhất Việt Nam, nơi bạn có thể tham quan các loài động vật quý hiếm như hươu cao cổ, vượn, sư tử và các loài động vật hoang dã khác trong môi trường tự nhiên.\\r\\nCông viên giải trí VinWonders Phú Quốc:\\r\\n\\r\\nVinWonders Phú Quốc là công viên giải trí lớn, nơi du khách có thể trải nghiệm các trò chơi cảm giác mạnh, khám phá các khu vực chủ đề như Khu vui chơi nước, Thế giới phiêu lưu, và thưởng thức các chương trình biểu diễn đặc sắc.\\r\\nDinh Cậu:\\r\\n\\r\\nDinh Cậu là một ngôi đền nhỏ nằm trên một mỏm đá, với cảnh quan tuyệt đẹp hướng ra biển. Đây là nơi cầu bình an, may mắn và cũng là một điểm du lịch tâm linh quan trọng tại Phú Quốc.\\r\\nHòn Móng Tay:\\r\\n\\r\\nHòn Móng Tay là một hòn đảo nhỏ hoang sơ, với nước biển trong vắt và những bãi cát trắng mịn. Đây là một địa điểm lý tưởng để lặn ngắm san hô, tắm biển và tham gia các hoạt động ngoài trời.\\r\\nChùa Hộ Quốc (Thiền viện Trúc Lâm Phú Quốc):\\r\\n\\r\\nChùa Hộ Quốc là một trong những ngôi chùa lớn và đẹp tại Phú Quốc, được xây dựng theo kiến trúc cổ điển của Phật giáo. Tọa lạc trên đỉnh núi, chùa mang đến một không gian thanh tịnh, yên bình và có tầm nhìn rộng ra biển.\\r\\nChợ Dương Đông:\\r\\n\\r\\nChợ Dương Đông là một trong những khu chợ lớn và nhộn nhịp tại Phú Quốc. Du khách có thể đến đây để thưởng thức các món ăn đặc sản địa phương như hải sản tươi sống, bánh tét mật cật, nước mắm Phú Quốc và mua sắm các món quà lưu niệm.\\r\\nHoạt động trong Tour Phú Quốc:\\r\\nTắm biển và tham gia các hoạt động thể thao dưới nước: Phú Quốc nổi tiếng với các bãi biển đẹp như Bãi Sao, Bãi Dài, và Bãi Kem, là nơi lý tưởng để tắm biển, tham gia lướt sóng, chèo thuyền kayak và lặn ngắm san hô.\\r\\nKhám phá các đảo nhỏ: Du khách có thể tham gia các tour khám phá các đảo nhỏ quanh Phú Quốc như Hòn Móng Tay, Hòn Gầm Ghì, Hòn Đồi Mồi, để tận hưởng vẻ đẹp thiên nhiên hoang sơ và tham gia các hoạt động lặn ngắm san hô.\\r\\nThưởng thức ẩm thực Phú Quốc: Phú Quốc là thiên đường ẩm thực với các món hải sản tươi ngon như tôm hùm, cua huỳnh đế, nghêu, sò, ốc, đặc biệt là nước mắm Phú Quốc nổi tiếng. Du khách cũng có thể thưởng thức các món ăn đặc sản như bánh tét mật cật, bánh canh ghẹ.\\r\\nTham quan các di tích lịch sử và văn hóa: Ngoài các hoạt động giải trí, du khách cũng có thể tham quan các di tích lịch sử và văn hóa tại Phú Quốc, như Dinh Cậu, Chùa Hộ Quốc và các làng nghề truyền thống.\\r\\nThời gian lý tưởng cho Tour Phú Quốc:\\r\\nMùa khô (tháng 11 – tháng 4): Đây là thời gian lý tưởng để du lịch Phú Quốc, với thời tiết mát mẻ, ít mưa, rất thích hợp cho các hoạt động ngoài trời và tắm biển.\\r\\nMùa mưa (tháng 5 – tháng 10): Phú Quốc vẫn có vẻ đẹp riêng trong mùa mưa, nhưng thời tiết có thể không thuận lợi cho các hoạt động ngoài trời. Tuy nhiên, nếu bạn muốn tìm kiếm sự yên tĩnh và tránh đám đông, mùa mưa cũng là một lựa chọn.', 'Hoạt động', '2025-03-30', 'TP.Hồ Chí Minh', 'Lịch trình ngày 1:\r\nLịch trình ngày 2:', 1, 'Theo đoàn', '5 ngày 4 đêm', 4900000, 'Xe khách', 'Nam'),
 (51, 9, 'Tour Miền Tây Sông Nước', 'Sinh thái', 2400000, '50', 30, 5, 'Khám phá chợ nổi Cái Răng, miệt vườn trái cây', 'Hoạt động', '2025-03-30', 'TP.Hồ Chí Minh', 'NGÀY 1: TP.HCM – MỸ THO – BẾN TRE – CẦN THƠ\r\n-Buổi sáng:\r\nKhởi hành từ TP.HCM, dừng chân tại Chùa Vĩnh Tràng (Tiền Giang) – ngôi chùa cổ với kiến trúc độc đáo.\r\nTham quan Cồn Thới Sơn, chèo xuồng ba lá trên rạch dừa nước.\r\nThưởng thức trái cây miền Tây và nghe đờn ca tài tử Nam Bộ.\r\n-Buổi trưa:\r\nĂn trưa tại Bến Tre với món cá tai tượng chiên xù, lẩu cá linh bông điên điển.\r\n-Buổi chiều:\r\nTham quan làng nghề làm kẹo dừa, cơ sở làm bánh tráng.\r\nDi chuyển về Cần Thơ, nhận phòng khách sạn.\r\n-Buổi tối:\r\nTự do khám phá chợ đêm Ninh Kiều, thưởng thức hải sản miền Tây.\r\n\r\nNGÀY 2: CẦN THƠ – CHỢ NỔI CÁI RĂNG – RỪNG TRÀM TRÀ SƯ (AN GIANG)\r\n-Buổi sáng:\r\nDậy sớm đi Chợ nổi Cái Răng, tìm hiểu nét văn hóa sông nước độc đáo.\r\nThưởng thức hủ tiếu ghe, bún riêu, cà phê kho ngay trên thuyền.\r\n-Buổi trưa:\r\nDi chuyển đến An Giang, ăn trưa tại nhà hàng địa phương.\r\n-Buổi chiều:\r\nKhám phá Rừng Tràm Trà Sư, đi thuyền xuyên rừng tràm, ngắm chim trời, hệ sinh thái độc đáo.\r\n- Buổi tối:\r\nVề thành phố Châu Đốc, tự do khám phá Miếu Bà Chúa Xứ, Lăng Thoại Ngọc Hầu.\r\n\r\nNGÀY 3: CHÂU ĐỐC – NÚI SAM – LÀNG CHĂM – VĨNH LONG\r\n-Buổi sáng:\r\nTham quan Núi Sam, ngắm toàn cảnh Châu Đốc từ trên cao.\r\nTìm hiểu văn hóa Chăm tại Làng Chăm Châu Giang.\r\n-Buổi trưa:\r\nĂn trưa với đặc sản bún cá Châu Đốc, gỏi sầu đâu khô cá lóc.\r\n- Buổi chiều:\r\nKhởi hành về Vĩnh Long, ghé Làng Gốm đỏ Mang Thít.\r\n-Buổi tối:\r\nNhận phòng khách sạn, nghỉ ngơi tại Vĩnh Long.\r\n\r\nNGÀY 4: VĨNH LONG – TP.HCM\r\n-Buổi sáng:\r\nTham quan Cù Lao An Bình, trải nghiệm bắt cá, tát mương, hái trái cây.\r\n- Buổi trưa:\r\nThưởng thức bữa ăn dân dã tại nhà vườn.\r\n-Buổi chiều:\r\nLên xe về TP.HCM, kết thúc chuyến đi.', 1, 'Gia đình', '4 ngày 3 đêm', 1000000, 'Xe khách', 'Nam'),
-(52, 9, 'Tour Côn Đảo Huyền Bí', 'Văn hóa', 2400000, '40', 20, 4, 'Viếng mộ chị Võ Thị Sáu, bãi Đầm Trầu', 'Hoạt động', '2025-02-28', 'TP.Hồ Chí Minh', 'Côn đảo', 1, 'Theo nhóm nhỏ', '3 ngày 2 đêm', 0, 'Máy bay', 'Nam'),
-(53, 9, 'Tour Vũng Tàu - Long Hải', 'Giải trí', 1200000, '30', 40, 6, 'Tắm biển, ăn hải sản, khám phá núi Minh Đạm', 'Active', '2025-03-08', 'TP.Hồ Chí Minh', 'Vũng Tàu - Long Hải', 1, 'Theo đoàn', '2 ngày 1 đêm', 1000000, 'Xe khách', 'Nam'),
-(54, 9, 'Tour Mộc Châu - Sơn La', 'Sinh thái', 2500000, '40', 20, 4, 'Đồi chè xanh mướt, thác Dải Yếm, bản làng dân tộc', 'Active', '2025-03-01', 'Hà Nội', 'Mộc Châu - Sơn La', 1, 'Gia đình', '2 ngày 1 đêm', 2400000, 'Xe khách', 'Bắc'),
-(55, 9, 'Tour Hà Giang - Cao Nguyên Đá', 'Phiêu lưu', 3900000, '50', 15, 4, 'Chinh phục đèo Mã Pí Lèng, khám phá cao nguyên đá', 'Active', '2025-03-08', 'Hà Nội', 'Hà Giang - Đồng Văn', 1, 'Theo nhóm nhỏ', '3 ngày 2 đêm', 0, 'Xe khách', 'Bắc'),
-(56, 9, 'Tour Tràng An - Bái Đính', 'Tâm linh', 1200000, '30', 40, 6, 'Tham quan chùa Bái Đính, du thuyền Tràng An', 'Active', '2025-03-14', 'Hà Nội', 'Ninh Bình - Tràng An', 1, 'Gia đình', '1 ngày', 0, 'Xe khách', 'Bắc'),
-(57, 9, 'Tour Mỹ Tho - Bến Tre', 'Sinh thái', 1200000, '50', 25, 4, 'Du ngoạn sông nước, thưởng thức đờn ca tài tử', 'Active', '2025-03-12', 'TP.Hồ Chí Minh', 'Mỹ Tho - Bến Tre', 1, 'Theo đoàn', '1 ngày', 0, 'Xe khách', 'Tây'),
-(58, 9, 'Tour An Giang - Châu Đốc', 'Tâm linh', 1800000, '40', 20, 4, 'Viếng miếu Bà Chúa Xứ, khám phá rừng Tràm Trà Sư', 'Active', '2025-02-28', 'TP.Hồ Chí Minh', 'Châu Đốc - Trà Sư', 1, 'Theo nhóm nhỏ', '2 ngày 1 đêm', 1600000, 'Xe khách', 'Tây'),
-(59, 9, 'Tour Quy Nhơn - Kỳ Co - Eo Gió', 'Phiêu lưu', 3200000, '50', 20, 4, 'Tắm biển Kỳ Co, check-in Eo Gió, khám phá hải sản', 'Active', '2025-07-10', 'TP.Hồ Chí Minh', 'Quy Nhơn - Kỳ Co - Eo Gió', 1, 'Theo nhóm nhỏ', '3 ngày 2 đêm', 3100000, 'Máy bay', 'Trung'),
-(60, 9, 'Tour Phong Nha - Kẻ Bàng', 'Sinh thái', 2500000, '50', 15, 4, 'Khám phá động Phong Nha, chèo thuyền trên sông Son', 'Active', '2025-03-08', 'Đà Nẵng', 'Quảng Bình - Phong Nha', 1, 'Gia đình', '2 ngày 1 đêm', 0, 'Xe khách', 'Trung'),
-(61, 9, 'Tour Thái Lan - Bangkok - Pattaya', 'Giải trí', 12000000, '50', 30, 5, 'Tham quan chùa Vàng, chợ nổi, đảo San Hô, phố đi bộ Pattaya', 'Active', '2025-03-01', 'TP.Hồ Chí Minh', 'Bangkok - Pattaya', 1, 'Theo đoàn', '5 ngày 4 đêm', 0, 'Máy bay', 'Ngoài nước'),
-(62, 9, 'Tour Hàn Quốc - Seoul - Nami', 'Văn hóa', 25000000, '40', 25, 4, 'Khám phá cung điện Gyeongbok, đảo Nami, tháp Namsan', 'Active', '2025-03-14', 'Hà Nội', 'Seoul - Nami - Everland', 1, 'Gia đình', '6 ngày 5 đêm', 20000000, 'Máy bay', 'Ngoài nước'),
-(63, 9, 'Tour Nhật Bản - Tokyo - Núi Phú Sĩ', 'Nghỉ dưỡng', 32000000, '50', 20, 4, 'Trải nghiệm Tokyo, Hakone, núi Phú Sĩ, suối nước nóng', 'Active', '2025-03-07', 'TP.Hồ Chí Minh', 'Tokyo - Hakone - Phú Sĩ', 1, 'Theo nhóm nhỏ', '7 ngày 6 đêm', 29000000, 'Máy bay', 'Ngoài nước'),
-(64, 9, 'Đông Bắc: Hà Nội - Hà Giang - Lũng Cú - Đồng Văn - Mã Pì Lèng', 'Sinh thái', 9000000, '40', 20, 5, 'Đông Bắc: Hà Nội - Hà Giang - Lũng Cú - Đồng Văn - Mã Pì Lèng', 'Active', '2025-03-10', 'Hà Nội', 'Ngày 1: Đà Nẵng - Hà Nội - Tuyên Quang - Hà Giang\r\nNgày 2: Hà Giang - Lũng Cú - Đồng Văn 3 bữa (sáng, trưa, chiều) \r\nNgày 3: Đồng Văn - Mã Pí Lèng - Mèo Vạc  3 bữa ăn (sáng, trưa, chiều)\r\nNgày 4: Hà Giang - Hà Nội - Đà ', 1, 'Gia đình', '4 ngày 3 đêm', 7990000, 'Máy bay', 'Bắc');
+(52, 9, 'Tour Côn Đảo Huyền Bí', 'Văn hóa', 3000000, '40', 20, 4, 'Viếng mộ chị Võ Thị Sáu, bãi Đầm Trầu', 'Hoạt động', '2025-02-28', 'TP.Hồ Chí Minh', 'Côn đảo', 1, 'Theo nhóm nhỏ', '3 ngày 2 đêm', 0, 'Máy bay', 'Nam'),
+(53, 9, 'Tour Vũng Tàu - Long Hải', 'Giải trí', 2400000, '30', 40, 6, 'Tắm biển, ăn hải sản, khám phá núi Minh Đạm', 'Hoạt động', '2025-03-08', 'TP.Hồ Chí Minh', 'Vũng Tàu - Long Hải', 1, 'Theo đoàn', '2 ngày 1 đêm', 1000000, 'Xe khách', 'Nam'),
+(54, 9, 'Tour Mộc Châu - Sơn La', 'Sinh thái', 3000000, '40', 20, 4, 'Đồi chè xanh mướt, thác Dải Yếm, bản làng dân tộc', 'Hoạt động', '2025-03-01', 'Hà Nội', 'Mộc Châu - Sơn La', 1, 'Gia đình', '2 ngày 1 đêm', 2400000, 'Xe khách', 'Bắc'),
+(55, 9, 'Tour Hà Giang - Cao Nguyên Đá', 'Phiêu lưu', 2400000, '50', 15, 4, 'Chinh phục đèo Mã Pí Lèng, khám phá cao nguyên đá', 'Hoạt động', '2025-03-08', 'Hà Nội', 'Hà Giang - Đồng Văn', 1, 'Theo nhóm nhỏ', '3 ngày 2 đêm', 0, 'Xe khách', 'Bắc'),
+(56, 9, 'Tour Tràng An - Bái Đính', 'Tâm linh', 2500000, '30', 40, 6, 'Tham quan chùa Bái Đính, du thuyền Tràng An', 'Hoạt động', '2025-03-14', 'Hà Nội', 'Ninh Bình - Tràng An', 1, 'Gia đình', '1 ngày', 0, 'Xe khách', 'Bắc'),
+(57, 9, 'Tour Mỹ Tho - Bến Tre', 'Sinh thái', 2400000, '50', 25, 4, 'Du ngoạn sông nước, thưởng thức đờn ca tài tử', 'Hoạt động', '2025-03-12', 'TP.Hồ Chí Minh', 'Mỹ Tho - Bến Tre', 1, 'Theo đoàn', '1 ngày', 0, 'Xe khách', 'Tây'),
+(58, 9, 'Tour An Giang - Châu Đốc', 'Tâm linh', 2400000, '40', 20, 4, 'Viếng miếu Bà Chúa Xứ, khám phá rừng Tràm Trà Sư', 'Hoạt động', '2025-02-28', 'TP.Hồ Chí Minh', 'Châu Đốc - Trà Sư', 1, 'Theo nhóm nhỏ', '2 ngày 1 đêm', 1600000, 'Xe khách', 'Tây'),
+(59, 9, 'Tour Quy Nhơn - Kỳ Co - Eo Gió', 'Phiêu lưu', 4000000, '50', 20, 4, 'Tắm biển Kỳ Co, check-in Eo Gió, khám phá hải sản', 'Hoạt động', '2025-07-10', 'TP.Hồ Chí Minh', 'Quy Nhơn - Kỳ Co - Eo Gió', 1, 'Theo nhóm nhỏ', '3 ngày 2 đêm', 3100000, 'Máy bay', 'Trung'),
+(60, 9, 'Tour Phong Nha - Kẻ Bàng', 'Sinh thái', 2400000, '50', 15, 4, 'Khám phá động Phong Nha, chèo thuyền trên sông Son', 'Hoạt động', '2025-03-08', 'Đà Nẵng', 'Quảng Bình - Phong Nha', 1, 'Gia đình', '2 ngày 1 đêm', 0, 'Xe khách', 'Trung'),
+(61, 9, 'Tour Thái Lan - Bangkok - Pattaya', 'Giải trí', 11000000, '50', 30, 5, 'Tham quan chùa Vàng, chợ nổi, đảo San Hô, phố đi bộ Pattaya', 'Hoạt động', '2025-03-01', 'TP.Hồ Chí Minh', 'Bangkok - Pattaya', 1, 'Theo đoàn', '5 ngày 4 đêm', 0, 'Máy bay', 'Ngoài nước'),
+(62, 9, 'Tour Hàn Quốc - Seoul - Nami', 'Văn hóa', 25000000, '40', 25, 4, 'Khám phá cung điện Gyeongbok, đảo Nami, tháp Namsan', 'Hoạt động', '2025-03-14', 'Hà Nội', 'Seoul - Nami - Everland', 1, 'Gia đình', '6 ngày 5 đêm', 20000000, 'Máy bay', 'Ngoài nước'),
+(63, 9, 'Tour Nhật Bản - Tokyo - Núi Phú Sĩ', 'Nghỉ dưỡng', 31000000, '50', 20, 4, 'Trải nghiệm Tokyo, Hakone, núi Phú Sĩ, suối nước nóng', 'Hoạt động', '2025-03-07', 'TP.Hồ Chí Minh', 'Tokyo - Hakone - Phú Sĩ', 1, 'Theo nhóm nhỏ', '7 ngày 6 đêm', 29000000, 'Máy bay', 'Ngoài nước'),
+(64, 9, 'Đông Bắc: Hà Nội - Hà Giang - Lũng Cú - Đồng Văn - Mã Pì Lèng', 'Sinh thái', 9000000, '40', 20, 5, 'Đông Bắc: Hà Nội - Hà Giang - Lũng Cú - Đồng Văn - Mã Pì Lèng', 'Hoạt động', '2025-03-10', 'Hà Nội', 'Ngày 1: Đà Nẵng - Hà Nội - Tuyên Quang - Hà Giang\r\nNgày 2: Hà Giang - Lũng Cú - Đồng Văn 3 bữa (sáng, trưa, chiều) \r\nNgày 3: Đồng Văn - Mã Pí Lèng - Mèo Vạc  3 bữa ăn (sáng, trưa, chiều)\r\nNgày 4: Hà Giang - Hà Nội - Đà ', 1, 'Gia đình', '4 ngày 3 đêm', 7990000, 'Máy bay', 'Bắc');
 
 -- --------------------------------------------------------
 
@@ -1409,97 +1648,68 @@ CREATE TABLE `tour_schedule` (
 --
 
 INSERT INTO `tour_schedule` (`id`, `id_tour`, `Name`, `Date`, `Schedule`, `Locations`) VALUES
-(1, 46, 'Hà Nội', '2025-03-17 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
-(2, 46, 'Hà Nội', '2025-03-17 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
-(3, 46, 'Hà Nội', '2025-03-17 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
-(4, 47, 'Đà Nẵng', '2025-03-25 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
-(5, 47, 'Đà Nẵng', '2025-04-08 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
-(6, 47, 'Đà Nẵng', '2025-04-01 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
-(7, 47, 'Đà Nẵng', '2025-02-25 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
-(8, 48, 'Huế', '2025-03-21 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
-(9, 48, 'Huế', '2025-03-21 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
-(10, 48, 'Huế', '2025-03-21 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
-(11, 48, 'Huế', '2025-03-21 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
-(12, 49, 'Sapa', '2025-03-18 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh'),
-(13, 49, 'Sapa', '2025-03-18 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh'),
-(14, 49, 'Sapa', '2025-03-18 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh'),
-(15, 49, 'Sapa', '2025-03-18 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh'),
-(16, 49, 'Sapa', '2025-03-18 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh'),
-(18, 50, 'Phú Quốc', '2025-03-30 00:00:00', '5 ngày 4 đêm', 'TP.Hồ Chí Minh'),
-(19, 50, 'Phú Quốc', '2025-04-06 00:00:00', '5 ngày 4 đêm', 'TP.Hồ Chí Minh'),
-(20, 50, 'Phú Quốc', '2025-04-13 00:00:00', '5 ngày 4 đêm', 'TP.Hồ Chí Minh'),
-(21, 51, 'Tour Miền Tây Sông Nước', '2025-03-30 00:00:00', '4 ngày 3 đêm', 'TP.Hồ Chí Minh'),
-(22, 51, 'Tour Miền Tây Sông Nước', '2025-03-30 00:00:00', '4 ngày 3 đêm', 'TP.Hồ Chí Minh'),
-(23, 51, 'Tour Miền Tây Sông Nước', '2025-03-30 00:00:00', '4 ngày 3 đêm', 'TP.Hồ Chí Minh'),
-(24, 51, 'Tour Miền Tây Sông Nước', '2025-03-30 00:00:00', '4 ngày 3 đêm', 'TP.Hồ Chí Minh'),
-(25, 52, 'Tour Côn Đảo Huyền Bí', '2025-02-28 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh'),
-(26, 52, 'Tour Côn Đảo Huyền Bí', '2025-02-28 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh'),
-(27, 52, 'Tour Côn Đảo Huyền Bí', '2025-02-28 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh'),
-(28, 52, 'Tour Côn Đảo Huyền Bí', '2025-02-28 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh'),
-(29, 53, 'Tour Vũng Tàu - Long Hải', '2025-03-08 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
-(30, 53, 'Tour Vũng Tàu - Long Hải', '2025-03-08 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
-(31, 53, 'Tour Vũng Tàu - Long Hải', '2025-03-15 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
-(32, 53, 'Tour Vũng Tàu - Long Hải', '2025-03-22 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
-(33, 54, 'Tour Mộc Châu - Sơn La', '2025-03-01 00:00:00', '2 ngày 1 đêm', 'Hà Nội'),
-(34, 54, 'Tour Mộc Châu - Sơn La', '2025-03-01 00:00:00', '2 ngày 1 đêm', 'Hà Nội'),
-(35, 54, 'Tour Mộc Châu - Sơn La', '2025-03-15 00:00:00', '2 ngày 1 đêm', 'Hà Nội'),
-(36, 54, 'Tour Mộc Châu - Sơn La', '2025-03-22 00:00:00', '2 ngày 1 đêm', 'Hà Nội'),
-(37, 55, 'Tour Hà Giang - Cao Nguyên Đá', '2025-03-08 00:00:00', '3 ngày 2 đêm', 'Hà Nội'),
-(38, 55, 'Tour Hà Giang - Cao Nguyên Đá', '2025-03-08 00:00:00', '3 ngày 2 đêm', 'Hà Nội'),
-(39, 55, 'Tour Hà Giang - Cao Nguyên Đá', '2025-03-15 00:00:00', '3 ngày 2 đêm', 'Hà Nội'),
-(40, 55, 'Tour Hà Giang - Cao Nguyên Đá', '2025-03-22 00:00:00', '3 ngày 2 đêm', 'Hà Nội'),
-(41, 56, 'Tour Tràng An - Bái Đính', '2025-03-14 00:00:00', '1 ngày', 'Hà Nội'),
-(42, 56, 'Tour Tràng An - Bái Đính', '2025-03-14 00:00:00', '1 ngày', 'Hà Nội'),
-(43, 56, 'Tour Tràng An - Bái Đính', '2025-03-21 00:00:00', '1 ngày', 'Hà Nội'),
-(44, 56, 'Tour Tràng An - Bái Đính', '2025-03-28 00:00:00', '1 ngày', 'Hà Nội'),
-(45, 57, 'Tour Mỹ Tho - Bến Tre', '2025-03-12 00:00:00', '1 ngày', 'TP.Hồ Chí Minh'),
-(46, 57, 'Tour Mỹ Tho - Bến Tre', '2025-03-12 00:00:00', '1 ngày', 'TP.Hồ Chí Minh'),
-(47, 57, 'Tour Mỹ Tho - Bến Tre', '2025-03-19 00:00:00', '1 ngày', 'TP.Hồ Chí Minh'),
-(48, 57, 'Tour Mỹ Tho - Bến Tre', '2025-03-26 00:00:00', '1 ngày', 'TP.Hồ Chí Minh'),
-(49, 57, 'Tour Mỹ Tho - Bến Tre', '2025-04-16 00:00:00', '1 ngày', 'TP.Hồ Chí Minh'),
-(50, 58, 'Tour An Giang - Châu Đốc', '2025-02-28 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
-(51, 58, 'Tour An Giang - Châu Đốc', '2025-02-28 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
-(52, 58, 'Tour An Giang - Châu Đốc', '2025-03-14 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
-(53, 58, 'Tour An Giang - Châu Đốc', '2025-03-28 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
 (54, 59, 'Tour Quy Nhơn - Kỳ Co - Eo Gió', '2025-07-10 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh'),
 (55, 59, 'Tour Quy Nhơn - Kỳ Co - Eo Gió', '2025-07-10 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh'),
-(56, 59, 'Tour Quy Nhơn - Kỳ Co - Eo Gió', '2025-03-28 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh'),
-(57, 59, 'Tour Quy Nhơn - Kỳ Co - Eo Gió', '2025-04-18 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh'),
-(58, 60, 'Tour Phong Nha - Kẻ Bàng', '2025-03-08 00:00:00', '2 ngày 1 đêm', 'Đà Nẵng'),
-(59, 60, 'Tour Phong Nha - Kẻ Bàng', '2025-03-08 00:00:00', '2 ngày 1 đêm', 'Đà Nẵng'),
-(60, 60, 'Tour Phong Nha - Kẻ Bàng', '2025-03-15 00:00:00', '2 ngày 1 đêm', 'Đà Nẵng'),
-(61, 60, 'Tour Phong Nha - Kẻ Bàng', '2025-03-22 00:00:00', '2 ngày 1 đêm', 'Đà Nẵng'),
-(62, 61, 'Tour Thái Lan - Bangkok - Pattaya', '2025-03-01 00:00:00', '5 ngày 4 đêm', 'TP.Hồ Chí Minh'),
-(63, 61, 'Tour Thái Lan - Bangkok - Pattaya', '2025-03-01 00:00:00', '5 ngày 4 đêm', 'TP.Hồ Chí Minh'),
-(64, 61, 'Tour Thái Lan - Bangkok - Pattaya', '2025-03-15 00:00:00', '5 ngày 4 đêm', 'TP.Hồ Chí Minh'),
-(65, 61, 'Tour Thái Lan - Bangkok - Pattaya', '2025-03-29 00:00:00', '5 ngày 4 đêm', 'TP.Hồ Chí Minh'),
-(66, 62, 'Tour Hàn Quốc - Seoul - Nami', '2025-03-14 00:00:00', '6 ngày 5 đêm', 'Hà Nội'),
-(67, 62, 'Tour Hàn Quốc - Seoul - Nami', '2025-03-14 00:00:00', '6 ngày 5 đêm', 'Hà Nội'),
-(68, 62, 'Tour Hàn Quốc - Seoul - Nami', '2025-03-28 00:00:00', '6 ngày 5 đêm', 'Hà Nội'),
-(69, 62, 'Tour Hàn Quốc - Seoul - Nami', '2025-04-04 00:00:00', '6 ngày 5 đêm', 'Hà Nội'),
-(70, 63, 'Tour Nhật Bản - Tokyo - Núi Phú Sĩ', '2025-03-07 00:00:00', '7 ngày 6 đêm', 'TP.Hồ Chí Minh'),
-(71, 63, 'Tour Nhật Bản - Tokyo - Núi Phú Sĩ', '2025-03-07 00:00:00', '7 ngày 6 đêm', 'TP.Hồ Chí Minh'),
-(72, 63, 'Tour Nhật Bản - Tokyo - Núi Phú Sĩ', '2025-03-14 00:00:00', '7 ngày 6 đêm', 'TP.Hồ Chí Minh'),
-(73, 63, 'Tour Nhật Bản - Tokyo - Núi Phú Sĩ', '2025-03-28 00:00:00', '7 ngày 6 đêm', 'TP.Hồ Chí Minh'),
-(74, 63, 'Tour Nhật Bản - Tokyo - Núi Phú Sĩ', '2025-04-04 00:00:00', '7 ngày 6 đêm', 'TP.Hồ Chí Minh'),
-(75, 64, 'Đông Bắc: Hà Nội - Hà Giang - Lũng Cú - Đồng Văn - Mã Pì Lèng', '2025-03-10 00:00:00', '4 ngày 3 đêm', 'Hà Nội'),
-(76, 64, 'Đông Bắc: Hà Nội - Hà Giang - Lũng Cú - Đồng Văn - Mã Pì Lèng', '2025-03-10 00:00:00', '4 ngày 3 đêm', 'Hà Nội'),
-(77, 64, 'Đông Bắc: Hà Nội - Hà Giang - Lũng Cú - Đồng Văn - Mã Pì Lèng', '2025-03-17 00:00:00', '4 ngày 3 đêm', 'Hà Nội'),
-(78, 64, 'Đông Bắc: Hà Nội - Hà Giang - Lũng Cú - Đồng Văn - Mã Pì Lèng', '2025-03-24 00:00:00', '4 ngày 3 đêm', 'Hà Nội'),
-(79, 64, 'Đông Bắc: Hà Nội - Hà Giang - Lũng Cú - Đồng Văn - Mã Pì Lèng', '2025-04-07 00:00:00', '4 ngày 3 đêm', 'Hà Nội'),
-(126, 46, 'Hà Nội', '2025-03-17 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
-(127, 46, 'Hà Nội', '2025-03-17 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
-(128, 46, 'Hà Nội', '2025-03-17 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
-(129, 46, 'Hà Nội', '2025-03-17 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
-(130, 46, 'Hà Nội', '2025-03-17 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
-(131, 46, 'Hà Nội', '2025-03-17 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
-(132, 46, 'Hà Nội', '2025-04-18 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
-(133, 48, 'Huế', '2025-05-01 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
-(134, 48, 'Huế', '2025-04-27 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
-(135, 49, 'Sapa', '2025-05-03 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh'),
-(136, 52, 'Tour Côn Đảo Huyền Bí', '2025-04-18 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh'),
-(137, 52, 'Tour Côn Đảo Huyền Bí', '2025-04-30 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh'),
-(138, 52, 'Tour Côn Đảo Huyền Bí', '2025-05-01 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh');
+(56, 59, 'Tour Quy Nhơn - Kỳ Co - Eo Gió', '2025-07-10 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh'),
+(57, 59, 'Tour Quy Nhơn - Kỳ Co - Eo Gió', '2025-07-10 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh'),
+(139, 47, 'Đà Nẵng', '2025-03-25 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
+(140, 47, 'Đà Nẵng', '2025-03-25 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
+(141, 47, 'Đà Nẵng', '2025-03-25 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
+(142, 46, 'Hà Nội', '2025-03-17 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
+(143, 48, 'Huế', '2025-03-21 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
+(144, 49, 'Sapa', '2025-03-18 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh'),
+(145, 49, 'Sapa', '2025-03-18 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh'),
+(146, 50, 'Phú Quốc', '2025-03-30 00:00:00', '5 ngày 4 đêm', 'TP.Hồ Chí Minh'),
+(147, 50, 'Phú Quốc', '2025-03-30 00:00:00', '5 ngày 4 đêm', 'TP.Hồ Chí Minh'),
+(148, 51, 'Tour Miền Tây Sông Nước', '2025-07-10 00:00:00', '4 ngày 3 đêm', 'TP.Hồ Chí Minh'),
+(149, 51, 'Tour Miền Tây Sông Nước', '2025-06-05 00:00:00', '4 ngày 3 đêm', 'TP.Hồ Chí Minh'),
+(150, 51, 'Tour Miền Tây Sông Nước', '2025-12-26 00:00:00', '4 ngày 3 đêm', 'TP.Hồ Chí Minh'),
+(151, 52, 'Tour Côn Đảo Huyền Bí', '2025-02-28 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh'),
+(152, 52, 'Tour Côn Đảo Huyền Bí', '2025-02-28 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh'),
+(153, 64, 'Đông Bắc: Hà Nội - Hà Giang - Lũng Cú - Đồng Văn - Mã Pì Lèng', '2025-03-10 00:00:00', '4 ngày 3 đêm', 'Hà Nội'),
+(154, 64, 'Đông Bắc: Hà Nội - Hà Giang - Lũng Cú - Đồng Văn - Mã Pì Lèng', '2025-03-10 00:00:00', '4 ngày 3 đêm', 'Hà Nội'),
+(155, 64, 'Đông Bắc: Hà Nội - Hà Giang - Lũng Cú - Đồng Văn - Mã Pì Lèng', '2025-03-10 00:00:00', '4 ngày 3 đêm', 'Hà Nội'),
+(156, 63, 'Tour Nhật Bản - Tokyo - Núi Phú Sĩ', '2025-03-07 00:00:00', '7 ngày 6 đêm', 'TP.Hồ Chí Minh'),
+(157, 63, 'Tour Nhật Bản - Tokyo - Núi Phú Sĩ', '2025-03-07 00:00:00', '7 ngày 6 đêm', 'TP.Hồ Chí Minh'),
+(158, 63, 'Tour Nhật Bản - Tokyo - Núi Phú Sĩ', '2025-03-07 00:00:00', '7 ngày 6 đêm', 'TP.Hồ Chí Minh'),
+(159, 62, 'Tour Hàn Quốc - Seoul - Nami', '2025-03-14 00:00:00', '6 ngày 5 đêm', 'Hà Nội'),
+(160, 62, 'Tour Hàn Quốc - Seoul - Nami', '2025-03-14 00:00:00', '6 ngày 5 đêm', 'Hà Nội'),
+(161, 62, 'Tour Hàn Quốc - Seoul - Nami', '2025-03-14 00:00:00', '6 ngày 5 đêm', 'Hà Nội'),
+(162, 62, 'Tour Hàn Quốc - Seoul - Nami', '2025-03-14 00:00:00', '6 ngày 5 đêm', 'Hà Nội'),
+(163, 61, 'Tour Thái Lan - Bangkok - Pattaya', '2025-03-01 00:00:00', '5 ngày 4 đêm', 'TP.Hồ Chí Minh'),
+(164, 61, 'Tour Thái Lan - Bangkok - Pattaya', '2025-03-01 00:00:00', '5 ngày 4 đêm', 'TP.Hồ Chí Minh'),
+(165, 61, 'Tour Thái Lan - Bangkok - Pattaya', '2025-03-01 00:00:00', '5 ngày 4 đêm', 'TP.Hồ Chí Minh'),
+(166, 60, 'Tour Phong Nha - Kẻ Bàng', '2025-04-24 00:00:00', '2 ngày 1 đêm', 'Đà Nẵng'),
+(167, 60, 'Tour Phong Nha - Kẻ Bàng', '2025-05-04 00:00:00', '2 ngày 1 đêm', 'Đà Nẵng'),
+(168, 60, 'Tour Phong Nha - Kẻ Bàng', '2025-05-11 00:00:00', '2 ngày 1 đêm', 'Đà Nẵng'),
+(169, 60, 'Tour Phong Nha - Kẻ Bàng', '2025-12-20 00:00:00', '2 ngày 1 đêm', 'Đà Nẵng'),
+(170, 60, 'Tour Phong Nha - Kẻ Bàng', '2025-10-16 00:00:00', '2 ngày 1 đêm', 'Đà Nẵng'),
+(171, 58, 'Tour An Giang - Châu Đốc', '2025-04-29 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
+(172, 58, 'Tour An Giang - Châu Đốc', '2025-05-07 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
+(173, 58, 'Tour An Giang - Châu Đốc', '2025-07-17 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
+(174, 58, 'Tour An Giang - Châu Đốc', '2025-12-20 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
+(175, 57, 'Tour Mỹ Tho - Bến Tre', '2025-09-12 00:00:00', '1 ngày', 'TP.Hồ Chí Minh'),
+(176, 57, 'Tour Mỹ Tho - Bến Tre', '2025-12-09 00:00:00', '1 ngày', 'TP.Hồ Chí Minh'),
+(177, 53, 'Tour Vũng Tàu - Long Hải', '2025-04-25 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
+(178, 53, 'Tour Vũng Tàu - Long Hải', '2025-06-20 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
+(179, 53, 'Tour Vũng Tàu - Long Hải', '2025-12-27 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
+(180, 54, 'Tour Mộc Châu - Sơn La', '2025-03-01 00:00:00', '2 ngày 1 đêm', 'Hà Nội'),
+(181, 54, 'Tour Mộc Châu - Sơn La', '2025-03-01 00:00:00', '2 ngày 1 đêm', 'Hà Nội'),
+(182, 54, 'Tour Mộc Châu - Sơn La', '2025-03-01 00:00:00', '2 ngày 1 đêm', 'Hà Nội'),
+(183, 54, 'Tour Mộc Châu - Sơn La', '2025-03-01 00:00:00', '2 ngày 1 đêm', 'Hà Nội'),
+(184, 55, 'Tour Hà Giang - Cao Nguyên Đá', '2025-04-23 00:00:00', '3 ngày 2 đêm', 'Hà Nội'),
+(185, 55, 'Tour Hà Giang - Cao Nguyên Đá', '2025-06-13 00:00:00', '3 ngày 2 đêm', 'Hà Nội'),
+(186, 55, 'Tour Hà Giang - Cao Nguyên Đá', '2025-07-11 00:00:00', '3 ngày 2 đêm', 'Hà Nội'),
+(187, 55, 'Tour Hà Giang - Cao Nguyên Đá', '2025-11-21 00:00:00', '3 ngày 2 đêm', 'Hà Nội'),
+(188, 56, 'Tour Tràng An - Bái Đính', '2025-03-14 00:00:00', '1 ngày', 'Hà Nội'),
+(189, 56, 'Tour Tràng An - Bái Đính', '2025-03-14 00:00:00', '1 ngày', 'Hà Nội'),
+(190, 56, 'Tour Tràng An - Bái Đính', '2025-03-14 00:00:00', '1 ngày', 'Hà Nội'),
+(191, 56, 'Tour Tràng An - Bái Đính', '2025-03-14 00:00:00', '1 ngày', 'Hà Nội'),
+(192, 56, 'Tour Tràng An - Bái Đính', '2025-03-14 00:00:00', '1 ngày', 'Hà Nội'),
+(193, 59, 'Tour Quy Nhơn - Kỳ Co - Eo Gió', '2025-07-10 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh'),
+(194, 59, 'Tour Quy Nhơn - Kỳ Co - Eo Gió', '2025-07-10 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh'),
+(195, 47, 'Đà Nẵng', '2025-03-25 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
+(196, 50, 'Phú Quốc', '2025-03-30 00:00:00', '5 ngày 4 đêm', 'TP.Hồ Chí Minh');
 
 -- --------------------------------------------------------
 
@@ -1533,8 +1743,9 @@ INSERT INTO `user_credit` (`id`, `Name`, `Address`, `Email`, `sdt`, `profile`, `
 (12, 'Skappa', 'TP BÌNH THUẬN', 'Skappa@gmail.com', '0738393890', 'tt.jpg', 'b9f85712cd4de962ab308c6e2b550bea', '2001-06-15', NULL, NULL, 0, 0, NULL, ''),
 (13, 'ma', 'TP BÌNH THUẬN', 'ma@gmail.com', '0756383989', 'qrh.PNG', '619ce14ca2272f0a86e86c3df935928f', '2004-10-22', NULL, NULL, 0, 0, NULL, ''),
 (17, 'ssss', 'ss', 'phucss@gmail.com', '0983928928', 'Đặt tour.jpg', '619ce14ca2272f0a86e86c3df935928f', '2022-07-01', NULL, NULL, 0, 0, NULL, ''),
-(18, 'Phan Hung', 'TP BÌNH THUẬN', 'comonhay@gmail.com', '0745684787', 'gallery-14.jpg', '', '2000-03-02', NULL, NULL, 0, 0, NULL, 'google'),
-(19, 'Phuc Dang', 'Gò Vấp', 'phucdang756@gmail.com', '0743526278', 'gallery-7.jpg', '', '2002-03-02', NULL, NULL, 0, 0, NULL, 'facebook');
+(20, 'sss', 'TP BÌNH THUẬN', 'sssss@gmail.com', '0838290920', 'qrh.PNG', '619ce14ca2272f0a86e86c3df935928f', '1999-06-25', NULL, NULL, 0, 0, NULL, ''),
+(27, 'Phan Hung', 'sssss', 'comonhay@gmail.com', '0736278299', 'gallery-6.jpg', '', '1996-07-07', NULL, NULL, 0, 0, NULL, 'google'),
+(29, 'Phuc Dang', 'zf', 'phucdang756@gmail.com', '0973873893', 'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=3857178607907583&height=50&width=50&ext=1746581799&hash=AbYKqbCWzxb4NVGUlyeFfy5e', '', '2004-03-07', NULL, NULL, 0, 0, NULL, 'facebook');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -1826,7 +2037,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT cho bảng `assignment_tour`
 --
 ALTER TABLE `assignment_tour`
-  MODIFY `idass` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `idass` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT cho bảng `booking_details_ks`
@@ -1838,7 +2049,7 @@ ALTER TABLE `booking_details_ks`
 -- AUTO_INCREMENT cho bảng `booking_detail_tour`
 --
 ALTER TABLE `booking_detail_tour`
-  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
+  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=118;
 
 --
 -- AUTO_INCREMENT cho bảng `booking_orderks`
@@ -1850,7 +2061,7 @@ ALTER TABLE `booking_orderks`
 -- AUTO_INCREMENT cho bảng `booking_ordertour`
 --
 ALTER TABLE `booking_ordertour`
-  MODIFY `Booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=222;
+  MODIFY `Booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=234;
 
 --
 -- AUTO_INCREMENT cho bảng `carousel`
@@ -1874,19 +2085,19 @@ ALTER TABLE `contact_details`
 -- AUTO_INCREMENT cho bảng `customer_assignment`
 --
 ALTER TABLE `customer_assignment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT cho bảng `departure_dates`
 --
 ALTER TABLE `departure_dates`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=185;
 
 --
 -- AUTO_INCREMENT cho bảng `departure_time`
 --
 ALTER TABLE `departure_time`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=197;
 
 --
 -- AUTO_INCREMENT cho bảng `deposit_hotel`
@@ -1934,19 +2145,19 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT cho bảng `news`
 --
 ALTER TABLE `news`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT cho bảng `participant`
 --
 ALTER TABLE `participant`
-  MODIFY `idpar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=136;
+  MODIFY `idpar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=143;
 
 --
 -- AUTO_INCREMENT cho bảng `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT cho bảng `rating_reviews_ks`
@@ -2006,13 +2217,13 @@ ALTER TABLE `rooms_images`
 -- AUTO_INCREMENT cho bảng `schedule`
 --
 ALTER TABLE `schedule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1039;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1309;
 
 --
 -- AUTO_INCREMENT cho bảng `tichdiem`
 --
 ALTER TABLE `tichdiem`
-  MODIFY `idtd` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `idtd` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT cho bảng `tour`
@@ -2030,13 +2241,13 @@ ALTER TABLE `tour_images`
 -- AUTO_INCREMENT cho bảng `tour_schedule`
 --
 ALTER TABLE `tour_schedule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=139;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=197;
 
 --
 -- AUTO_INCREMENT cho bảng `user_credit`
 --
 ALTER TABLE `user_credit`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- Các ràng buộc cho các bảng đã đổ

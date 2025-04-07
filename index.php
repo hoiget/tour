@@ -15,9 +15,9 @@ if (isset($_SESSION['Email'])  || isset($_SESSION['sdt'] )) {
     $dia_chi = $_SESSION['Address']; 
     $profile = $_SESSION['profile']; 
     $namsinh = $_SESSION['Datetime']; 
+ 
   
-  
-   
+    $logintype= $_SESSION['login_type'];
    // Lưu thông tin người dùng từ session
   
 
@@ -140,7 +140,7 @@ console.log("Session ID:", sessionId); // Kiểm tra giá trị
                         <ul >
                             <li class="dropdown" style="">
                                 <a href="index.php?tour"><span>Đặt tour</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                                <ul class="submenu-right" style="position: absolute;left: 100%;top: 0;background-color: black;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);z-index: 999;margin-left:10px;">
+                                <ul class="submenu-right" style="left: 100%;top: 0;background-color: black;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);z-index: 999;margin-left:10px;">
                                     <li><a href="index.php?tour&mien=Nam">Tour miền nam</a></li>
                                     <li><a href="index.php?tour&mien=Bắc">Tour miền bắc</a></li>
                                     <li><a href="index.php?tour&mien=Trung">Tour miền trung</a></li>
@@ -172,7 +172,12 @@ if (!isset($_SESSION['Email']) || !isset($_SESSION['sdt'])) {
                     <li class="dropdown">
                         <a href="index.php">
                             <span>
-                                <?php echo '<img style="width:40px;height:40px;border-radius:30px" src="assets/img/user/'.$profile.'" alt=""> '.$username; ?></span>
+                                <?php if($logintype == 'facebook') {
+                                    echo '<img style="width:40px;height:40px;border-radius:30px" src="'.$profile.'" alt=""> '.$username;
+                                }else{
+                                  echo '<img style="width:40px;height:40px;border-radius:30px" src="assets/img/user/'.$profile.'" alt=""> '.$username;
+                                }
+                                  ?></span>
                             <i class="bi bi-chevron-down toggle-dropdown"></i>
                         </a>
                         <ul>

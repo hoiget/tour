@@ -139,8 +139,8 @@ ul li a:hover {
    
     const pricePerKm = {
         "4 chỗ": 20000,  
-        "7 chỗ": 21250,  
-        "16 chỗ": 25000  
+        "7 chỗ": 30000,  
+        "16 chỗ": 40000  
     };
 
     const pricePerDay = 1000000; // Giá tiền mỗi ngày

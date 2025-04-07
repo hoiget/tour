@@ -74,6 +74,7 @@ if (isset($_GET['state']) && $_GET['state'] == 'google' && isset($_GET['code']))
 
     $email = $user_info['email'];
     $name = $user_info['name'];
+    $randomPhone = '0' . str_pad(rand(0, 999999999), 9, '0', STR_PAD_LEFT);
 
     // Kiểm tra xem user đã tồn tại chưa
     $query = $conn->prepare("SELECT * FROM user_credit WHERE Email = ? AND login_type = 'google'");
@@ -86,8 +87,8 @@ if (isset($_GET['state']) && $_GET['state'] == 'google' && isset($_GET['code']))
         $user = $result->fetch_assoc();
     } else {
         // Thêm user mới
-        $insert = $conn->prepare("INSERT INTO user_credit (Name, Email, login_type) VALUES (?, ?, 'google')");
-        $insert->bind_param("ss", $name, $email);
+        $insert = $conn->prepare("INSERT INTO user_credit (Name, Email,sdt, login_type) VALUES (?, ?,?, 'google')");
+        $insert->bind_param("sss", $name, $email,$randomPhone);
         $insert->execute();
         $newUserId = $conn->insert_id;
 
@@ -117,6 +118,7 @@ if (isset($_GET['state']) && $_GET['state'] == 'google' && isset($_GET['code']))
             $_SESSION['Name'] = $user['Name'];
             $_SESSION['profile'] = $user['profile'];
             $_SESSION['Datetime']= $user['Datetime'];
+            $_SESSION['login_type']= $user['login_type'];
             // Chuyển hướng đến trang chính
           
             header("Location: logout.php");
@@ -139,7 +141,7 @@ if (isset($_GET['state']) && $_GET['state'] == 'google' && isset($_GET['code']))
     $_SESSION['Name'] = $user['Name'];
     $_SESSION['profile'] = $user['profile'];
     $_SESSION['Datetime']= $user['Datetime'];
-
+    $_SESSION['login_type']= $user['login_type'];
     // Chuyển hướng về trang chính
     header("Location: index.php?ttcnkh");
     exit();
@@ -181,7 +183,7 @@ $redirect_uri = "http://localhost/tour/dangnhap.php";
             $email = $user_info['email'];
             $name = $user_info['name'];
             $profile_pic = $user_info['picture']['data']['url'];
-
+            $randomPhone = '0' . str_pad(rand(0, 999999999), 9, '0', STR_PAD_LEFT);
             // Kiểm tra xem user đã tồn tại chưa
             $query = $conn->prepare("SELECT * FROM user_credit WHERE Email = ? AND login_type = 'facebook'");
             $query->bind_param("s", $email);
@@ -192,8 +194,8 @@ $redirect_uri = "http://localhost/tour/dangnhap.php";
                 $user = $result->fetch_assoc();
             } else {
                 // Nếu chưa tồn tại, thêm mới
-                $insert = $conn->prepare("INSERT INTO user_credit (Name, Email, profile, login_type) VALUES (?, ?, ?, 'facebook')");
-                $insert->bind_param("sss", $name, $email, $profile_pic);
+                $insert = $conn->prepare("INSERT INTO user_credit (Name, Email,sdt, profile, login_type) VALUES (?, ?, ?,?, 'facebook')");
+                $insert->bind_param("ssss", $name, $email,$randomPhone, $profile_pic);
                 $insert->execute();
 
                 $newUserId = $conn->insert_id;
@@ -228,7 +230,7 @@ $redirect_uri = "http://localhost/tour/dangnhap.php";
                     $_SESSION['profile'] = $user['profile'];
                     $_SESSION['Datetime']= $user['Datetime'];
                     // Chuyển hướng đến trang chính
-                  
+                    $_SESSION['login_type']= $user['login_type'];
                     header("Location: logout.php");
                     header("Location: dangnhap.php");
                     
@@ -249,6 +251,7 @@ $redirect_uri = "http://localhost/tour/dangnhap.php";
             $_SESSION['Name'] = $user['Name'];
             $_SESSION['profile'] = $user['profile'];
             $_SESSION['Datetime']= $user['Datetime'];
+            $_SESSION['login_type']= $user['login_type'];
 
             // Chuyển hướng về trang chính
             header("Location: index.php");

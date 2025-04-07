@@ -523,7 +523,7 @@ function openRatingModal(Id) {
                             <div>
                                 <label for="Title">Gía tour:</label>
                                
-                                <input type="number" id="price" name="price" value="${data[0].Price}">
+                                <input type="number" id="price" name="price" value="${data[0].tourprice}">
                             </div>
                              <div>
                                 <label for="Title">Phần trăm trẻ em:</label>
