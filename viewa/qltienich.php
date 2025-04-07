@@ -145,7 +145,40 @@
     max-width: 100px; /* Đặt độ rộng tối đa của cột (tùy chỉnh theo nhu cầu) */
 }
 
+@media screen and (max-width: 768px) {
+  table thead {
+    display: none;
+  }
 
+  table, table tbody, table tr, table td {
+    display: block;
+    width: 100%;
+  }
+
+  table tr {
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: white;
+  }
+
+  table td {
+    text-align: left;
+    padding-left: 50%;
+    position: relative;
+  }
+
+  table td::before {
+    position: absolute;
+    left: 15px;
+    width: 45%;
+    white-space: nowrap;
+    font-weight: bold;
+    color: #333;
+    content: attr(data-header); /* lấy label từ thuộc tính data-header */
+  }
+}
     </style>
 <h1>Quản lý tiện ích</h1>
 <div class="modal fade" id="ratingModal" tabindex="" aria-labelledby="ratingModalLabel" aria-hidden="true">
@@ -221,6 +254,25 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 <script>
+    
+    function applyResponsiveTableHeaders() {
+  const table = document.querySelector('table');
+  const headers = Array.from(table.querySelectorAll('thead th'));
+  const rows = table.querySelectorAll('tbody tr');
+
+  rows.forEach(row => {
+    const cells = row.querySelectorAll('td');
+    cells.forEach((cell, index) => {
+      if (headers[index]) {
+        cell.setAttribute('data-header', headers[index].innerText);
+      }
+    });
+  });
+}
+
+document.addEventListener('DOMContentLoaded', applyResponsiveTableHeaders);
+
+ 
       function xemtienich() {
     $.ajax({
         url: './api/apia.php?action=xemtienich',
@@ -250,6 +302,7 @@
 `;
                 });
                 $('#employee-table').html(eventHtml);
+                applyResponsiveTableHeaders();
             } else {
                 $('#employee-table').html('<div class="col">Không tìm thấy thông tin người dùng.</div>');
             }

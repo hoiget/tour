@@ -20,9 +20,12 @@
 }
 .tour-details {
     display: flex;
-    gap: 20px; /* Giảm khoảng cách giữa ảnh và bảng chi tiết */
-    justify-content: space-between; /* Cân chỉnh các phần tử bên trong */
+    gap: 20px;
+    justify-content: space-between;
 }
+
+
+
 
 .image {
     width: 60%; /* Chiếm 50% chiều rộng của container */
@@ -136,6 +139,72 @@ h3{
 .card-img-top{
     width: 100%;
     height: 300px;
+}
+/* Điều chỉnh cho tablet và điện thoại */
+@media (max-width: 768px) {
+    .tour-details {
+        flex-direction: column; /* Chuyển sang dạng dọc */
+    }
+
+    .image, .details {
+        width: 100%; /* Chiếm toàn bộ chiều rộng */
+        height: auto;
+    }
+
+    .details1 {
+        font-size: 14px;
+    }
+
+    .details h3 {
+        font-size: 16px;
+    }
+
+    .details ul li {
+        font-size: 14px;
+    }
+
+    .departure-box span {
+        font-size: 12px;
+    }
+
+    .but {
+        font-size: 14px;
+        padding: 10px 16px;
+    }
+
+    .ndo {
+        font-size: 16px;
+    }
+
+    .review p {
+        font-size: 14px;
+    }
+}
+
+/* Thêm media nhỏ hơn nếu cần */
+@media (max-width: 480px) {
+    .details h3 {
+        font-size: 14px;
+    }
+
+    .details ul li,
+    .ndo,
+    .review p {
+        font-size: 12px;
+    }
+
+    .but {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+
+    .departure-box span {
+        font-size: 10px;
+    }
+
+    .details1 {
+        font-size: 12px;
+    }
 }
 </style>
 <main class="main-content">

@@ -85,24 +85,21 @@
     background-color: white;
 }
 
-
 .tour-cards {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 15px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Luôn 3 cột */
    
-
+    gap: 15px;
 }
 
 .tour-card {
-    width: 30%; /* Đảm bảo 3 phần tử trên 1 hàng */
     margin-bottom: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
     overflow: hidden;
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 
 .tour-card img {

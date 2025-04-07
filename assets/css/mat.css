@@ -1,7 +1,9 @@
 .password-container {
     position: relative;
     width: 100%; /* Đảm bảo khớp với kích thước của input */
+   
 }
+
 
 .password-container input {
     width: 91%;

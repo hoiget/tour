@@ -143,6 +143,41 @@
     border-radius: 8px;
     background-color: white; /* Đảm bảo nền trắng cho vùng cuộn */
 }
+@media screen and (max-width: 768px) {
+  table thead {
+    display: none;
+  }
+
+  table, table tbody, table tr, table td {
+    display: block;
+    width: 100%;
+  }
+
+  table tr {
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: white;
+  }
+
+  table td {
+    text-align: left;
+    padding-left: 50%;
+    position: relative;
+  }
+
+  table td::before {
+    position: absolute;
+    left: 15px;
+    width: 45%;
+    white-space: nowrap;
+    font-weight: bold;
+    color: #333;
+    content: attr(data-header); /* lấy label từ thuộc tính data-header */
+  }
+}
+
     </style>
 <h1>Quản lý nhân viên</h1>
 <div class="modal fade" id="ratingModal" tabindex="" aria-labelledby="ratingModalLabel" aria-hidden="true">
@@ -191,6 +226,23 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 <script>
+    function applyResponsiveTableHeaders() {
+  const table = document.querySelector('table');
+  const headers = Array.from(table.querySelectorAll('thead th'));
+  const rows = table.querySelectorAll('tbody tr');
+
+  rows.forEach(row => {
+    const cells = row.querySelectorAll('td');
+    cells.forEach((cell, index) => {
+      if (headers[index]) {
+        cell.setAttribute('data-header', headers[index].innerText);
+      }
+    });
+  });
+}
+
+document.addEventListener('DOMContentLoaded', applyResponsiveTableHeaders);
+
       function xemnhanvien() {
     $.ajax({
         url: './api/apia.php?action=xemnhanvien',
@@ -201,6 +253,7 @@
                 var events = response;
                 var eventHtml = '';
                 events.forEach(function(event) {
+                    applyResponsiveTableHeaders();
                     eventHtml += `
                      
                       <tr>
@@ -227,6 +280,7 @@
 `;
                 });
                 $('#employee-table').html(eventHtml);
+                applyResponsiveTableHeaders();
             } else {
                 $('#employee-table').html('<div class="col">Không tìm thấy thông tin người dùng.</div>');
             }
@@ -284,6 +338,7 @@ function searchEmployee(event) {
                     </tr>`;
                     });
                     $('#employee-table').html(eventHtml);
+                    applyResponsiveTableHeaders();
                 } else {
                     $('#employee-table').html('<tr><td colspan="8">Không tìm thấy nhân viên nào.</td></tr>');
                 }

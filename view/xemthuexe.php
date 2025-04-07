@@ -1,22 +1,57 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        .container45{
-height: auto;
+    .container45 {
+        height: auto;
+        padding: 10px;
+    }
+
+    /* Cho phép cuộn ngang trên màn hình nhỏ */
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    table th, table td {
+        white-space: nowrap; /* Không xuống dòng */
+    }
+
+    /* Điều chỉnh font và padding cho thiết bị nhỏ */
+    @media (max-width: 768px) {
+        h2 {
+            font-size: 20px;
         }
-        ul li a {
-    text-decoration: none !important;
-}
-a{
-    text-decoration: none !important;
-}
-ul li a:hover {
-    text-decoration: none !important;
-}
+
+        table th, table td {
+            font-size: 12px;
+            padding: 6px;
+        }
+
+        .container45 {
+            padding: 5px;
+        }
+
+        /* Có thể ẩn bớt cột nếu cần tối giản */
+        td:nth-child(3), th:nth-child(3), /* SĐT */
+        td:nth-child(9), th:nth-child(9)  /* Giá tiền */ {
+            display: none;
+        }
+    }
+
+    /* Đảm bảo liên kết không có gạch chân */
+    ul li a,
+    a {
+        text-decoration: none !important;
+    }
+
+    ul li a:hover {
+        text-decoration: none !important;
+    }
 
     </style>
     <div class="container45 mt-4">
         <center><h2>Danh sách Thuê Xe</h2></center>
+        <div class="table-responsive">
+
         <table class="table table-bordered mt-3">
             <thead>
                 <tr>
@@ -37,6 +72,7 @@ ul li a:hover {
             </tbody>
         </table>
     </div>
+</div>
     <script>
            function loadRentals(){
     $.ajax({

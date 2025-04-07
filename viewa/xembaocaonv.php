@@ -95,7 +95,48 @@ while ($row = $stmt->fetch_assoc()) {
     text-decoration: none;
     font-size: 14px;
 }
+@media (max-width: 768px) {
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
 
+    thead {
+        display: none;
+    }
+
+    tr {
+        margin-bottom: 15px;
+        border-bottom: 2px solid #ddd;
+        padding: 10px;
+        background: white;
+        border-radius: 6px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    td {
+        position: relative;
+        padding-left: 50%;
+        text-align: left;
+        border: none;
+        border-bottom: 1px solid #eee;
+    }
+
+    td::before {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        font-weight: bold;
+        color: #555;
+        content: attr(data-label);
+    }
+
+    .details-btn {
+        margin-left: 12px;
+    }
+}
 </style>
 <table>
     <thead>
@@ -112,17 +153,18 @@ while ($row = $stmt->fetch_assoc()) {
     <tbody>
         <?php foreach ($reports as $r) { ?>
             <tr>
-                <td><?= htmlspecialchars($r['id']) ?></td>
-                <td><?= htmlspecialchars($r['guide_name']) ?></td>
-                <td><?= ($r['report_type'] == 'tour') ? 'Báo cáo tour' : 'Báo cáo công việc' ?></td>
-                <td>
-                    <div class="details">
+                <td data-label="ID"><?= htmlspecialchars($r['id']) ?></td>
+                <td data-label="Hướng dẫn viên"><?= htmlspecialchars($r['guide_name']) ?></td>
+                <td data-label="Loại báo cáo"><?= ($r['report_type'] == 'tour') ? 'Báo cáo tour' : 'Báo cáo công việc' ?></td>
+                <td data-label="Nội dung">
+
+                    <div class="details" >
                         <?= nl2br(htmlspecialchars($r['report_content'])) ?>
                     </div>
                     <button class="details-btn" onclick="toggleDetails(this)">Xem chi tiết</button>
                 </td>
                
-                <td>
+                <td data-label="File đính kèm">
                     <?php if (!empty($r['report_file'])) { ?>
                        
                         <a href="./uploads/reports/<?=$r['report_file']?>" download target="_blank" class="pdf-btn1">Tải file</a>
@@ -132,7 +174,7 @@ while ($row = $stmt->fetch_assoc()) {
                         Không có file
                     <?php } ?>
                 </td>
-                <td><?= ucfirst(htmlspecialchars($r['status'])) ?></td>
+                <td data-label="Trạng thái"><?= ucfirst(htmlspecialchars($r['status'])) ?></td>
                
             </tr>
         <?php } ?>

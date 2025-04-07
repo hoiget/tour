@@ -88,7 +88,8 @@
 
 .tour-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(3, 1fr); /* Luôn 3 cột */
+   
     gap: 15px;
 }
 
@@ -99,6 +100,7 @@
     overflow: hidden;
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 
 
@@ -142,6 +144,44 @@ a{
 .past-date {
     text-decoration: line-through;
     color: gray;
+}
+@media (max-width: 768px) {
+  
+
+    .tour-card p,strong {
+        font-size: 14px;
+    }
+
+    .tour-card h4 {
+        font-size: 16px;
+    }
+
+    .tour-card img {
+        height: 120px;
+    }
+    .departure-box span{
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 600px) {
+
+
+    .tour-card p,strong {
+        font-size: 12px;
+    }
+
+    .tour-card h4 {
+        font-size: 14px;
+    }
+
+    .tour-card img {
+        height: 100px;
+    }
+    .departure-box span{
+        font-size: 12px;
+    }
+
 }
 
 
