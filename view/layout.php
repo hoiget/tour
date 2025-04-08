@@ -501,7 +501,9 @@
    
   </section>
  <!-- Gallery Section -->
+
  <section id="gallery" class="gallery section">
+ <h2 style="text-align: center">Tour sắp khởi hành</h2>
     <div class="container-fluid" data-aos="fade-up" data-aos-delay="100">
         <div class="row gy-4 justify-content-center" id="gallery-content">
             <!-- Danh sách tour sẽ được tải vào đây bằng AJAX -->

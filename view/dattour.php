@@ -200,6 +200,12 @@ button:hover {
         <img style="padding-right:10px" src="./assets/img/cash.jpg" width=50px height=30px alt="">
         <span>Thanh toán tiền mặt</span>
     </div>
+    <div class="payment-option" data-method="vietqr" onclick="selectPayment(this)">
+        <div class="checkbox"></div>
+        <img style="padding-right:10px" src="./assets/img/vietqr.png" width=50px height=30px alt="">
+        <span>Thanh toán vietqr</span>
+    </div>
+ 
     <div class="payment-option" data-method="vnpay" onclick="selectPayment(this)">
         <div class="checkbox"></div>
         <img style="padding-right:10px" src="./assets/img/VNPAY.png" width=50px height=30px alt="">

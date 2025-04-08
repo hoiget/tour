@@ -2326,7 +2326,46 @@ ORDER BY
         exit;
     }
     
-    
+    elseif ($action == "xemthanhtoanvietqr") {
+        $user_id = $_SESSION['id'];
+        $id = $_GET['vietqr'];
+        $query = "
+    SELECT 
+        booking_ordertour.*,
+        booking_detail_tour.*,
+        departure_time.*,
+        participant.*
+    FROM 
+        booking_ordertour 
+    LEFT JOIN 
+        booking_detail_tour ON booking_ordertour.Booking_id = booking_detail_tour.Booking_id
+    LEFT JOIN
+        departure_time ON booking_ordertour.Departure_id = departure_time.id
+    LEFT JOIN
+        participant ON booking_ordertour.Booking_id = participant.idbook
+    WHERE 
+        User_id = '$user_id' AND (booking_ordertour.Booking_id = '$id' OR departure_time.id = '$id')
+";
+
+
+        // Thực hiện truy vấn
+        $result = $conn->query($query);
+
+        $res = [];
+        if ($result && $result->num_rows > 0) {
+            // Lấy từng dòng dữ liệu
+            while ($row = $result->fetch_assoc()) {
+                $res[] = $row;
+            }
+        }
+
+        if (empty($res)) {
+            echo json_encode(["message" => "No tour found for the given ID"]);
+        } else {
+            echo json_encode($res); // Trả về dữ liệu dạng JSON
+        }
+        exit;
+    } 
     
     
    

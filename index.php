@@ -264,9 +264,9 @@ if(isset($_REQUEST['dattour'])){
 }if(isset($_REQUEST['idtt'])){
   $show = false;
   include_once("view/thanhtoan.php");
-}if(isset($_REQUEST['momo'])){
+}if(isset($_REQUEST['vietqr'])){
     $show = false;
-    include_once("view/atm_momo.php");
+    include_once("view/atm_vietqr.php");
   }if(isset($_REQUEST['cash'])){
     $show = false;
     include_once("view/tienmat.php");

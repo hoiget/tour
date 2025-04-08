@@ -499,8 +499,8 @@ function xemtrangthai() {
                                
                                 if(event.method == "vnpay"){
                                 eventHtml += `<button class="btn review"><a style="text-decoration:none;color:white" href="index.php?idtt=${event.Booking_id}">Thanh toán</a></button>`;
-                                }else if(event.method == "momo"){
-                                    eventHtml += `<button class="btn review"><a style="text-decoration:none;color:white" href="index.php?momo=${event.Booking_id}">Thanh toán</a></button>`;
+                                }else if(event.method == "vietqr"){
+                                    eventHtml += `<button class="btn review"><a style="text-decoration:none;color:white" href="index.php?vietqr=${event.Booking_id}">Thanh toán</a></button>`;
 
                                 }else if(event.method == "cash"){
                                     eventHtml += `<button class="btn review"><a style="text-decoration:none;color:white" href="index.php?cash=${event.Booking_id}">Thanh toán</a></button>`;
