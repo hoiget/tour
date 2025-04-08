@@ -187,6 +187,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'exportPdf' && isset($_GET['id'
     .details-btn {
         margin-left: 12px;
     }
+   
 }
 
     </style>
@@ -199,7 +200,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'exportPdf' && isset($_GET['id'
             <th>Hướng dẫn viên</th>
             <th>Loại báo cáo</th>
             <th>Nội dung</th>
-            <th>Xuất pdf</th>
+            <th>Xuất nội đung</th>
             <th>File đính kèm</th>
             <th>Trạng thái</th>
             <th>Hành động</th>
@@ -215,7 +216,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'exportPdf' && isset($_GET['id'
                     <div class="details"><?= nl2br(htmlspecialchars($r['report_content'])) ?></div>
                     <button class="details-btn" onclick="toggleDetails(this)">Xem chi tiết</button>
                 </td>
-                <td data-label="Xuất PDF" style="width:100px">
+                <td data-label="Xuất nội đung" >
                     <a href="indexa.php?xembaocao&action=exportPdf&id=<?= $r['id'] ?>" target="_blank" class="pdf-btn">Tải về</a>
                 </td>
                 <td data-label="File đính kèm">

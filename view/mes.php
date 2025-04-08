@@ -86,7 +86,31 @@ color:black;
     background-color: red;
     border-radius: 50%;
 }
+@media (max-width: 480px) {
+    #chat-box {
+        width: 95%;
+        right: 2.5%;
+        bottom: 150px;
+        padding: 10px;
+    }
 
+    #messages {
+        height: 180px;
+    }
+
+    #chat-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+    }
+
+    #send-btn,
+    #create-room,
+    #join-room {
+        font-size: 14px;
+        padding: 8px;
+    }
+}
 </style>
 
 

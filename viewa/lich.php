@@ -3,53 +3,119 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lịch Học</title>
+  <title>Lịch làm việc</title>
   <style>
-    .calendar-container {
-      width: 100%;
-      font-family: Arial, sans-serif;
-    }
+  .calendar-container {
+    width: 100%;
+    font-family: Arial, sans-serif;
+  }
 
-    .calendar-header {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 10px;
-    }
+  .calendar-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
 
+  .calendar-header button,
+  .calendar-header input {
+    padding: 6px 12px;
+    font-size: 16px;
+  }
+
+  .calendar-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .calendar-table th,
+  .calendar-table td {
+    border: 1px solid #ddd;
+    text-align: center;
+    padding: 10px;
+  }
+
+  .calendar-table thead {
+    background-color: #f4f4f4;
+  }
+
+  .calendar-table td {
+    vertical-align: top;
+  }
+
+  .calendar-table .empty {
+    color: #aaa;
+  }
+
+  .table-container {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: 500px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: white;
+  }
+
+  .shift-box {
+    border: 2px solid #007bff;
+    border-radius: 5px;
+    padding: 5px;
+    display: inline-block;
+    background-color: #e7f1ff;
+    font-size: 14px;
+  }
+
+  /* 👉 Responsive cho thiết bị nhỏ */
+  @media (max-width: 768px) {
     .calendar-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    .calendar-table th,
-    .calendar-table td {
-      border: 1px solid #ddd;
-      text-align: center;
-      padding: 10px;
+      border: 0;
     }
 
     .calendar-table thead {
-      background-color: #f4f4f4;
+      display: none;
+    }
+
+    .calendar-table tr {
+      display: block;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
     }
 
     .calendar-table td {
-      min-height: 100px;
-      vertical-align: top;
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 10px;
+      border: none;
+      border-bottom: 1px solid #eee;
     }
 
-    .calendar-table .empty {
-      color: #aaa;
+    .calendar-table td::before {
+      content: attr(data-label);
+      font-weight: bold;
+      color: #555;
     }
-    .table-container{
-    width: 100%; /* Chiều rộng đầy đủ */
-    overflow-x: auto; /* Cuộn ngang nếu nội dung vượt quá chiều rộng */
-    overflow-y: auto; /* Cuộn dọc nếu cần */
-    max-height: 500px; /* Giới hạn chiều cao tối đa */
-    border: 1px solid #ddd; /* Đường viền để dễ nhận diện */
-    border-radius: 8px;
-    background-color: white; /* Đảm bảo nền trắng cho vùng cuộn */
-}
-  </style>
+
+    .calendar-table td:last-child {
+      border-bottom: none;
+    }
+
+    .calendar-header {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .calendar-header button,
+    .calendar-header input {
+      width: 100%;
+      font-size: 14px;
+    }
+  }
+</style>
+
 </head>
 <body>
     <h1>Lịch làm việc</h1>
@@ -111,7 +177,21 @@
   </table>
 </div>
 </div>
- 
+ <script>
+  // Tự động thêm data-label cho từng <td>
+const addDataLabels = () => {
+    const headers = Array.from(document.querySelectorAll(".calendar-table thead th")).map(th => th.textContent.trim());
+    document.querySelectorAll(".calendar-table tbody tr").forEach(row => {
+        row.querySelectorAll("td").forEach((td, i) => {
+            td.setAttribute("data-label", headers[i]);
+        });
+    });
+};
+
+// Gọi sau khi đổ dữ liệu
+addDataLabels();
+
+ </script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const dateInput = document.getElementById("calendar-date");
@@ -177,7 +257,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (cell) {
           const content = document.createElement("div");
-          content.innerHTML = ` <div>
+          content.innerHTML = ` <div class="shift-box">
              <span>${item.Date}</span><br>
               <span>Tên lịch trình:${item.tourname}</span><br>
               <span>${item.Schedule}</span><br>

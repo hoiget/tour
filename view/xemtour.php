@@ -161,6 +161,7 @@ a{
     }
     .departure-box span{
         font-size: 12px;
+        
     }
 }
 

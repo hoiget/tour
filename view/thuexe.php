@@ -4,10 +4,14 @@
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    width: 50%;
+    max-width: 900px;
     margin: auto;
+    display: grid;
+   
 }
-
+#rent-car-form{
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
 .container90 label {
     font-weight: bold;
     margin-top: 10px;

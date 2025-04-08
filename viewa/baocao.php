@@ -1,39 +1,53 @@
+
 <style>
+/* Mobile-first */
 #reportForm {
-    width: 1000px;
-    margin: 50px auto;
-    padding: 20px;
+    width: 100%;
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 15px;
     background: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
     border-radius: 10px;
+    box-sizing: border-box;
 }
 
 #reportForm label {
     font-weight: bold;
-    margin-top: 10px;
+    margin-top: 15px;
     display: block;
 }
 
 #reportForm select,
 #reportForm textarea,
-#reportForm input {
+#reportForm input[type="file"],
+#reportForm input[type="text"],
+#reportForm input[type="email"],
+#reportForm input[type="number"] {
     width: 100%;
-    padding: 8px;
+    padding: 10px;
     margin-top: 5px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+#reportForm textarea {
+    resize: vertical;
 }
 
 #reportForm button {
     width: 100%;
-    padding: 10px;
-    margin-top: 15px;
+    padding: 12px;
+    margin-top: 20px;
     background: #28a745;
     color: white;
     border: none;
     border-radius: 5px;
-    font-size: 16px;
+    font-size: 18px;
     cursor: pointer;
+    transition: background 0.3s ease;
 }
 
 #reportForm button:hover {
@@ -46,6 +60,19 @@
     font-weight: bold;
     margin-top: 15px;
 }
+
+/* Responsive adjustments for tablet & desktop */
+@media (min-width: 768px) {
+    #reportForm {
+        padding: 30px;
+    }
+
+    #reportForm button {
+        font-size: 20px;
+    }
+}
+</style>
+
 
 </style>
 <form id="reportForm" action="./api/phancong.php?action=submitReport" method="post" enctype="multipart/form-data">

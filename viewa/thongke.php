@@ -69,14 +69,15 @@
             margin: 10px;
             text-align: center;
         }   #locationChart {
-    width: 500px !important;  /* Giảm kích thước chiều rộng */
-    height: 500px; /* Giảm kích thước chiều cao */
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     margin: auto;      /* Căn giữa */
 }
 #permissionChart{
-    width: 700px !important;
-    height: 600px !important;
+  
     margin:auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
    }
    .xuat {
     background-color: #007bff;

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th4 07, 2025 lúc 05:04 AM
+-- Thời gian đã tạo: Th4 07, 2025 lúc 12:03 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -57,8 +57,7 @@ CREATE TABLE `assignment_tour` (
 --
 
 INSERT INTO `assignment_tour` (`idass`, `id_toursche`, `employid`) VALUES
-(34, 196, 3),
-(35, 195, 7);
+(36, 197, 7);
 
 -- --------------------------------------------------------
 
@@ -750,6 +749,13 @@ CREATE TABLE `rating_reviewtour` (
   `Username` varchar(255) DEFAULT NULL,
   `Datetime` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `rating_reviewtour`
+--
+
+INSERT INTO `rating_reviewtour` (`Sr_no`, `Booking_id`, `Tour_id`, `Rating`, `Review`, `Username`, `Datetime`) VALUES
+(18, 232, 50, 5, 'sss', 'Phuc Hung', '2025-04-07');
 
 -- --------------------------------------------------------
 
@@ -1652,33 +1658,9 @@ INSERT INTO `tour_schedule` (`id`, `id_tour`, `Name`, `Date`, `Schedule`, `Locat
 (55, 59, 'Tour Quy Nhơn - Kỳ Co - Eo Gió', '2025-07-10 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh'),
 (56, 59, 'Tour Quy Nhơn - Kỳ Co - Eo Gió', '2025-07-10 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh'),
 (57, 59, 'Tour Quy Nhơn - Kỳ Co - Eo Gió', '2025-07-10 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh'),
-(139, 47, 'Đà Nẵng', '2025-03-25 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
-(140, 47, 'Đà Nẵng', '2025-03-25 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
-(141, 47, 'Đà Nẵng', '2025-03-25 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
-(142, 46, 'Hà Nội', '2025-03-17 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
-(143, 48, 'Huế', '2025-03-21 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
-(144, 49, 'Sapa', '2025-03-18 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh'),
-(145, 49, 'Sapa', '2025-03-18 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh'),
-(146, 50, 'Phú Quốc', '2025-03-30 00:00:00', '5 ngày 4 đêm', 'TP.Hồ Chí Minh'),
-(147, 50, 'Phú Quốc', '2025-03-30 00:00:00', '5 ngày 4 đêm', 'TP.Hồ Chí Minh'),
 (148, 51, 'Tour Miền Tây Sông Nước', '2025-07-10 00:00:00', '4 ngày 3 đêm', 'TP.Hồ Chí Minh'),
 (149, 51, 'Tour Miền Tây Sông Nước', '2025-06-05 00:00:00', '4 ngày 3 đêm', 'TP.Hồ Chí Minh'),
 (150, 51, 'Tour Miền Tây Sông Nước', '2025-12-26 00:00:00', '4 ngày 3 đêm', 'TP.Hồ Chí Minh'),
-(151, 52, 'Tour Côn Đảo Huyền Bí', '2025-02-28 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh'),
-(152, 52, 'Tour Côn Đảo Huyền Bí', '2025-02-28 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh'),
-(153, 64, 'Đông Bắc: Hà Nội - Hà Giang - Lũng Cú - Đồng Văn - Mã Pì Lèng', '2025-03-10 00:00:00', '4 ngày 3 đêm', 'Hà Nội'),
-(154, 64, 'Đông Bắc: Hà Nội - Hà Giang - Lũng Cú - Đồng Văn - Mã Pì Lèng', '2025-03-10 00:00:00', '4 ngày 3 đêm', 'Hà Nội'),
-(155, 64, 'Đông Bắc: Hà Nội - Hà Giang - Lũng Cú - Đồng Văn - Mã Pì Lèng', '2025-03-10 00:00:00', '4 ngày 3 đêm', 'Hà Nội'),
-(156, 63, 'Tour Nhật Bản - Tokyo - Núi Phú Sĩ', '2025-03-07 00:00:00', '7 ngày 6 đêm', 'TP.Hồ Chí Minh'),
-(157, 63, 'Tour Nhật Bản - Tokyo - Núi Phú Sĩ', '2025-03-07 00:00:00', '7 ngày 6 đêm', 'TP.Hồ Chí Minh'),
-(158, 63, 'Tour Nhật Bản - Tokyo - Núi Phú Sĩ', '2025-03-07 00:00:00', '7 ngày 6 đêm', 'TP.Hồ Chí Minh'),
-(159, 62, 'Tour Hàn Quốc - Seoul - Nami', '2025-03-14 00:00:00', '6 ngày 5 đêm', 'Hà Nội'),
-(160, 62, 'Tour Hàn Quốc - Seoul - Nami', '2025-03-14 00:00:00', '6 ngày 5 đêm', 'Hà Nội'),
-(161, 62, 'Tour Hàn Quốc - Seoul - Nami', '2025-03-14 00:00:00', '6 ngày 5 đêm', 'Hà Nội'),
-(162, 62, 'Tour Hàn Quốc - Seoul - Nami', '2025-03-14 00:00:00', '6 ngày 5 đêm', 'Hà Nội'),
-(163, 61, 'Tour Thái Lan - Bangkok - Pattaya', '2025-03-01 00:00:00', '5 ngày 4 đêm', 'TP.Hồ Chí Minh'),
-(164, 61, 'Tour Thái Lan - Bangkok - Pattaya', '2025-03-01 00:00:00', '5 ngày 4 đêm', 'TP.Hồ Chí Minh'),
-(165, 61, 'Tour Thái Lan - Bangkok - Pattaya', '2025-03-01 00:00:00', '5 ngày 4 đêm', 'TP.Hồ Chí Minh'),
 (166, 60, 'Tour Phong Nha - Kẻ Bàng', '2025-04-24 00:00:00', '2 ngày 1 đêm', 'Đà Nẵng'),
 (167, 60, 'Tour Phong Nha - Kẻ Bàng', '2025-05-04 00:00:00', '2 ngày 1 đêm', 'Đà Nẵng'),
 (168, 60, 'Tour Phong Nha - Kẻ Bàng', '2025-05-11 00:00:00', '2 ngày 1 đêm', 'Đà Nẵng'),
@@ -1693,23 +1675,14 @@ INSERT INTO `tour_schedule` (`id`, `id_tour`, `Name`, `Date`, `Schedule`, `Locat
 (177, 53, 'Tour Vũng Tàu - Long Hải', '2025-04-25 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
 (178, 53, 'Tour Vũng Tàu - Long Hải', '2025-06-20 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
 (179, 53, 'Tour Vũng Tàu - Long Hải', '2025-12-27 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
-(180, 54, 'Tour Mộc Châu - Sơn La', '2025-03-01 00:00:00', '2 ngày 1 đêm', 'Hà Nội'),
-(181, 54, 'Tour Mộc Châu - Sơn La', '2025-03-01 00:00:00', '2 ngày 1 đêm', 'Hà Nội'),
-(182, 54, 'Tour Mộc Châu - Sơn La', '2025-03-01 00:00:00', '2 ngày 1 đêm', 'Hà Nội'),
-(183, 54, 'Tour Mộc Châu - Sơn La', '2025-03-01 00:00:00', '2 ngày 1 đêm', 'Hà Nội'),
 (184, 55, 'Tour Hà Giang - Cao Nguyên Đá', '2025-04-23 00:00:00', '3 ngày 2 đêm', 'Hà Nội'),
 (185, 55, 'Tour Hà Giang - Cao Nguyên Đá', '2025-06-13 00:00:00', '3 ngày 2 đêm', 'Hà Nội'),
 (186, 55, 'Tour Hà Giang - Cao Nguyên Đá', '2025-07-11 00:00:00', '3 ngày 2 đêm', 'Hà Nội'),
 (187, 55, 'Tour Hà Giang - Cao Nguyên Đá', '2025-11-21 00:00:00', '3 ngày 2 đêm', 'Hà Nội'),
-(188, 56, 'Tour Tràng An - Bái Đính', '2025-03-14 00:00:00', '1 ngày', 'Hà Nội'),
-(189, 56, 'Tour Tràng An - Bái Đính', '2025-03-14 00:00:00', '1 ngày', 'Hà Nội'),
-(190, 56, 'Tour Tràng An - Bái Đính', '2025-03-14 00:00:00', '1 ngày', 'Hà Nội'),
-(191, 56, 'Tour Tràng An - Bái Đính', '2025-03-14 00:00:00', '1 ngày', 'Hà Nội'),
-(192, 56, 'Tour Tràng An - Bái Đính', '2025-03-14 00:00:00', '1 ngày', 'Hà Nội'),
 (193, 59, 'Tour Quy Nhơn - Kỳ Co - Eo Gió', '2025-07-10 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh'),
 (194, 59, 'Tour Quy Nhơn - Kỳ Co - Eo Gió', '2025-07-10 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh'),
-(195, 47, 'Đà Nẵng', '2025-03-25 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
-(196, 50, 'Phú Quốc', '2025-03-30 00:00:00', '5 ngày 4 đêm', 'TP.Hồ Chí Minh');
+(197, 47, 'Đà Nẵng', '2025-04-08 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh'),
+(198, 50, 'Phú Quốc', '2025-04-13 00:00:00', '5 ngày 4 đêm', 'TP.Hồ Chí Minh');
 
 -- --------------------------------------------------------
 
@@ -2037,7 +2010,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT cho bảng `assignment_tour`
 --
 ALTER TABLE `assignment_tour`
-  MODIFY `idass` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `idass` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT cho bảng `booking_details_ks`
@@ -2169,7 +2142,7 @@ ALTER TABLE `rating_reviews_ks`
 -- AUTO_INCREMENT cho bảng `rating_reviewtour`
 --
 ALTER TABLE `rating_reviewtour`
-  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT cho bảng `rentals`
@@ -2241,7 +2214,7 @@ ALTER TABLE `tour_images`
 -- AUTO_INCREMENT cho bảng `tour_schedule`
 --
 ALTER TABLE `tour_schedule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=197;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=199;
 
 --
 -- AUTO_INCREMENT cho bảng `user_credit`

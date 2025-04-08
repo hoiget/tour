@@ -145,6 +145,72 @@
     border-radius: 8px;
     background-color: white; /* Đảm bảo nền trắng cho vùng cuộn */
 }
+@media (max-width: 768px) {
+    .containerql {
+        flex-direction: column; /* Xếp dọc thay vì ngang */
+    }
+
+    .table-container, .qr-container {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 15px;
+    }
+
+    .search-bar {
+        justify-content: center;
+    }
+
+    .search-bar input {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    table {
+        font-size: 12px;
+    }
+
+    table thead {
+        display: none; /* Ẩn tiêu đề bảng để hiển thị dạng thẻ */
+    }
+
+    table tbody tr {
+        display: block;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 10px;
+        background-color: white;
+    }
+
+    table td {
+        display: flex;
+        justify-content: space-between;
+        padding: 6px 10px;
+        border: none;
+        border-bottom: 1px solid #eee;
+    }
+
+    table td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        color: #555;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    .submit-btn {
+        width: 100%;
+    }
+}
+
     </style>
 
 <h1>Quản lý dịch vụ khách sạn</h1>
@@ -184,6 +250,27 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+function addDataLabels() {
+    const table = document.querySelector('table');
+    if (!table) return;
+
+    const headers = Array.from(table.querySelectorAll('thead th')).map(th => th.textContent.trim());
+    
+    table.querySelectorAll('tbody tr').forEach(row => {
+        row.querySelectorAll('td').forEach((td, index) => {
+            if (headers[index]) {
+                td.setAttribute('data-label', headers[index]);
+            }
+        });
+    });
+}
+
+// Gọi hàm sau khi dữ liệu được load xong
+$(document).ajaxComplete(function() {
+    addDataLabels();
+});
+</script>
 
 <script>
       function xemdichvuks() {

@@ -93,11 +93,7 @@ console.log("Session ID:", sessionId); // Kiểm tra giá trị
 
 
 
-<style>
 
-
-
-</style>
 
 
     <!-- =======================================================
@@ -121,7 +117,7 @@ console.log("Session ID:", sessionId); // Kiểm tra giá trị
 
 
 
-    <header id="header" class="header d-flex align-items-center sticky-top">
+    <header style="height: 60px;" id="header" class="header d-flex align-items-center sticky-top">
         <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
 
             <a href="index.php" class="logo d-flex align-items-center me-auto me-xl-0">
@@ -454,6 +450,7 @@ Thông tin cá nhân của khách hàng sẽ được lưu trữ trong thời gi
   agent-id="6ba7722e-f169-4c21-a783-8bb322ff9377"
   language-code="vi"
 ></df-messenger>
+
 </body>
 
 </html>
