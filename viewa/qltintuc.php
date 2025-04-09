@@ -238,7 +238,7 @@
                             <div>
                             <label for="video">Chọn video mới:</label>
                                 <!-- Chọn video mới -->
-                            <input type="file" id="video" name="video" accept="video/mp4,video/avi,video/mov">
+                            <input type="text" id="video" name="video" >
                             </div>
                         </div>
                       

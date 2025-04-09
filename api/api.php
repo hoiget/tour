@@ -4,6 +4,8 @@ session_start();
 
 include_once("connect.php");
 require 'send_email.php';
+require '../log/log_helper.php';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $inputJSON = file_get_contents("php://input");
     $input = json_decode($inputJSON, true);
@@ -76,6 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['profile'] = $user['profile'];
             $_SESSION['Datetime'] = $user['Datetime'];
             $_SESSION['login_type'] = $user['login_type'];
+            log_action($conn, $user['id'], 'login', 'Đăng nhập vào hệ thống','user');
             $_SESSION['role'] = 'customer'; // Đánh dấu là khách hàng
     
             echo 'customer';
@@ -131,7 +134,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['Address'] = $employee['Address']; // Địa chỉ
             $_SESSION['Permissions'] = $employee['Permissions']; // Quyền hạn (QL, CSKH, HDV)
             $_SESSION['Created_at'] = $employee['Created_at']; // Ngày tạo tài khoản
-
+            log_action($conn, $employee['id'], 'login', 'Đăng nhập vào hệ thống','employees');
             echo 'staff'; // Điều hướng đến indexa.php
             exit();
         }

@@ -117,7 +117,10 @@ h3{
     gap: 5px;
     margin-top: 5px;
 }
-
+.item{
+    display: flex;
+    flex-wrap: wrap;
+}
 .departure-date {
     background-color: #f8f9fa; /* Màu nền nhẹ */
     border: 1px solid #ddd; /* Viền nhẹ */
@@ -206,6 +209,28 @@ h3{
         font-size: 12px;
     }
 }
+.wishlist-btn {
+    font-size: 22px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    color: gray;
+   padding-left:10px;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+}
+
+.wishlist-btn:hover {
+    transform: scale(1.2);
+}
+
+.wishlist-btn.liked {
+    color: red;
+}
+
+
 </style>
 <main class="main-content">
 
@@ -233,6 +258,72 @@ h3{
 
         </main>
         
+        <script>
+document.addEventListener("DOMContentLoaded", function () {
+    const userLoggedIn = true; // kiểm tra người dùng đã đăng nhập hay chưa (có thể sửa lại)
+
+    // Lấy danh sách item đã yêu thích từ server
+    let wishlist = [];
+    if (userLoggedIn) {
+        fetch("./api/wishlist.php?action=get&type=tour") // hoặc type=room
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === "success") {
+                    wishlist = data.items.map(String); // Chuyển về dạng chuỗi để so sánh
+                    document.querySelectorAll(".wishlist-btn").forEach(btn => {
+                        if (wishlist.includes(btn.dataset.id)) {
+                            btn.textContent = "❤️";
+                        }
+                    });
+                }
+            });
+    }
+
+    // Bấm ❤️
+    document.addEventListener("click", function (e) {
+        if (!e.target.classList.contains("wishlist-btn")) return;
+        const btn = e.target;
+        const item_id = btn.dataset.id;
+        const type = btn.dataset.type;
+
+        fetch("./api/wishlist.php?action=toggle", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: `item_id=${item_id}&type=${type}`
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === "added") {
+                btn.textContent = "❤️ yêu thích";
+            } else if (data.status === "removed") {
+                btn.textContent = "🤍 yêu thích";
+            } else {
+                alert(data.message || "Lỗi xảy ra");
+            }
+        });
+    });
+});
+function checkWishlist() {
+    const userLoggedIn = true;
+    if (userLoggedIn) {
+        fetch("./api/wishlist_api.php?action=get&type=tour")
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === "success") {
+                    const wishlist = data.items.map(String); // Đảm bảo ID là chuỗi
+                    document.querySelectorAll(".wishlist-btn").forEach(btn => {
+                        if (wishlist.includes(btn.dataset.id)) {
+                            btn.textContent = "❤️";
+                            btn.classList.add("liked");
+                        }
+                    });
+                }
+            });
+    }
+}
+
+</script>
+    
 <script>
 
 function xemdanhgiarating() {
@@ -289,7 +380,11 @@ function xemdanhgiarating() {
         });
 
         let eventHtml = `
-            <h2 style="color:black">${event.Name}</h2>
+
+            <div class="item" data-id="${event.idtour}" data-type="tour">
+                <h2 style="color:black">${event.Name}</h2>
+                <button class="wishlist-btn" data-id="${event.idtour}" data-type="tour">🤍 yêu thích</button>
+            </div>
             <div class="tour-details">
                 <div class="image">
                     <img src="./assets/img/tour/${event.Image}" alt="Tour du lịch" />
@@ -349,7 +444,10 @@ function xemdanhgiarating() {
         eventHtml += `</center>
                 </div>
             </div>
+             
             <p class="ndo" style="color:black; font-size:20px; white-space: pre-line;">
+           
+
                 <b>Lịch trình:</b> 
                 ${event.Itinerary} 
                 <b>Nội dung:</b>
@@ -357,6 +455,8 @@ function xemdanhgiarating() {
             </p>`;
 
         $('#xemchitiet').html(eventHtml);
+        checkWishlist(); // sau khi render xong mới gọi
+
     } else {
         $('#xemchitiet').html('Không tìm thấy tour với ID ' + idtour);
     }
@@ -368,6 +468,7 @@ function xemdanhgiarating() {
         }
     });
 };
+
 
 function xemdanhgia() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -383,6 +484,7 @@ function xemdanhgia() {
                 var eventHtml = '<h3>Đánh giá</h3>';
                 events.forEach(function(event, index) {
                     eventHtml += `
+                    
                         <div class="review" style="display: flex; border: 1px solid #ddd; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); margin-bottom: 10px; padding: 10px;">
                             <div style="flex: 1; border-right: 1px solid #ddd; padding-right: 10px;">
                                 <p><strong>Tên:</strong> ${event.Username}</p>

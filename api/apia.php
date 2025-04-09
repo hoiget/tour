@@ -3,7 +3,7 @@
 session_start();
 
 include_once("connect.php");
-
+require '../log/log_helper.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     $action = $_POST['action'];
@@ -196,6 +196,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $stmt->bind_param("sssssss", $tieude, $noidung, $name, $content, $videoName, $date, $ngtao);
     
                 if ($stmt->execute()) {
+                    log_action($conn, $ngtao, 'Insert', 'Thêm tin tức','employees');
                     echo 'insert_success';
                 } else {
                     echo 'error_points';
@@ -232,6 +233,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $stmt->bind_param("ssssssi", $tieude, $noidung, $name, $content, $date, $ngtao, $ma);
     
                 if ($stmt->execute()) {
+                    log_action($conn, $ngtao, 'update', 'Cập nhật tin tức','employees');
                     echo 'update_success';
                 } else {
                     echo 'error_points';
@@ -253,11 +255,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $stmt->bind_param("ssssssi", $tieude, $noidung, $content, $videoName, $date, $ngtao, $ma);
     
                 if ($stmt->execute()) {
+                    log_action($conn, $ngtao, 'update', 'Cập nhật tin tức','employees');
                     echo 'update_success';
                 } else {
                     echo 'error_points';
                 }
            
+        }else{
+            $update_query = "UPDATE news SET Title = ?, dereption = ?, Content = ?, Published_at = ?, employeesId = ? WHERE id = ?";
+                $stmt = $conn->prepare($update_query);
+                $stmt->bind_param("sssssi", $tieude, $noidung, $content, $date, $ngtao, $ma);
+    
+                if ($stmt->execute()) {
+                    log_action($conn, $ngtao, 'update', 'Cập nhật tin tức','employees');
+                    echo 'update_success';
+                } else {
+                    echo 'error_points';
+                }
         }
     }
      elseif ($action == "capnhatuser") {
@@ -1907,7 +1921,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         echo json_encode($users); // Trả về JSON
         exit;
     } elseif ($action == "xoatintuc") {
-
+        $user_id=$_SESSION['id'] ;
         $id = $_GET['idtt'];
 
         // Kiểm tra xem người dùng đã tồn tại trong cơ sở dữ liệu chưa
@@ -1916,6 +1930,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
 
         if ($conn->query($insert_query) === TRUE) {
+            log_action($conn, $user_id, 'Delete', 'Xóa tin tức','employees');
             echo 'gui';
         } else {
             echo 'kotc';
@@ -3231,6 +3246,31 @@ elseif ($action == "xong") {
 
 
     }
+    elseif ($action == "xemlog") {
+        $query = "
+            SELECT 
+                activity_logs.*, 
+                employees.Username, 
+                user_credit.Name 
+            FROM activity_logs
+            LEFT JOIN employees ON activity_logs.user_id = employees.id AND activity_logs.user_type = 'employees'
+            LEFT JOIN user_credit ON activity_logs.user_id = user_credit.id AND activity_logs.user_type = 'user'
+            ORDER BY created_at DESC
+        ";
+    
+        $result = $conn->query($query);
+        $users = [];
+    
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $users[] = $row;
+            }
+        }
+    
+        echo json_encode($users);
+        exit;
+    }
+    
 
        
 

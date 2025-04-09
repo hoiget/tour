@@ -4,7 +4,7 @@
     padding: 30px 0;
   }
 
-  .choose-text {
+  .choose-text,label {
     text-align: center;
     margin-bottom: 20px;
     font-size: 20px;
@@ -62,6 +62,12 @@
 
 <div class="choose-text">Chọn 1 tài khoản để hiển thị mã QR thanh toán</div>
 <div id="xemqr-container"></div>
+
+<div style="text-align:center; margin-top: 30px;">
+  <label for="payment-proof">Tải ảnh xác nhận thanh toán:</label><br>
+  <input type="file" id="payment-proof" accept="image/*" onchange="uploadPaymentProof()" />
+</div>
+<div id="upload-status"></div>
 
 <script>
   function xemqr() {

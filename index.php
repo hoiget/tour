@@ -183,6 +183,7 @@ if (!isset($_SESSION['Email']) || !isset($_SESSION['sdt'])) {
                             <li><a href="index.php?xemdattour">Xem đơn đặt tour</a></li>
                             <li><a href="index.php?xemdatks">Xem đơn đặt khách sạn</a></li>
                             <li><a href="index.php?xemxe">Xem đơn thuê xe</a></li>
+                            <li><a href="index.php?yeuthich">Danh sách yêu thích</a></li>
                             <li><a href="logout.php">Đăng xuất</a></li>
                           
                         </ul>
@@ -290,6 +291,9 @@ if(isset($_REQUEST['custom_tour'])){
 }if(isset($_REQUEST['xemxe'])){
   $show = false;
   include_once("view/xemthuexe.php");
+}if(isset($_REQUEST['yeuthich'])){
+  $show = false;
+  include_once("view/yeuthich.php");
 }
 include_once("view/mes.php");
 }

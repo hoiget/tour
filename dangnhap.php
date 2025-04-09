@@ -37,6 +37,13 @@
                     <button type="submit" onclick="showlogio()">Đăng nhập</button>
                     <?php
 include_once("./api/connect.php");
+// Đường dẫn đến file log_helper.php
+function log_action($conn, $user_id, $action_type, $description,$usertype) {
+    $stmt = $conn->prepare("INSERT INTO activity_logs (user_id, action_type, description,user_type) VALUES (?, ?, ?,?)");
+    $stmt->bind_param("isss", $user_id, $action_type, $description,$usertype);
+    $stmt->execute();
+}
+
 if (isset($_GET['state'])) {
 if (isset($_GET['state']) && $_GET['state'] == 'google' && isset($_GET['code'])) {
     $client_id = "340284496362-lhog2q4dt6ajs68oc6rcsf5nka48d89n.apps.googleusercontent.com";
@@ -110,6 +117,7 @@ if (isset($_GET['state']) && $_GET['state'] == 'google' && isset($_GET['code']))
 
             // Tạo session cho người dùng
             session_start();
+           
             $_SESSION['Email'] = $user['Email'];
            
             $_SESSION['sdt'] = $user['sdt'] ?? ''; // Giá trị mặc định nếu chưa có
@@ -120,7 +128,7 @@ if (isset($_GET['state']) && $_GET['state'] == 'google' && isset($_GET['code']))
             $_SESSION['Datetime']= $user['Datetime'];
             $_SESSION['login_type']= $user['login_type'];
             // Chuyển hướng đến trang chính
-          
+            log_action($conn, $user['id'], 'login', 'Đăng nhập vào hệ thống','user');
             header("Location: logout.php");
             header("Location: dangnhap.php");
             
@@ -143,6 +151,7 @@ if (isset($_GET['state']) && $_GET['state'] == 'google' && isset($_GET['code']))
     $_SESSION['Datetime']= $user['Datetime'];
     $_SESSION['login_type']= $user['login_type'];
     // Chuyển hướng về trang chính
+    log_action($conn, $user['id'], 'login', 'Đăng nhập vào hệ thống','user');
     header("Location: index.php?ttcnkh");
     exit();
 }
@@ -231,6 +240,7 @@ $redirect_uri = "http://localhost/tour/dangnhap.php";
                     $_SESSION['Datetime']= $user['Datetime'];
                     // Chuyển hướng đến trang chính
                     $_SESSION['login_type']= $user['login_type'];
+                    log_action($conn, $user['id'], 'login', 'Đăng nhập vào hệ thống','user');
                     header("Location: logout.php");
                     header("Location: dangnhap.php");
                     
@@ -252,7 +262,7 @@ $redirect_uri = "http://localhost/tour/dangnhap.php";
             $_SESSION['profile'] = $user['profile'];
             $_SESSION['Datetime']= $user['Datetime'];
             $_SESSION['login_type']= $user['login_type'];
-
+            log_action($conn, $user['id'], 'login', 'Đăng nhập vào hệ thống','user');
             // Chuyển hướng về trang chính
             header("Location: index.php");
             exit();

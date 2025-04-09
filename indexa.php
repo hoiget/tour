@@ -260,6 +260,12 @@ if (isset($_SESSION['login_time']) && ($currentTime - $_SESSION['login_time'] > 
         </a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" href="indexa.php?xemlichsu">
+        <i class="bi bi-lock-fill"></i>
+          <span>Xem lịch sử hoạt động</span>
+        </a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="indexa.php?qldichvu">
         <i class="bi bi-clipboard-check"></i>
         <span>Quản lý đơn tour</span>
@@ -467,6 +473,10 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
   }if(isset($_REQUEST['qldichvuks'])){
     $show = false;
     include_once("viewa/qldondichvuks.php");
+  }
+  if(isset($_REQUEST['xemlichsu'])){
+    $show = false;
+    include_once("viewa/xemlichsu.php");
   }
   if($show){
     include_once("viewa/thongke.php");

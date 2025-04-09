@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th4 07, 2025 lúc 12:03 PM
+-- Thời gian đã tạo: Th4 09, 2025 lúc 05:01 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -20,6 +20,39 @@ SET time_zone = "+00:00";
 --
 -- Cơ sở dữ liệu: `tour`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `activity_logs`
+--
+
+CREATE TABLE `activity_logs` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `action_type` varchar(50) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `user_type` varchar(255) NOT NULL,
+  `created_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `activity_logs`
+--
+
+INSERT INTO `activity_logs` (`id`, `user_id`, `action_type`, `description`, `user_type`, `created_at`) VALUES
+(8, 27, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-04-09 09:17:21'),
+(9, 27, 'logout', 'Đăng xuất khỏi hệ thống', 'user', '2025-04-09 09:17:28'),
+(11, 27, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-04-09 09:20:54'),
+(12, 27, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-04-09 09:21:39'),
+(13, 27, 'logout', 'Khách hàng đăng xuất khỏi hệ thống', 'user', '2025-04-09 09:21:41'),
+(14, 1, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-04-09 09:21:53'),
+(15, 1, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-04-09 09:21:59'),
+(16, 1, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-04-09 09:38:56'),
+(18, 1, 'update', 'Cập nhật tin tức', 'employees', '2025-04-09 09:43:21'),
+(19, 1, 'Insert', 'Thêm tin tức', 'employees', '2025-04-09 09:45:17'),
+(20, 1, 'Delete', 'Xóa tin tức', 'employees', '2025-04-09 09:46:29'),
+(21, 1, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-04-09 09:46:44');
 
 -- --------------------------------------------------------
 
@@ -110,7 +143,8 @@ CREATE TABLE `booking_detail_tour` (
 
 INSERT INTO `booking_detail_tour` (`Sr_no`, `Booking_id`, `Tour_name`, `Price`, `Total_pay`, `User_name`, `Phone_num`, `Address`, `tenks`, `tienks`) VALUES
 (116, 232, 'Phú Quốc', '4900000', '5895000', 'Phuc Hung', '0987389890', 'sssss', 'Aquasun Hotel', '1000000'),
-(117, 233, 'Đà Nẵng', '2400000', '3105300', 'Phuc Hung', '0987389890', 'sssss', 'Aquasun Hotel', '1000000');
+(117, 233, 'Đà Nẵng', '2400000', '3105300', 'Phuc Hung', '0987389890', 'sssss', 'Aquasun Hotel', '1000000'),
+(119, 235, 'Tour Mộc Châu - Sơn La', '2400000', '3400000', 'Phuc Hung', '0987389890', 'sssss', 'Aquasun Hotel', '1000000');
 
 -- --------------------------------------------------------
 
@@ -165,7 +199,8 @@ CREATE TABLE `booking_ordertour` (
 
 INSERT INTO `booking_ordertour` (`Booking_id`, `User_id`, `Tour_id`, `Departure_id`, `Arrival`, `Booking_status`, `Payment_status`, `refund`, `Datetime`, `participants`, `created_at`) VALUES
 (232, 1, 50, 69, 'Xe khách', '2', '2', 0, '2025-04-13', 1, '2025-04-07 09:29:19'),
-(233, 1, 47, 54, 'Máy bay', '2', '2', 0, '2025-05-14', 1, '2025-04-07 09:32:43');
+(233, 1, 47, 54, 'Máy bay', '2', '2', 0, '2025-05-14', 1, '2025-04-07 09:32:43'),
+(235, 1, 54, 182, 'Xe khách', '2', '1', 0, '2025-05-04', 1, '2025-04-08 13:03:57');
 
 -- --------------------------------------------------------
 
@@ -404,10 +439,10 @@ INSERT INTO `departure_time` (`id`, `id_tour`, `Day_depart`, `ngaykhoihanh`, `Or
 (179, 53, '2 ngày 1 đêm', '2025-04-25', 0),
 (180, 53, '2 ngày 1 đêm', '2025-06-20', 0),
 (181, 53, '2 ngày 1 đêm', '2025-12-27', 0),
-(182, 54, '2 ngày 1 đêm', '2025-04-16', 0),
-(183, 54, '2 ngày 1 đêm', '2025-07-18', 0),
-(184, 54, '2 ngày 1 đêm', '2025-05-04', 0),
-(185, 54, '2 ngày 1 đêm', '2025-12-20', 0),
+(182, 54, '2 ngày 1 đêm', '2025-04-16', -1),
+(183, 54, '2 ngày 1 đêm', '2025-07-18', -1),
+(184, 54, '2 ngày 1 đêm', '2025-05-04', 1),
+(185, 54, '2 ngày 1 đêm', '2025-12-20', -1),
 (186, 55, '3 ngày 2 đêm', '2025-04-23', 0),
 (187, 55, '3 ngày 2 đêm', '2025-06-13', 0),
 (188, 55, '3 ngày 2 đêm', '2025-07-11', 0),
@@ -664,7 +699,7 @@ INSERT INTO `news` (`id`, `Title`, `dereption`, `Image`, `Content`, `video`, `Pu
 (8, 'Xu Hướng Du Lịch 2025: Những Tour Hot Nhất Trong Năm', 'Du lịch năm 2025 đang chứng kiến sự thay đổi mạnh mẽ với các xu hướng mới, từ những điểm đến độc đáo đến những trải nghiệm du lịch bền vững. Hãy cùng khám phá những tour hot nhất trong năm mà bạn không nên bỏ lỡ!\r\n\r\n1. Du Lịch Trải Nghiệm Sinh Thái - Côn Đảo\r\n\r\n\r\nCôn Đảo ngày càng trở thành điểm đến thu hút với vẻ đẹp hoang sơ, biển xanh trong và hệ sinh thái phong phú. Du khách có thể tham gia các hoạt động như lặn biển ngắm san hô, thăm rừng nguyên sinh và tìm hiểu lịch sử tại nhà tù Côn Đảo.\r\n\r\n2. Tour Cao Nguyên Mộc Châu - Khám Phá Vùng Đất Hoa\r\n\r\n\r\nMộc Châu không chỉ nổi tiếng với những đồi chè xanh bát ngát mà còn là thiên đường của các loài hoa nở quanh năm. Tháng 1-3 là mùa hoa mận, hoa đào khoe sắc rực rỡ, tạo nên bức tranh thiên nhiên tuyệt đẹp.\r\n\r\n3. Du Lịch Cao Cấp Tại Maldives\r\n\r\n\r\nMaldives vẫn giữ vững vị trí là điểm đến du lịch nghỉ dưỡng sang trọng hàng đầu thế giới. Những biệt thự trên mặt nước, bãi biển cát trắng và dịch vụ 5 sao là lựa chọn lý tưởng cho kỳ nghỉ xa hoa.\r\n\r\n4. Hành Trình Khám Phá Nhật Bản Mùa Hoa Anh Đào\r\n\r\n\r\nDu lịch Nhật Bản vào mùa xuân luôn thu hút đông đảo du khách bởi vẻ đẹp của hoa anh đào. Các thành phố như Tokyo, Kyoto, Osaka đều tổ chức lễ hội hoa anh đào với không gian lãng mạn, đậm chất văn hóa.\r\n\r\n5. Hành Trình Du Lịch Hàn Quốc - Trải Nghiệm Văn Hóa Kpop\r\n\r\n\r\nHàn Quốc không chỉ nổi tiếng với ẩm thực phong phú mà còn là thiên đường dành cho fan Kpop. Du khách có thể tham quan các địa điểm quay MV, ghé thăm các quán cà phê của thần tượng và tận hưởng không khí sôi động tại Seoul.\r\n\r\nXu hướng du lịch năm nay tập trung vào trải nghiệm thiên nhiên, văn hóa và nghỉ dưỡng đẳng cấp. Hãy lên kế hoạch ngay hôm nay để không bỏ lỡ những chuyến đi đáng nhớ!\r\n\r\n', 'tt.jpg', 'Xu Hướng Du Lịch 2025', 'Au6LqK1UH8g', '2025-04-06', 1),
 (9, '🎒 Du lịch trải nghiệm Tây Bắc – xu hướng mới của giới trẻ', 'Trong những năm gần đây, du lịch Tây Bắc đang trở thành một trào lưu mạnh mẽ trong cộng đồng giới trẻ yêu thích khám phá. Không còn chuộng những điểm đến quen thuộc và tiện nghi, nhiều bạn trẻ lựa chọn những chuyến đi “phượt” đầy thử thách đến các vùng núi như Mộc Châu, Tà Xùa, Y Tý, Hà Giang – nơi thiên nhiên còn giữ được nét hoang sơ, kỳ vĩ và văn hóa bản địa độc đáo.\r\n\r\nĐặc biệt, Hà Giang với những cung đường đèo quanh co như Mã Pí Lèng, Dốc Thẩm Mã, hay Đèo Ô Quy Hồ luôn là điểm đến \"must-try\" cho các tín đồ xê dịch. Không chỉ là hành trình chinh phục thử thách, du lịch đến đây còn là cơ hội để đắm chìm trong vẻ đẹp của những cánh đồng hoa tam giác mạch nở rộ vào cuối năm, hay ruộng bậc thang vàng óng mỗi mùa lúa chín.\r\n\r\nỞ Tà Xùa (Sơn La), săn mây vào buổi sớm đã trở thành trải nghiệm \"gây nghiện\" với những ai yêu thiên nhiên. Nơi đây còn được mệnh danh là \"thiên đường trên mây\" khi từng lớp sương giăng kín lối đi, tạo nên khung cảnh huyền ảo, mơ màng.\r\n\r\nY Tý (Lào Cai) cũng không kém phần hấp dẫn với những bản làng của người Hà Nhì, H\'Mông nằm lặng lẽ giữa mây trời. Những mái nhà trình tường, những nụ cười mộc mạc của người dân bản địa khiến hành trình trở nên đáng nhớ hơn bao giờ hết.\r\n\r\nNgoài cảnh sắc thiên nhiên, một phần không thể thiếu của trải nghiệm Tây Bắc là ẩm thực bản địa. Những món ăn đậm đà hương vị núi rừng như thắng cố, lạp xưởng, cá suối nướng, cơm lam… khiến bao người mê mẩn.\r\n\r\nVới sự hỗ trợ của các tour trải nghiệm hoặc những bạn dẫn đoàn có kinh nghiệm, việc du lịch Tây Bắc giờ đây vừa dễ tiếp cận hơn, vừa đảm bảo an toàn. Đây cũng là dịp để các bạn trẻ rời xa phố thị ồn ào, tìm về nơi bình yên, kết nối với thiên nhiên và chính mình.\r\n\r\nTây Bắc không chỉ là một vùng đất, mà còn là một hành trình đầy cảm hứng – nơi trái tim của những người trẻ được thắp sáng bởi đam mê khám phá, vượt qua giới hạn bản thân và yêu thêm đất nước mình qua từng chuyến đi.', 'du-lich-trai-nghiem.jpg', 'Các tour phượt Mộc Châu, Tà Xùa, Y Tý, Hà Giang đang thu hút đông đảo các bạn trẻ nhờ vào vẻ đẹp hoang sơ, những cung đường đèo kỳ vĩ và văn hóa bản địa độc đáo.', 'ks0mOYXeMJk', '2025-04-06', 1),
 (10, '🛫 Visa du lịch Hàn Quốc sẽ dễ dàng hơn từ tháng 5/2025', 'Tin vui cho những tín đồ yêu thích xứ sở kim chi: Bắt đầu từ tháng 5/2025, chính phủ Hàn Quốc sẽ chính thức nới lỏng các thủ tục cấp visa du lịch cho công dân Việt Nam. Đây là một phần trong chiến lược mới nhằm thu hút khách du lịch quốc tế và tăng cường quan hệ hợp tác du lịch – văn hóa giữa Hàn Quốc và Việt Nam.\r\n\r\nTheo thông tin từ Đại sứ quán Hàn Quốc tại Hà Nội, những thay đổi đáng chú ý bao gồm:\r\n\r\nRút ngắn thời gian xét duyệt visa từ 10 ngày xuống còn 5 ngày làm việc.\r\n\r\nMiễn nộp chứng minh tài chính đối với du khách có lịch sử du lịch tốt (từng đi Hàn Quốc, Nhật Bản, châu Âu… trong 5 năm gần nhất).\r\n\r\nƯu tiên xét duyệt nhanh cho những người đăng ký tour trọn gói từ các công ty du lịch được ủy quyền hoặc có thư mời từ phía Hàn Quốc.\r\n\r\nTăng số lượng visa 5 năm và 10 năm đối với một số nhóm đối tượng như giáo viên, công chức, người có thu nhập cao...\r\n\r\nĐặc biệt, với các tour du lịch Hàn Quốc từ Việt Nam đang rất được ưa chuộng – như Seoul – Nami – Everland, hay Busan – Jeju – thì chính sách này sẽ giúp khách hàng tiết kiệm đáng kể thời gian và công sức trong việc xin visa.\r\n\r\nCác công ty lữ hành lớn tại Việt Nam như Saigontourist, Vietravel, Fiditour cũng đã bắt đầu cập nhật các chương trình tour Hàn Quốc ưu đãi nhân dịp chính sách mới có hiệu lực. Nhiều combo trọn gói từ 12 – 15 triệu đồng đang được săn đón mạnh, đặc biệt trong dịp mùa hè và mùa lá đỏ 2025.\r\n\r\nChính phủ Hàn Quốc kỳ vọng lượng khách Việt Nam sẽ tăng ít nhất 30% trong năm 2025, đóng góp tích cực vào sự phục hồi ngành du lịch sau đại dịch và thúc đẩy giao lưu văn hóa hai nước.\r\n\r\nVới những thay đổi tích cực này, hành trình khám phá Seoul hiện đại, Gyeongju cổ kính hay ngắm hoa anh đào lãng mạn tại Hàn Quốc sẽ trở nên dễ dàng hơn bao giờ hết cho du khách Việt.', 'hqq.jpeg', 'Chính phủ Hàn Quốc vừa thông báo nới lỏng thủ tục xin visa cho công dân Việt Nam, áp dụng cho du khách có lịch sử du lịch tốt hoặc có vé tour từ các công ty uy tín.', 'RZzN-yH00Yg', '2025-04-06', 1),
-(11, '🌸 Lễ hội hoa anh đào Nhật Bản 2025 chính thức khởi động', 'Mùa xuân tại Nhật Bản luôn mang đến một màu sắc đặc biệt với lễ hội hoa anh đào, hay còn gọi là Sakura Matsuri. Mỗi năm, vào cuối tháng 3 và đầu tháng 4, cả Nhật Bản như khoác lên mình một tấm áo mới với sắc hồng và trắng của hoa anh đào nở rộ, tạo nên một cảnh tượng thiên nhiên tuyệt đẹp và là niềm tự hào của người dân xứ sở Phù Tang.\r\n\r\nNăm 2025, mùa lễ hội hoa anh đào sẽ chính thức khởi động từ cuối tháng 3 và kéo dài đến giữa tháng 4, khi hoa anh đào tại các thành phố lớn như Tokyo và Kyoto đạt độ nở đẹp nhất. Đây là thời điểm lý tưởng để du khách khám phá vẻ đẹp tuyệt vời của hoa anh đào trong không khí tươi mới, mát mẻ của mùa xuân.\r\n\r\n🎉 Tour Nhật Bản dịp lễ hội hoa anh đào 2025: \"Cháy vé\" nhanh chóng\r\nVới sức hút mạnh mẽ của lễ hội hoa anh đào, các tour du lịch Nhật Bản dịp này đang trở thành món quà hấp dẫn cho các gia đình, nhóm bạn và các cặp đôi. Những chương trình tour trọn gói bao gồm chuyến bay, khách sạn, vé tham quan và hướng dẫn viên luôn được các công ty du lịch trong và ngoài nước đưa ra với mức giá ưu đãi đặc biệt.\r\n\r\nNhiều công ty du lịch đang khai thác các tour đến Tokyo, Kyoto, Osaka, nơi có những công viên nổi tiếng như Ueno Park, Shinjuku Gyoen, và Maruyama Park. Đặc biệt, bạn sẽ được trải nghiệm hanami (ngắm hoa) – một truyền thống lâu đời của người Nhật, khi họ tụ tập cùng gia đình, bạn bè dưới những tán cây anh đào để thưởng thức ẩm thực, uống rượu sake và tận hưởng không khí trong lành.\r\n\r\n🌍 Những điểm ngắm hoa anh đào không thể bỏ qua\r\nTokyo: Công viên Ueno và công viên Shinjuku Gyoen là hai địa điểm nổi tiếng nhất. Tại Ueno, du khách có thể tham gia lễ hội hoa anh đào lớn nhất Tokyo, ngắm nhìn hàng nghìn cây hoa anh đào rực rỡ trong khi thưởng thức các món ăn đặc trưng của Nhật Bản.\r\n\r\nKyoto: Kyoto là nơi lưu giữ nhiều ngôi đền và chùa cổ kính, tạo nên sự kết hợp tuyệt vời giữa thiên nhiên và văn hóa. Công viên Maruyama và con đường Philosopher’s Path (Con đường triết học) là những địa điểm lý tưởng để ngắm hoa anh đào.\r\n\r\nHokkaido: Nếu bạn muốn tránh đám đông ở các thành phố lớn, Hokkaido với mùa hoa anh đào muộn hơn là lựa chọn tuyệt vời để tận hưởng không gian yên tĩnh và bình yên.\r\n\r\n💰 Ưu đãi hấp dẫn cho các tour hoa anh đào 2025\r\nCác tour du lịch Nhật Bản dịp hoa anh đào năm nay đặc biệt thu hút với các ưu đãi giảm giá lên đến 15-20%. Những tour trọn gói dành cho nhóm khách gia đình hoặc cặp đôi thường có các dịch vụ như:\r\n\r\nKhách sạn 4-5 sao gần các khu vực ngắm hoa.\r\n\r\nVé vào cửa các điểm tham quan nổi tiếng như đền Kinkaku-ji (Kyoto), tháp Tokyo Skytree (Tokyo), hay cung điện Hoàng gia.\r\n\r\nChương trình đặc biệt vào ngày lễ hội Sakura, với bữa tiệc hanami ngoài trời và hoạt động văn hóa truyền thống Nhật Bản.\r\n\r\nNhờ những chương trình khuyến mãi hấp dẫn này, các tour du lịch Nhật Bản dịp hoa anh đào đã nhanh chóng cháy vé và thu hút rất đông khách du lịch từ Việt Nam. Nếu bạn đang có kế hoạch du lịch Nhật Bản vào dịp lễ hội hoa anh đào 2025, hãy nhanh chóng đặt vé để có cơ hội trải nghiệm mùa xuân tuyệt vời tại xứ sở Phù Tang.\r\n\r\nMẹo: Đừng quên chuẩn bị cho mình một chiếc máy ảnh chất lượng để lưu lại những khoảnh khắc đẹp nhất bên những cây anh đào nở rộ và khung cảnh tuyệt vời tại Nhật Bản.', 'had.jpg', 'Mùa lễ hội hoa anh đào tại Tokyo và Kyoto sẽ bắt đầu từ cuối tháng 3 và kéo dài đến giữa tháng 4. Tour Nhật Bản dịp này đang “cháy vé” với hàng loạt ưu đãi hấp dẫn cho nhóm khách gia đình và cặp đôi.', 'Plp98VugaZo', '2025-04-06', 1);
+(11, '🌸 Lễ hội hoa anh đào Nhật Bản 2025 chính thức khởi động ', 'Mùa xuân tại Nhật Bản luôn mang đến một màu sắc đặc biệt với lễ hội hoa anh đào, hay còn gọi là Sakura Matsuri. Mỗi năm, vào cuối tháng 3 và đầu tháng 4, cả Nhật Bản như khoác lên mình một tấm áo mới với sắc hồng và trắng của hoa anh đào nở rộ, tạo nên một cảnh tượng thiên nhiên tuyệt đẹp và là niềm tự hào của người dân xứ sở Phù Tang.\r\n\r\nNăm 2025, mùa lễ hội hoa anh đào sẽ chính thức khởi động từ cuối tháng 3 và kéo dài đến giữa tháng 4, khi hoa anh đào tại các thành phố lớn như Tokyo và Kyoto đạt độ nở đẹp nhất. Đây là thời điểm lý tưởng để du khách khám phá vẻ đẹp tuyệt vời của hoa anh đào trong không khí tươi mới, mát mẻ của mùa xuân.\r\n\r\n🎉 Tour Nhật Bản dịp lễ hội hoa anh đào 2025: \"Cháy vé\" nhanh chóng\r\nVới sức hút mạnh mẽ của lễ hội hoa anh đào, các tour du lịch Nhật Bản dịp này đang trở thành món quà hấp dẫn cho các gia đình, nhóm bạn và các cặp đôi. Những chương trình tour trọn gói bao gồm chuyến bay, khách sạn, vé tham quan và hướng dẫn viên luôn được các công ty du lịch trong và ngoài nước đưa ra với mức giá ưu đãi đặc biệt.\r\n\r\nNhiều công ty du lịch đang khai thác các tour đến Tokyo, Kyoto, Osaka, nơi có những công viên nổi tiếng như Ueno Park, Shinjuku Gyoen, và Maruyama Park. Đặc biệt, bạn sẽ được trải nghiệm hanami (ngắm hoa) – một truyền thống lâu đời của người Nhật, khi họ tụ tập cùng gia đình, bạn bè dưới những tán cây anh đào để thưởng thức ẩm thực, uống rượu sake và tận hưởng không khí trong lành.\r\n\r\n🌍 Những điểm ngắm hoa anh đào không thể bỏ qua\r\nTokyo: Công viên Ueno và công viên Shinjuku Gyoen là hai địa điểm nổi tiếng nhất. Tại Ueno, du khách có thể tham gia lễ hội hoa anh đào lớn nhất Tokyo, ngắm nhìn hàng nghìn cây hoa anh đào rực rỡ trong khi thưởng thức các món ăn đặc trưng của Nhật Bản.\r\n\r\nKyoto: Kyoto là nơi lưu giữ nhiều ngôi đền và chùa cổ kính, tạo nên sự kết hợp tuyệt vời giữa thiên nhiên và văn hóa. Công viên Maruyama và con đường Philosopher’s Path (Con đường triết học) là những địa điểm lý tưởng để ngắm hoa anh đào.\r\n\r\nHokkaido: Nếu bạn muốn tránh đám đông ở các thành phố lớn, Hokkaido với mùa hoa anh đào muộn hơn là lựa chọn tuyệt vời để tận hưởng không gian yên tĩnh và bình yên.\r\n\r\n💰 Ưu đãi hấp dẫn cho các tour hoa anh đào 2025\r\nCác tour du lịch Nhật Bản dịp hoa anh đào năm nay đặc biệt thu hút với các ưu đãi giảm giá lên đến 15-20%. Những tour trọn gói dành cho nhóm khách gia đình hoặc cặp đôi thường có các dịch vụ như:\r\n\r\nKhách sạn 4-5 sao gần các khu vực ngắm hoa.\r\n\r\nVé vào cửa các điểm tham quan nổi tiếng như đền Kinkaku-ji (Kyoto), tháp Tokyo Skytree (Tokyo), hay cung điện Hoàng gia.\r\n\r\nChương trình đặc biệt vào ngày lễ hội Sakura, với bữa tiệc hanami ngoài trời và hoạt động văn hóa truyền thống Nhật Bản.\r\n\r\nNhờ những chương trình khuyến mãi hấp dẫn này, các tour du lịch Nhật Bản dịp hoa anh đào đã nhanh chóng cháy vé và thu hút rất đông khách du lịch từ Việt Nam. Nếu bạn đang có kế hoạch du lịch Nhật Bản vào dịp lễ hội hoa anh đào 2025, hãy nhanh chóng đặt vé để có cơ hội trải nghiệm mùa xuân tuyệt vời tại xứ sở Phù Tang.\r\n\r\nMẹo: Đừng quên chuẩn bị cho mình một chiếc máy ảnh chất lượng để lưu lại những khoảnh khắc đẹp nhất bên những cây anh đào nở rộ và khung cảnh tuyệt vời tại Nhật Bản.', 'had.jpg', 'Mùa lễ hội hoa anh đào tại Tokyo và Kyoto sẽ bắt đầu từ cuối tháng 3 và kéo dài đến giữa tháng 4. Tour Nhật Bản dịp này đang “cháy vé” với hàng loạt ưu đãi hấp dẫn cho nhóm khách gia đình và cặp đôi.', 'Plp98VugaZo', '2025-04-09', 1);
 
 -- --------------------------------------------------------
 
@@ -687,7 +722,8 @@ CREATE TABLE `participant` (
 
 INSERT INTO `participant` (`idpar`, `idbook`, `hoten`, `ngaysinh`, `gioitinh`, `phanloai`) VALUES
 (141, 232, 'Anh hùng', '2001-07-07', 'Nam', 'Người lớn'),
-(142, 233, 'ád', '1998-10-07', 'Nam', 'Người lớn');
+(142, 233, 'ád', '1998-10-07', 'Nam', 'Người lớn'),
+(144, 235, 'sf', '1994-06-08', 'Nam', 'Người lớn');
 
 -- --------------------------------------------------------
 
@@ -709,7 +745,8 @@ CREATE TABLE `payments` (
 
 INSERT INTO `payments` (`id`, `user_id`, `idbook`, `method`, `created_at`) VALUES
 (70, 1, 232, 'vnpay', '2025-04-07 02:29:19'),
-(71, 1, 233, 'vnpay', '2025-04-07 02:32:43');
+(71, 1, 233, 'vnpay', '2025-04-07 02:32:43'),
+(73, 1, 235, 'vietqr', '2025-04-08 06:03:57');
 
 -- --------------------------------------------------------
 
@@ -813,7 +850,8 @@ INSERT INTO `reports` (`id`, `guide_id`, `report_type`, `report_content`, `repor
 (11, 3, 'tour', 'xcc🔥 Điểm nổi bật\r\n✔ Giao diện đẹp: Bảng có bo góc, đổ bóng, hover màu xám.\r\n✔ Nút \"Xem chi tiết\": Nếu nội dung > 100 ký tự, bấm để mở rộng.\r\n✔ Màu sắc nút hành động:\r\n\r\nDuyệt (✔) → Xanh lá\r\n\r\nTừ chối (✖) → Đỏ\r\n✔ Bảo mật: htmlspecialchars() chống XSS.\r\n\r\n💡 Giờ bạn có một bảng báo cáo đẹp, dễ dùng và không bị quá dài! 🚀', NULL, 'approved', '2025-03-25 03:29:15', 1, '2025-03-25 03:45:27'),
 (12, 3, 'tour', 'sss', NULL, 'approved', '2025-03-25 03:34:10', 1, '2025-03-25 03:46:11'),
 (13, 3, 'tour', 'emasd', '1742874470_6N5Đ_CAO BẰNG- TĨNH TÂY- BẮC CẠN 08JUN2025. Revised 20.3.pdf', 'approved', '2025-03-25 03:47:50', 1, '2025-03-25 04:03:38'),
-(14, 3, 'work', '📅 Ngày báo cáo: 25/03/2025\r\n👤 Hướng dẫn viên: Nguyễn Văn A\r\n\r\n1. Thông tin chung\r\nTour phụ trách: Đà Nẵng – Hội An (3 ngày 2 đêm)\r\n\r\nThời gian khởi hành: 22/03/2025\r\n\r\nSố lượng khách: 25 người\r\n\r\nPhương tiện di chuyển: Xe du lịch 45 chỗ\r\n\r\n2. Công việc đã thực hiện\r\n✅ Hướng dẫn khách tham quan các điểm du lịch:\r\n\r\nNgày 1: Bán đảo Sơn Trà, Ngũ Hành Sơn, phố cổ Hội An.\r\n\r\nNgày 2: Bà Nà Hills, cầu Vàng, công viên châu Á.\r\n\r\nNgày 3: Chợ Hàn, bãi biển Mỹ Khê, tiễn khách ra sân bay.\r\n✅ Phối hợp với tài xế và nhà hàng để đảm bảo dịch vụ tốt nhất.\r\n✅ Hỗ trợ khách hàng giải đáp thắc mắc và xử lý các tình huống phát sinh.\r\n\r\n3. Khó khăn gặp phải\r\n⚠ Một số khách bị say xe, cần hỗ trợ y tế nhẹ.\r\n⚠ Giao thông ùn tắc tại Hội An vào buổi tối, cần điều chỉnh lịch trình linh hoạt.\r\n⚠ Thời tiết thay đổi thất thường, có mưa nhỏ trong ngày thứ hai.\r\n\r\n4. Đề xuất và cải tiến\r\n💡 Cần trang bị thêm túi sơ cứu trên xe để hỗ trợ khách say xe.\r\n💡 Cần có phương án dự phòng khi gặp thời tiết xấu (danh sách điểm tham quan thay thế).\r\n💡 Đề xuất bổ sung thời gian tham quan phố cổ Hội An để khách có nhiều trải nghiệm hơn.', '1742875507_Mau bao cao KLTN.docx', 'approved', '2025-03-25 04:05:07', 1, '2025-03-25 04:05:36');
+(14, 3, 'work', '📅 Ngày báo cáo: 25/03/2025\r\n👤 Hướng dẫn viên: Nguyễn Văn A\r\n\r\n1. Thông tin chung\r\nTour phụ trách: Đà Nẵng – Hội An (3 ngày 2 đêm)\r\n\r\nThời gian khởi hành: 22/03/2025\r\n\r\nSố lượng khách: 25 người\r\n\r\nPhương tiện di chuyển: Xe du lịch 45 chỗ\r\n\r\n2. Công việc đã thực hiện\r\n✅ Hướng dẫn khách tham quan các điểm du lịch:\r\n\r\nNgày 1: Bán đảo Sơn Trà, Ngũ Hành Sơn, phố cổ Hội An.\r\n\r\nNgày 2: Bà Nà Hills, cầu Vàng, công viên châu Á.\r\n\r\nNgày 3: Chợ Hàn, bãi biển Mỹ Khê, tiễn khách ra sân bay.\r\n✅ Phối hợp với tài xế và nhà hàng để đảm bảo dịch vụ tốt nhất.\r\n✅ Hỗ trợ khách hàng giải đáp thắc mắc và xử lý các tình huống phát sinh.\r\n\r\n3. Khó khăn gặp phải\r\n⚠ Một số khách bị say xe, cần hỗ trợ y tế nhẹ.\r\n⚠ Giao thông ùn tắc tại Hội An vào buổi tối, cần điều chỉnh lịch trình linh hoạt.\r\n⚠ Thời tiết thay đổi thất thường, có mưa nhỏ trong ngày thứ hai.\r\n\r\n4. Đề xuất và cải tiến\r\n💡 Cần trang bị thêm túi sơ cứu trên xe để hỗ trợ khách say xe.\r\n💡 Cần có phương án dự phòng khi gặp thời tiết xấu (danh sách điểm tham quan thay thế).\r\n💡 Đề xuất bổ sung thời gian tham quan phố cổ Hội An để khách có nhiều trải nghiệm hơn.', '1742875507_Mau bao cao KLTN.docx', 'approved', '2025-03-25 04:05:07', 1, '2025-03-25 04:05:36'),
+(15, 7, 'work', 'sds', '1744073524_booking_details_233 (1).pdf', 'pending', '2025-04-08 00:52:04', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -1539,7 +1577,7 @@ CREATE TABLE `tichdiem` (
 INSERT INTO `tichdiem` (`idtd`, `idkh`, `hangTV`, `diem`, `sotour`) VALUES
 (3, 17, 'New', 100, 0),
 (22, 20, 'New', 100, 0),
-(23, 1, 'New', 1552, 0),
+(23, 1, 'New', 552, 0),
 (30, 27, 'New', 100, 0),
 (32, 29, 'New', 100, 0);
 
@@ -1720,9 +1758,36 @@ INSERT INTO `user_credit` (`id`, `Name`, `Address`, `Email`, `sdt`, `profile`, `
 (27, 'Phan Hung', 'sssss', 'comonhay@gmail.com', '0736278299', 'gallery-6.jpg', '', '1996-07-07', NULL, NULL, 0, 0, NULL, 'google'),
 (29, 'Phuc Dang', 'zf', 'phucdang756@gmail.com', '0973873893', 'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=3857178607907583&height=50&width=50&ext=1746581799&hash=AbYKqbCWzxb4NVGUlyeFfy5e', '', '2004-03-07', NULL, NULL, 0, 0, NULL, 'facebook');
 
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `wishlist`
+--
+
+CREATE TABLE `wishlist` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `item_id` int(11) NOT NULL,
+  `type` enum('tour','hotel') NOT NULL,
+  `created_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `wishlist`
+--
+
+INSERT INTO `wishlist` (`id`, `user_id`, `item_id`, `type`, `created_at`) VALUES
+(6, 1, 56, 'tour', '2025-04-09 08:32:15');
+
 --
 -- Chỉ mục cho các bảng đã đổ
 --
+
+--
+-- Chỉ mục cho bảng `activity_logs`
+--
+ALTER TABLE `activity_logs`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Chỉ mục cho bảng `admin`
@@ -1997,8 +2062,21 @@ ALTER TABLE `user_credit`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Chỉ mục cho bảng `wishlist`
+--
+ALTER TABLE `wishlist`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `user_id` (`user_id`,`item_id`,`type`);
+
+--
 -- AUTO_INCREMENT cho các bảng đã đổ
 --
+
+--
+-- AUTO_INCREMENT cho bảng `activity_logs`
+--
+ALTER TABLE `activity_logs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT cho bảng `admin`
@@ -2022,7 +2100,7 @@ ALTER TABLE `booking_details_ks`
 -- AUTO_INCREMENT cho bảng `booking_detail_tour`
 --
 ALTER TABLE `booking_detail_tour`
-  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=118;
+  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
 
 --
 -- AUTO_INCREMENT cho bảng `booking_orderks`
@@ -2034,7 +2112,7 @@ ALTER TABLE `booking_orderks`
 -- AUTO_INCREMENT cho bảng `booking_ordertour`
 --
 ALTER TABLE `booking_ordertour`
-  MODIFY `Booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=234;
+  MODIFY `Booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=236;
 
 --
 -- AUTO_INCREMENT cho bảng `carousel`
@@ -2118,19 +2196,19 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT cho bảng `news`
 --
 ALTER TABLE `news`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT cho bảng `participant`
 --
 ALTER TABLE `participant`
-  MODIFY `idpar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=143;
+  MODIFY `idpar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=145;
 
 --
 -- AUTO_INCREMENT cho bảng `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- AUTO_INCREMENT cho bảng `rating_reviews_ks`
@@ -2154,7 +2232,7 @@ ALTER TABLE `rentals`
 -- AUTO_INCREMENT cho bảng `reports`
 --
 ALTER TABLE `reports`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT cho bảng `request_tour`
@@ -2221,6 +2299,12 @@ ALTER TABLE `tour_schedule`
 --
 ALTER TABLE `user_credit`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+
+--
+-- AUTO_INCREMENT cho bảng `wishlist`
+--
+ALTER TABLE `wishlist`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
