@@ -269,24 +269,24 @@
                 <option value="medium">5 - 10 triệu</option>
                 <option value="high">Trên 10 triệu</option>
             </select>
-            <button type="submit" class="search-button">🔍</button>
+            <button type="submit" class="search-button" style="background-color: white; border: 1px solid black">🔍</button>
         </div>
 
         <!-- Form tìm kiếm Khách sạn -->
-        <div id="hotel-search" class="search-form" style="display: none;">
-            <input type="text" name="name" placeholder="Nhập tên phòng/Địa điểm" class="search-input1">
+        <div id="hotel-search" class="search-form" style="display: none; margin-top: 25px;">
+            <input type="text" name="name" placeholder="Nhập tên khách sạn/Địa điểm" class="search-input1" style="border: 1px solid black; border-radius: 5px; width: 250px">
             
-            <div class="date-input-container">
+            
                 <div class="date-input-wrapper" data-label="Ngày nhận">
-                    <input type="date" id="ngay-nhan" class="date-input" name="checkin">
+                    <input type="date" id="ngay-nhan" class="date-input" name="checkin" style="border: 1px solid black; border-radius: 5px;">
                 </div>
                 <div class="date-input-wrapper" data-label="Ngày trả">
-                    <input type="date" id="ngay-tra" class="date-input" name="checkout">
+                    <input type="date" id="ngay-tra" class="date-input" name="checkout" style="border: 1px solid black; border-radius: 5px;">
                 </div>
-            </div>
             
-            <input type="number" id="adult" name="adult" placeholder="Số người lớn">
-            <input type="number" name="children" id="children"  placeholder="Số trẻ em">
+            
+            <input type="number" id="adult" name="adult" placeholder="Số người lớn" style="width: 100px;">
+            <input type="number" name="children" id="children"  placeholder="Số trẻ em" style="width: 150px;">
 
             <select name="price" id="price">
                 <option value="">Chọn giá</option>
@@ -297,7 +297,7 @@
                 <option value="higher">Trên 4 triệu</option>
             </select>
 
-            <button type="submit" class="hotel-search-button">🔍</button>
+            <button type="submit" class="hotel-search-button" style="background-color: white; border: 1px solid black">🔍</button>
         </div>
     </div>
 

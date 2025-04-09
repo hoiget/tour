@@ -30,9 +30,9 @@
 
 .search-button,.hotel-search-button {
     padding: 10px;
-    background-color: #007bff;
+    background-color: #f8f8f8;
     color: white;
-    border: none;
+    border: 1px solid black;
     border-radius: 5px;
     cursor: pointer;
 }
@@ -91,7 +91,7 @@ label{
 .date-input {
    height: 50px;
    width: 100%;
-    
+   border-radius: 5px;
 }
 .date-input-wrapper::before {
     content: attr(data-label);

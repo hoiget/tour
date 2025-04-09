@@ -61,7 +61,7 @@ console.log("Session ID:", sessionId); // Kiểm tra giá trị
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Hệ thống đăth tour/khách sạn trực tuyến</title>
+    <title>Hệ thống đặt tour/khách sạn trực tuyến</title>
     <meta name="description" content="">
     <meta name="keywords" content="">
 
@@ -330,7 +330,7 @@ if($show){
   <div class="offcanvas-body">
 <p style="color:black;text-align:justify;white-space:pre-line;font-size:20px"><b>1. Giới thiệu
 
-Chúng tôi,GoWander, cam kết bảo vệ quyền riêng tư và dữ liệu cá nhân của khách hàng khi sử dụng dịch vụ đặt tour và khách sạn trực tuyến. Chính sách bảo mật này giải thích cách chúng tôi thu thập, sử dụng và bảo vệ thông tin<br>
+Chúng tôi, GoWander, cam kết bảo vệ quyền riêng tư và dữ liệu cá nhân của khách hàng khi sử dụng dịch vụ đặt tour và khách sạn trực tuyến. Chính sách bảo mật này giải thích cách chúng tôi thu thập, sử dụng và bảo vệ thông tin<br>
 2. Thông tin thu thập
 - Khi sử dụng hệ thống, chúng tôi có thể thu thập các loại thông tin sau:
 - Thông tin cá nhân: Họ tên, email, số điện thoại, địa chỉ.
@@ -345,9 +345,9 @@ Chúng tôi,GoWander, cam kết bảo vệ quyền riêng tư và dữ liệu c�
 - Cải thiện chất lượng dịch vụ và trải nghiệm người dùng.<br>
 4. Chia sẻ thông tin
 Chúng tôi cam kết không bán, trao đổi thông tin cá nhân của bạn cho bên thứ ba. Tuy nhiên, chúng tôi có thể chia sẻ thông tin với:
--Nhà cung cấp dịch vụ khách sạn, tour du lịch để xử lý đặt chỗ.
--Đối tác thanh toán để thực hiện giao dịch.
--Cơ quan pháp luật khi có yêu cầu hợp pháp.<br>
+- Nhà cung cấp dịch vụ khách sạn, tour du lịch để xử lý đặt chỗ.
+- Đối tác thanh toán để thực hiện giao dịch.
+- Cơ quan pháp luật khi có yêu cầu hợp pháp.<br>
 5. Bảo mật thông tin
 Chúng tôi áp dụng các biện pháp bảo mật như mã hóa dữ liệu, tường lửa và kiểm soát truy cập để bảo vệ thông tin khách hàng khỏi rủi ro truy cập trái phép.<br>
 6. Quyền lợi khách hàng
