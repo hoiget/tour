@@ -777,7 +777,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
     }
     
-   
+elseif($action == 'upload_payment'){
+    if (isset($_FILES['payment'])) {
+        $file = $_FILES['payment'];
+        $fileName = time() . '_' . basename($file['name']);
+        $uploadDir = '../uploads/payment/';
+        $uploadPath = $uploadDir . $fileName;
+
+        // Tạo thư mục nếu chưa tồn tại
+        if (!file_exists($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
+
+        if (move_uploaded_file($file['tmp_name'], $uploadPath)) {
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Upload thành công',
+                'image_url' => $uploadPath
+            ]);
+        } else {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Không thể lưu ảnh'
+            ]);
+        }
+    } else {
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Không có file nào được gửi lên'
+        ]);
+    }
+}
     
     
 }

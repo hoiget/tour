@@ -70,6 +70,33 @@
 <div id="upload-status"></div>
 
 <script>
+  function uploadPaymentProof() {
+    const fileInput = document.getElementById('payment-proof');
+    const file = fileInput.files[0];
+
+    const formData = new FormData();
+    formData.append('action', 'upload_payment');
+    formData.append('payment', file);
+
+    $.ajax({
+      url: './api/api.php',
+      type: 'POST',
+      data: formData,
+      contentType: false,
+      processData: false,
+      success: function (res) {
+        const result = JSON.parse(res);
+        if (result.status === 'success') {
+          $('#upload-status').html('<span style="color:green">Tải ảnh thành công!</span><br><img src="./payment/' + result.image_url + '" width="300" />');
+        } else {
+          $('#upload-status').html('<span style="color:red">' + result.message + '</span>');
+        }
+      }
+    });
+  }
+</script>
+
+<script>
   function xemqr() {
     const urlParams = new URLSearchParams(window.location.search);
     const idtour1 = urlParams.get('vietqr');

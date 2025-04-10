@@ -261,7 +261,7 @@ if (isset($_SESSION['login_time']) && ($currentTime - $_SESSION['login_time'] > 
       </li>
       <li class="nav-item">
         <a class="nav-link" href="indexa.php?xemlichsu">
-        <i class="bi bi-lock-fill"></i>
+        <i class="bi bi-clock-history"></i>
           <span>Xem lịch sử hoạt động</span>
         </a>
       </li>

@@ -233,7 +233,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $stmt->bind_param("ssssssi", $tieude, $noidung, $name, $content, $date, $ngtao, $ma);
     
                 if ($stmt->execute()) {
-                    log_action($conn, $ngtao, 'update', 'Cập nhật tin tức','employees');
+                    log_action($conn, $ngtao, 'update', 'Cập nhật tin tức '.'ID:'.$ma.' '.$tieude  ,'employees');
                     echo 'update_success';
                 } else {
                     echo 'error_points';
@@ -255,7 +255,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $stmt->bind_param("ssssssi", $tieude, $noidung, $content, $videoName, $date, $ngtao, $ma);
     
                 if ($stmt->execute()) {
-                    log_action($conn, $ngtao, 'update', 'Cập nhật tin tức','employees');
+                    log_action($conn, $ngtao, 'update', 'Cập nhật tin tức '.'ID:'.$ma.' '.$tieude,'employees');
                     echo 'update_success';
                 } else {
                     echo 'error_points';
@@ -267,7 +267,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $stmt->bind_param("sssssi", $tieude, $noidung, $content, $date, $ngtao, $ma);
     
                 if ($stmt->execute()) {
-                    log_action($conn, $ngtao, 'update', 'Cập nhật tin tức','employees');
+                    log_action($conn, $ngtao, 'update',  'Cập nhật tin tức '.'ID:'.$ma.' '.$tieude,'employees');
                     echo 'update_success';
                 } else {
                     echo 'error_points';
@@ -281,7 +281,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email = $_POST['email']; // Email
         $sdt = $_POST['sdt']; // Số điện thoại
         $datetime = $_POST['ns']; // Ngày sinh
-
+        $user_id = $_SESSION['id'];
 
         // Kiểm tra xem có file ảnh mới được gửi lên không
         if (isset($_FILES['anh']) && $_FILES['anh']['error'] == 0) {
@@ -311,6 +311,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
 
                 if ($stmt->execute()) {
+                    log_action($conn, $user_id, 'Update', 'Cập nhật thông tin user '.'ID:'.$ma.' '.$name,'employees');
                     echo 'update_success';
                 } else {
                     echo 'error_points';
@@ -335,6 +336,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
 
             if ($stmt->execute()) {
+                log_action($conn, $user_id, 'Update', 'Cập nhật thông tin user '.'ID:'.$ma.' '.$name,'employees');
                 echo 'update_success';
             } else {
                 echo 'error_points';
@@ -345,13 +347,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $tieude = $_POST['ten']; // Tên tài khoản
         $noidung = $_POST['dereption'];
 
-
+        $user_id = $_SESSION['id'];
         $insert_query = "INSERT INTO facilities (Name,Description) VALUES (?, ?)";
         $stmt = $conn->prepare($insert_query);
         $stmt->bind_param("ss", $tieude, $noidung);
 
 
         if ($stmt->execute()) {
+            log_action($conn, $user_id, 'Insert', 'Thêm tiện ích '.'Tiêu đề: '.$tieude,'employees');
             echo 'insert_success';
         } else {
             echo 'error_points';
@@ -362,7 +365,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $ma = $_POST['id']; // ID người dùng
         $tieude = $_POST['ten']; // Tên tài khoản
         $noidung = $_POST['dereption'];
-
+        $user_id = $_SESSION['id'];
 
         $update_query = "UPDATE facilities SET Name = ?, Description = ? WHERE id = ?";
         $stmt = $conn->prepare($update_query);
@@ -370,6 +373,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
         if ($stmt->execute()) {
+            log_action($conn, $user_id, 'Update', 'Cập nhật tiện ích '.'ID:'.$ma.' '.$tieude,'employees');
             echo 'update_success';
         } else {
             echo 'error_points';
@@ -379,7 +383,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } elseif ($action == "themdacdiem") {
 
         $tieude = $_POST['ten']; // Tên tài khoản
-
+        $user_id = $_SESSION['id'];
 
 
         $insert_query = "INSERT INTO features (Name) VALUES (?)";
@@ -388,6 +392,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
         if ($stmt->execute()) {
+            log_action($conn, $user_id, 'Insert', 'Thêm đặc điểm '.'Tiêu đề: '.$tieude,'employees');
             echo 'insert_success';
         } else {
             echo 'error_points';
@@ -414,6 +419,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $vehicle = $_POST['PT'];
         $vung = $_POST['vung'];
         $order = 0;
+        $user_id = $_SESSION['id'];
         $departure_dates = json_decode($_POST["departure_dates"], true);
         $conn->begin_transaction();
 
@@ -511,6 +517,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Commit giao dịch nếu không có lỗi
             $conn->commit();
+            log_action($conn, $user_id, 'Update', 'Cập nhật tour '.'ID:'.$id.' '.$name,'employees');
             echo 'update_success';
 
         } catch (Exception $e) {
@@ -537,6 +544,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $vehicle = $_POST['PT']; // Phương tiện
         $ks = $_POST['khachsan']; // Phương tiện
         $vung = $_POST['vung']; // Phương tiện
+        $user_id = $_SESSION['id'];
         $departure_dates = json_decode($_POST["departure_dates"], true);
         $order = 0;
         // Bắt đầu kiểm tra và xử lý ảnh
@@ -631,6 +639,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     }
                     // Commit giao dịch nếu không có lỗi
                     $conn->commit();
+                    log_action($conn, $user_id, 'Insert', 'Thêm tour '.'Tiêu đề: '.$name,'employees');
                     echo 'insert_success';
                 } catch (Exception $e) {
                     // Rollback giao dịch nếu có lỗi
@@ -660,6 +669,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $feature_id = $_POST['dd'];
         $facility_id = $_POST['ti'];
         $employee_id = $_POST['emid'];
+
         $remove = 'no';
 
         try {
@@ -738,6 +748,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Commit giao dịch
             $conn->commit();
+            log_action($conn, $employee_id, 'Update', 'Cập nhật phòng','employees');
+
             echo 'update_success';
         } catch (Exception $e) {
             // Rollback nếu có lỗi
@@ -837,6 +849,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Commit giao dịch
             $conn->commit();
+            log_action($conn, $employee_id, 'Insert', 'Thêm phòng','employees');
             echo 'insert_success';
         } catch (Exception $e) {
             // Rollback nếu có lỗi
@@ -1325,6 +1338,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $loai=$_POST['loai'];
     $bien=$_POST['bs'];
     $status=$_POST['status'];
+    $user_id = $_SESSION['id'];
     if (empty($hoten) || empty($sdt) || empty($email) || empty($loai) || empty($bien)) {
         echo  'Thiếu dữ liệu đầu vào';
         exit;
@@ -1338,6 +1352,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     if ($stmt->execute()) {
+        log_action($conn, $user_id, 'Update', 'Cập nhật tài xế '.'ID:'.$ma.' Tên: '.$hoten,'employees');
         echo 'update_success';
     } else {
         echo 'error_points';
@@ -1353,6 +1368,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $loai=$_POST['loai'];
     $bien=$_POST['bs'];
     $status=$_POST['status'];
+    $user_id = $_SESSION['id'];
     if (empty($hoten) || empty($sdt) || empty($email) || empty($loai) || empty($bien)) {
         echo  'Thiếu dữ liệu đầu vào';
         exit;
@@ -1366,6 +1382,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     if ($stmt->execute()) {
+        log_action($conn, $user_id, 'Insert', 'Thêm tài xế '.'Tên: '.$hoten,'employees');
         echo 'insert_success';
     } else {
         echo 'error_points';
@@ -2014,13 +2031,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     } elseif ($action == "xoatienich") {
 
         $id = $_GET['id'];
-
+        $user_id = $_SESSION['id'];
         // Kiểm tra xem người dùng đã tồn tại trong cơ sở dữ liệu chưa
 
         $insert_query = "DELETE FROM facilities WHERE id = '$id'";
 
 
         if ($conn->query($insert_query) === TRUE) {
+            log_action($conn, $user_id, 'Delete', 'Xóa tiện ích '.'ID:'.$id,'employees');
             echo 'gui';
         } else {
             echo 'kotc';
@@ -2164,13 +2182,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
      elseif ($action == "xoatour") {
 
         $id = $_GET['id'];
-
+        $user_id = $_SESSION['id'];
         // Kiểm tra xem người dùng đã tồn tại trong cơ sở dữ liệu chưa
 
         $insert_query = "DELETE FROM tour WHERE id = '$id'";
 
 
         if ($conn->query($insert_query) === TRUE) {
+            log_action($conn, $user_id, 'Delete', 'Xóa tour '.'ID: '.$id,'employees');
             echo 'gui';
         } else {
             echo 'kotc';
@@ -2258,13 +2277,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     } elseif ($action == "xoaphong") {
 
         $id = $_GET['id'];
-
+        $user_id = $_SESSION['id'];
         // Kiểm tra xem người dùng đã tồn tại trong cơ sở dữ liệu chưa
 
         $insert_query = "DELETE FROM rooms WHERE id = '$id'";
 
 
         if ($conn->query($insert_query) === TRUE) {
+            log_action($conn, $user_id, 'Delete', 'Xóa phòng '.'ID:'.$id,'employees');
             echo 'gui';
         } else {
             echo 'kotc';
@@ -2788,13 +2808,14 @@ ORDER BY departure_time.ngaykhoihanh ASC
     }  elseif ($action == "duyet") {
 
         $id = $_GET['id'];
-
+        $user_id = $_SESSION['id'];
         // Kiểm tra xem người dùng đã tồn tại trong cơ sở dữ liệu chưa
 
         $insert_query = "UPDATE request_tour SET Trangthai=1 where id_request = '$id'";
 
 
         if ($conn->query($insert_query) === TRUE) {
+            log_action($conn, $user_id, 'Update', 'Duyệt tour '.'ID:'.$id,'employees');
             echo 'gui';
         } else {
             echo 'kotc';
@@ -3092,13 +3113,14 @@ $id=$_GET['idtx'];
 } elseif ($action == "xoataixe") {
 
     $id = $_GET['idt'];
-
+    $user_id = $_SESSION['id'];
     // Kiểm tra xem người dùng đã tồn tại trong cơ sở dữ liệu chưa
 
     $insert_query = "DELETE FROM drivers WHERE driver_id = '$id'";
 
 
     if ($conn->query($insert_query) === TRUE) {
+       log_action( $conn,$user_id, 'Xóa tài xế ', 'Tài xế ID: '.$id.' đã bị xóa','employees');
         echo 'gui';
     } else {
         echo 'kotc';
@@ -3200,12 +3222,14 @@ elseif ($action == "xong") {
 
         $id = $_GET['id'];
         $trangthai = "1";
+        $user_id = $_SESSION['id'];
         // Kiểm tra xem người dùng đã tồn tại trong cơ sở dữ liệu chưa
 
         $insert_query = "UPDATE rentals SET Trangthai ='$trangthai' WHERE rental_id = '$id'";
 
 
         if ($conn->query($insert_query) === TRUE) {
+            log_action($conn, $user_id, 'Update', 'Xác nhận thuê xe '.'ID:'.$id,'employees');
             echo 'gui';
         } else {
             echo 'kotc';

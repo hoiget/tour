@@ -5,60 +5,130 @@
         <!-- Custom styles for this template -->
       
         <style>
-  .main{
-    background:white;
-    color:black;
-  }
-    .header-clearfix{
-        background:white;
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: #f2f2f2;
+        margin: 0;
+        padding: 0;
     }
-.popup {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: #f9f9f9;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    max-width: 400px;
-    width: 300px;
-    text-align: center;
-    z-index: 9999;
-}
 
-.popup h2 {
-    color: #333;
-    font-size: 24px;
-    margin-bottom: 10px;
-}
+    .main {
+        background: white;
+        color: black;
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 1000px;
+        margin: 40px auto;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
 
-.popup p {
-    color: #666;
-    font-size: 16px;
-    margin-bottom: 20px;
-}
+    .header-clearfix {
+        background: white;
+        padding: 20px;
+        border-bottom: 1px solid #ddd;
+        text-align: center;
+    }
 
-.popup button {
-    padding: 8px 20px;
-    background: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
+    .header-clearfix h3 {
+        margin: 0;
+        font-size: 28px;
+        color: #007bff;
+    }
 
-.overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-}
+    .form-group {
+        margin-bottom: 20px;
+        padding: 0 10px;
+    }
+
+    .form-group label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 6px;
+        color: #333;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 16px;
+        background-color: #f9f9f9;
+    }
+
+    .form-group input[readonly] {
+        background-color: #e9ecef;
+        cursor: not-allowed;
+    }
+
+    .form-group span {
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+    .popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #ffffff;
+        padding: 25px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        border-radius: 12px;
+        max-width: 420px;
+        width: 90%;
+        text-align: center;
+        z-index: 9999;
+        animation: fadeIn 0.4s ease-in-out;
+    }
+
+    .popup h2 {
+        color: #333;
+        font-size: 24px;
+        margin-bottom: 12px;
+    }
+
+    .popup p {
+        color: #555;
+        font-size: 16px;
+        margin-bottom: 24px;
+    }
+
+    .popup button {
+        padding: 10px 25px;
+        background: #28a745;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background 0.3s;
+    }
+
+    .popup button:hover {
+        background: #218838;
+    }
+
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 9998;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translate(-50%, -60%); }
+        to { opacity: 1; transform: translate(-50%, -50%); }
+    }
 </style>
+
+
       
       <body>
            
@@ -116,23 +186,23 @@
                 </div>  
                 <div class="form-group">
                     <label >Nội dung thanh toán:</label>
-                    <label><input style="border:none;width:800px" type="text" name="nd" value="<?php echo $_GET['vnp_OrderInfo'] ;?> " readonly></label>
+                    <label><input style="border:none;" type="text" name="nd" value="<?php echo $_GET['vnp_OrderInfo'] ;?> " readonly></label>
                 </div> 
                 <div class="form-group">
                     <label >Mã phản hồi (vnp_ResponseCode):</label>
-                    <label><?php echo $_GET['vnp_ResponseCode']; ?></label>
+                    <label style="background-color: #e9ecef;height:40px;padding: 8px 12px;"><?php echo $_GET['vnp_ResponseCode']; ?></label>
                 </div> 
                 <div class="form-group">
                     <label >Mã GD Tại VNPAY:</label>
-                    <label><?php echo $_GET['vnp_TransactionNo'] ;?></label>
+                    <label style="background-color: #e9ecef;height:40px;padding: 8px 12px;"><?php echo $_GET['vnp_TransactionNo'] ;?></label>
                 </div> 
                 <div class="form-group">
                     <label >Mã Ngân hàng:</label>
-                    <label><?php echo $_GET['vnp_BankCode'] ;?></label>
+                    <label style="background-color: #e9ecef;height:40px;padding: 8px 12px;"><?php echo $_GET['vnp_BankCode'] ;?></label>
                 </div> 
                 <div class="form-group">
                     <label >Thời gian thanh toán:</label>
-                    <label><input style="border:none;" type="text" name="tg" value="<?php echo $_GET['vnp_PayDate']; ?>"></label>
+                    <label><input style="border:none;" type="text" name="tg" value="<?php echo $_GET['vnp_PayDate']; ?>" readonly></label>
                 </div> 
                 <div class="form-group">
                     
@@ -159,8 +229,9 @@
                             if ($_GET['vnp_ResponseCode'] == '00') {
                                 $booking_id = $_GET['vnp_TxnRef'];
                                 $sotien= $_GET['vnp_Amount'] /100 ;
+
                                 $status = '2';
-                              
+                           
                                 $booking_id = $_GET['vnp_TxnRef'];
                                 $numbersOnly = preg_replace('/\D/', '', $booking_id); // Loại bỏ tất cả ký tự không phải số
                                 $firstTwoDigits = substr($numbersOnly, 0, 3);
@@ -176,6 +247,27 @@
                                 $stmt->execute();
                         
                                 echo "<span style='color:blue'>GD thành công</span>";
+                                $tourName = $_GET['vnp_OrderInfo'];
+
+                                $textToRead = "Giao dịch thành công với số tiền " . number_format($sotien, 0, ',', '.') . " đồng của tour " . $tourName;
+                                echo "<script>
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    const text = " . json_encode($textToRead) . ";
+                                    document.getElementById('popup').style.display = 'block';
+                                    document.getElementById('overlay').style.display = 'block';
+                                    document.querySelector('.popup h2').innerText = 'Thông báo';
+                                    document.querySelector('.popup p').innerText = text;
+                        
+                                    document.querySelector('.popup button').addEventListener('click', function () {
+                                        document.getElementById('popup').style.display = 'none';
+                                        document.getElementById('overlay').style.display = 'none';
+                        
+                                        const msg = new SpeechSynthesisUtterance(text);
+                                        msg.lang = 'vi-VN';
+                                        speechSynthesis.speak(msg);
+                                    });
+                                });
+                            </script>";
                             } else {
                                 echo "<span style='color:red'>GD không thành công</span>";
                             }
@@ -183,6 +275,7 @@
                             echo "<span style='color:red'>Chữ ký không hợp lệ</span>";
                         }
                         ?>
+                   
                     </label>
                 </div>
        
@@ -195,6 +288,11 @@
 
         </div>  
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<?php
+
+?>
+
+
 
     </body>
 
