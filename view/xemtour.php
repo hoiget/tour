@@ -163,6 +163,26 @@ a{
         font-size: 12px;
         
     }
+    .add-to-compare{
+       font-size: 10px;
+
+    }
+    .sosanhbt{
+       font-size: 10px;
+
+    }
+    .sidebar h5{
+        font-size:14px;
+        
+    }
+    .sidebar input,label{
+        font-size:12px;
+        
+    }
+    .sidebar{
+        height: 200px;
+        
+    }
 }
 
 @media (max-width: 600px) {
@@ -182,11 +202,103 @@ a{
     .departure-box span{
         font-size: 12px;
     }
+    .add-to-compare{
+       font-size: 10px;
 
+    }
+    .sosanhbt{
+       font-size: 10px;
+
+    }
+    .sidebar h5{
+        font-size:14px;
+        
+    }
+    .sidebar input,label{
+        font-size:12px;
+        
+    }
+    .sidebar{
+        height: 200px;
+        
+    }
+    .menu-tabs button {
+        padding: 8px 16px;
+        font-size: 10px;
+    }
+}
+.compare-container {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+}
+.tour-box {
+    flex: 0 0 300px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 10px;
+    background: #fff;
+}
+.sosach{
+    margin-top:100px;
+    
 }
 
+/* Nút chung */
+button {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
 
+/* Nút so sánh */
+button.compare-btn {
+    background-color: #007bff;
+    color: white;
+}
+
+button.compare-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Nút xóa */
+button.clear-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+button.clear-btn:hover {
+    background-color: #b02a37;
+}
+
+/* Nút đóng */
+button.close-modal-btn {
+    background-color: #6c757d;
+    color: white;
+}
+
+button.close-modal-btn:hover {
+    background-color: #5a6268;
+}
+
+/* Nút so sánh trên từng tour */
+button.add-to-compare {
+    background-color: #28a745;
+    color: white;
+    margin-top: 10px;
+    padding: 8px 14px;
+    border-radius: 6px;
+}
+
+button.add-to-compare:hover {
+    background-color: #218838;
+}
 </style>
+
+
     <div class="container2">
         <!-- Menu Tabs -->
         <div class="menu-tabs">
@@ -230,7 +342,14 @@ a{
         <input type="radio" id="small-group" name="type" value="Theo nhóm nhỏ">
         <label for="small-group">Theo nhóm nhỏ</label>
     </div>
+    <div class="sosach">
+    <h5 style="color:black">So sánh tour</h5>
+    <button class="sosanhbt" onclick="showCompareModal()">🧮 So sánh tour</button> <br><br>
+    <button class="sosanhbt" onclick="clearCompare()">🗑️ Xóa danh sách so sánh</button>
+    </div>
+
 </div>
+
 
     <!-- Content Section -->
      <?php
@@ -324,7 +443,8 @@ function xemtour() {
                         eventHtml += parseInt(event.discount).toLocaleString('vi-VN') + ` đ`;
                     }
 
-                    eventHtml += `</span></a></div>`;
+                    eventHtml += `</span></a><br>
+                    <center><button class="add-to-compare" data-id="${event.tourid}">So sánh</button></center><br></div>`;
 
                     if ((index + 1) % 3 === 0 || (index + 1) === events.length) {
                         eventHtml += '</div>';
@@ -404,7 +524,9 @@ function xemtourtheomien(mien) {
                         eventHtml += parseInt(event.discount).toLocaleString('vi-VN') + ` đ`;
                     }
 
-                    eventHtml += `</span></a></div>`;
+                    eventHtml += `</span></a>
+                    <br>
+                    <center><button class="add-to-compare" data-id="${event.tourid}">So sánh</button></center><br></div>`;
 
                     if ((index + 1) % 3 === 0 || (index + 1) === events.length) {
                         eventHtml += '</div>';
@@ -482,7 +604,9 @@ function timKiemTourtype(type) {
                         eventHtml += parseInt(event.discount).toLocaleString('vi-VN') + ` đ`;
                     }
 
-                    eventHtml += `</span></a></div>`;
+                    eventHtml += `</span></a>
+                    <br>
+                    <center><button class="add-to-compare" data-id="${event.tourid}">So sánh</button></center><br></div>`;
 
                     if ((index + 1) % 3 === 0 || (index + 1) === events.length) {
                         eventHtml += '</div>';
@@ -563,7 +687,9 @@ function timKiemThongTin(name, date, budget) {
                         eventHtml += parseInt(event.discount).toLocaleString('vi-VN') + ` đ`;
                     }
 
-                    eventHtml += `</span></a></div>`;
+                    eventHtml += `</span></a>
+                    <br>
+                    <center><button class="add-to-compare" data-id="${event.tourid}">So sánh</button></center><br></div>`;
 
                     if ((index + 1) % 3 === 0 || (index + 1) === events.length) {
                         eventHtml += '</div>';
@@ -644,7 +770,9 @@ $.ajax({
                         eventHtml += parseInt(event.discount).toLocaleString('vi-VN') + ` đ`;
                     }
 
-                    eventHtml += `</span></a></div>`;
+                    eventHtml += `</span></a>
+                    <br>
+                    <center><button class="add-to-compare" data-id="${event.tourid}">So sánh</button></center><br></div>`;
 
                     if ((index + 1) % 3 === 0 || (index + 1) === events.length) {
                         eventHtml += '</div>';
@@ -795,7 +923,9 @@ if(urlParams.has('mien')) {
 
                   
 
-                    eventHtml += `</a></div>`;
+                    eventHtml += `</a>
+                    <br>
+                    <center><button class="add-to-compare" data-id="${tour.tourid}">So sánh</button></center><br></div>`;
 
                     if ((index + 1) % 3 === 0 || (index + 1) === data.length) {
                         eventHtml += '</div>';
@@ -826,4 +956,74 @@ if(urlParams.has('mien')) {
     xemtour(); // Gọi API khi tải trang
 });
 
+</script>
+
+
+
+<div id="compareModal" style="display:none; position:fixed; top:10%; left:5%; right:5%; background:#fff; border:1px solid #ccc; padding:20px; z-index:1000; border-radius:12px; box-shadow:0 0 10px rgba(0,0,0,0.3);">
+  <h3 style="color:black">🔍 So sánh Tour</h3>
+  <div id="compareModalContent" class="scroll-horizontal" style="display: flex; gap: 20px; overflow-x: auto;"></div>
+  <div style="text-align: right; margin-top: 15px;">
+    <button onclick="document.getElementById('compareModal').style.display='none'">Đóng</button>
+  </div>
+</div>
+
+
+
+<script>
+// Khi nhấn nút "Thêm vào so sánh"
+$(document).on('click', '.add-to-compare', function () {
+    const id = $(this).data('id').toString(); // ép về string để tránh lỗi so sánh
+    let compareList = JSON.parse(localStorage.getItem('compareTours')) || [];
+
+    if (!compareList.includes(id)) {
+        if (compareList.length >= 3) {
+            openPopup('Chỉ có thể so sánh tối đa 3 tour','');
+            return;
+        }
+        compareList.push(id);
+        localStorage.setItem('compareTours', JSON.stringify(compareList));
+        openPopup('✅ Đã thêm tour vào danh sách so sánh','');
+    } else {
+        openPopup('⚠️ Tour đã có trong danh sách','');
+    }
+});
+
+// Hiển thị modal so sánh
+function showCompareModal() {
+    const ids = JSON.parse(localStorage.getItem('compareTours')) || [];
+    if (ids.length < 2) {
+        openPopup("❗ Hãy chọn ít nhất 2 tour để so sánh.",'');
+        return;
+    }
+
+    fetch(`./api/phancong.php?action=getToursByIds&ids=${ids.join(',')}`)
+        .then(res => res.json())
+        .then(data => {
+            let html = '<div class="compare-container">';
+            data.forEach(tour => {
+                html += `
+                    <div class="tour-box" style="min-width:300px; border:1px solid #ccc; padding:10px; border-radius:8px;color:black">
+                        <img src="./assets/img/tour/${tour.Image}" alt="" width="100%">
+                        <h4 style="color:black">${tour.Name}</h4>
+                        <p><strong>Giá:</strong> ${parseInt(tour.discount || tour.Price).toLocaleString()} đ</p>
+                        <p><strong>Địa điểm:</strong> ${tour.DepartureLocation}</p>
+                        <p><strong>Phương tiện:</strong> ${tour.vehicle}</p>
+                        <p><strong>Phong cách:</strong> ${tour.Style}</p>
+                        <p><strong>Thời gian:</strong> ${tour.timetour}</p>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            document.getElementById('compareModalContent').innerHTML = html;
+            document.getElementById('compareModal').style.display = 'block';
+        });
+}
+
+// Xóa danh sách so sánh
+function clearCompare() {
+    localStorage.removeItem('compareTours');
+    openPopup("🗑️ Đã xóa danh sách so sánh.",'');
+    document.getElementById('compareModal').style.display = 'none';
+}
 </script>

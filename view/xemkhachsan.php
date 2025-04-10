@@ -318,12 +318,12 @@ function timKiemKStype(type) {
                 });
                 $('#xemks').html(tourHtml);
             } else {
-                $('#xemks').html('<div class="col">Không tìm thấy tour nào.</div>');
+                $('#xemks').html('<div class="col">Không tìm thấy khách sạn nào.</div>');
             }
         },
         error: function (xhr, status, error) {
             console.error('Lỗi khi tải dữ liệu:', error);
-            $('#xemtour').html('<div class="col">Đã xảy ra lỗi khi tải thông tin tour.</div>');
+            $('#xemtour').html('<div class="col">Đã xảy ra lỗi khi tải thông tin khách sạn.</div>');
         }
     });
 }
@@ -367,12 +367,12 @@ function timKiemThongTinks(name, price, area, adult, children, checkin, checkout
 
                 $('#xemks').html(tourHtml);
             } else {
-                $('#xemks').html('<div class="col">Không tìm thấy tour nào.</div>');
+                $('#xemks').html('<div class="col">Không tìm thấy khách sạn nào.</div>');
             }
         },
         error: function (xhr, status, error) {
             console.error('Lỗi khi tải dữ liệu:', error);
-            $('#xemks').html('<div class="col">Đã xảy ra lỗi khi tải thông tin tour.</div>');
+            $('#xemks').html('<div class="col">Đã xảy ra lỗi khi tải thông tin khách sạn.</div>');
         }
     });
 }

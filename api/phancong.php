@@ -318,7 +318,39 @@ if ($action === 'submitReport') {
     $stmt->close();
 }
 
+if ($_GET['action'] === 'getToursByIds' && isset($_GET['ids'])) {
+    $ids = explode(',', $_GET['ids']);
+    $ids = array_map('intval', $ids); // tránh SQL injection
 
+    if (count($ids) > 0) {
+        $placeholders = implode(',', array_fill(0, count($ids), '?'));
+        $sql = "SELECT t.*, ti.Image 
+                FROM tour t 
+                LEFT JOIN tour_images ti ON t.id = ti.id_tour 
+                WHERE t.id IN ($placeholders)
+                GROUP BY t.id";
+
+        $stmt = $conn->prepare($sql);
+        if ($stmt === false) {
+            echo json_encode(['error' => 'Lỗi prepare: ' . $conn->error]);
+            exit;
+        }
+
+        // Bind các ID (dạng integer)
+        $types = str_repeat('i', count($ids));
+        $stmt->bind_param($types, ...$ids);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        $tours = [];
+        while ($row = $result->fetch_assoc()) {
+            $tours[] = $row;
+        }
+
+        echo json_encode($tours);
+        exit;
+    }
+}
 ?>
 
 

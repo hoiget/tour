@@ -260,6 +260,7 @@
         </div>
 
         <!-- Form tìm kiếm Tour -->
+        <form id="tour-search-form">
         <div id="tour-search" class="search-form">
             <input type="text" name="name" placeholder="Bạn muốn đi đâu?" class="search-input">
             <input type="date" name="date" class="date-input1">
@@ -271,8 +272,9 @@
             </select>
             <button type="submit" class="search-button" style="background-color: white; border: 1px solid black">🔍</button>
         </div>
-
+        </form>
         <!-- Form tìm kiếm Khách sạn -->
+        <form id="hotel-search-form">
         <div id="hotel-search" class="search-form" style="display: none; margin-top: 25px;">
             <input type="text" name="name" placeholder="Nhập tên khách sạn/Địa điểm" class="search-input1" style="border: 1px solid black; border-radius: 5px; width: 250px">
             
@@ -299,11 +301,15 @@
 
             <button type="submit" class="hotel-search-button" style="background-color: white; border: 1px solid black">🔍</button>
         </div>
+        </form>
     </div>
 
 
-    <script>
-  $(document).ready(function () {
+
+
+        
+        <script>
+$(document).ready(function () {
     // Chuyển đổi tab
     $('.tab').click(function () {
         $('.tab').removeClass('active');
@@ -318,30 +324,45 @@
         }
     });
 
-    // Xử lý tìm kiếm Tour
-    $('.search-button').click(function () {
-        var name = $('.search-input').val();
+    // ✅ Tìm kiếm Tour với kiểm tra
+    $('.search-button').click(function (e) {
+        e.preventDefault(); // Ngăn submit form nếu có
+
+        var name = $('.search-input').val().trim();
         var date = $('.date-input1').val();
         var budget = $('.budget-select').val();
+
+        if (!name && !date && !budget) {
+            openPopup("Vui lòng nhập ít nhất một thông tin để tìm kiếm tour.",'');
+            return;
+        }
 
         window.location.href = `index.php?tour1&name=${encodeURIComponent(name)}&date=${date}&budget=${budget}`;
     });
 
-    // Xử lý tìm kiếm Khách sạn
-    $('.hotel-search-button').click(function () {
-        var name = $('.search-input1').val();
+    // ✅ Tìm kiếm Khách sạn với kiểm tra
+    $('.hotel-search-button').click(function (e) {
+        e.preventDefault(); // Ngăn submit form nếu có
+
+        var name = $('.search-input1').val().trim();
         var checkin = $('#ngay-nhan').val();
         var checkout = $('#ngay-tra').val();
         var adult = $('#adult').val();
         var children = $('#children').val();
         var price = $('#price').val();
 
+        if (!name && !checkin && !checkout && !adult && !children && !price) {
+            openPopup("Vui lòng nhập ít nhất một thông tin để tìm kiếm khách sạn.",'');
+            return;
+        }
+
         window.location.href = `index.php?ks&name=${encodeURIComponent(name)}&checkin=${checkin}&checkout=${checkout}&adult=${adult}&children=${children}&price=${price}`;
     });
 });
+</script>
 
 
-    </script>
+ 
 </section>
 
 
