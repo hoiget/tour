@@ -1,128 +1,342 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
-        }
-        .container {
-            width: 90%;
-            margin: auto;
-            padding: 20px;
-        }
-        .section-title {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-        }
-        #thongke,#thongke1,#thongkeks,#thongkeks1 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-        }
-        .card {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-        .card h3 {
-            margin: 10px 0;
-            font-size: 18px;
-            color: #333;
-        }
-        .card p {
-            font-size: 16px;
-            margin: 0;
-        }
-        .card.green {
-            border-left: 5px solid #4caf50;
-        }
-        .card.red {
-            border-left: 5px solid #f44336;
-        }
-        .card.blue {
-            border-left: 5px solid #2196f3;
-        }
-        .card.orange {
-            border-left: 5px solid #ff9800;
-        }
-        .dropdown {
-            margin: 20px 0;
-            text-align: right;
-        }
-        select {
-            padding: 5px;
-            font-size: 16px;
-        }
-        a{
-            text-decoration: none;
-            color: black;
-            font-size: 20px;
-            margin: 10px;
-            text-align: center;
-        }   #locationChart {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    margin: auto;      /* Căn giữa */
+   
+     <style>
+    :root {
+        --primary-color: #3498db;
+        --secondary-color: #2ecc71;
+        --danger-color: #e74c3c;
+        --warning-color: #f39c12;
+        --info-color: #9b59b6;
+        --dark-color: #34495e;
+        --light-color: #ecf0f1;
+        --text-color: #2c3e50;
+        --border-radius: 12px;
+        --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        --transition: all 0.3s ease;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f7fa;
+        color: var(--text-color);
+        line-height: 1.6;
+    }
+
+    .container {
+        width: 90%;
+        max-width: 1400px;
+        margin: 30px auto;
+        padding: 25px;
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+    }
+
+    .section-title {
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 25px;
+        color: var(--dark-color);
+        position: relative;
+        padding-bottom: 10px;
+    }
+
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 60px;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        border-radius: 2px;
+    }
+
+    .grid {
+        display: grid;
+       
+        gap: 25px;
+        margin-bottom: 30px;
+        grid-template-columns: 1fr 1fr;
+        
+    }
+   
+
+    #thongke, #thongke1, #thongkeks, #thongkeks1,#thongkenvv {
+        display: grid;
+   
+        gap: 25px;
+        grid-template-columns: 1fr 1fr;
+    }
+    #locationChart,
+    #permissionChart,#ageChart,#yearlyChart{
+        display: grid;
+        gap: 25px;
+        grid-template-columns: 1fr 1fr;
+   
+    }
+    #thongke,#thongkeks,#thongkenvv{
+        border-right:2px solid black;
+        padding-right:20px;
+    }
+
+    .card {
+        background: white;
+        padding: 25px;
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        text-align: center;
+        transition: var(--transition);
+        border-top: 4px solid transparent;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .card h3 {
+        margin: 15px 0;
+        font-size: 18px;
+        color: var(--dark-color);
+        font-weight: 600;
+    }
+
+    .card p {
+        font-size: 24px;
+        margin: 0;
+        font-weight: 700;
+    }
+
+    .card.green {
+        border-top-color: var(--secondary-color);
+        background: linear-gradient(135deg, rgba(46, 204, 113, 0.1), rgba(46, 204, 113, 0.05));
+    }
+
+    .card.red {
+        border-top-color: var(--danger-color);
+        background: linear-gradient(135deg, rgba(231, 76, 60, 0.1), rgba(231, 76, 60, 0.05));
+    }
+
+    .card.blue {
+        border-top-color: var(--primary-color);
+        background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(52, 152, 219, 0.05));
+    }
+
+    .card.orange {
+        border-top-color: var(--warning-color);
+        background: linear-gradient(135deg, rgba(243, 156, 18, 0.1), rgba(243, 156, 18, 0.05));
+    }
+
+    .card.purple {
+        border-top-color: var(--info-color);
+        background: linear-gradient(135deg, rgba(155, 89, 182, 0.1), rgba(155, 89, 182, 0.05));
+    }
+
+    .dropdown {
+        margin: 30px 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        align-items: center;
+    }
+
+    .dropdown label {
+        font-weight: 600;
+        color: var(--dark-color);
+    }
+
+    select {
+        padding: 10px 15px;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        border-radius: var(--border-radius);
+        background-color: white;
+        transition: var(--transition);
+    }
+
+    select:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+    }
+
+    button {
+        padding: 10px 20px;
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 600;
+        transition: var(--transition);
+        color:black;
+    }
+
+    button:hover {
+        background-color: #2980b9;
+        transform: translateY(-2px);
+    }
+
+    a {
+        text-decoration: none;
+        color: var(--text-color);
+        font-size: 18px;
+        font-weight: 600;
+        margin: 0 15px;
+        padding: 10px 15px;
+        border-radius: var(--border-radius);
+        transition: var(--transition);
+        position: relative;
+    }
+
+    a:hover {
+        color: var(--primary-color);
+    }
+
+    a::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 2px;
+        background: var(--primary-color);
+        transition: var(--transition);
+    }
+
+    a:hover::after {
+        width: 100%;
+    }
+
+   
+
+    .xuat {
+        background: linear-gradient(135deg, var(--primary-color), #1abc9c);
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+        padding: 12px 28px;
+        border: none;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: var(--transition);
+        box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        margin: 20px 0;
+        color:black;
+    }
+
+    .xuat:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
+    }
+
+    .xuat:active {
+        transform: translateY(1px);
+    }
+
+    .xuat::after {
+        content: "";
+        position: absolute;
+        width: 300%;
+        height: 300%;
+        top: 50%;
+        left: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        transition: transform 0.6s, opacity 0.6s;
+        transform: translate(-50%, -50%) scale(0);
+        border-radius: 50%;
+        opacity: 0;
+    }
+
+    .xuat:active::after {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+        transition: transform 0.3s, opacity 0.3s;
+    }
+
+    hr {
+        border: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, #ddd, transparent);
+        margin: 50px 0;
+    }
+
+    /* Chart containers */
+    .chart-container {
+        background: white;
+        padding: 30px;
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        margin: 40px auto;
+        max-width: 800px;
+    }
+
+    .chart-container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: var(--dark-color);
+        font-size: 22px;
+    }
+    @media (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 15px;
+    }
+
+    .grid,
+    #thongke,
+    #thongke1,
+    #thongkeks,
+    #thongkeks1,
+    #thongkenvv {
+        grid-template-columns: 1fr !important;
+        padding-right: 0;
+        border-right: none;
+    }
+
+    .section-title {
+        font-size: 22px;
+        text-align: center;
+    }
+
+    .dropdown {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    button, .xuat {
+        width: 100%;
+        text-align: center;
+    }
+
+    a {
+        display: inline-block;
+        margin: 10px 0;
+        padding: 8px 12px;
+    }
+
+    .chart-container {
+        padding: 20px;
+        margin: 20px auto;
+        max-width: 100%;
+    }
+
+    #locationChart,
+    #permissionChart,#ageChart,#yearlyChart {
+        grid-template-columns: 1fr !important;
+       
+    }
 }
-#permissionChart{
+
+</style>
   
-    margin:auto;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-   }
-   .xuat {
-    background-color: #007bff;
-    color: white;
-    font-size: 16px;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    transition: background 0.3s, transform 0.2s;
-}
-
-.xuat:hover {
-    background-color: #0056b3;
-    transform: scale(1.05);
-}
-
-.xuat:active {
-    transform: scale(0.95);
-}
-
-/* Hiệu ứng sóng lan tỏa khi nhấp chuột */
-.xuat::after {
-    content: "";
-    position: absolute;
-    width: 300%;
-    height: 300%;
-    top: 50%;
-    left: 50%;
-    background: rgba(255, 255, 255, 0.3);
-    transition: transform 0.6s, opacity 0.6s;
-    transform: translate(-50%, -50%) scale(0);
-    border-radius: 50%;
-    opacity: 0;
-}
-
-.xuat:active::after {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
-    transition: transform 0.3s, opacity 0.3s;
-}
-
-    </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <center><a href="#tour">Tour</a>
@@ -135,53 +349,68 @@
 
 </center>
 <!-- Tour -->
-    <div class="container" id="tour">
-        <div class="section-title">TOUR</div>
-        <div class="grid">
-          <div id="thongke"></div>
-        </div>
 
-        <div class="section-title">Dữ liệu đơn đặt Tour</div>
-        <div class="dropdown">
-    <label for="year">Chọn năm:</label>
-    <select id="year">
-        <option value="2025">2025</option>
-        <option value="2024">2024</option>
-    </select>
 
-    <label for="month">Chọn tháng:</label>
-    <select id="month">
-        <option value="" selected>Tất cả</option>
-        <option value="1">Tháng 1</option>
-        <option value="2">Tháng 2</option>
-        <option value="3">Tháng 3</option>
-        <option value="4">Tháng 4</option>
-        <option value="5">Tháng 5</option>
-        <option value="6">Tháng 6</option>
-        <option value="7">Tháng 7</option>
-        <option value="8">Tháng 8</option>
-        <option value="9">Tháng 9</option>
-        <option value="10">Tháng 10</option>
-        <option value="11">Tháng 11</option>
-        <option value="12">Tháng 12</option>
-        <!-- Các tháng khác -->
-    </select>
-    <label for="vung">Chọn vùng miền:</label>
-    <select id="vung">
-        <option value=""  selected>Tất cả</option>
-        <option value="Nam">Miền Nam</option>
-        <option value="Trung">Miền Trung</option>
-        <option value="Bắc">Miền Bắc</option>
-        <option value="Tây">Miền Tây</option>
-        <option value="Ngoài nước">Nước ngoài</option>
+<div class="container" id="tour">
+    <div class="tour-header">
+        <div class="tour-title">TOUR</div>
         
-        <!-- Các tháng khác -->
-    </select>
-    <button onclick="applyFilter()">Tìm kiếm</button>
+        <div class="tour-search">
+            <div class="dropdown">
+                <label for="year">Năm:</label>
+                <select id="year">
+                    <option value="2025">2025</option>
+                    <option value="2024">2024</option>
+                </select>
+
+                <label for="month">Tháng:</label>
+                <select id="month">
+                    <option value="" selected>Tất cả</option>
+                    <option value="1">Tháng 1</option>
+                    <option value="2">Tháng 2</option>
+                    <option value="3">Tháng 3</option>
+                    <option value="4">Tháng 4</option>
+                    <option value="5">Tháng 5</option>
+                    <option value="6">Tháng 6</option>
+                    <option value="7">Tháng 7</option>
+                    <option value="8">Tháng 8</option>
+                    <option value="9">Tháng 9</option>
+                    <option value="10">Tháng 10</option>
+                    <option value="11">Tháng 11</option>
+                    <option value="12">Tháng 12</option>
+                    <!-- Các tháng khác -->
+                </select>
+                
+                <label for="vung">Vùng:</label>
+                <select id="vung">
+                    <option value="" selected>Tất cả</option>
+                    <option value="Nam">Miền Nam</option>
+                    <option value="Bắc">Miền Bắc</option>
+                    <option value="Trung">Miền Trung</option>
+                    <option value="Tây">Miền Tây</option>
+                    <option value="Ngoài nước">Ngoài nước</option>
+                  
+                    <!-- Các vùng khác -->
+                </select>
+                
+                <button onclick="applyFilter()">Lọc</button>
+            </div>
+        </div>
+        
+    
+    </div>
+
+    <div class="grid">
+        <div id="thongke"></div>
+       
+        <div id="thongke1"></div>
+    </div>
+   
+    <div style="width: 50%; margin: auto;">
+        <h2>Biểu đồ tỉ lệ đơn đặt tour</h2>
+        <canvas id="bookingChart"></canvas>
+    </div>
 </div>
-
-
-
 <script>
    function applyFilter() {
     const year = document.getElementById('year').value;
@@ -192,21 +421,13 @@
 }
 
 </script>
-        <div class="grid">
-           <div id="thongke1"></div>
-        </div>
-    </div>
-    <div style="width: 50%; margin: auto;">
-        <h2>Biểu đồ tỉ lệ đơn đặt tour</h2>
-        <canvas id="bookingChart"></canvas>
-    </div>
+      
+    
 <hr>
 <!-- Room -->
     <div class="container" id="ks">
         <div class="section-title" >ROOM</div>
-        <div class="grid">
-          <div id="thongkeks"></div>
-        </div>
+        
 
       
         <div class="dropdown">
@@ -244,16 +465,16 @@
     }
 </script>
 
-
-<div class="section-title">Dữ liệu đơn đặt phòng</div>        
 <div class="grid">
-           <div id="thongkeks1"></div>
-        </div>
-    </div>
-    <div style="width: 50%; margin: auto;">
+          <div id="thongkeks"></div>
+          <div id="thongkeks1"></div>
+</div>
+<div style="width: 50%; margin: auto;">
         <h2>Biểu đồ tỉ lệ đơn đặt phòng</h2>
         <canvas id="bookingChartnew"></canvas>
-    </div>
+</div>
+</div>
+   
 
    <hr>
 <!-- Khách hàng -->
@@ -264,10 +485,17 @@
 <h2>Tổng số khách hàng: <span id="totalCustomers">0</span></h2>
             </div>
 
-<canvas id="ageChart" width="400" height="200"></canvas>
-<center><b>Biểu đồ cột thể hiện theo độ tuổi khách hàng</b></center> <br>
-<canvas id="locationChart" width="400" height="200"></canvas>
-<center><b>Biểu đồ tròn thống kê các khu vực của khách hàng</b></center> <br>
+<div class="grid" style="width: 60%; margin: auto;">
+    <div id="cot">
+    <canvas id="ageChart" height=300></canvas>
+    <center><b>Biểu đồ cột thể hiện theo độ tuổi khách hàng</b></center> <br>
+    </div>
+    <div id="tron">
+    <canvas id="locationChart"></canvas>
+    <center><b>Biểu đồ tròn thống kê các khu vực của khách hàng</b></center> <br>
+
+    </div>
+</div>
 
 </div>
 
@@ -276,7 +504,8 @@
 <div class="container" id="nhanvien">
 <div class="section-title" >Nhân viên</div>
 <div class="grid">
-<div class="card green">
+    <div id="thongkenvv">
+    <div class="card green">
                 <h3>Tổng số nhân viên</h3>
                 <p><span id="totalEmployees">0</span></p>
             </div>
@@ -288,16 +517,30 @@
                 <h3>Nhân viên cũ</h3>
                 <p><span id="oldEmployees">0</span></p>
             </div>
+    </div>
+         
+
+            <div id="thongkenv1"></div>
 </div>
 
 
-           <div id="thongkenv1"></div>
+         
 
 <!-- Biểu đồ -->
-<canvas id="permissionChart" ></canvas>
-<center><b>Biểu đồ tròn thống kê các vai trò của nhân viên</b></center> <br>
-<canvas id="yearlyChart" ></canvas>
-<center><b>Biểu cột thống kê các nhân viên đã tuyển theo từng năm</b></center> <br>
+<div class="grid" style="width: 60%; margin: auto;">
+<div id="cot"><canvas id="yearlyChart" height=300></canvas>
+<center><b>Biểu cột thống kê các nhân viên đã tuyển theo từng năm</b></center> <br></div>
+    <div id="tron">
+        
+    <canvas id="permissionChart" ></canvas>
+    <center><b>Biểu đồ tròn thống kê các vai trò của nhân viên</b></center> <br>
+    </div>
+   
+
+
+</div>
+
+
 </div>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
@@ -532,6 +775,7 @@ function getBookingStats1() {
                 var eventHtml = ''; 
                 events.forEach(function(event) {
                     eventHtml += `
+                    
                 <div class="card green">
                 <h3>Tổng đơn</h3>
                 <p>${event.total_orders}<br>${formatNumberWithDot(event.total_amount)} đ</p>
@@ -884,30 +1128,77 @@ $(document).ready(function() {
 <script>
 async function exportToPDF() {
     const { jsPDF } = window.jspdf;
-    let doc = new jsPDF('p', 'mm', 'a4');
+    const doc = new jsPDF('p', 'mm', 'a4');
 
-    // Chụp từng phần nội dung
-    let elements = ['tour','bookingChart', 'ks','bookingChartnew', 'khachang', 'nhanvien'];
-    let yOffset = 10; // Khoảng cách giữa các phần
+    const elements = ['tour', 'cot','tron', 'ks', 'khachang', 'nhanvien'];
+    const pageHeight = 297;
+    const margin = 10;
+    const pdfWidth = 160;
+    let yOffset = margin;
 
     for (let id of elements) {
-        let element = document.getElementById(id);
+        const element = document.getElementById(id);
         if (!element) continue;
 
-        let canvas = await html2canvas(element, { scale: 2 });
-        let imgData = canvas.toDataURL('image/png');
-        
-        let imgWidth = 190; // Giới hạn theo chiều rộng A4
-        let imgHeight = (canvas.height * imgWidth) / canvas.width; 
+        // Fix: thu nhỏ element trước khi chụp
+        const originalWidth = element.style.width;
+        element.style.width = "700px"; // ép width nhỏ lại trước khi chụp
 
-        if (yOffset + imgHeight > 290) { // Nếu trang không đủ chỗ, tạo trang mới
-            doc.addPage();
-            yOffset = 10;
+        const canvas = await html2canvas(element, { scale: 2 });
+
+        element.style.width = originalWidth; // khôi phục lại sau khi chụp
+
+        const imgData = canvas.toDataURL('image/png');
+
+        const imgProps = {
+            width: canvas.width,
+            height: canvas.height
+        };
+
+        const imgHeightInPDF = (imgProps.height * pdfWidth) / imgProps.width;
+        const imgX = (210 - pdfWidth) / 2;
+
+        let position = 0;
+        let remainingHeight = imgProps.height;
+
+        while (remainingHeight > 0) {
+            const sliceHeight = Math.min(remainingHeight, (pageHeight - yOffset - margin) * (imgProps.width / pdfWidth));
+
+            const pageCanvas = document.createElement('canvas');
+            pageCanvas.width = imgProps.width;
+            pageCanvas.height = sliceHeight;
+            const ctx = pageCanvas.getContext('2d');
+            ctx.drawImage(canvas, 0, position, imgProps.width, sliceHeight, 0, 0, imgProps.width, sliceHeight);
+
+            const pageImgData = pageCanvas.toDataURL('image/png');
+            const sliceHeightMm = (sliceHeight * pdfWidth) / imgProps.width;
+
+            if (yOffset + sliceHeightMm > pageHeight - margin) {
+                doc.addPage();
+                yOffset = margin;
+            }
+
+            doc.addImage(pageImgData, 'PNG', imgX, yOffset, pdfWidth, sliceHeightMm);
+            yOffset += sliceHeightMm + 5;
+
+            position += sliceHeight;
+            remainingHeight -= sliceHeight;
+
+            if (remainingHeight > 0) {
+                doc.addPage();
+                yOffset = margin;
+            }
         }
-        doc.addImage(imgData, 'PNG', 10, yOffset, imgWidth, imgHeight);
-        yOffset += imgHeight + 10; // Cách dòng giữa các phần
+
+        yOffset += 10;
+        if (yOffset > pageHeight - 30) {
+            doc.addPage();
+            yOffset = margin;
+        }
     }
 
-    doc.save("ThongKe.pdf"); // Lưu file PDF
+    doc.save("ThongKe.pdf");
 }
+
 </script>
+
