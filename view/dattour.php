@@ -22,6 +22,7 @@
   border: 1px solid #ccc;
   border-radius: 8px;
   background:white;
+ 
 }
 #top{
   flex: 1; /* Để lịch mở rộng linh hoạt */
@@ -34,6 +35,7 @@
   height: 500px;
   font-family: Arial, sans-serif;
   background:white;
+ /* Tự động điều chỉnh số cột */
 }
 
 
@@ -45,6 +47,7 @@ h2, h3 {
 form {
   display: grid;
   gap: 10px;
+  
 }
 
 label {
@@ -173,6 +176,56 @@ button:hover {
     border-color: #4CAF50;
     background-color: #4CAF50;
     color: white;
+}
+@media (max-width: 768px) {
+  .container-wrapper {
+    flex-direction: column;
+    gap: 10px;
+    padding: 0 10px;
+  }
+
+  .container4, #top, #calendar {
+    max-width: 100%;
+    padding: 10px;
+  }
+
+  h1, h2, h3 {
+    font-size: 20px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr; /* 1 cột trên mobile */
+  }
+
+  button {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 10px;
+  }
+
+  .passenger-form {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  .payment-option {
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 14px;
+  }
+
+  .payment-option img {
+    width: 40px;
+    height: 24px;
+  }
+
+  .checkbox {
+    width: 18px;
+    height: 18px;
+    font-size: 14px;
+  }
 }
 
 </style>

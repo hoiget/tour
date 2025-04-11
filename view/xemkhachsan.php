@@ -32,31 +32,56 @@
 
 .search-bar {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
+    flex-wrap: wrap;
     gap: 10px;
+    margin-bottom: 20px;
 }
 
-.search-input,#adult,
-#price,#children {
+.search-bar input,
+.search-bar select {
     padding: 10px;
-    width: 30%;
     border: 1px solid #ccc;
+    border-radius: 5px;
+    flex: 1 1 150px;
+    min-width: 120px;
+}
+
+.date-input-container {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    flex: 1 1 300px;
+}
+
+.date-input-wrapper {
+    flex: 1 1 140px;
+    position: relative;
+}
+
+.date-input {
+    width: 100%;
+    height: 40px;
     border-radius: 5px;
 }
 
+.search-input {
+    flex: 2 1 250px;
+}
+
 .search-button {
-    padding: 10px;
+    padding: 10px 15px;
     background-color: #007bff;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    flex: 0 0 auto;
 }
 
 .search-button:hover {
     background-color: #0056b3;
 }
+
 .container-layout {
     display: flex;
     width: 100%;
@@ -168,46 +193,131 @@ label{
     opacity: 1;
 }
 
+@media (max-width: 768px) {
+  
 
+    .tour-card p,strong {
+        font-size: 14px;
+    }
+
+    .tour-card h4 {
+        font-size: 16px;
+    }
+
+    .tour-card img {
+        height: 120px;
+    }
+    .departure-box span{
+        font-size: 12px;
+        
+    }
+    .add-to-compare{
+       font-size: 10px;
+
+    }
+    .sosanhbt{
+       font-size: 10px;
+
+    }
+    .sidebar h5{
+        font-size:14px;
+        
+    }
+    .sidebar input,label{
+        font-size:10px;
+        
+    }
+    .sidebar{
+        height: 200px;
+        
+    }
+    .menu-tabs button {
+        padding: 5px 10px;
+        font-size: 10px;
+    }
+
+
+  
+}
+
+@media (max-width: 600px) {
+
+
+    .tour-card p,strong {
+        font-size: 12px;
+    }
+
+    .tour-card h4 {
+        font-size: 14px;
+    }
+
+    .tour-card img {
+        height: 100px;
+    }
+    .departure-box span{
+        font-size: 12px;
+    }
+    .add-to-compare{
+       font-size: 10px;
+
+    }
+    .sosanhbt{
+       font-size: 10px;
+
+    }
+    .sidebar h5{
+        font-size:14px;
+        
+    }
+    .sidebar input,label{
+        font-size:10px;
+        
+    }
+    .sidebar{
+        height: 200px;
+        
+    }
+    .menu-tabs button {
+        padding: 5px 10px;
+        font-size: 10px;
+    }
+ 
+
+  
+    
+}
 </style>
     <div class="container2">
         <!-- Menu Tabs -->
-        <div class="menu-tabs">
-            <button>Phòng cao cấp</button>
-            <button>Phòng tiêu chuẩn</button>
-            <button>Phòng tiết kiệm</button>
-            <button>Phòng khuyến mãi</button>
-        </div>
-
+     
         <!-- Search Bar -->
         <div class="search-bar">
-            <input type="text" name="name" placeholder="Nhập tên phòng/Địa điểm" class="search-input">
-            <div class="date-input-container">
-                <div class="date-input-wrapper" data-label="Ngày nhận">
-                    <input type="date" id="ngay-nhan" class="date-input" name="checkin">
-                </div>
-                <div class="date-input-wrapper" data-label="Ngày trả">
-                    <input type="date" id="ngay-tra" class="date-input" name="checkout">
-                </div>
-            </div>
-            <input type="number" id="adult" name="adult" placeholder="Số người lớn">
-            
+    <input type="text" name="name" placeholder="Nhập tên phòng/Địa điểm" class="search-input" id="hotel-main-search">
 
-            <input type="number" name="children" id="children"  placeholder="Số trẻ em">
-
-            <select name="price" id="price">
-                <option value="">Chọn giá</option>
-                <option value="low">Dưới 1 triệu</option>
-                <option value="medium">1 triệu - 2 triệu</option>
-                <option value="mediumer">2 triệu - 3 triệu</option>
-                <option value="high">3 triệu - 4 triệu</option>
-                <option value="higher">Trên 4 triệu</option>
-            </select>
-
-            <button class="search-button">🔍</button>
+    <div class="date-input-container hidden-on-mobile">
+        <div class="date-input-wrapper" data-label="Ngày nhận">
+            <input type="date" id="ngay-nhan" class="date-input" name="checkin">
         </div>
+        <div class="date-input-wrapper" data-label="Ngày trả">
+            <input type="date" id="ngay-tra" class="date-input" name="checkout">
+        </div>
+    </div>
 
-      
+    <input type="number" id="adult" name="adult" placeholder="Số người lớn" class="hidden-on-mobile">
+    <input type="number" name="children" id="children" placeholder="Số trẻ em" class="hidden-on-mobile">
+
+    <select name="price" id="price" class="hidden-on-mobile">
+        <option value="">Chọn giá</option>
+        <option value="low">Dưới 1 triệu</option>
+        <option value="medium">1 triệu - 2 triệu</option>
+        <option value="mediumer">2 triệu - 3 triệu</option>
+        <option value="high">3 triệu - 4 triệu</option>
+        <option value="higher">Trên 4 triệu</option>
+    </select>
+
+    <button class="search-button hidden-on-mobile">🔍</button>
+</div>
+
             
         <div class="container-layout">
     <!-- Sidebar -->
@@ -265,8 +375,8 @@ label{
                     
                     eventHtml += `
                             <div class="tour-card">
-                            <a href="index.php?idks=${event.id}&xemdanhgiaks=${event.id}&xemdanhgiaratingks=${event.id}"><img src="./assets/img/ks/${event.Image}" alt=""> </a>
-                            <a href="index.php?idks=${event.id}&xemdanhgiaks=${event.id}&xemdanhgiaratingks=${event.id}"><p>${event.Name}<br>${event.Thumb}<br><br>${event.Diadiem}<br><br>
+                            <a href="index.php?idks=${event.idroom}&xemdanhgiaks=${event.idroom}&xemdanhgiaratingks=${event.idroom}"><img src="./assets/img/ks/${event.Image}" alt=""> </a>
+                            <a href="index.php?idroomks=${event.idroom}&xemdanhgiaks=${event.idroom}&xemdanhgiaratingks=${event.idroom}"><p>${event.Name}<br>${event.Thumb}<br><br>${event.Diadiem}<br><br>
                             
                             `;
                            

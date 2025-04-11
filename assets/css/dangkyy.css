@@ -1,0 +1,108 @@
+body {
+    font-family: Arial, sans-serif;
+    background: url('../img/background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+    font-size: 16px;
+}
+
+.container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.columns {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    max-width: 1200px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.register-form, .info-box {
+    flex: 1;
+    padding: 20px;
+}
+
+.register-form {
+    border-right: 1px solid #ddd;
+}
+
+.register-form h2, .info-box h3 {
+    color: #000;
+    margin-bottom: 20px;
+}
+
+.register-form form {
+    display: flex;
+    flex-direction: column;
+}
+
+.register-form input,
+.register-form button {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.register-form button {
+    background-color: black;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+}
+
+.info-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+}
+
+.info-box h3 {
+    margin-bottom: 20px;
+    color: #000;
+    font-size: 24px;
+}
+
+.info-box ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.info-box li {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+/* ---------- ✅ Responsive cho điện thoại ---------- */
+@media (max-width: 768px) {
+    .columns {
+        flex-direction: column;
+    }
+
+    .register-form {
+        border-right: none;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .info-box {
+        padding-top: 0;
+    }
+}

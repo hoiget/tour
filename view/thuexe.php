@@ -58,7 +58,12 @@ ul li a:hover {
     text-decoration: none !important;
 }
 
-
+@media (max-width: 768px) {
+    .input-group button {
+       
+       font-size: 10px;
+    }
+}
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 

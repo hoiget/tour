@@ -33,27 +33,36 @@
 
 .search-bar {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
+    flex-wrap: wrap;
     gap: 10px;
+    margin-bottom: 20px;
 }
 
 .search-input,
 .date-input,
 .budget-select {
     padding: 10px;
-    width: 30%;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 
+.search-input {
+    flex: 1 1 250px;
+}
+
+.date-input,
+.budget-select {
+    flex: 1 1 150px;
+}
+
 .search-button {
-    padding: 10px;
+    padding: 10px 15px;
     background-color: #007bff;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    flex: 0 0 auto;
 }
 
 .search-button:hover {
@@ -176,12 +185,16 @@ a{
         
     }
     .sidebar input,label{
-        font-size:12px;
+        font-size:10px;
         
     }
     .sidebar{
         height: 200px;
         
+    }
+    .menu-tabs button {
+        padding: 5px 10px;
+        font-size: 10px;
     }
 }
 
@@ -215,7 +228,7 @@ a{
         
     }
     .sidebar input,label{
-        font-size:12px;
+        font-size:10px;
         
     }
     .sidebar{
@@ -223,9 +236,10 @@ a{
         
     }
     .menu-tabs button {
-        padding: 8px 16px;
+        padding: 5px 10px;
         font-size: 10px;
     }
+    
 }
 .compare-container {
     display: flex;
@@ -313,16 +327,17 @@ button.add-to-compare:hover {
 
         <!-- Search Bar -->
         <div class="search-bar">
-            <input type="text" placeholder="Bạn muốn đi đâu?" class="search-input">
-            <input type="date" class="date-input">
-            <select class="budget-select">
-                <option value="">Ngân sách</option>
-                <option value="low">Dưới 5 triệu</option>
-                <option value="medium">5 - 10 triệu</option>
-                <option value="high">Trên 10 triệu</option>
-            </select>
-            <button class="search-button">🔍</button>
-        </div>
+    <input type="text" placeholder="Bạn muốn đi đâu?" class="search-input" id="main-search">
+    <input type="date" class="date-input hidden-on-mobile">
+    <select class="budget-select hidden-on-mobile">
+        <option value="">Ngân sách</option>
+        <option value="low">Dưới 5 triệu</option>
+        <option value="medium">5 - 10 triệu</option>
+        <option value="high">Trên 10 triệu</option>
+    </select>
+    <button class="search-button hidden-on-mobile">🔍</button>
+</div>
+
 
       
             
