@@ -335,6 +335,11 @@ h3,h5{
     color:white;
 }
 
+@media (max-width: 768px) {
+#orderDetails{
+    width: auto;
+}
+}
 
     </style>
   <!-- Modal -->
@@ -475,7 +480,7 @@ function xemtrangthai() {
 
                     if (event.refund == '0') {
                         if (event.Payment_status == '1') {
-                                eventHtml += `<div  id="orderDetails_${event.Booking_id}"></div>`
+                                eventHtml += `<div id="orderDetails_${event.Booking_id}"></div>`
                             }
 
                         if (event.Booking_status == '1') {

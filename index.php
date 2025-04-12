@@ -247,7 +247,7 @@ if(isset($_REQUEST['idtour'])){
 if(isset($_SESSION['Email']) || isset($_SESSION['sdt'])) {
 if(isset($_REQUEST['dattour'])){
   $show = false;
-  include_once("view/dattour.php");
+  include_once("view/dattourtest.php");
 }if(isset($_REQUEST['xemdattour'])){
   $show = false;
  
