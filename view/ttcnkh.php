@@ -74,7 +74,7 @@
                     <div id="anhnen"></div>
                     <br>
                     <input style="color:black" type="file" id="anh" name="anh">
-                    <div>
+                    <div style="margin-top: 20px;">
                         <button class="btn btn-primary">Cập nhật ảnh</button>
                     </div>
                 </form>

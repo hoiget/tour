@@ -330,7 +330,7 @@ if($show){
   <div class="offcanvas-body">
 <p style="color:black;text-align:justify;white-space:pre-line;font-size:20px"><b>1. Giới thiệu
 
-Chúng tôi, GoWander, cam kết bảo vệ quyền riêng tư và dữ liệu cá nhân của khách hàng khi sử dụng dịch vụ đặt tour và khách sạn trực tuyến. Chính sách bảo mật này giải thích cách chúng tôi thu thập, sử dụng và bảo vệ thông tin<br>
+Chúng tôi, GoWander, cam kết bảo vệ quyền riêng tư và dữ liệu cá nhân của khách hàng khi sử dụng dịch vụ đặt tour và khách sạn trực tuyến. Chính sách bảo mật này giải thích cách chúng tôi thu thập, sử dụng và bảo vệ thông tin.<br>
 2. Thông tin thu thập
 - Khi sử dụng hệ thống, chúng tôi có thể thu thập các loại thông tin sau:
 - Thông tin cá nhân: Họ tên, email, số điện thoại, địa chỉ.
@@ -338,7 +338,7 @@ Chúng tôi, GoWander, cam kết bảo vệ quyền riêng tư và dữ liệu c
 - Thông tin đặt chỗ: Ngày đặt tour, khách sạn, số lượng khách.
 - Thông tin thiết bị: Địa chỉ IP, trình duyệt, hệ điều hành.<br>
 3. Mục đích sử dụng thông tin
-- Chúng tôi sử dụng thông tin thu thập được để:
+Chúng tôi sử dụng thông tin thu thập được để:
 - Xử lý và xác nhận đơn đặt chỗ.
 - Cung cấp dịch vụ hỗ trợ khách hàng.
 - Gửi thông tin khuyến mãi, ưu đãi (nếu khách hàng đồng ý).
