@@ -110,8 +110,9 @@ ul li a:hover {
 
         <label>Ghi chú:</label>
         <textarea name="notes" class="form-control"></textarea>
-
-        <button type="submit" class="btn btn-success mt-3">Thuê xe ngay</button>
+        <div style="width: 100%; text-align: center;">
+            <button type="submit" class="btn btn-success mt-3" style="width: 200px">Thuê xe ngay</button>
+        </div>
     </form>
 </div>
 <div class="modal fade" id="driverModal" tabindex="-1" aria-labelledby="driverModalLabel" aria-hidden="true">

@@ -28,7 +28,7 @@
                 <i class="bi bi-geo-alt flex-shrink-0"></i>
                 <div>
                   <h3>Địa điểm</h3>
-                  <p>Q,Gò Vấp,Đường 11, TP.HCM,</p>
+                  <p>Gò Vấp, Đường 11, TP.HCM</p>
                 </div>
               </div>
             </div><!-- End Info Item -->
