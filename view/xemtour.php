@@ -40,7 +40,7 @@
 
 .search-input,
 .date-input,
-.budget-select {
+.budget-select,.month-select {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -80,11 +80,17 @@
     border: 1px solid #ccc;
     padding: 10px;
     border-radius: 5px;
-    background-color: #007bff;
-    height: 150px;
+    
+    height: auto;
    
 }
-
+.timm{
+    background-color: #007bff;
+    height: 150px;
+    padding-left:10px;
+    padding-top:10px;
+   
+}
 #xemtour {
     flex: 0 0 80%; /* Phần nội dung chiếm 70% */
     max-width: 80%; /* Đảm bảo tối đa 70% */
@@ -189,13 +195,19 @@ a{
         
     }
     .sidebar{
-        height: 200px;
+        height: 300px;
         
     }
     .menu-tabs button {
         padding: 5px 10px;
         font-size: 10px;
     }
+    .timm{
+   
+    height: 100%;
+   
+   
+}
 }
 
 @media (max-width: 600px) {
@@ -232,13 +244,19 @@ a{
         
     }
     .sidebar{
-        height: 200px;
+        height: 300px;
         
     }
     .menu-tabs button {
         padding: 5px 10px;
         font-size: 10px;
     }
+    .timm{
+   
+   height: 100%;
+  
+  
+}
     
 }
 .compare-container {
@@ -255,7 +273,7 @@ a{
 }
 .sosach{
     margin-top:100px;
-    
+   background-color:white;
 }
 
 /* Nút chung */
@@ -328,7 +346,23 @@ button.add-to-compare:hover {
         <!-- Search Bar -->
         <div class="search-bar">
     <input type="text" placeholder="Bạn muốn đi đâu?" class="search-input" id="main-search">
-    <input type="date" class="date-input hidden-on-mobile">
+    <input type="date" class="date-input hidden-on-mobile" id="date-input" placeholder="Ngày khởi hành">
+    <select class="month-select hidden-on-mobile" id="month-select">
+    <option value="">Tháng</option>
+    <option value="1">Tháng 1</option>
+    <option value="2">Tháng 2</option>
+    <option value="3">Tháng 3</option>
+    <option value="4">Tháng 4</option>
+    <option value="5">Tháng 5</option>
+    <option value="6">Tháng 6</option>
+    <option value="7">Tháng 7</option>
+    <option value="8">Tháng 8</option>
+    <option value="9">Tháng 9</option>
+    <option value="10">Tháng 10</option>
+    <option value="11">Tháng 11</option>
+    <option value="12">Tháng 12</option>
+</select>
+
     <select class="budget-select hidden-on-mobile">
         <option value="">Ngân sách</option>
         <option value="low">Dưới 5 triệu</option>
@@ -338,12 +372,26 @@ button.add-to-compare:hover {
     <button class="search-button hidden-on-mobile">🔍</button>
 </div>
 
+<script>
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('date-input').setAttribute('min', today);
 
+    const monthSelect = document.getElementById('month-select');
+    const currentMonth = new Date().getMonth() + 1; // Tháng hiện tại
+
+    for (let i = 1; i < currentMonth; i++) {
+        let option = monthSelect.querySelector(`option[value="${i}"]`);
+        if (option) option.disabled = true;
+    }
+
+
+</script>
       
             
         <div class="container-layout">
     <!-- Sidebar -->
 <div class="sidebar">
+    <div class="timm">
     <h5>Loại tour bạn muốn đi?</h5>
     <div>
         <input type="radio" id="family" name="type" value="Gia đình">
@@ -357,12 +405,14 @@ button.add-to-compare:hover {
         <input type="radio" id="small-group" name="type" value="Theo nhóm nhỏ">
         <label for="small-group">Theo nhóm nhỏ</label>
     </div>
+    </div>
+    
+    
     <div class="sosach">
     <h5 style="color:black">So sánh tour</h5>
     <button class="sosanhbt" onclick="showCompareModal()">🧮 So sánh tour</button> <br><br>
     <button class="sosanhbt" onclick="clearCompare()">🗑️ Xóa danh sách so sánh</button>
     </div>
-
 </div>
 
 
@@ -639,11 +689,11 @@ function timKiemTourtype(type) {
     });
 }
 
-function timKiemThongTin(name, date, budget) {
+function timKiemThongTin(name, date, budget, month) {
 
 
     $.ajax({
-        url: `./api/api.php?action=timkiemtheothongtin&name=${name}&date=${date}&budget=${budget}`,
+        url: `./api/api.php?action=timkiemtheothongtin&name=${name}&date=${date}&budget=${budget}&month=${month}`,
         type: 'GET',
         dataType: 'json',
         cache: false,
@@ -722,11 +772,11 @@ function timKiemThongTin(name, date, budget) {
     });
 }
 
-function timKiemThongTintk(name, date, budget) {
+function timKiemThongTintk(name, date, budget, month) {
 
 
 $.ajax({
-    url: `./api/api.php?action=timkiemtheothongtin&name=${name}&date=${date}&budget=${budget}`,
+    url: `./api/api.php?action=timkiemtheothongtin&name=${name}&date=${date}&budget=${budget}&month=${month}`,
     type: 'GET',
     dataType: 'json',
     cache: false,
@@ -817,17 +867,17 @@ if (urlParams.has('tour1')) {
     let date = urlParams.get('date') || '';
     let budget = urlParams.get('budget') || '';
     
-
-    console.log("Tìm kiếm với:", name, date, budget);
+    let month = urlParams.get('month') || '';
+    console.log("Tìm kiếm với:", name, date, budget.month);
 
     // Gán lại giá trị vào ô tìm kiếm
     $('.search-input').val(name);
     $('.date-input').val(date);
     $('.budget-select').val(budget);
-   
+    $('#month-select').val(month);
 
     // Gọi API tìm kiếm
-    timKiemThongTintk(name, date, budget);
+    timKiemThongTintk(name, date, budget, month)
 }
 
 if(urlParams.has('mien')) {
@@ -850,10 +900,11 @@ if(urlParams.has('mien')) {
         var name = $('.search-input').val();
         var date = $('.date-input').val();
         var budget = $('.budget-select').val();
+        var month = $('#month-select').val();
         var type = $('input[name="type"]:checked').val();
 
-        console.log("Tìm kiếm với:", name, date, budget, type);
-        timKiemThongTin(name, date, budget, type);
+        console.log("Tìm kiếm với:", name, date, budget, month , type);
+        timKiemThongTin(name, date, budget, month , type);
     });
 });
 

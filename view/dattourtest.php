@@ -368,10 +368,10 @@ button:hover {
         <input type="number" id="babies" name="babies" value="0" min="0" oninput="calculateTotal();generateForms();">
       </div>
       <div>
-        <label for="diem">Sử dụng điểm:</label>
-        <input type="number" id="diem" name="diem" value="0" min="0" oninput="calculateTotal();">
+        
+        <div id="xemdiem"></div>
         <span id="totaldiem">0</span> VNĐ
-        <div id="xemdiem" hidden></div>
+        
       </div>
     </div>
    
@@ -609,13 +609,15 @@ function xemdiem() {
                 var eventHtml = '';
                 events.forEach(function(event) {
                     eventHtml += `
-                         <div class="form-row">
+                        
         <div>
           <label for="fullname">Điểm hiện có:</label>
-          <input type="text" id="diemfull" name="diemfull" value="${event.diem}" readonly>
+          <input type="number" id="diem" name="diem" min="0" value="${event.diem}" oninput="calculateTotal();">
+
+          <input type="text" hidden id="diemfull" name="diemfull" value="${event.diem}" readonly>
         </div>
        
-      </div>
+      
 
      
 
@@ -830,9 +832,31 @@ function calculateTotal() {
     }
     
     if (totalPeople > remainingSlots) {
-      openPopup("Số lượng khách vượt quá số chỗ còn lại!","Số lượng người còn lại là " + remainingSlots);
-        return;
+  openPopup(
+    "Số lượng khách vượt quá số chỗ còn lại!",
+    "Số lượng người còn lại là " + remainingSlots
+  );
+
+  // Giảm số người để phù hợp với số chỗ còn lại
+  const remaining = remainingSlots;
+  
+  // Ưu tiên giữ người lớn trước
+  if (remaining < adults) {
+    const extraPeople2 = remaining - children - babies;
+    document.getElementById("adults").value = extraPeople2;
+  } else {
+    const extraPeople = remaining - adults;
+    const extraPeople1 = remaining - adults - children;
+    if (extraPeople < children) {
+      document.getElementById("children").value = extraPeople;
+    } else {
+      
+      document.getElementById("babies").value = extraPeople1;
     }
+  }
+
+
+}
 
     // Kiểm tra giá tour có tồn tại không
     const priceInput = document.getElementById("price");

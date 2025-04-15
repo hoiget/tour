@@ -254,6 +254,58 @@
     }
 }
 
+.dropdown {
+    margin: 30px 0;
+    display: flex;
+    flex-direction: column; /* 2 hàng dọc */
+    gap: 15px;
+}
+
+.filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+}
+
+.filter-row label {
+    font-weight: 600;
+    color: var(--dark-color);
+    white-space: nowrap;
+}
+
+.filter-row select,
+.filter-row button {
+    flex-shrink: 0;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    background-color: white;
+    transition: var(--transition);
+}
+
+.filter-row select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+.filter-row button {
+    background-color: var(--primary-color);
+    color: black;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.filter-row button:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+
+
 
     </style>
 
@@ -297,8 +349,105 @@
     <span style="padding-right:10px">Tìm kiếm:</span><input style="width:400px;height:40px" type="text" id="search" name="KH" placeholder="Tên khách hàng/Mã tour" onkeydown="searchkh(event)"> 
   
 </div>
+<div class="tour-search">
+            <div class="dropdown">
+            <div class="filter-row">
+                <label for="year">Năm:</label>
+                <select id="year">
+                    <option value="2025">2025</option>
+                    <option value="2024">2024</option>
+                </select>
+                <label for="day">Ngày:</label>
+                <select id="day">
+                    <option value="" selected>Tất cả</option>
+                    
+                   
+                    <!-- Các tháng khác -->
+                </select>
+                
+                <label for="month">Tháng:</label>
+                <select id="month">
+                    <option value="" selected>Tất cả</option>
+                    <option value="1">Tháng 1</option>
+                    <option value="2">Tháng 2</option>
+                    <option value="3">Tháng 3</option>
+                    <option value="4">Tháng 4</option>
+                    <option value="5">Tháng 5</option>
+                    <option value="6">Tháng 6</option>
+                    <option value="7">Tháng 7</option>
+                    <option value="8">Tháng 8</option>
+                    <option value="9">Tháng 9</option>
+                    <option value="10">Tháng 10</option>
+                    <option value="11">Tháng 11</option>
+                    <option value="12">Tháng 12</option>
+                    <!-- Các tháng khác -->
+                </select>
+                
+                <label for="vung">Vùng:</label>
+                <select id="vung">
+                    <option value="" selected>Tất cả</option>
+                    <option value="Nam">Miền Nam</option>
+                    <option value="Bắc">Miền Bắc</option>
+                    <option value="Trung">Miền Trung</option>
+                    <option value="Tây">Miền Tây</option>
+                    <option value="Ngoài nước">Ngoài nước</option>
+                  
+                    <!-- Các vùng khác -->
+                </select>
+                </div>
+                <div class="filter-row">
+                <label for="huy">Trang thái đơn:</label>
+                <select id="huy">
+                    <option value="" selected>Tất cả</option>
+                    <option value="0">Chưa hủy</option>
+                    <option value="1">Đã hủy đơn</option>
+                  
+                    <!-- Các vùng khác -->
+                </select>
+                <label for="thanh">Trang thái thanh toán:</label>
+                <select id="thanh">
+                    <option value="" selected>Tất cả</option>
+                    <option value="1">Chưa thanh toán</option>
+                    <option value="2">Đã thanh toán</option>
+                  
+                    <!-- Các vùng khác -->
+                </select>
+                
+                <button onclick="applyFilter()">Lọc</button>
+                </div>
+            </div>
+        </div>
+<script>
+     function applyFilter() {
+    const year = document.getElementById('year').value;
+    const month = document.getElementById('month').value;
+    const vung = document.getElementById('vung').value; // Lấy giá trị vùng miền
+    const day = document.getElementById('day').value; // Lấy giá trị vùng miền
+    const huy = document.getElementById('huy').value; // Lấy giá trị vùng miền
+    const thanh = document.getElementById('thanh').value; // Lấy giá trị vùng miền
 
+    locdanhsach(year, month, vung,day,huy,thanh); // Gửi thêm tham số `vung`
+    
+}
+    function updateDayOptions(month, year) {
+    const daysInMonth = new Date(year, month, 0).getDate();
+    const daySelect = $('#day');
+    daySelect.html('<option value="">Tất cả</option>'); // reset
 
+    for (let i = 1; i <= daysInMonth; i++) {
+        daySelect.append(`<option value="${i}">${i}</option>`);
+    }
+}
+// Hàm này gọi lại resize chart khi sidebar thay đổi trạng thái
+
+// Lắng nghe khi chọn tháng hoặc năm
+$('#month, #year').on('change', function() {
+    const month = parseInt($('#month').val());
+    const year = parseInt($('#year').val());
+    if (month && year) updateDayOptions(month, year);
+});
+
+</script>
 <div class="containerql">
     <!-- Khu vực bảng (70%) -->
     <div class="table-container">
@@ -462,16 +611,17 @@ function searchkh(event) {
                         eventHtml += `
                      
                      <tr>
-                   <td>${event.Booking_id}</td>
-                   <td>${event.Tour_name}</td>
-                   <td>${event.Price}</td>
-                   <td>${event.Total_pay}</td>
-                   <td>${event.User_name}</td>
-                   <td>${event.Phone_num}</td>
-                   <td>${event.Address}</td>
-                   <td>${event.Arrival}</td>
-                   <td>${event.Datetime}</td>
-                   <td>${event.participants}</td>     
+                    <td>${event.Booking_id}</td>
+                            <td>${event.Tour_name}</td>
+                            <td>${event.Price}</td>
+                            <td>${event.Total_pay}</td>
+                            <td>${event.User_name}</td>
+                            <td>${event.Phone_num}</td>
+                            <td>${event.Address}</td>
+                            <td>${event.Arrival}</td>
+                            <td>${event.Datetime}</td>
+                            <td>${event.created_at}</td>
+                            <td>${event.participants}</td>   
                    `;
                if(event.refund == '1'){
                    eventHtml += '<td><span style="color:red">Hủy đơn</span>' 
@@ -512,6 +662,101 @@ function searchkh(event) {
         });
     }
 }
+function locdanhsach(year, month = null,vung = null,day = null,huy = null,thanh = null) {
+    let url = `./api/apia.php?action=locdanhsach&year=${year}`;
+    if (month) {
+        url += `&month=${month}`;
+    }
+    if (vung) {
+        url += `&vung=${vung}`;
+    }
+    if (day) {
+        url += `&day=${day}`;
+    }
+    if (huy) {
+        url += `&huy=${huy}`;
+    }
+    if(thanh){
+        url += `&thanh=${thanh}`;
+    }
+    $.ajax({
+        url: url,
+        type: 'GET',
+        dataType: 'json',
+        success: function(response) {
+            console.log(response)
+            if (Array.isArray(response) && response.length > 0) {
+                var today = new Date();
+                var eventHtml = '';
+
+                response.forEach(function(event) {
+                    var bookingDate = new Date(event.created_at);
+                    var timeDiff = Math.abs(today - bookingDate);
+                    var dayDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)); // Số ngày chênh lệch
+                    
+                    eventHtml += `
+                        <tr>
+                            <td>${event.Booking_id}</td>
+                            <td>${event.Tour_name}</td>
+                            <td>${event.Price}</td>
+                            <td>${event.Total_pay}</td>
+                            <td>${event.User_name}</td>
+                            <td>${event.Phone_num}</td>
+                            <td>${event.Address}</td>
+                            <td>${event.Arrival}</td>
+                            <td>${event.Datetime}</td>
+                            <td>${event.created_at}</td>
+                            <td>${event.participants}</td>
+                    `;
+
+                    if (event.refund == '1') {
+                        eventHtml += '<td><span style="color:red">Hủy đơn</span>';
+                        if (event.Payment_status == '2') {
+                            eventHtml += '<br><span style="color:orange;">Chưa hoàn tiền</span></td>';
+                        }
+                    } else if (event.Booking_status == '1') {
+                        eventHtml += '<td><span style="color:green">Chưa xác nhận</span></td>';
+                    } else {
+                        eventHtml += '<td><span style="color:green">Xác nhận</span></td>';
+                    }
+
+                    eventHtml += `<td>
+                        <div class="action-buttons">
+                            <button class="btn edit" onclick="xacnhan('${event.Booking_id}')">✔</button>
+                    `;
+
+                    // Chỉ hiển thị nút "Sửa tour" nếu đơn đặt trong vòng 2 ngày
+                    if (dayDiff <= 2) {
+                        eventHtml += `
+                            <button style="width:100px;height:40px" id="btn-sua" class="btn sua" 
+                                data-bs-toggle="modal" data-bs-target="#ratingModal" 
+                                onclick="openRatingModal1('${event.Booking_id}')">🖉</button>
+                        `;
+                    }
+
+                    eventHtml += `
+                            <button style="width:200px;height:40px" id="btn-xem" class="btn xem" 
+                                data-bs-toggle="modal" data-bs-target="#ratingModalxem" 
+                                onclick="openRatingModalxem('${event.Booking_id}')">Xem chi tiết</button>
+                            <button class="exportPdfBtn" data-booking-id="${event.Booking_id}">Xuất PDF</button> 
+                        </div>
+                    </td>
+                </tr>`;
+                });
+
+                $('#employee-table').html(eventHtml);
+                } else {
+                    $('#employee-table').html('<tr><td colspan="8">Không tìm thấy tour nào.</td></tr>');
+                }
+            },
+        error: function(xhr, status, error) {
+            console.error('Lỗi khi lấy thông tin:', error);
+            console.error('Chi tiết:', xhr.responseText);
+            $('#employee-table').html('<div class="col">Đã xảy ra lỗi khi tải thông tin.</div>');
+        }
+    });
+}
+
 function xacnhan(id) {
        
        fetch('./api/apia.php?action=xacnhantour&id=' + id)

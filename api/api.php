@@ -1032,7 +1032,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $name = isset($_GET['name']) ? $_GET['name'] : '';
         $date = isset($_GET['date']) ? $_GET['date'] : '';
         $budget = isset($_GET['budget']) ? $_GET['budget'] : '';
-    
+        $month = isset($_GET['month']) ? $_GET['month'] : '';
         // Tạo câu truy vấn động
         $query = "SELECT 
                     tour.id AS tourid, 
@@ -1051,26 +1051,25 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         ";
         // Thêm điều kiện tìm kiếm
         if (!empty($name)) {
-            $query .= " AND tour.Name LIKE '%$name%' GROUP BY tour.id
-                ORDER BY MIN(departure_time.ngaykhoihanh) ASC";
+            $query .= " AND tour.Name LIKE '%$name%' ";
         }
         if (!empty($date)) {
-            $query .= " AND departure_time.ngaykhoihanh = '$date' GROUP BY tour.id
-                ORDER BY MIN(departure_time.ngaykhoihanh) ASC";
+            $query .= " AND departure_time.ngaykhoihanh = '$date' ";
         }
+        if (!empty($month)) {
+            $query .= " AND MONTH(departure_time.ngaykhoihanh) = '$month'";
+        }
+        
         if (!empty($budget)) {
             if ($budget == 'low') {
-                $query .= " AND tour.price < 5000000 GROUP BY tour.id
-                ORDER BY MIN(departure_time.ngaykhoihanh) ASC";
+                $query .= " AND tour.price < 5000000 ";
             } elseif ($budget == 'medium') {
-                $query .= " AND tour.price BETWEEN 5000000 AND 10000000 GROUP BY tour.id
-                ORDER BY MIN(departure_time.ngaykhoihanh) ASC";
+                $query .= " AND tour.price BETWEEN 5000000 AND 10000000 ";
             } elseif ($budget == 'high') {
-                $query .= " AND tour.price > 10000000 GROUP BY tour.id
-                ORDER BY MIN(departure_time.ngaykhoihanh) ASC";
+                $query .= " AND tour.price > 10000000 ";
             }
         }
-       
+        $query .= "GROUP BY tour.id ORDER BY MIN(departure_time.ngaykhoihanh) ASC";
         $result = $conn->query($query);
         $res = [];
         if ($result && $result->num_rows > 0) {

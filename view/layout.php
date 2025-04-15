@@ -184,7 +184,7 @@
 width: 100%;
 }
 .extra-fields input,.budget-select {
-width: 49%;
+width: 42%;
 
 }
 
@@ -220,6 +220,11 @@ width: 49%;
     width: 100% !important;
     font-size: 16px;
   }
+}
+.month-select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
   </style>
@@ -306,7 +311,22 @@ width: 49%;
         <div id="tour-search" class="search-form">
             <input type="text" name="name" placeholder="Bạn muốn đi đâu?" class="search-input">
             <div class="extra-fields">
-            <input type="date" name="date" class="date-input1">
+            <input type="date" name="date" class="date-input1" id="date-input1">
+            <select class="month-select hidden-on-mobile" id="month-select">
+                <option value="">Tháng</option>
+                <option value="1">Tháng 1</option>
+                <option value="2">Tháng 2</option>
+                <option value="3">Tháng 3</option>
+                <option value="4">Tháng 4</option>
+                <option value="5">Tháng 5</option>
+                <option value="6">Tháng 6</option>
+                <option value="7">Tháng 7</option>
+                <option value="8">Tháng 8</option>
+                <option value="9">Tháng 9</option>
+                <option value="10">Tháng 10</option>
+                <option value="11">Tháng 11</option>
+                <option value="12">Tháng 12</option>
+            </select>
             <select name="budget" class="budget-select">
                 <option value="">Ngân sách</option>
                 <option value="low">Dưới 5 triệu</option>
@@ -321,13 +341,19 @@ width: 49%;
         <!-- Form tìm kiếm Khách sạn -->
         <form id="hotel-search-form">
         <div id="hotel-search" class="search-form" style="display: none; margin-top: 25px;">
-            <input type="text"  name="name" placeholder="Nhập tên khách sạn/Địa điểm" class="search-input1" style="border: 1px solid black; border-radius: 5px; width: 250px;">
+            <input type="text"  name="name" placeholder="Nhập tên khách sạn/Địa điểm" class="search-input1" style="border: 1px solid black; border-radius: 5px; width: 250px">
             
-                <input type="date" id="ngay-nhan" class="date-input" name="checkin" style="border: 1px solid black; border-radius: 5px; width: 200px">
-                <input type="date" id="ngay-tra" class="date-input" name="checkout" style="border: 1px solid black; border-radius: 5px; width: 200px">
+            <div class="extra-fields">
+                <div class="date-input-wrapper" data-label="Ngày nhận">
+                    <input type="date" style="width:100%;border: 1px solid black" id="ngay-nhan" class="date-input" name="checkin" style="border: 1px solid black; border-radius: 5px;">
+                </div>
+                <div class="date-input-wrapper" data-label="Ngày trả">
+                    <input type="date" style="width:100%;border: 1px solid black" id="ngay-tra" class="date-input" name="checkout" style="border: 1px solid black; border-radius: 5px;">
+                </div>
             
-            <input type="number" id="adult" name="adult" placeholder="Số người lớn" style="width: 150px; border: 1px solid black">
-            <input type="number" name="children" id="children"  placeholder="Số trẻ em" style="width: 150px; border: 1px solid black">
+            
+            <input type="number" id="adult" name="adult" placeholder="Số người lớn" style="width: 150px;border: 1px solid black">
+            <input type="number" name="children" id="children"  placeholder="Số trẻ em" style="width: 150px;border: 1px solid black">
 
             <select name="price" id="price" style="border: 1px solid black">
                 <option value="">Chọn giá</option>
@@ -337,11 +363,25 @@ width: 49%;
                 <option value="high">3 triệu - 4 triệu</option>
                 <option value="higher">Trên 4 triệu</option>
             </select>
+            </div>
             <button type="submit" class="hotel-search-button" style="background-color: white; border: 1px solid black">🔍</button>
         </div>
         </form>
     </div>
+    <script>
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('date-input1').setAttribute('min', today);
+    
+    const monthSelect = document.getElementById('month-select');
+    const currentMonth = new Date().getMonth() + 1; // Tháng hiện tại
 
+    for (let i = 1; i < currentMonth; i++) {
+        let option = monthSelect.querySelector(`option[value="${i}"]`);
+        if (option) option.disabled = true;
+    }
+
+
+</script>
     <script>
 $(document).ready(function () {
     // Chuyển đổi tab
@@ -365,13 +405,14 @@ $(document).ready(function () {
         var name = $('.search-input').val().trim();
         var date = $('.date-input1').val();
         var budget = $('.budget-select').val();
+        var month = $('.month-select').val();
 
-        if (!name && !date && !budget) {
+        if (!name && !date && !budget && !month) {
             openPopup("Vui lòng nhập ít nhất một thông tin để tìm kiếm tour.",'');
             return;
         }
 
-        window.location.href = `index.php?tour1&name=${encodeURIComponent(name)}&date=${date}&budget=${budget}`;
+        window.location.href = `index.php?tour1&name=${encodeURIComponent(name)}&date=${date}&budget=${budget}&month=${month}`;
     });
 
     // ✅ Tìm kiếm Khách sạn với kiểm tra

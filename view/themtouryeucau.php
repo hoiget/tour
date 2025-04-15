@@ -79,9 +79,9 @@
 <div class="mb-3">
     <label for="tour_duration" class="form-label">Thời Gian Tour</label>
     <span>
-        <input type="number" id="days" placeholder="" style="width: 50px; border-radius: 5px; border: 1px solid black;"> ngày
-        <input type="number" id="nights" placeholder="" style="width: 50px; border-radius: 5px; border: 1px solid black;"> đêm
-    </span>
+        <input type="number" id="days"  min="0" placeholder="" style="width: 50px; border-radius: 5px; border: 1px solid black;"> ngày
+        <input type="number" id="nights"  min="0" placeholder="" style="width: 50px; border-radius: 5px; border: 1px solid black;"> đêm
+    </span> 
     <input type="hidden" name="tour_duration" id="tour_duration">
 </div>
 

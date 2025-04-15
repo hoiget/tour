@@ -1484,7 +1484,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $year = isset($_GET['year']) ? intval($_GET['year']) : date('Y');
         $month = isset($_GET['month']) ? intval($_GET['month']) : null;
         $vung = isset($_GET['vung']) ? $_GET['vung'] : null; // Sửa lỗi gán biến
-    
+        $day = isset($_GET['day']) ? intval($_GET['day']) : null;
         // Truy vấn SQL
         $query = "
             SELECT
@@ -1512,6 +1512,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         // Thêm điều kiện tháng nếu có
         if (!empty($month)) {
             $query .= " AND MONTH(bo.created_at) = " . intval($month);
+        }
+        if (!empty($day)) {
+            $query .= " AND DAY(bo.created_at) = " . intval($day);
         }
     
         // Thêm điều kiện vùng miền nếu có
@@ -3293,9 +3296,194 @@ elseif ($action == "xong") {
     
         echo json_encode($users);
         exit;
+    }elseif ($action == "get_top_tour_revenue") {
+        $year = isset($_GET['year']) ? intval($_GET['year']) : date('Y');
+        
+        $query = "
+            SELECT 
+                t.id AS tour_id,
+                t.name AS tour_name,
+                SUM(bd.total_pay) AS total_revenue
+            FROM 
+                booking_ordertour bo
+            LEFT JOIN 
+                booking_detail_tour bd ON bo.Booking_id = bd.Booking_id
+            LEFT JOIN 
+                tour t ON bo.Tour_id = t.id
+            WHERE 
+                bo.Payment_status = 2
+                AND YEAR(bo.created_at) = $year
+            GROUP BY 
+                bo.Tour_id
+            ORDER BY 
+                total_revenue DESC
+            LIMIT 10
+        ";
+    
+        $result = $conn->query($query);
+        $topTours = [];
+    
+        if ($result) {
+            while ($row = $result->fetch_assoc()) {
+                $topTours[] = $row;
+            }
+            header('Content-Type: application/json');
+            echo json_encode($topTours);
+        } else {
+            echo json_encode(['error' => 'Lỗi truy vấn SQL: ' . $conn->error]);
+        }}
+        elseif ($action == "get_revenue_by_period") {
+            $year = isset($_GET['year']) ? intval($_GET['year']) : date('Y');
+            $period = isset($_GET['period']) ? $_GET['period'] : 'month'; // month, quarter, year
+        
+            if ($period == 'month') {
+                $groupBy = "MONTH(bo.created_at)";
+            } elseif ($period == 'quarter') {
+                $groupBy = "QUARTER(bo.created_at)";
+            } elseif ($period == 'year') {
+                $groupBy = "YEAR(bo.created_at)";
+            } else {
+                $groupBy = "MONTH(bo.created_at)";
+            }
+        
+            // Nếu period là năm, thì bỏ điều kiện lọc theo năm
+            $whereYear = ($period != 'year') ? "AND YEAR(bo.created_at) = $year" : "";
+        
+            $query = "
+                SELECT 
+                    $groupBy AS period,
+                    SUM(bd.total_pay) AS total_revenue
+                FROM 
+                    booking_ordertour bo
+                LEFT JOIN 
+                    booking_detail_tour bd ON bo.Booking_id = bd.Booking_id
+                WHERE 
+                    bo.Payment_status = 2
+                    $whereYear
+                GROUP BY 
+                    $groupBy
+                ORDER BY 
+                    period ASC
+            ";
+        
+            $result = $conn->query($query);
+            $revenues = [];
+        
+            if ($result) {
+                while ($row = $result->fetch_assoc()) {
+                    $revenues[] = $row;
+                }
+                header('Content-Type: application/json');
+                echo json_encode($revenues);
+            } else {
+                echo json_encode(['error' => 'Lỗi truy vấn SQL: ' . $conn->error]);
+            }
+        }
+        
+    
+    elseif ($action == "get_monthly_comparison") {
+        $year = isset($_GET['year']) ? intval($_GET['year']) : date('Y');
+    
+        $query = "
+            SELECT 
+                MONTH(bo.created_at) AS month,
+                SUM(bd.total_pay) AS total_revenue
+            FROM 
+                booking_ordertour bo
+            LEFT JOIN 
+                booking_detail_tour bd ON bo.Booking_id = bd.Booking_id
+            WHERE 
+                bo.Payment_status = 2
+                AND YEAR(bo.created_at) = $year
+            GROUP BY 
+                MONTH(bo.created_at)
+            ORDER BY 
+                month ASC
+        ";
+    
+        $result = $conn->query($query);
+        $monthlyComparison = [];
+    
+        if ($result) {
+            while ($row = $result->fetch_assoc()) {
+                $monthlyComparison[] = $row;
+            }
+            header('Content-Type: application/json');
+            echo json_encode($monthlyComparison);
+        } else {
+            echo json_encode(['error' => 'Lỗi truy vấn SQL: ' . $conn->error]);
+        }
     }
     
-
+    
+    elseif ($action == "locdanhsach") {
+        $year = isset($_GET['year']) ? intval($_GET['year']) : date('Y');
+        $month = isset($_GET['month']) ? intval($_GET['month']) : null;
+        $vung = isset($_GET['vung']) ? $_GET['vung'] : null; // Sửa lỗi gán biến
+        $day = isset($_GET['day']) ? intval($_GET['day']) : null;
+        $refund = isset($_GET['huy']) ? $_GET['huy'] : null; // Sửa lỗi gán biến
+        $thanh = isset($_GET['thanh']) ? $_GET['thanh'] : null; // Sửa lỗi gán biến
+        // Truy vấn SQL
+        $query = "
+    SELECT 
+       booking_ordertour.*,
+       booking_detail_tour.*,
+       departure_time.*,
+       participant.*,
+       tour.id AS tourid,
+       tour.Child_price_percen
+   FROM 
+       booking_ordertour 
+   LEFT JOIN 
+       booking_detail_tour ON booking_ordertour.Booking_id = booking_detail_tour.Booking_id
+   LEFT JOIN
+       departure_time ON booking_ordertour.Departure_id = departure_time.id
+   LEFT JOIN
+       participant ON booking_ordertour.Booking_id = participant.idbook
+   LEFT JOIN
+       tour ON booking_ordertour.Tour_id = tour.id
+   WHERE
+        YEAR(booking_ordertour.created_at) = $year
+   
+       ";
+       
+    
+        // Thêm điều kiện tháng nếu có
+        if (!empty($month)) {
+            $query .= " AND MONTH(booking_ordertour.created_at) = " . intval($month);
+        }
+        if (!empty($day)) {
+            $query .= " AND DAY(booking_ordertour.created_at) = " . intval($day);
+        }
+    
+        // Thêm điều kiện vùng miền nếu có
+        if (!empty($vung)) {
+            $query .= " AND tour.vung = '$vung'";
+        }
+        if (!empty($refund)) {
+            $query .= " AND booking_ordertour.refund = '$refund'";
+        }
+        if (!empty($thanh)) {
+            $query .= " AND booking_ordertour.Payment_status = '$thanh'";
+        }
+    
+        // Nhóm theo tháng và năm
+       
+       
+        // Thực thi truy vấn
+        $result = $conn->query($query);
+    
+        $statistics = [];
+        if ($result) {
+            while ($row = $result->fetch_assoc()) {
+                $statistics[] = $row;
+            }
+            header('Content-Type: application/json');
+            echo json_encode($statistics);
+        } else {
+            echo json_encode(['error' => 'Lỗi truy vấn SQL: ' . $conn->error]);
+        }
+    }
        
 
 }

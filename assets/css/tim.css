@@ -21,7 +21,7 @@
 .search-input,
 .date-input1,
 .budget-select,#adult,
-#price,#children {
+#price,#children{
     padding: 10px;
     width: 30%;
     border: 1px solid #ccc;
@@ -87,6 +87,7 @@ label{
 .date-input-wrapper {
     position: relative;
     display: inline-block;
+    width: 50%;
 }
 .date-input {
    height: 50px;

@@ -75,7 +75,7 @@
         display: grid;
         gap: 25px;
         grid-template-columns: 1fr 1fr;
-   
+        
     }
     #thongke,#thongkeks,#thongkenvv{
         border-right:2px solid black;
@@ -295,7 +295,7 @@
     #thongke1,
     #thongkeks,
     #thongkeks1,
-    #thongkenvv {
+    #thongkenvv,.chart-row {
         grid-template-columns: 1fr !important;
         padding-right: 0;
         border-right: none;
@@ -334,6 +334,37 @@
        
     }
 }
+.chart-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    
+}
+
+.chart-box {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    height: 400px;
+    margin-right:10px;
+    min-width: 90%;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+
+}
+#cot{
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    height: 400px;
+    margin-right:10px;
+    min-width: 90%;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
 
 </style>
   
@@ -362,7 +393,14 @@
                     <option value="2025">2025</option>
                     <option value="2024">2024</option>
                 </select>
-
+                <label for="day">Ngày:</label>
+                <select id="day">
+                    <option value="" selected>Tất cả</option>
+                    
+                   
+                    <!-- Các tháng khác -->
+                </select>
+                
                 <label for="month">Tháng:</label>
                 <select id="month">
                     <option value="" selected>Tất cả</option>
@@ -406,19 +444,63 @@
         <div id="thongke1"></div>
     </div>
    
-    <div style="width: 50%; margin: auto;">
-        <h2>Biểu đồ tỉ lệ đơn đặt tour</h2>
-        <canvas id="bookingChart"></canvas>
+   
+
+<!-- Bọc 2 biểu đồ trong một hàng -->
+<div class="chart-row">
+    <div class="chart-box">
+        <canvas id="chartRevenueByPeriod" ></canvas>
+    </div>
+    <div class="chart-box">
+        <canvas id="chartMonthlyComparison" ></canvas>
     </div>
 </div>
+<br>
+<div class="chart-row">
+    <div class="chart-box">
+    <canvas id="chartTopTourRevenue" ></canvas>
+
+    </div>
+    <div class="chart-box">
+    <canvas id="bookingChart"></canvas>
+    </div>
+</div>
+
+
+
+</div>
 <script>
+    let chartTopTourRevenue = null;
+    let chartRevenueByPeriod = null;
+let chartMonthlyComparison = null;
    function applyFilter() {
     const year = document.getElementById('year').value;
     const month = document.getElementById('month').value;
     const vung = document.getElementById('vung').value; // Lấy giá trị vùng miền
+    const day = document.getElementById('day').value; // Lấy giá trị vùng miền
 
-    getBookingStats(year, month, vung); // Gửi thêm tham số `vung`
+    getBookingStats(year, month, vung,day); // Gửi thêm tham số `vung`
+    getTopTourRevenue(year);
+    getMonthlyComparison(year);
+    getRevenueByPeriod(year, 'quarter');
 }
+function updateDayOptions(month, year) {
+    const daysInMonth = new Date(year, month, 0).getDate();
+    const daySelect = $('#day');
+    daySelect.html('<option value="">Tất cả</option>'); // reset
+
+    for (let i = 1; i <= daysInMonth; i++) {
+        daySelect.append(`<option value="${i}">${i}</option>`);
+    }
+}
+// Hàm này gọi lại resize chart khi sidebar thay đổi trạng thái
+
+// Lắng nghe khi chọn tháng hoặc năm
+$('#month, #year').on('change', function() {
+    const month = parseInt($('#month').val());
+    const year = parseInt($('#year').val());
+    if (month && year) updateDayOptions(month, year);
+});
 
 </script>
       
@@ -485,12 +567,12 @@
 <h2>Tổng số khách hàng: <span id="totalCustomers">0</span></h2>
             </div>
 
-<div class="grid" style="width: 60%; margin: auto;">
+<div class="grid" >
     <div id="cot">
     <canvas id="ageChart" height=300></canvas>
     <center><b>Biểu đồ cột thể hiện theo độ tuổi khách hàng</b></center> <br>
     </div>
-    <div id="tron">
+    <div id="cot">
     <canvas id="locationChart"></canvas>
     <center><b>Biểu đồ tròn thống kê các khu vực của khách hàng</b></center> <br>
 
@@ -527,10 +609,10 @@
          
 
 <!-- Biểu đồ -->
-<div class="grid" style="width: 60%; margin: auto;">
-<div id="cot"><canvas id="yearlyChart" height=300></canvas>
+<div class="grid" >
+<div id="cot"><canvas id="yearlyChart" ></canvas>
 <center><b>Biểu cột thống kê các nhân viên đã tuyển theo từng năm</b></center> <br></div>
-    <div id="tron">
+    <div id="cot">
         
     <canvas id="permissionChart" ></canvas>
     <center><b>Biểu đồ tròn thống kê các vai trò của nhân viên</b></center> <br>
@@ -807,7 +889,7 @@ function getBookingStats1() {
 
     });
 }
-function getBookingStats(year, month = null,vung = null) {
+function getBookingStats(year, month = null,vung = null,day = null) {
     let url = `./api/apia.php?action=get_booking_stats&year=${year}`;
     if (month) {
         url += `&month=${month}`;
@@ -815,12 +897,16 @@ function getBookingStats(year, month = null,vung = null) {
     if (vung) {
         url += `&vung=${vung}`;
     }
+    if (day) {
+        url += `&day=${day}`;
+    }
     
     $.ajax({
         url: url,
         type: 'GET',
         dataType: 'json',
         success: function(response) {
+            console.log("Dữ liệu API trả về:", response);
             let eventHtml = ''; 
 
             if (Array.isArray(response) && response.length > 0) {
@@ -1112,6 +1198,158 @@ function getBookingStatsks2() {
 
     });
     }
+    function getTopTourRevenue(year) {
+    $.ajax({
+        url: `./api/apia.php?action=get_top_tour_revenue&year=${year}`,
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            const labels = data.map(t => t.tour_name);
+            const revenues = data.map(t => parseFloat(t.total_revenue));
+
+            const ctx = document.getElementById('chartTopTourRevenue').getContext('2d');
+            if (chartTopTourRevenue) chartTopTourRevenue.destroy(); // ✅ destroy chart cũ
+
+            chartTopTourRevenue = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Doanh thu (VNĐ)',
+                        data: revenues,
+                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                        borderRadius: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: true, text: 'Top Tour Doanh Thu Cao Nhất' }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: value => value.toLocaleString('vi-VN') + ' đ'
+                            }
+                        }
+                    }
+                }
+            });
+        },
+        error: function (xhr) {
+            console.error("Lỗi khi lấy dữ liệu:", xhr.responseText);
+        }
+    });
+}
+
+function getRevenueByPeriod(year, period) {
+    $.ajax({
+        url: `./api/apia.php?action=get_revenue_by_period&year=${year}&period=${period}`,
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            console.log("Dữ liệu API trả về:", data);
+            const labels = data.map(r => r.period);
+            const revenues = data.map(r => parseFloat(r.total_revenue));
+
+            const ctx = document.getElementById('chartRevenueByPeriod').getContext('2d');
+
+            // ⚠️ Xóa biểu đồ cũ nếu có
+            if (chartRevenueByPeriod) {
+                chartRevenueByPeriod.destroy();
+            }
+
+            chartRevenueByPeriod = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Doanh thu (VNĐ)',
+                        data: revenues,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.1)',
+                        fill: true,
+                        tension: 0.3,
+                        pointRadius: 5,
+                        pointHoverRadius: 7
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false },
+                        title: {
+                            display: true,
+                            text: `Doanh thu theo quý`
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function (value) {
+                                    return value.toLocaleString('vi-VN') + ' đ';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        },
+        error: function (xhr) {
+            console.error("Lỗi khi lấy dữ liệu:", xhr.responseText);
+        }
+    });
+}
+
+function getMonthlyComparison(year) {
+    $.ajax({
+        url: `./api/apia.php?action=get_monthly_comparison&year=${year}`,
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            const labels = data.map(m => `Tháng ${m.month}`);
+            const revenues = data.map(m => parseFloat(m.total_revenue));
+
+            const ctx = document.getElementById('chartMonthlyComparison').getContext('2d');
+            if (chartMonthlyComparison) chartMonthlyComparison.destroy(); // ✅ destroy chart cũ
+
+            chartMonthlyComparison = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Doanh thu (VNĐ)',
+                        data: revenues,
+                        backgroundColor: 'rgba(255, 159, 64, 0.6)',
+                        borderRadius: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: true, text: 'So sánh Doanh Thu Các Tháng' }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: value => value.toLocaleString('vi-VN') + ' đ'
+                            }
+                        }
+                    }
+                }
+            });
+        },
+        error: function (xhr) {
+            console.error("Lỗi khi lấy dữ liệu:", xhr.responseText);
+        }
+    });
+}
+
 $(document).ready(function() {
        thongkeks();
       thongke();
@@ -1121,6 +1359,9 @@ $(document).ready(function() {
       getBookingStatsks1();
       getBookingStats2();
       getBookingStatsks2();
+      getTopTourRevenue();
+      getMonthlyComparison();
+      getRevenueByPeriod();
       thongkeuser();
       thongkenv1();
    });
@@ -1130,7 +1371,7 @@ async function exportToPDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF('p', 'mm', 'a4');
 
-    const elements = ['tour', 'cot','tron', 'ks', 'khachang', 'nhanvien'];
+    const elements = ['tour','ks', 'khachang', 'nhanvien'];
     const pageHeight = 297;
     const margin = 10;
     const pdfWidth = 160;

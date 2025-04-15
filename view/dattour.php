@@ -751,9 +751,30 @@ function calculateTotal() {
     }
     
     if (totalPeople > remainingSlots) {
-      openPopup("Số lượng khách vượt quá số chỗ còn lại!","Số lượng người còn lại là " + remainingSlots);
-        return;
+  openPopup(
+    "Số lượng khách vượt quá số chỗ còn lại!",
+    "Số lượng người còn lại là " + remainingSlots
+  );
+
+  // Giảm số người để phù hợp với số chỗ còn lại
+  const remaining = remainingSlots;
+  
+  // Ưu tiên giữ người lớn trước
+  if (remaining < adults) {
+    document.getElementById("adults").value = remaining;
+  } else {
+    const extraPeople = remaining - adults;
+    const extraPeople1 = remaining - adults - children;
+    if (extraPeople < children) {
+      document.getElementById("children").value = extraPeople;
+    } else {
+      
+      document.getElementById("babies").value = extraPeople1;
     }
+  }
+
+
+}
 
     // Kiểm tra giá tour có tồn tại không
     const priceInput = document.getElementById("price");
