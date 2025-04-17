@@ -3298,7 +3298,8 @@ elseif ($action == "xong") {
         exit;
     }elseif ($action == "get_top_tour_revenue") {
         $year = isset($_GET['year']) ? intval($_GET['year']) : date('Y');
-        
+        $month = isset($_GET['month']) ? intval($_GET['month']) : 0; // 0 = tất cả các tháng
+    
         $query = "
             SELECT 
                 t.id AS tour_id,
@@ -3313,11 +3314,18 @@ elseif ($action == "xong") {
             WHERE 
                 bo.Payment_status = 2
                 AND YEAR(bo.created_at) = $year
+        ";
+    
+        if ($month > 0 && $month <= 12) {
+            $query .= " AND MONTH(bo.created_at) = $month";
+        }
+    
+        $query .= "
             GROUP BY 
                 bo.Tour_id
             ORDER BY 
                 total_revenue DESC
-            LIMIT 10
+            LIMIT 5
         ";
     
         $result = $conn->query($query);
@@ -3331,7 +3339,9 @@ elseif ($action == "xong") {
             echo json_encode($topTours);
         } else {
             echo json_encode(['error' => 'Lỗi truy vấn SQL: ' . $conn->error]);
-        }}
+        }
+    }
+    
         elseif ($action == "get_revenue_by_period") {
             $year = isset($_GET['year']) ? intval($_GET['year']) : date('Y');
             $period = isset($_GET['period']) ? $_GET['period'] : 'month'; // month, quarter, year

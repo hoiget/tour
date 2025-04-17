@@ -32,6 +32,7 @@
                         <input type="password" id="password" name="password" placeholder="Mật khẩu">
                         <i class="far fa-eye" id="eye" onclick="togglePasswordVisibility('password', 'eye')"></i>
                     </div>
+                    <input type="text" id="login_type" name="login_type" placeholder="" hidden>
                     
                     <!-- <div class="h-captcha" data-sitekey="7cc22840-c9f4-49f0-942c-f3f0e9ce8f08"></div> -->
                     <button type="submit" onclick="showlogio()">Đăng nhập</button>
@@ -342,7 +343,19 @@ $fb_login_url = "https://www.facebook.com/v22.0/dialog/oauth?"
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const state = urlParams.get("state");
 
+    if (state === "google") {
+        document.getElementById("login_type").value = "google";
+    } else if (state === "facebook") {
+        document.getElementById("login_type").value = "facebook";
+    }
+});
+
+</script>
     <script>
 
 let loginForm = document.querySelector(".my-form"); 

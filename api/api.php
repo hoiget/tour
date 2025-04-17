@@ -18,6 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $loginInput = $_POST['email']; // Email hoặc số điện thoạis
         $password = $_POST['password'];
+        $login_type = $_POST['login_type'];
 
         $sql = "SELECT failed_attempts, is_locked FROM user_credit WHERE Email = ? OR sdt = ?";
         $stmt = $conn->prepare($sql);
@@ -58,9 +59,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             
         }
         // Kiểm tra trong bảng user_credit (Khách hàng)
-        $sql = "SELECT * FROM user_credit WHERE (Email = ? OR sdt = ?) AND Password = MD5(?)";
+        $sql = "SELECT * FROM user_credit WHERE (Email = ? OR sdt = ?) AND login_type = ? AND Password = MD5(?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sss", $loginInput, $loginInput, $password);
+        $stmt->bind_param("ssss", $loginInput, $loginInput,$login_type, $password);
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -116,7 +117,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         
        
-        $sql = "SELECT * FROM employees WHERE (Email = ? OR Phone_number = ?) AND Password = MD5(?)";
+        $sql = "SELECT * FROM employees WHERE (Email = ? OR Phone_number = ?)  AND Password = MD5(?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("sss", $loginInput, $loginInput, $password);
         $stmt->execute();
@@ -817,7 +818,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     if ($action == "get_user_info") {
         $email = $_SESSION['Email']; // Lấy email từ session
         $phone = $_SESSION['sdt'];
-        $query = "SELECT Email,Name,Address,sdt,Datetime FROM user_credit where Email='$email' OR sdt='$phone'";
+        $logintype= $_SESSION['login_type']; // Lấy loại đăng nhập từ session
+        $query = "SELECT Email,Name,Address,sdt,Datetime FROM user_credit where (Email='$email' OR sdt='$phone') AND login_type='$logintype'";
         $result = $conn->query($query);
 
         $users = [];
@@ -833,7 +835,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     if ($action == "get_anh") {
         $email = $_SESSION['Email']; // Lấy email từ session
         $phone = $_SESSION['sdt'];
-        $query = "SELECT profile,login_type FROM user_credit where Email='$email' OR sdt='$phone'";
+        $logintype= $_SESSION['login_type']; 
+        $query = "SELECT profile,login_type FROM user_credit where (Email='$email' OR sdt='$phone') AND login_type='$logintype'";
         $result = $conn->query($query);
 
         $users = [];
@@ -2106,7 +2109,7 @@ ORDER BY
             FROM tour t
             JOIN departure_dates d ON t.id = d.tour_id
             JOIN tour_images ti ON t.id = ti.id_tour
-            WHERE d.departure_date >= CURDATE()
+            WHERE d.departure_date >= CURDATE() + 1
             AND d.is_available = 1
             ORDER BY d.departure_date ASC
             LIMIT 8";

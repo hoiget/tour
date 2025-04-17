@@ -480,7 +480,7 @@ let chartMonthlyComparison = null;
     const day = document.getElementById('day').value; // Lấy giá trị vùng miền
 
     getBookingStats(year, month, vung,day); // Gửi thêm tham số `vung`
-    getTopTourRevenue(year);
+    getTopTourRevenue(year,month);
     getMonthlyComparison(year);
     getRevenueByPeriod(year, 'quarter');
 }
@@ -1198,9 +1198,9 @@ function getBookingStatsks2() {
 
     });
     }
-    function getTopTourRevenue(year) {
+    function getTopTourRevenue(year, month = 0) {
     $.ajax({
-        url: `./api/apia.php?action=get_top_tour_revenue&year=${year}`,
+        url: `./api/apia.php?action=get_top_tour_revenue&year=${year}&month=${month}`,
         type: 'GET',
         dataType: 'json',
         success: function (data) {
@@ -1208,7 +1208,7 @@ function getBookingStatsks2() {
             const revenues = data.map(t => parseFloat(t.total_revenue));
 
             const ctx = document.getElementById('chartTopTourRevenue').getContext('2d');
-            if (chartTopTourRevenue) chartTopTourRevenue.destroy(); // ✅ destroy chart cũ
+            if (chartTopTourRevenue) chartTopTourRevenue.destroy();
 
             chartTopTourRevenue = new Chart(ctx, {
                 type: 'bar',
@@ -1243,6 +1243,7 @@ function getBookingStatsks2() {
         }
     });
 }
+
 
 function getRevenueByPeriod(year, period) {
     $.ajax({

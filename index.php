@@ -6,7 +6,7 @@ ob_start();
 session_start();
 
 // Kiểm tra nếu người dùng đã đăng nhập
-if (isset($_SESSION['Email'])  || isset($_SESSION['sdt'] )) {
+if (isset($_SESSION['Email'])  || isset($_SESSION['sdt'] ) ) {
  
     $user_id = $_SESSION['id']; // Lấy id từ session
     $username = $_SESSION['Name']; // Lấy tên người dùng từ session
