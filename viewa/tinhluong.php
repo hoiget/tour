@@ -125,8 +125,8 @@ function loadSalaries() {
                 tbody.innerHTML += `
                 <tr>
                     <td>${row.name}[${row.Permissions}]</td>
-                    <td><input value="${row.allowance}" onchange="updateSalary(${row.id}, 'allowance', this.value)" /></td>
-                    <td><input value="${row.basic_salary}" onchange="updateSalary(${row.id}, 'basic_salary', this.value)" /></td>
+                     <td><input type="number" value="${row.allowance}" min="0" onchange="updateSalary(${row.id}, 'allowance', this)" /></td>
+        <td><input type="number" value="${row.basic_salary}" min="0" onchange="updateSalary(${row.id}, 'basic_salary', this)" /></td>
                     <td>${parseInt(row.total_salary).toLocaleString('vi-VN')} đ
                     </td>
                     <td><button onclick="saveSalary(${row.id})">Lưu</button></td>
@@ -136,12 +136,22 @@ function loadSalaries() {
 }
 
 // Lưu giá trị sửa
-function updateSalary(id, field, value) {
+function updateSalary(id, field, input) {
+    const value = parseFloat(input.value);
+
+    if (isNaN(value) || value < 0) {
+        alert("Không được nhập số âm!");
+        input.value = 0;
+        return;
+    }
+
     fetch("./api/phancong.php?action=update", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id, field, value })
-    }).then(res => res.text()).then(console.log);
+    })
+    .then(res => res.text())
+    .then(console.log);
 }
 
 // Lưu lại tổng lương

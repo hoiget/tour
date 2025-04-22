@@ -2390,7 +2390,7 @@ ORDER BY departure_time.ngaykhoihanh ASC
         exit;
     } elseif ($action == "xemdichvuks") {
 
-        $query = "SELECT * FROM booking_orderks INNER JOIN booking_details_ks ON booking_orderks.Booking_id=booking_details_ks.Booking_id WHERE booking_orderks.Booking_status = '1' OR booking_orderks.refund = '1'";
+        $query = "SELECT * FROM booking_orderks INNER JOIN booking_details_ks ON booking_orderks.Booking_id=booking_details_ks.Booking_id";
         $result = $conn->query($query);
 
         $users = [];

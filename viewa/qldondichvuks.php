@@ -307,7 +307,8 @@ $(document).ajaxComplete(function() {
                 }else{
                     if(event.Booking_status == '1'){
                      eventHtml += '<td><span style="color:green">Chưa xác nhận</span></td>' 
-                    }
+                    }else if(event.Booking_status == '2'){
+                     eventHtml += '<td><span style="color:blue">Đã xác nhận</span></td>'}
                 }
                     
                      eventHtml +=`<td>
