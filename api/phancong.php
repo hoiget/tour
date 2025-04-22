@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 $conn = new mysqli("localhost", "root", "", "tour");
-
+$conn->set_charset("utf8mb4");
 $action = $_POST['action'] ?? $_GET['action'] ?? '';
 
 if ($action === 'getEmployees') {
