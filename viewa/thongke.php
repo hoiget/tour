@@ -749,8 +749,7 @@ $('#month, #year').on('change', function() {
         type: 'GET',
         dataType: 'json',
         success: function(response) {
-            console.log("Dữ liệu API trả về:", response);
-
+         
             if (Array.isArray(response) && response.length > 0) {
                 var events = response;
                 var eventHtml = ''; 
@@ -906,7 +905,7 @@ function getBookingStats(year, month = null,vung = null,day = null) {
         type: 'GET',
         dataType: 'json',
         success: function(response) {
-            console.log("Dữ liệu API trả về:", response);
+          
             let eventHtml = ''; 
 
             if (Array.isArray(response) && response.length > 0) {
@@ -1251,7 +1250,7 @@ function getRevenueByPeriod(year, period) {
         type: 'GET',
         dataType: 'json',
         success: function (data) {
-            console.log("Dữ liệu API trả về:", data);
+           
             const labels = data.map(r => r.period);
             const revenues = data.map(r => parseFloat(r.total_revenue));
 

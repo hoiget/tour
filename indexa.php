@@ -277,6 +277,12 @@ if (isset($_SESSION['login_time']) && ($currentTime - $_SESSION['login_time'] > 
           <span>Quản lý đơn dịch vụ khách sạn</span>
         </a>
           </li>
+          <li class="nav-item">
+        <a class="nav-link" href="indexa.php?luong">
+        <i class="bi bi-calculator"></i>
+          <span>Tính lương</span>
+        </a>
+          </li>
       <?php
 }
 elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
@@ -300,7 +306,12 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
           <span>Xem tour</span>
         </a>
       </li><!-- End Dashboard Nav -->
-     
+      <li class="nav-item">
+        <a class="nav-link " href="indexa.php?xemluong">
+        <i class="bi bi-eye"></i>
+          <span>Xem lương</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
       <?php } ?>
 <?php if($role == 'HDV'){?>
   <li class="nav-item">
@@ -321,6 +332,12 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
         <i class="bi bi-table"></i>
 
           <span>Xem báo cáo</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+      <li class="nav-item">
+        <a class="nav-link " href="indexa.php?xemluong">
+        <i class="bi bi-eye"></i>
+          <span>Xem lương</span>
         </a>
       </li><!-- End Dashboard Nav -->   
           <?php } ?>
@@ -347,6 +364,12 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
         <a class="nav-link " href="indexa.php?cskh">
         <i class="bi bi-person-badge text-primary"></i>
           <span>Phân nhân viên chăm sóc khách hàng</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+      <li class="nav-item">
+        <a class="nav-link " href="indexa.php?xemluong">
+        <i class="bi bi-eye"></i>
+          <span>Xem lương</span>
         </a>
       </li><!-- End Dashboard Nav -->
       <?php } ?>
@@ -478,6 +501,10 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
     $show = false;
     include_once("viewa/xemlichsu.php");
   }
+  if(isset($_REQUEST['luong'])){
+    $show = false;
+    include_once("viewa/tinhluong.php");
+  }
   if($show){
     include_once("viewa/thongke.php");
 }
@@ -528,6 +555,10 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
       $show = false;
       include_once("viewa/qlthuexe.php");
     }
+    if(isset($_REQUEST['xemluong'])){
+      $show = false;
+      include_once("viewa/xemluong.php");
+    }
     if($show){
       include_once("viewa/thongke.php");
   }
@@ -564,6 +595,10 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
       include_once("viewa/xemdattour.php");
       
     }
+    if(isset($_REQUEST['xemluong'])){
+      $show = false;
+      include_once("viewa/xemluong.php");
+    }
     include_once("viewa/mesnv.php");
     if($show){
       include_once("viewa/thongke.php");
@@ -585,6 +620,10 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
       $show = false;
       include_once("viewa/xembaocaonv.php");
     } 
+    if(isset($_REQUEST['xemluong'])){
+      $show = false;
+      include_once("viewa/xemluong.php");
+    }
     if($show){
       include_once("viewa/lich.php");
   }
@@ -615,7 +654,7 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
-  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+  
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
   <!-- Template Main JS File -->

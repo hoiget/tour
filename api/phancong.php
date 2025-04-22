@@ -351,6 +351,120 @@ if ($_GET['action'] === 'getToursByIds' && isset($_GET['ids'])) {
         exit;
     }
 }
+
+if ($action == "get") {
+    $month = $_GET['month'];
+    $sql = "SELECT s.id, e.name,e.Permissions, s.allowance, s.basic_salary, s.total_salary
+            FROM salaries s
+            JOIN employees e ON s.employee_id = e.id
+            WHERE s.month_year = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $month);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $rows = [];
+    while ($r = $result->fetch_assoc()) {
+        $rows[] = $r;
+    }
+    echo json_encode($rows);
+}
+
+if ($action == "update") {
+    $data = json_decode(file_get_contents("php://input"), true);
+    $id = $data['id'];
+    $field = $data['field'];
+    $value = $data['value'];
+    if (!in_array($field, ['allowance', 'basic_salary'])) die("Invalid field");
+    $stmt = $conn->prepare("UPDATE salaries SET $field = ? WHERE id = ?");
+    $stmt->bind_param("di", $value, $id);
+    $stmt->execute();
+    echo "Updated";
+}
+
+if ($action == "save_total") {
+    $id = $_GET['id'];
+    $stmt = $conn->prepare("UPDATE salaries SET total_salary = allowance + basic_salary WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    echo "Total updated";
+}
+if ($action == "auto_add") {
+    $month = $_GET['month'] ?? date('Y-m');
+
+    // Lương cơ bản theo vai trò
+    $salaryByRole = [
+        'QL' => 10000000,
+        'CSKH' => 8000000,
+        'HDV' => 7000000
+    ];
+
+    $added = 0;
+    $now = new DateTime(); // ngày hiện tại
+
+    $employees = $conn->query("SELECT id, name, Permissions, created_at FROM employees");
+
+    while ($emp = $employees->fetch_assoc()) {
+        $employee_id = $emp['id'];
+        $permission = $emp['Permissions'];
+        $created_at = $emp['created_at'];
+
+        // Tính số ngày đã làm việc từ created_at đến hiện tại
+        $createdDate = new DateTime($created_at);
+        $daysBetween = $createdDate->diff($now)->days;
+
+        // Nếu chưa đủ 30 ngày thì bỏ qua
+        if ($daysBetween < 30) continue;
+
+        // Kiểm tra đã có lương tháng này chưa
+        $stmt = $conn->prepare("SELECT id FROM salaries WHERE employee_id = ? AND month_year = ?");
+        $stmt->bind_param("is", $employee_id, $month);
+        $stmt->execute();
+        $stmt->store_result();
+
+        if ($stmt->num_rows == 0) {
+            // Thêm bản ghi mới
+            $basic = $salaryByRole[$permission] ?? 5000000;
+            $allowance = 0;
+            $total = $basic + $allowance;
+
+            $insert = $conn->prepare("INSERT INTO salaries (employee_id, allowance, basic_salary, total_salary, month_year)
+                                      VALUES (?, ?, ?, ?, ?)");
+            $insert->bind_param("iiids", $employee_id, $allowance, $basic, $total, $month);
+            $insert->execute();
+            $added++;
+        }
+    }
+
+    echo "✅ Đã thêm $added bản ghi lương mới cho tháng $month.";
+}
+
+
+if ($action == "get_mysalary") {
+    $month = $_GET['month'] ?? date('Y-m');
+
+    // Giả sử ID nhân viên đăng nhập được lưu trong session:
+
+    $employee_id = $_SESSION['id'] ?? 0;
+
+    if (!$employee_id) {
+        echo json_encode(null);
+        exit;
+    }
+
+    $stmt = $conn->prepare("SELECT s.*, e.name FROM salaries s 
+                            JOIN employees e ON s.employee_id = e.id 
+                            WHERE s.employee_id = ? AND s.month_year = ?");
+    $stmt->bind_param("is", $employee_id, $month);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($row = $result->fetch_assoc()) {
+        echo json_encode($row);
+    } else {
+        echo json_encode(null);
+    }
+}
+
 ?>
 
 

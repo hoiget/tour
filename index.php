@@ -47,12 +47,9 @@ if (isset($_SESSION['login_time']) && ($currentTime - $_SESSION['login_time'] > 
 }
 ?>
 <script>
-// Lấy sessionId từ PHP session
-const sessionId = <?php echo json_encode($_SESSION['id']); ?>;
-
-console.log("Session ID:", sessionId); // Kiểm tra giá trị
+    const sessionId = <?= isset($_SESSION['id']) ? json_encode($_SESSION['id']) : 'null' ?>;
+    console.log("Session ID:", sessionId);
 </script>
-
 
 
 <!DOCTYPE html>
@@ -388,7 +385,7 @@ Thông tin cá nhân của khách hàng sẽ được lưu trữ trong thời gi
             </div>
         </div>
     </div>
-    <center><p> © 2025 <strong>GoWander</strong>. All Rights Reserved</p></center>
+    <center><p> © <span id="year"></span><strong> GoWander</strong>. All Rights Reserved</p></center>
 </footer>
 
 <script>

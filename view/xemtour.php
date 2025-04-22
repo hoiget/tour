@@ -503,12 +503,13 @@ function xemtour() {
                                 <br> <span style="color:red">`;
 
                     if (parseInt(event.discount) == 0) {
-                        eventHtml += parseInt(event.Price).toLocaleString('vi-VN') + ` đ`;
+                        eventHtml += parseInt(event.Price).toLocaleString('vi-VN') + ` đ </span>`;
                     } else if (parseInt(event.discount) > 0) {
-                        eventHtml += parseInt(event.discount).toLocaleString('vi-VN') + ` đ`;
+                        eventHtml +=`<del style="color:black">`+ parseInt(event.Price).toLocaleString('vi-VN') + ` đ</del> </span><br><span style="color:red"> Còn lại: `
+                        eventHtml += parseInt(event.discount).toLocaleString('vi-VN') + ` đ</span>`;
                     }
 
-                    eventHtml += `</span></a><br>
+                    eventHtml += `</a><br>
                     <center><button class="add-to-compare" data-id="${event.tourid}">So sánh</button></center><br></div>`;
 
                     if ((index + 1) % 3 === 0 || (index + 1) === events.length) {
@@ -581,15 +582,16 @@ function xemtourtheomien(mien) {
 
                     eventHtml += `</div>
                                 <strong>Giá từ:</strong> 
-                                <br> <span style="color:red">`;
+                                  <br> <span style="color:red">`;
 
                     if (parseInt(event.discount) == 0) {
-                        eventHtml += parseInt(event.Price).toLocaleString('vi-VN') + ` đ`;
+                        eventHtml += parseInt(event.Price).toLocaleString('vi-VN') + ` đ </span>`;
                     } else if (parseInt(event.discount) > 0) {
-                        eventHtml += parseInt(event.discount).toLocaleString('vi-VN') + ` đ`;
+                        eventHtml +=`<del style="color:black">`+ parseInt(event.Price).toLocaleString('vi-VN') + ` đ</del> </span><br><span style="color:red"> Còn lại: `
+                        eventHtml += parseInt(event.discount).toLocaleString('vi-VN') + ` đ</span>`;
                     }
 
-                    eventHtml += `</span></a>
+                    eventHtml += `</a><br>
                     <br>
                     <center><button class="add-to-compare" data-id="${event.tourid}">So sánh</button></center><br></div>`;
 
@@ -661,15 +663,16 @@ function timKiemTourtype(type) {
 
                     eventHtml += `</div>
                                 <strong>Giá từ:</strong> 
-                                <br> <span style="color:red">`;
+                                  <br> <span style="color:red">`;
 
                     if (parseInt(event.discount) == 0) {
-                        eventHtml += parseInt(event.Price).toLocaleString('vi-VN') + ` đ`;
+                        eventHtml += parseInt(event.Price).toLocaleString('vi-VN') + ` đ </span>`;
                     } else if (parseInt(event.discount) > 0) {
-                        eventHtml += parseInt(event.discount).toLocaleString('vi-VN') + ` đ`;
+                        eventHtml +=`<del style="color:black">`+ parseInt(event.Price).toLocaleString('vi-VN') + ` đ</del> </span><br><span style="color:red"> Còn lại: `
+                        eventHtml += parseInt(event.discount).toLocaleString('vi-VN') + ` đ</span>`;
                     }
 
-                    eventHtml += `</span></a>
+                    eventHtml += `</a><br>
                     <br>
                     <center><button class="add-to-compare" data-id="${event.tourid}">So sánh</button></center><br></div>`;
 
@@ -744,15 +747,16 @@ function timKiemThongTin(name, date, budget, month) {
 
                     eventHtml += `</div>
                                 <strong>Giá từ:</strong> 
-                                <br> <span style="color:red">`;
+                                 <br> <span style="color:red">`;
 
                     if (parseInt(event.discount) == 0) {
-                        eventHtml += parseInt(event.Price).toLocaleString('vi-VN') + ` đ`;
+                        eventHtml += parseInt(event.Price).toLocaleString('vi-VN') + ` đ </span>`;
                     } else if (parseInt(event.discount) > 0) {
-                        eventHtml += parseInt(event.discount).toLocaleString('vi-VN') + ` đ`;
+                        eventHtml +=`<del style="color:black">`+ parseInt(event.Price).toLocaleString('vi-VN') + ` đ</del> </span><br><span style="color:red"> Còn lại: `
+                        eventHtml += parseInt(event.discount).toLocaleString('vi-VN') + ` đ</span>`;
                     }
 
-                    eventHtml += `</span></a>
+                    eventHtml += `</a><br>
                     <br>
                     <center><button class="add-to-compare" data-id="${event.tourid}">So sánh</button></center><br></div>`;
 
@@ -827,15 +831,16 @@ $.ajax({
 
                     eventHtml += `</div>
                                 <strong>Giá từ:</strong> 
-                                <br> <span style="color:red">`;
+                                  <br> <span style="color:red">`;
 
                     if (parseInt(event.discount) == 0) {
-                        eventHtml += parseInt(event.Price).toLocaleString('vi-VN') + ` đ`;
+                        eventHtml += parseInt(event.Price).toLocaleString('vi-VN') + ` đ </span>`;
                     } else if (parseInt(event.discount) > 0) {
-                        eventHtml += parseInt(event.discount).toLocaleString('vi-VN') + ` đ`;
+                        eventHtml +=`<del style="color:black">`+ parseInt(event.Price).toLocaleString('vi-VN') + ` đ</del> </span><br><span style="color:red"> Còn lại: `
+                        eventHtml += parseInt(event.discount).toLocaleString('vi-VN') + ` đ</span>`;
                     }
 
-                    eventHtml += `</span></a>
+                    eventHtml += `</a><br>
                     <br>
                     <center><button class="add-to-compare" data-id="${event.tourid}">So sánh</button></center><br></div>`;
 
@@ -854,11 +859,13 @@ $.ajax({
     }
 });
 }
+
+
 $(document).ready(function () {
     console.log("Trang xemtour.php đã load!"); // Kiểm tra xem script có chạy không
    
    
-    xemtour();
+   
     let urlParams = new URLSearchParams(window.location.search);
 
 if (urlParams.has('tour1')) {
@@ -878,14 +885,28 @@ if (urlParams.has('tour1')) {
 
     // Gọi API tìm kiếm
     timKiemThongTintk(name, date, budget, month)
+}else {
+    xemtour();
 }
 
-if(urlParams.has('mien')) {
-   
-        let selectedMien = urlParams.get('mien');
-        console.log("Lọc theo miền:", selectedMien);
-        xemtourtheomien(selectedMien);
+if (urlParams.has('mien')) {
+    let selectedMien = urlParams.get('mien');
+    console.log("Lọc theo miền:", selectedMien);
+    xemtourtheomien(selectedMien);
+} else {
+    xemtour();
 }
+
+$('.submenu-right a').on('click', function (e) {
+    e.preventDefault();
+    let url = new URL($(this).attr('href'), window.location.origin);
+    let selectedMien = url.searchParams.get('mien');
+
+    if (selectedMien) {
+        history.pushState({}, '', `index.php?tour&mien=${selectedMien}`);
+        xemtourtheomien(selectedMien);
+    }
+});
 
     // Xử lý sự kiện khi chọn radio button lọc theo loại tour
     $('.sidebar input[type="radio"]').change(function () {
@@ -983,8 +1004,8 @@ if(urlParams.has('mien')) {
 
                     eventHtml += `</div>
                                 <strong>Giá từ:</strong> 
-                                <br> <p>Giá: <span style="color:red">
-                        ${discount > 0 ? discount.toLocaleString('vi-VN') : price.toLocaleString('vi-VN')} đ
+                                <br> <p> <span style="color:red">
+                        ${discount > 0 ? "<del style='color:black'>" +price.toLocaleString('vi-VN') + " đ </del> <br>Còn lại : " + discount.toLocaleString('vi-VN') : price.toLocaleString('vi-VN')} đ
                     </span></p>`;
 
                   

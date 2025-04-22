@@ -465,7 +465,7 @@ document.addEventListener('DOMContentLoaded', applyResponsiveTableHeaders);
         type: 'GET',
         dataType: 'json', // Tự động phân tích chuỗi JSON thành object/mảng
         success: function(response) {
-            console.log(response)
+         
             if (Array.isArray(response) && response.length > 0) {
                 var events = response;
                 var eventHtml = '';
@@ -530,7 +530,7 @@ function xoatour(id) {
            .then(response => response.text())
            
            .then(data => {
-            console.log(data)
+           
                if (data === 'gui') {
                    // Chuyển hướng người dùng sau khi cập nhật thành công
                    openPopup('Xóa thành công', '');
@@ -736,7 +736,7 @@ function capnhatour() {
             contentType: false, // Bắt buộc khi sử dụng FormData
             processData: false, // Ngăn jQuery xử lý dữ liệu
             success: function (response) {
-                console.log(response); // Để kiểm tra chính xác dữ liệu phản hồi
+              
                 if (response === 'update_success') {
                     openPopup('Thông báo', 'Cập nhật thành công');
                     setTimeout(function () {
@@ -772,7 +772,7 @@ function themtour() {
             contentType: false, // Bắt buộc khi sử dụng FormData
             processData: false, // Ngăn jQuery xử lý dữ liệu
             success: function (response) {
-                console.log(response); // Để kiểm tra chính xác dữ liệu phản hồi
+              
                 if (response === 'insert_success') {
                     openPopup('Thông báo', 'Cập nhật thành công');
                     setTimeout(function () {

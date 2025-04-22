@@ -184,10 +184,20 @@
 width: 100%;
 }
 .extra-fields input,.budget-select {
-width: 42%;
+width: 55%;
 
 }
-
+.search-form .extra-fields1 {
+    display: flex;
+    gap: 10px;
+   
+}
+.search-form .extra-fields1 input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
 /* Mobile responsive */
 /* Áp dụng ẩn các trường phụ CHỈ khi trên điện thoại */
 @media (max-width: 768px) {
@@ -206,7 +216,18 @@ width: 42%;
     gap: 10px;
     opacity: 1;
   }
+  .search-form .extra-fields1 {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
 
+  .search-form.active .extra-fields1 {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    opacity: 1;
+  }
   .search-form {
     display: flex;
     flex-direction: column;
@@ -228,7 +249,7 @@ width: 42%;
 }
 
   </style>
-  <link rel="stylesheet" href="./assets/css/timkiem.css">
+  <link rel="stylesheet" href="./assets/css/tim.css">
   <section id="hero" class="hero section">
     
   <ul class='slider' id="xemlayout">
@@ -343,7 +364,7 @@ width: 42%;
         <div id="hotel-search" class="search-form" style="display: none; margin-top: 25px;">
             <input type="text"  name="name" placeholder="Nhập tên khách sạn/Địa điểm" class="search-input1" style="border: 1px solid black; border-radius: 5px; width: 250px">
             
-            <div class="extra-fields">
+            <div class="extra-fields1">
                 <div class="date-input-wrapper" data-label="Ngày nhận">
                     <input type="date" style="width:100%;border: 1px solid black" id="ngay-nhan" class="date-input" name="checkin" style="border: 1px solid black; border-radius: 5px;">
                 </div>
@@ -352,17 +373,17 @@ width: 42%;
                 </div>
             
             
-            <input type="number" id="adult" name="adult" placeholder="Số người lớn" style="width: 150px;border: 1px solid black">
-            <input type="number" name="children" id="children"  placeholder="Số trẻ em" style="width: 150px;border: 1px solid black">
+                <input type="number" id="adult" name="adult" placeholder="Số người lớn" style="width: 150px;border: 1px solid black">
+                <input type="number" name="children" id="children"  placeholder="Số trẻ em" style="width: 150px;border: 1px solid black">
 
-            <select name="price" id="price" style="border: 1px solid black">
-                <option value="">Chọn giá</option>
-                <option value="low">Dưới 1 triệu</option>
-                <option value="medium">1 triệu - 2 triệu</option>
-                <option value="mediumer">2 triệu - 3 triệu</option>
-                <option value="high">3 triệu - 4 triệu</option>
-                <option value="higher">Trên 4 triệu</option>
-            </select>
+                <select name="price" id="price" style="border: 1px solid black">
+                    <option value="">Chọn giá</option>
+                    <option value="low">Dưới 1 triệu</option>
+                    <option value="medium">1 triệu - 2 triệu</option>
+                    <option value="mediumer">2 triệu - 3 triệu</option>
+                    <option value="high">3 triệu - 4 triệu</option>
+                    <option value="higher">Trên 4 triệu</option>
+                </select>
             </div>
             <button type="submit" class="hotel-search-button" style="background-color: white; border: 1px solid black">🔍</button>
         </div>
