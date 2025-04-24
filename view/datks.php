@@ -67,7 +67,7 @@ button:hover {
 </style>
 <br><br>
 <div class="container4">
-  <h2>THÔNG TIN ĐẶT Khách sạn</h2>
+  <h2>THÔNG TIN ĐẶT KHÁCH SẠN</h2>
 
 <form class="my-form" id="datksfull" action="./api/api.php" method="get"> 
     <input type="hidden" name="action" value="datksfull">

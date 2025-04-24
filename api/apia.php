@@ -1487,18 +1487,23 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $day = isset($_GET['day']) ? intval($_GET['day']) : null;
         // Truy vấn SQL
         $query = "
-            SELECT
-                COUNT(bo.Booking_id) AS total_orders,
-                SUM(CASE WHEN DATE(bo.created_at) = CURDATE() THEN 1 ELSE 0 END) AS new_orders_today,
-                SUM(CASE WHEN bo.Booking_status = 2 THEN 1 ELSE 0 END) AS approved_orders,
-                SUM(CASE WHEN bo.refund = 1 THEN 1 ELSE 0 END) AS cancelled_orders,
-                IFNULL(SUM(bd.Total_pay), 0) AS total_amount,
-                IFNULL(SUM(CASE WHEN DATE(bo.created_at) = CURDATE() THEN bd.Total_pay ELSE 0 END), 0) AS new_orders_amount,
-                IFNULL(SUM(CASE WHEN bo.Booking_status = 2 THEN bd.Total_pay ELSE 0 END), 0) AS approved_orders_amount,
-                IFNULL(SUM(CASE WHEN bo.refund = 1 THEN bd.Total_pay ELSE 0 END), 0) AS cancelled_orders_amount,
-                MONTH(bo.created_at) AS order_month,
-                YEAR(bo.created_at) AS order_year,
-                t.vung
+           SELECT
+            COUNT(bo.Booking_id) AS total_orders,
+            SUM(CASE WHEN DATE(bo.created_at) = CURDATE() THEN 1 ELSE 0 END) AS new_orders_today,
+            SUM(CASE WHEN bo.Booking_status = 2 THEN 1 ELSE 0 END) AS approved_orders,
+            SUM(CASE WHEN bo.refund = 1 THEN 1 ELSE 0 END) AS cancelled_orders,
+            
+            IFNULL(SUM(bd.Total_pay), 0) AS total_amount,
+            IFNULL(SUM(CASE WHEN DATE(bo.created_at) = CURDATE() THEN bd.Total_pay ELSE 0 END), 0) AS new_orders_amount,
+            IFNULL(SUM(CASE WHEN bo.Booking_status = 2 THEN bd.Total_pay ELSE 0 END), 0) AS approved_orders_amount,
+            IFNULL(SUM(CASE WHEN bo.refund = 1 THEN bd.Total_pay ELSE 0 END), 0) AS cancelled_orders_amount,
+
+            IFNULL(MONTH(bo.created_at), 0) AS order_month,
+            IFNULL(YEAR(bo.created_at), 0) AS order_year,
+            IFNULL(t.vung, '') AS vung,
+            bo.*,
+            bd.*
+
             FROM
                 booking_ordertour bo
             LEFT JOIN
@@ -1523,21 +1528,47 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         }
     
         // Nhóm theo tháng và năm
-        $query .= " GROUP BY MONTH(bo.created_at), YEAR(bo.created_at)";
+      
+        $queryDetail = "
+        SELECT
+            bo.*,
+            bd.*,
+            t.vung
+        FROM
+            booking_ordertour bo
+        LEFT JOIN
+            booking_detail_tour bd ON bo.Booking_id = bd.Booking_id
+        LEFT JOIN
+                tour t ON bo.Tour_id = t.id
+        WHERE
+            YEAR(bo.created_at) = $year
+    ";
     
-        // Thực thi truy vấn
-        $result = $conn->query($query);
+    // Thêm điều kiện
+    if (!empty($month)) {
+        $queryDetail .= " AND MONTH(bo.created_at) = $month";
+    }
+    if (!empty($day)) {
+        $queryDetail .= " AND DAY(bo.created_at) = $day";
+    }
+    if (!empty($vung)) {
+        $queryDetail .= " AND t.vung = '$vung'";
+    }
+    $result = $conn->query($query);
+    $summary = $result ? $result->fetch_assoc() : [];
     
-        $statistics = [];
-        if ($result) {
-            while ($row = $result->fetch_assoc()) {
-                $statistics[] = $row;
-            }
-            header('Content-Type: application/json');
-            echo json_encode($statistics);
-        } else {
-            echo json_encode(['error' => 'Lỗi truy vấn SQL: ' . $conn->error]);
-        }
+    $resultDetail = $conn->query($queryDetail);
+    $details = [];
+    while ($row = $resultDetail->fetch_assoc()) {
+        $details[] = $row;
+    }
+    
+    echo json_encode([
+        'summary' => $summary,
+        'details' => $details
+    ]);
+        
+       
     }
      elseif ($action == "get_booking_stats1") {
         $query = "

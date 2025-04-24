@@ -361,7 +361,7 @@ label{
 <script>
        function xemks() {
     $.ajax({
-        url: './api/api.php?action=xemks',
+        url: './api/api.php?action=xemkhachsan',
         type: 'GET',
         dataType: 'json', // Tự động phân tích chuỗi JSON thành object/mảng
         success: function(response) {

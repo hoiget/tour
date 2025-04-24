@@ -898,6 +898,7 @@ if (urlParams.has('mien')) {
 }
 
 $('.submenu-right a').on('click', function (e) {
+    let rawHref = $(this).attr('href'); 
     e.preventDefault();
     let url = new URL($(this).attr('href'), window.location.origin);
     let selectedMien = url.searchParams.get('mien');
@@ -905,7 +906,11 @@ $('.submenu-right a').on('click', function (e) {
     if (selectedMien) {
         history.pushState({}, '', `index.php?tour&mien=${selectedMien}`);
         xemtourtheomien(selectedMien);
-    }
+    } else {
+            // Nếu không có ?mien=, có thể điều hướng bình thường
+            window.location.href = rawHref;
+        }
+    
 });
 
     // Xử lý sự kiện khi chọn radio button lọc theo loại tour

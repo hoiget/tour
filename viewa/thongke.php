@@ -437,7 +437,7 @@
         
     
     </div>
-
+    <div id="detailView" style="display:none;"></div>
     <div class="grid">
         <div id="thongke"></div>
        
@@ -888,78 +888,139 @@ function getBookingStats1() {
 
     });
 }
-function getBookingStats(year, month = null,vung = null,day = null) {
+function getBookingStats(year, month = 0, vung = 0, day = 0) {
     let url = `./api/apia.php?action=get_booking_stats&year=${year}`;
-    if (month) {
-        url += `&month=${month}`;
-    }
-    if (vung) {
-        url += `&vung=${vung}`;
-    }
-    if (day) {
-        url += `&day=${day}`;
-    }
-    
+    if (month) url += `&month=${month}`;
+    if (vung) url += `&vung=${vung}`;
+    if (day) url += `&day=${day}`;
+
     $.ajax({
         url: url,
         type: 'GET',
         dataType: 'json',
         success: function(response) {
-          
-            let eventHtml = ''; 
+            console.log(response);
+            let eventHtml = '';
+            let details = response.details || [];
 
-            if (Array.isArray(response) && response.length > 0) {
-                let event = response[0]; // Chỉ lấy dữ liệu đầu tiên nếu có
+            if (response.summary) {
+                const event = response.summary;
+
                 eventHtml = `
-                    <div class="card green">
+                    <div class="card green" data-category="total_orders">
                         <h3>Tổng đơn</h3>
                         <p>${event.total_orders}<br>${formatNumberWithDot(event.total_amount)} đ</p>
                     </div>
-                    <div class="card orange">
+                    <div class="card orange" data-category="new_orders">
                         <h3>Đơn đặt mới</h3>
-                        <p>${event.new_orders_today}<br>${formatNumberWithDot(event.new_orders_amount)} đ</p>
+                        <p>${event.new_orders_today || "0"}<br>${formatNumberWithDot(event.new_orders_amount)} đ</p>
                     </div>
-                    <div class="card blue">
+                    <div class="card blue" data-category="approved_orders">
                         <h3>Đơn đã duyệt</h3>
-                        <p>${event.approved_orders}<br>${formatNumberWithDot(event.approved_orders_amount)} đ</p>
+                        <p>${event.approved_orders || "0"}<br>${formatNumberWithDot(event.approved_orders_amount)} đ</p>
                     </div>
-                    <div class="card red">
+                    <div class="card red" data-category="cancelled_orders">
                         <h3>Đơn đã hủy</h3>
-                        <p>${event.cancelled_orders}<br>${formatNumberWithDot(event.cancelled_orders_amount)} đ</p>
+                        <p>${event.cancelled_orders || "0"}<br>${formatNumberWithDot(event.cancelled_orders_amount)} đ</p>
                     </div>
                 `;
             } else {
-                // Nếu không có dữ liệu, hiển thị 0
                 eventHtml = `
-                    <div class="card green">
+                    <div class="card green" data-category="total_orders">
                         <h3>Tổng đơn</h3>
                         <p>0<br>0 đ</p>
                     </div>
-                    <div class="card orange">
+                    <div class="card orange" data-category="new_orders">
                         <h3>Đơn đặt mới</h3>
                         <p>0<br>0 đ</p>
                     </div>
-                    <div class="card blue">
+                    <div class="card blue" data-category="approved_orders">
                         <h3>Đơn đã duyệt</h3>
                         <p>0<br>0 đ</p>
                     </div>
-                    <div class="card red">
+                    <div class="card red" data-category="cancelled_orders">
                         <h3>Đơn đã hủy</h3>
                         <p>0<br>0 đ</p>
                     </div>
                 `;
+                $('#detailView').html('<p>Không có dữ liệu để hiển thị.</p>');
             }
 
-            // Cập nhật nội dung trên giao diện
             $('#thongke1').html(eventHtml);
+
+            // Sự kiện click vào card
+            $('.card').on('click', function () {
+                const category = $(this).data('category');
+                showDetailedInfo(category, details);
+            });
         },
         error: function(xhr, status, error) {
             console.error('Lỗi khi lấy thông tin:', error);
-            console.error('Chi tiết:', xhr.responseText);
             $('#thongke1').html('<div class="col">Đã xảy ra lỗi khi tải thông tin.</div>');
         }
     });
 }
+
+function showDetailedInfo(category, details) {
+    let filtered = [];
+
+    if (category === 'total_orders') {
+        filtered = details;
+    } else if (category === 'new_orders') {
+        const today = new Date().toISOString().slice(0, 10); // 'yyyy-mm-dd'
+        filtered = details.filter(d => d.created_at && d.created_at.slice(0, 10) === today);
+    } else if (category === 'approved_orders') {
+        filtered = details.filter(d => d.Booking_status == 2);
+    } else if (category === 'cancelled_orders') {
+        filtered = details.filter(d => d.refund == 1);
+    }
+
+    if (filtered.length === 0) {
+        $('#detailView').html('<p>Không có dữ liệu chi tiết.</p>').show();
+        return;
+    }
+
+    let html = `
+        <h4>Chi tiết: ${getCategoryLabel(category)}</h4>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Booking ID</th>
+                    <th>Tên tour</th>
+                    <th>Tên khách hàng</th>
+                    <th>Tổng tiền</th>
+                    <th>Ngày tạo</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+    filtered.forEach(d => {
+        html += `
+            <tr>
+                <td>${d.Booking_id}</td>
+                <td>${d.Tour_name}</td>
+                <td>${d.User_name}</td>
+                <td>${formatNumberWithDot(d.Total_pay)} đ</td>
+                <td>${d.created_at}</td>
+            </tr>
+        `;
+    });
+
+    html += '</tbody></table>';
+    $('#detailView').html(html).show();
+}
+
+function getCategoryLabel(category) {
+    switch (category) {
+        case 'total_orders': return 'Tổng đơn';
+        case 'new_orders': return 'Đơn đặt mới';
+        case 'approved_orders': return 'Đơn đã duyệt';
+        case 'cancelled_orders': return 'Đơn đã hủy';
+        default: return '';
+    }
+}
+
 
 
 function getBookingStatsks1() {

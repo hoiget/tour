@@ -1254,7 +1254,28 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
         echo json_encode($res); // Trả về JSON
         exit;
-    } elseif ($action == "xemks") {
+    }  elseif ($action == "xemkhachsan") {
+     
+
+        $query = "
+    SELECT rooms.*,rooms.id AS idroom,rooms_images.Image,rooms_images.Thumb
+    FROM rooms
+    INNER JOIN rooms_images ON rooms.id = rooms_images.Room_id
+    ";
+    
+        $result = $conn->query($query);
+
+        $res = [];
+        if ($result && $result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $res[] = $row; // Lưu từng bản ghi vào mảng
+            }
+        }
+     
+        echo json_encode($res); // Trả về JSON
+        exit;
+    }
+     elseif ($action == "xemks") {
         $id = $_GET['datks'];
         $query = "SELECT 
         r.*, r.Name as room_name,r.id AS idroom,
