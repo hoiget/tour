@@ -165,23 +165,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Mở khóa tài khoản
 
     elseif ($action == "register") {
-        $username = $_POST['name'];
-        $email = $_POST['email'];
-        $phone = $_POST['sdt'];
-        $address = $_POST['dc'];
-        $birthdate = $_POST['ns'];
-        $password = $_POST['password'];
+        $username   = $_POST['name'];
+        $email      = $_POST['email'];
+        $phone      = $_POST['sdt'];
+        $address    = $_POST['dc'];
+        $birthdate  = $_POST['ns'];
+        $password   = $_POST['password'];
         $repassword = $_POST['Repassword'];
-        $file = $_FILES['anh']['tmp_name'];
-        $name = $_FILES['anh']['name'];
-        $loai = $_FILES['anh']['type'];
-        $Diem = 100; // Giá trị điểm khởi tạo, có thể là số khác nếu cần
-        $hang='New';
     
-        // Xử lý ảnh tải lên
-        if ($loai != "image/jpg" && $loai != "image/jpeg" && $loai != "image/png") {
-            echo 'invalid_image';
-            exit;
+        $Diem       = 100; // Điểm khởi tạo
+        $hang       = 'New';
+    
+        // Xử lý file ảnh nếu có
+        $file = '';
+        $name = '';
+        $loai = '';
+        $has_image = false;
+    
+        if (isset($_FILES['anh']) && $_FILES['anh']['error'] === 0) {
+            $file = $_FILES['anh']['tmp_name'];
+            $name = $_FILES['anh']['name'];
+            $loai = $_FILES['anh']['type'];
+    
+            // Kiểm tra định dạng ảnh
+            $allowed_types = ['image/jpg', 'image/jpeg', 'image/png'];
+            if (!in_array($loai, $allowed_types)) {
+                echo 'invalid_image';
+                exit;
+            }
+    
+            $has_image = true;
         }
     
         // Kiểm tra mật khẩu
@@ -199,41 +212,54 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
         if ($result->num_rows > 0) {
             echo 'user_exists';
-        } else {
-            if (move_uploaded_file($file, "../assets/img/user/" . $name)) {
-                // Thêm người dùng mới
-                $insert_query = "INSERT INTO user_credit (Name, Address, Email, sdt, profile, Password, Datetime) VALUES (?, ?, ?, ?, ?, MD5(?), ?)";
-                $stmt = $conn->prepare($insert_query);
-                $stmt->bind_param("sssssss", $username, $address, $email, $phone, $name, $password, $birthdate);
-                $stmt->execute();
+            exit;
+        }
     
-                // Lấy ID của user vừa đăng ký
-                $customer_id = $conn->insert_id;
-    
-                // Lấy ngẫu nhiên nhân viên CSKH
-                $cskh_query = "SELECT id FROM employees WHERE Permissions = 'CSKH' ORDER BY RAND() LIMIT 1";
-                $result = $conn->query($cskh_query);
-                $row = $result->fetch_assoc();
-                $employee_id = $row['id'];
-    
-                // Phân công khách hàng cho CSKH
-                $assign_query = "INSERT INTO customer_assignment (employee_id, customer_id) VALUES (?, ?)";
-                $stmt = $conn->prepare($assign_query);
-                $stmt->bind_param("ii", $employee_id, $customer_id);
-                $stmt->execute();
-    
-                
-                $insert_query1 = "INSERT INTO tichdiem (idkh,hangTV, Diem) VALUES (?, ?,?)";
-                $stmt1 = $conn->prepare($insert_query1);
-                $stmt1->bind_param("isi", $customer_id,$hang, $Diem);
-                $stmt1->execute();
-
-                echo 'registration_success';
-            } else {
+        // Nếu có ảnh, upload ảnh
+        if ($has_image) {
+            $upload_path = "../assets/img/user/" . basename($name);
+            if (!move_uploaded_file($file, $upload_path)) {
                 echo 'upload_error';
+                exit;
             }
         }
+    
+        // Thêm người dùng vào DB
+        if ($has_image) {
+            $insert_query = "INSERT INTO user_credit (Name, Address, Email, sdt, profile, Password, Datetime) 
+                             VALUES (?, ?, ?, ?, ?, MD5(?), ?)";
+            $stmt = $conn->prepare($insert_query);
+            $stmt->bind_param("sssssss", $username, $address, $email, $phone, $name, $password, $birthdate);
+        } else {
+            $insert_query = "INSERT INTO user_credit (Name, Address, Email, sdt, Password, Datetime) 
+                             VALUES (?, ?, ?, ?, MD5(?), ?)";
+            $stmt = $conn->prepare($insert_query);
+            $stmt->bind_param("ssssss", $username, $address, $email, $phone, $password, $birthdate);
+        }
+        $stmt->execute();
+        $customer_id = $conn->insert_id;
+    
+        // Gán CSKH ngẫu nhiên
+        $cskh_query = "SELECT id FROM employees WHERE Permissions = 'CSKH' ORDER BY RAND() LIMIT 1";
+        $result = $conn->query($cskh_query);
+        $row = $result->fetch_assoc();
+        $employee_id = $row['id'];
+    
+        $assign_query = "INSERT INTO customer_assignment (employee_id, customer_id) VALUES (?, ?)";
+        $stmt = $conn->prepare($assign_query);
+        $stmt->bind_param("ii", $employee_id, $customer_id);
+        $stmt->execute();
+    
+        // Thêm vào bảng tích điểm
+        $insert_query1 = "INSERT INTO tichdiem (idkh, hangTV, Diem) VALUES (?, ?, ?)";
+        $stmt1 = $conn->prepare($insert_query1);
+        $stmt1->bind_param("isi", $customer_id, $hang, $Diem);
+        $stmt1->execute();
+    
+        echo 'registration_success';
     }
+    
+    
     elseif ($action == "updatettcn") {
         $username = $_POST['name']; // Tên tài khoản
         $email = $_SESSION['Email']; // Lấy email từ session
