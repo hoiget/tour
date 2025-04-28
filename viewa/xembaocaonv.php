@@ -1,9 +1,10 @@
 <?php
 include './api/connect.php';
 $user_id=$_SESSION['id'] ;
-$stmt = $conn->query("SELECT r.*, e.Name as guide_name
+$stmt = $conn->query("SELECT r.*, e.Name as guide_name,t.Name AS tourname
                      FROM reports r 
                      JOIN employees e ON r.guide_id = e.id
+                     JOIN tour t ON r.tour =t.id
                      WHERE r.guide_id='$user_id'");
 
 $reports = [];
@@ -145,6 +146,7 @@ while ($row = $stmt->fetch_assoc()) {
             <th>Hướng dẫn viên</th>
             <th>Loại báo cáo</th>
             <th>Nội dung</th>
+            <th>Tên tour</th>
             <th>File đính kèm</th>
             <th>Trạng thái</th>
          
@@ -162,6 +164,10 @@ while ($row = $stmt->fetch_assoc()) {
                         <?= nl2br(htmlspecialchars($r['report_content'])) ?>
                     </div>
                     <button class="details-btn" onclick="toggleDetails(this)">Xem chi tiết</button>
+                </td>
+                <td data-label="Tên tour">
+                <?= htmlspecialchars($r['tourname']) ?>
+                
                 </td>
                
                 <td data-label="File đính kèm">

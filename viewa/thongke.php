@@ -25,7 +25,7 @@
     }
 
     .container {
-        width: 90%;
+        width: 100%;
         max-width: 1400px;
         margin: 30px auto;
         padding: 25px;
@@ -134,27 +134,30 @@
         border-top-color: var(--info-color);
         background: linear-gradient(135deg, rgba(155, 89, 182, 0.1), rgba(155, 89, 182, 0.05));
     }
-
     .dropdown {
-        margin: 30px 0;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 15px;
-        align-items: center;
-    }
+    margin: 30px 0;
+    display: flex;
+    gap: 15px; /* Khoảng cách giữa các phần tử */
+    align-items: center;
+    flex-wrap: nowrap; /* Đảm bảo các phần tử không xuống hàng */
+}
 
-    .dropdown label {
-        font-weight: 600;
-        color: var(--dark-color);
-    }
-
-    select {
+/* Style cho label: Font đậm và màu sắc đẹp */
+.dropdown label {
+    font-weight: 600;
+    color: var(--dark-color); /* Màu cho text */
+    margin-right: 5px; /* Thêm khoảng cách bên phải của label */
+    font-size:14px;
+}
+    select,.day {
         padding: 10px 15px;
         font-size: 16px;
         border: 1px solid #ddd;
         border-radius: var(--border-radius);
         background-color: white;
         transition: var(--transition);
+        font-size:14px;
+
     }
 
     select:focus {
@@ -333,7 +336,10 @@
         grid-template-columns: 1fr !important;
        
     }
+   
+  
 }
+
 .chart-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -388,19 +394,16 @@
         
         <div class="tour-search">
             <div class="dropdown">
-                <label for="year">Năm:</label>
+                <label for="year">Năm:</label> <br>
                 <select id="year">
                     <option value="2025">2025</option>
                     <option value="2024">2024</option>
                 </select>
-                <label for="day">Ngày:</label>
-                <select id="day">
-                    <option value="" selected>Tất cả</option>
-                    
-                   
-                    <!-- Các tháng khác -->
-                </select>
-                
+                <label for="day">Từ Ngày:</label>        
+                <input class="day" type="date" id="from_date" name="from_date">
+                <label for="to_date">Đến ngày:</label>
+                <input class="day" type="date" id="to_date" name="to_date">
+
                 <label for="month">Tháng:</label>
                 <select id="month">
                     <option value="" selected>Tất cả</option>
@@ -473,34 +476,20 @@
     let chartTopTourRevenue = null;
     let chartRevenueByPeriod = null;
 let chartMonthlyComparison = null;
-   function applyFilter() {
+function applyFilter() {
     const year = document.getElementById('year').value;
     const month = document.getElementById('month').value;
-    const vung = document.getElementById('vung').value; // Lấy giá trị vùng miền
-    const day = document.getElementById('day').value; // Lấy giá trị vùng miền
+    const vung = document.getElementById('vung').value;
+    const from_date = document.getElementById('from_date').value;
+    const to_date = document.getElementById('to_date').value;
 
-    getBookingStats(year, month, vung,day); // Gửi thêm tham số `vung`
-    getTopTourRevenue(year,month);
+    getBookingStats(year, month, vung, from_date, to_date);
+    getTopTourRevenue(year, month);
     getMonthlyComparison(year);
     getRevenueByPeriod(year, 'quarter');
 }
-function updateDayOptions(month, year) {
-    const daysInMonth = new Date(year, month, 0).getDate();
-    const daySelect = $('#day');
-    daySelect.html('<option value="">Tất cả</option>'); // reset
 
-    for (let i = 1; i <= daysInMonth; i++) {
-        daySelect.append(`<option value="${i}">${i}</option>`);
-    }
-}
-// Hàm này gọi lại resize chart khi sidebar thay đổi trạng thái
 
-// Lắng nghe khi chọn tháng hoặc năm
-$('#month, #year').on('change', function() {
-    const month = parseInt($('#month').val());
-    const year = parseInt($('#year').val());
-    if (month && year) updateDayOptions(month, year);
-});
 
 </script>
       
@@ -888,11 +877,13 @@ function getBookingStats1() {
 
     });
 }
-function getBookingStats(year, month = 0, vung = 0, day = 0) {
+function getBookingStats(year, month = 0, vung = 0, from_date = null, to_date = null) {
     let url = `./api/apia.php?action=get_booking_stats&year=${year}`;
     if (month) url += `&month=${month}`;
     if (vung) url += `&vung=${vung}`;
-    if (day) url += `&day=${day}`;
+    if (from_date && to_date) {
+        url += `&from_date=${from_date}&to_date=${to_date}`;
+    }
 
     $.ajax({
         url: url,
@@ -960,6 +951,7 @@ function getBookingStats(year, month = 0, vung = 0, day = 0) {
         }
     });
 }
+
 
 function showDetailedInfo(category, details) {
     let filtered = [];

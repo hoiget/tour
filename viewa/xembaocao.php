@@ -1,9 +1,10 @@
 <?php
 include './api/connect.php';
 
-$stmt = $conn->query("SELECT r.*, e.Name as guide_name
+$stmt = $conn->query("SELECT r.*, e.Name as guide_name,t.Name AS tourname
                      FROM reports r 
-                     JOIN employees e ON r.guide_id = e.id");
+                     JOIN employees e ON r.guide_id = e.id
+                     JOIN tour t ON r.tour =t.id");
 
 $reports = [];
 while ($row = $stmt->fetch_assoc()) {
@@ -199,6 +200,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'exportPdf' && isset($_GET['id'
             <th>ID</th>
             <th>Hướng dẫn viên</th>
             <th>Loại báo cáo</th>
+            <th>Tên tour</th>
             <th>Nội dung</th>
             <th>Xuất nội đung</th>
             <th>File đính kèm</th>
@@ -212,6 +214,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'exportPdf' && isset($_GET['id'
                 <td data-label="ID"><?= htmlspecialchars($r['id']) ?></td>
                 <td data-label="Hướng dẫn viên"><?= htmlspecialchars($r['guide_name']) ?></td>
                 <td data-label="Loại báo cáo"><?= ($r['report_type'] == 'tour') ? 'Báo cáo tour' : 'Báo cáo công việc' ?></td>
+                <td data-label="Tên tour"><?= htmlspecialchars($r['tourname']) ?></td>
                 <td data-label="Nội dung">
                     <div class="details"><?= nl2br(htmlspecialchars($r['report_content'])) ?></div>
                     <button class="details-btn" onclick="toggleDetails(this)">Xem chi tiết</button>

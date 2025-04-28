@@ -73,17 +73,26 @@
 }
 </style>
 
-
-</style>
+<?php $idtour = isset($_GET['idtour']) ? $_GET['idtour'] : null; ?>
 <form id="reportForm" action="./api/phancong.php?action=submitReport" method="post" enctype="multipart/form-data">
     <input type="hidden" name="guide_id" value="<?php echo $user_id; ?>"> 
     <input type="hidden" name="admin_id" value="1"> 
+    <input type="hidden" name="tour_id" value="<?php echo $idtour; ?>"> <!-- Thêm idtour vào form -->
+
 
     <label for="report_type">Loại báo cáo:</label>
     <select name="report_type" id="report_type">
         <option value="tour">Báo cáo tour</option>
         <option value="work">Báo cáo công việc</option>
     </select>
+
+    <!-- Khi chọn Báo cáo tour, sẽ hiển thị danh sách tour -->
+    <div id="tourSelectDiv" style="display:none;">
+        <label for="tour_id">Chọn tour:</label>
+        <select name="tour_id" id="tour_id">
+            <!-- Các tour sẽ được thêm vào đây từ API -->
+        </select>
+    </div>
 
     <label for="report_content">Nội dung báo cáo:</label>
     <textarea name="report_content" id="report_content" rows=15></textarea>
@@ -99,31 +108,59 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
 $(document).ready(function(){
+    // Khi thay đổi loại báo cáo
+    $("#report_type").on("change", function() {
+        let reportType = $(this).val();
+
+        // Nếu chọn Báo cáo tour, hiển thị danh sách tour
+        if (reportType === "tour") {
+            $("#tourSelectDiv").show();
+
+            // Gọi API để lấy danh sách các tour của nhân viên
+            $.ajax({
+                url: "./api/apia.php?action=xemdichvuhdv1", // API để lấy các tour
+                type: "GET",
+                success: function(response) {
+                    let tours = JSON.parse(response); // Dữ liệu tour dưới dạng JSON
+                    let tourSelect = $("#tour_id");
+                    tourSelect.empty(); // Xóa các tour cũ
+
+                    // Thêm các tour vào dropdown
+                    tours.forEach(function(tour) {
+                        tourSelect.append(new Option(tour.tourname, tour.id_tour));
+                    });
+                },
+                error: function(xhr) {
+                    console.log("Lỗi khi lấy tour: " + xhr.responseText);
+                }
+            });
+        } else {
+            $("#tourSelectDiv").hide(); // Nếu không chọn Báo cáo tour, ẩn dropdown
+        }
+    });
+
     $("#reportForm").on("submit", function(event){
         event.preventDefault(); // Ngăn form reload trang
 
         let formData = new FormData(this); // Lấy dữ liệu form
         $.ajax({
-    url: "./api/phancong.php?action=submitReport",
-    type: "POST",
-    data: formData,
-    processData: false,
-    contentType: false,
-    success: function(response){
-        console.log(response); // In phản hồi server trong console để kiểm tra
-        if (response.includes("✅ Báo cáo đã được gửi thành công!")) {
-            $("#responseMessage").text(response).css("color", "green");
-        } 
-        $("#reportForm")[0].reset();
-    },
-    error: function(xhr){
-        console.log(xhr.responseText); // Kiểm tra lỗi nếu có
-        $("#responseMessage").text("✅ Báo cáo đã được gửi thành công!").css("color", "green");
-    }
-});
-
-
+            url: "./api/phancong.php?action=submitReport",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response){
+                console.log(response); // In phản hồi server trong console để kiểm tra
+                if (response.includes("✅ Báo cáo đã được gửi thành công!")) {
+                    $("#responseMessage").text(response).css("color", "green");
+                } 
+                $("#reportForm")[0].reset();
+            },
+            error: function(xhr){
+                console.log(xhr.responseText); // Kiểm tra lỗi nếu có
+                $("#responseMessage").text("✅ Báo cáo đã được gửi thành công!").css("color", "green");
+            }
+        });
     });
 });
 </script>
-

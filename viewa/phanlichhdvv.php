@@ -205,7 +205,19 @@
                             <br> Ngày ở: ${tour.Day_depart}
                             <br> Lượt đặt: ${tour.Orders}
                             <br> Hướng dẫn viên đảm nhiệm: ${hdvStatus}
-                            <br><button style="background-color: red; color: #fff;" class="delete-btn" onclick="xoalichtrinh(${tour.idsh})">🗑️ Xóa</button>
+                            <br> Trạng thái: 
+                            `
+                            if(tour.Trangthai == 1){
+                              html += `<span style="color:green">Hoạt động</span>`;
+                            }else if(tour.Trangthai == 2){
+                              html += `<span style="color:pink">Sắp khởi hành</span>`;
+                            }else if(tour.Trangthai == 4){
+                              html += `<span style="color:Violet">Lịch trình đã hoàn thành</span>`;
+                            }
+                            else{
+                              html += `<span style="color:red">Lịch trình bị hủy</span>`;
+                            }
+                            html += `<br><button style="background-color: red; color: #fff;" class="delete-btn" onclick="xoalichtrinh(${tour.idsh})">🗑️ Xóa</button>
                         </div>`;
                     }
                 });
@@ -232,7 +244,7 @@
             let hdvStatus = tour.emna 
         ? `<span style="color: green;">${tour.emna}</span>` 
         : `<span style="color: orange;">Chưa có</span>`;
-
+            let now=new Date();
                 html += `<div class="tour-item" data-id="${tour.idsh}" onclick="chonTour(${tour.idsh}, '${tour.Date}')">
                       <b>${tour.Name}</b> <br> Ngày: ${tour.Date} <br> Khởi hành: ${tour.Locations}
                     
@@ -240,6 +252,18 @@
                       <br> Lượt đặt: ${tour.Orders}
                      
                      <br> Hướng dẫn viên đảm nhiệm: ${hdvStatus}
+                      <br> Trạng thái: 
+                            `
+                            if(tour.Trangthai == 1){
+                              html += `<span style="color:green">Hoạt động</span>`;
+                            }else if(tour.Trangthai == 2){
+                              html += `<span style="color:purple">Sắp khởi hành</span>`;
+                            }else if(tour.Trangthai == 4){
+                              html += `<span style="color:Violet">Lịch trình đã hoàn thành</span>`;
+                            }else{
+                              html += `<span style="color:red">Lịch trình bị hủy</span>`;
+                            }
+                            html += `
                       <br><button style="background-color: red;
     color: #fff;" class="delete-btn" onclick="xoalichtrinh(${tour.idsh})">🗑️ Xóa</button>
                     </div>`;
@@ -288,6 +312,18 @@
                       <br> Ngày ở: ${event.Day_depart}
                       <br> Lượt đặt: ${event.Orders}
                       <br> Hướng dẫn viên đảm nhiệm: ${event.emna || "Chưa có"}
+                      <br> Trạng thái: 
+                            `
+                            if(tour.Trangthai == 1){
+                              html += `<span style="color:green">Hoạt động</span>`;
+                            }else if(tour.Trangthai == 2){
+                              html += `<span style="color:purple">Sắp khởi hành</span>`;
+                            }else if(tour.Trangthai == 4){
+                              html += `<span style="color:Violet">Lịch trình đã hoàn thành</span>`;
+                            }else{
+                              html += `<span style="color:red">Lịch trình bị hủy</span>`;
+                            }
+                            html += `
                       <br><button style="background-color: #007bff; color: #fff;" class="delete-btn" onclick="xoalichtrinh(${event.idsh})">🗑️ Xóa</button>
                     </div>`;
                 });

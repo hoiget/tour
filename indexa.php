@@ -317,7 +317,7 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
   <li class="nav-item">
         <a class="nav-link " href="indexa.php?xemdv">
         <i class="bi bi-info-circle"></i>
-          <span>xem dịch vụ</span>
+          <span>xem lịch trình</span>
         </a>
       </li><!-- End Dashboard Nav -->
       <li class="nav-item">

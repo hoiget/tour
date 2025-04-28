@@ -700,6 +700,9 @@ function xemdattour() {
                 }else if (response === 'missing_data1') {
                     openPopup('Thông báo', 'Vui lòng chọn ngày khởi hành');
                 }
+                else if (response === 'missing_data2') {
+                    openPopup('Thông báo', 'Vui lòng thêm số lượng người');
+                }
                  else if (response.startsWith('quaso|')) {
                     let messageParts = response.split('|');
                     openPopup('Cảnh báo', messageParts[1] + '\n');

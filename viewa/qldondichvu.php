@@ -273,8 +273,10 @@
     color: var(--dark-color);
     white-space: nowrap;
 }
-
-.filter-row select,
+.filter-row input{
+    width: 200px;
+}
+.filter-row select,.filter-row input,
 .filter-row button {
     flex-shrink: 0;
     padding: 10px 15px;
@@ -346,7 +348,7 @@
 </div> 
 <div class="container">
     <div class="search-bar">
-    <span style="padding-right:10px">Tìm kiếm:</span><input style="width:400px;height:40px" type="text" id="search" name="KH" placeholder="Tên khách hàng/Mã tour" onkeydown="searchkh(event)"> 
+    <span style="padding-right:10px">Tìm kiếm:</span><input style="width:400px;height:40px" type="text" id="search" name="KH" placeholder="Tên khách hàng hoặc Mã tour" onkeydown="searchkh(event)"> 
   
 </div>
 <div class="tour-search">
@@ -357,14 +359,10 @@
                     <option value="2025">2025</option>
                     <option value="2024">2024</option>
                 </select>
-                <label for="day">Ngày:</label>
-                <select id="day">
-                    <option value="" selected>Tất cả</option>
-                    
-                   
-                    <!-- Các tháng khác -->
-                </select>
-                
+                <label for="day">Từ Ngày:</label>        
+                <input class="day" type="date" id="from_date" name="from_date">
+                <label for="to_date">Đến ngày:</label>
+                <input class="day" type="date" id="to_date" name="to_date">
                 <label for="month">Tháng:</label>
                 <select id="month">
                     <option value="" selected>Tất cả</option>
@@ -383,6 +381,9 @@
                     <!-- Các tháng khác -->
                 </select>
                 
+                
+                </div>
+                <div class="filter-row">
                 <label for="vung">Vùng:</label>
                 <select id="vung">
                     <option value="" selected>Tất cả</option>
@@ -394,8 +395,6 @@
                   
                     <!-- Các vùng khác -->
                 </select>
-                </div>
-                <div class="filter-row">
                 <label for="huy">Trang thái đơn:</label>
                 <select id="huy">
                     <option value="" selected>Tất cả</option>
@@ -422,30 +421,15 @@
     const year = document.getElementById('year').value;
     const month = document.getElementById('month').value;
     const vung = document.getElementById('vung').value; // Lấy giá trị vùng miền
-    const day = document.getElementById('day').value; // Lấy giá trị vùng miền
+    const from_date = document.getElementById('from_date').value;
+    const to_date = document.getElementById('to_date').value;
     const huy = document.getElementById('huy').value; // Lấy giá trị vùng miền
     const thanh = document.getElementById('thanh').value; // Lấy giá trị vùng miền
 
-    locdanhsach(year, month, vung,day,huy,thanh); // Gửi thêm tham số `vung`
+    locdanhsach(year, month, vung,from_date, to_date,huy,thanh); // Gửi thêm tham số `vung`
     
 }
-    function updateDayOptions(month, year) {
-    const daysInMonth = new Date(year, month, 0).getDate();
-    const daySelect = $('#day');
-    daySelect.html('<option value="">Tất cả</option>'); // reset
-
-    for (let i = 1; i <= daysInMonth; i++) {
-        daySelect.append(`<option value="${i}">${i}</option>`);
-    }
-}
-// Hàm này gọi lại resize chart khi sidebar thay đổi trạng thái
-
-// Lắng nghe khi chọn tháng hoặc năm
-$('#month, #year').on('change', function() {
-    const month = parseInt($('#month').val());
-    const year = parseInt($('#year').val());
-    if (month && year) updateDayOptions(month, year);
-});
+   
 
 </script>
 <div class="containerql">
@@ -662,7 +646,7 @@ function searchkh(event) {
         });
     }
 }
-function locdanhsach(year, month = null,vung = null,day = null,huy = null,thanh = null) {
+function locdanhsach(year, month = null,vung = null,from_date = null, to_date = null,huy = null,thanh = null) {
     let url = `./api/apia.php?action=locdanhsach&year=${year}`;
     if (month) {
         url += `&month=${month}`;
@@ -670,8 +654,8 @@ function locdanhsach(year, month = null,vung = null,day = null,huy = null,thanh 
     if (vung) {
         url += `&vung=${vung}`;
     }
-    if (day) {
-        url += `&day=${day}`;
+    if (from_date && to_date) {
+        url += `&from_date=${from_date}&to_date=${to_date}`;
     }
     if (huy) {
         url += `&huy=${huy}`;

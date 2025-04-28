@@ -284,6 +284,7 @@ if ($action === 'submitReport') {
     $admin_id = intval($_POST['admin_id']);
     $report_type = $_POST['report_type'];
     $report_content = $_POST['report_content'];
+    $tour=intval($_POST['tour_id']);
 
     $file_name = NULL; // Mặc định không có file
 
@@ -306,8 +307,8 @@ if ($action === 'submitReport') {
     }
 
     // Chèn vào database
-    $stmt = $conn->prepare("INSERT INTO reports (guide_id, report_type, report_content, report_file,approved_by) VALUES (?, ?, ?, ?,?)");
-    $stmt->bind_param("isssi", $guide_id, $report_type, $report_content, $file_name,$admin_id);
+    $stmt = $conn->prepare("INSERT INTO reports (guide_id, report_type,tour, report_content, report_file,approved_by) VALUES (?, ?,?, ?, ?,?)");
+    $stmt->bind_param("isissi", $guide_id, $report_type,$tour, $report_content, $file_name,$admin_id);
     
     if ($stmt->execute()) {
         echo "✅ Báo cáo đã được gửi thành công!";

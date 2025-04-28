@@ -114,6 +114,77 @@
       font-size: 14px;
     }
   }
+    /* Modal Container */
+    #schedule-detail-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Màu nền mờ */
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Modal Content */
+  .modal-content {
+    background-color: white;
+    border-radius: 10px;
+    width: 60%;
+    max-width: 800px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    animation: slideIn 0.3s ease-in-out;
+  }
+
+  /* Close Button */
+  #close-modal {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #aaa;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+
+  #close-modal:hover {
+    color: #333;
+  }
+
+  /* Header */
+  h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  /* Content */
+  #schedule-detail {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.6;
+    text-align: left;
+  }
+
+  /* Slide-in animation */
+  @keyframes slideIn {
+    0% {
+      opacity: 0;
+      transform: translateY(-50px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
 </style>
 
 </head>
@@ -177,6 +248,13 @@
   </table>
 </div>
 </div>
+<div id="schedule-detail-modal" style="display:none;">
+        <div class="modal-content">
+            <span id="close-modal">&times;</span>
+            <h2>Chi tiết lịch trình</h2>
+            <div id="schedule-detail"></div>
+        </div>
+    </div>
  <script>
   // Tự động thêm data-label cho từng <td>
 const addDataLabels = () => {
@@ -206,6 +284,53 @@ document.addEventListener("DOMContentLoaded", () => {
     copiedDate.setDate(copiedDate.getDate() + diff);
     return copiedDate;
   };
+
+            const modal = document.getElementById("schedule-detail-modal");
+            const closeModalButton = document.getElementById("close-modal");
+            const scheduleDetail = document.getElementById("schedule-detail");
+
+            // Hàm hiển thị chi tiết lịch trình
+            const showScheduleDetail = (item) => {
+    // Chỉnh sửa nội dung chi tiết lịch trình
+              let scheduleContent = `
+                  <p><strong>Ngày:</strong> ${item.Date}</p>
+                  <p><strong>Tên tour:</strong> ${item.tourname}</p>
+                  <p><strong>Thời gian:</strong> ${item.Schedule}</p>
+                  <p><strong>Địa điểm:</strong> ${item.Locations}</p>
+                  <p><strong>Nhân viên:</strong> ${item.EmployeeName}</p>
+              `;
+
+              // Kiểm tra trạng thái để thêm thông tin về trạng thái
+              if (item.Trangthai == 2) {
+                  scheduleContent += `
+                      <p><strong>Trạng thái:</strong> Sắp khởi hành</p>
+                  `;
+              }else if(item.Trangthai == 3){
+                scheduleContent += `
+                      <p><strong>Trạng thái:</strong> Lịch trình bị hủy</p>
+                  `;
+              }
+               else {
+                  scheduleContent += `
+                      <p><strong>Trạng thái:</strong> Hoạt động</p>
+                  `;
+              }
+              scheduleContent += `
+                      <p><strong>Lịch trình:</strong> ${item.Itinerary}</p>
+                  `;
+              // Đổ nội dung vào modal
+              const scheduleDetail = document.getElementById('schedule-detail');
+              scheduleDetail.innerHTML = scheduleContent;
+
+              // Hiển thị modal
+              const modal = document.getElementById('schedule-detail-modal');
+              modal.style.display = "flex";  
+          };
+
+            // Đóng modal
+            closeModalButton.addEventListener("click", () => {
+                modal.style.display = "none"; // Ẩn modal
+            });
 
   // Hàm fetch dữ liệu từ API
   const fetchSchedule = async (startDate) => {
@@ -259,13 +384,15 @@ document.addEventListener("DOMContentLoaded", () => {
           const content = document.createElement("div");
           content.innerHTML = ` <div class="shift-box">
              <span>${item.Date}</span><br>
-              <span>Tên lịch trình:${item.tourname}</span><br>
+              <span>:${item.tourname}</span><br>
               <span>${item.Schedule}</span><br>
               <span>${item.Locations}</span><br>
               <span>(${item.EmployeeName})</span>
             </div>`;
-          cell.appendChild(content);
+            content.querySelector(".shift-box").addEventListener("click", () => showScheduleDetail(item));
+            cell.appendChild(content);
         }
+        
       });
     } catch (error) {
       console.error("Lỗi khi tải lịch:", error);

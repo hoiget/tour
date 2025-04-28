@@ -1483,9 +1483,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     } elseif ($action == "get_booking_stats") {
         $year = isset($_GET['year']) ? intval($_GET['year']) : date('Y');
         $month = isset($_GET['month']) ? intval($_GET['month']) : null;
-        $vung = isset($_GET['vung']) ? $_GET['vung'] : null; // Sửa lỗi gán biến
-        $day = isset($_GET['day']) ? intval($_GET['day']) : null;
-        // Truy vấn SQL
+        $vung = isset($_GET['vung']) ? $_GET['vung'] : null;
+        $from_date = isset($_GET['from_date']) ? $_GET['from_date'] : null;
+        $to_date = isset($_GET['to_date']) ? $_GET['to_date'] : null;
+    
+        // Truy vấn tổng hợp
         $query = "
            SELECT
             COUNT(bo.Booking_id) AS total_orders,
@@ -1497,38 +1499,33 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             IFNULL(SUM(CASE WHEN DATE(bo.created_at) = CURDATE() THEN bd.Total_pay ELSE 0 END), 0) AS new_orders_amount,
             IFNULL(SUM(CASE WHEN bo.Booking_status = 2 THEN bd.Total_pay ELSE 0 END), 0) AS approved_orders_amount,
             IFNULL(SUM(CASE WHEN bo.refund = 1 THEN bd.Total_pay ELSE 0 END), 0) AS cancelled_orders_amount,
-
+    
             IFNULL(MONTH(bo.created_at), 0) AS order_month,
             IFNULL(YEAR(bo.created_at), 0) AS order_year,
             IFNULL(t.vung, '') AS vung,
             bo.*,
             bd.*
-
-            FROM
-                booking_ordertour bo
-            LEFT JOIN
-                booking_detail_tour bd ON bo.Booking_id = bd.Booking_id
-            LEFT JOIN
-                tour t ON bo.Tour_id = t.id
-            WHERE
-                YEAR(bo.created_at) = $year
+        FROM
+            booking_ordertour bo
+        LEFT JOIN
+            booking_detail_tour bd ON bo.Booking_id = bd.Booking_id
+        LEFT JOIN
+            tour t ON bo.Tour_id = t.id
+        WHERE
+            YEAR(bo.created_at) = $year
         ";
     
-        // Thêm điều kiện tháng nếu có
         if (!empty($month)) {
-            $query .= " AND MONTH(bo.created_at) = " . intval($month);
+            $query .= " AND MONTH(bo.created_at) = $month";
         }
-        if (!empty($day)) {
-            $query .= " AND DAY(bo.created_at) = " . intval($day);
+        if (!empty($from_date) && !empty($to_date)) {
+            $query .= " AND DATE(bo.created_at) BETWEEN '$from_date' AND '$to_date'";
         }
-    
-        // Thêm điều kiện vùng miền nếu có
         if (!empty($vung)) {
             $query .= " AND t.vung = '$vung'";
         }
     
-        // Nhóm theo tháng và năm
-      
+        // Truy vấn chi tiết
         $queryDetail = "
         SELECT
             bo.*,
@@ -1539,37 +1536,37 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         LEFT JOIN
             booking_detail_tour bd ON bo.Booking_id = bd.Booking_id
         LEFT JOIN
-                tour t ON bo.Tour_id = t.id
+            tour t ON bo.Tour_id = t.id
         WHERE
             YEAR(bo.created_at) = $year
-    ";
+        ";
     
-    // Thêm điều kiện
-    if (!empty($month)) {
-        $queryDetail .= " AND MONTH(bo.created_at) = $month";
-    }
-    if (!empty($day)) {
-        $queryDetail .= " AND DAY(bo.created_at) = $day";
-    }
-    if (!empty($vung)) {
-        $queryDetail .= " AND t.vung = '$vung'";
-    }
-    $result = $conn->query($query);
-    $summary = $result ? $result->fetch_assoc() : [];
+        if (!empty($month)) {
+            $queryDetail .= " AND MONTH(bo.created_at) = $month";
+        }
+        if (!empty($from_date) && !empty($to_date)) {
+            $queryDetail .= " AND DATE(bo.created_at) BETWEEN '$from_date' AND '$to_date'";
+        }
+        if (!empty($vung)) {
+            $queryDetail .= " AND t.vung = '$vung'";
+        }
     
-    $resultDetail = $conn->query($queryDetail);
-    $details = [];
-    while ($row = $resultDetail->fetch_assoc()) {
-        $details[] = $row;
-    }
-    
-    echo json_encode([
-        'summary' => $summary,
-        'details' => $details
-    ]);
+        $result = $conn->query($query);
+        $summary = $result ? $result->fetch_assoc() : [];
         
-       
+        $resultDetail = $conn->query($queryDetail);
+        $details = [];
+        while ($row = $resultDetail->fetch_assoc()) {
+            $details[] = $row;
+        }
+        
+        echo json_encode([
+            'summary' => $summary,
+            'details' => $details
+        ]);
+        exit;
     }
+    
      elseif ($action == "get_booking_stats1") {
         $query = "
             SELECT
@@ -2371,40 +2368,55 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         echo json_encode($users); // Trả về JSON
         exit;
     } elseif ($action == "xemlichtrinh") {
-
+        // 1. Lấy danh sách tour
         $query = "SELECT 
-    tour_schedule.*, 
-    tour_schedule.id AS idsh, 
-    assignment_tour.*, 
-    employees.Name AS emna, 
-    employees.id AS idem, 
-    departure_time.*, 
-    departure_time.id AS iddp
-FROM tour_schedule
-LEFT JOIN assignment_tour ON tour_schedule.id = assignment_tour.id_toursche
-LEFT JOIN employees ON assignment_tour.employid = employees.id
-LEFT JOIN departure_time ON tour_schedule.Date = departure_time.ngaykhoihanh
-
-GROUP BY tour_schedule.id 
-ORDER BY departure_time.ngaykhoihanh ASC
-
-
-        ";
-      
+            tour_schedule.*, 
+            tour_schedule.id AS idsh, 
+            assignment_tour.*, 
+            employees.Name AS emna, 
+            employees.id AS idem, 
+            departure_time.*, 
+            departure_time.id AS iddp
+        FROM tour_schedule
+        LEFT JOIN assignment_tour ON tour_schedule.id = assignment_tour.id_toursche
+        LEFT JOIN employees ON assignment_tour.employid = employees.id
+        LEFT JOIN departure_time ON tour_schedule.Date = departure_time.ngaykhoihanh
+        WHERE departure_time.ngaykhoihanh > NOW()
+        GROUP BY tour_schedule.id 
+        ORDER BY departure_time.ngaykhoihanh ASC";
+    
         $result = $conn->query($query);
-
+    
         $users = [];
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                $users[] = $row; // Lưu từng bản ghi vào mảng
+                // 2. Kiểm tra từng tour
+                $tourDate = new DateTime($row['ngaykhoihanh']);
+                $now = new DateTime();
+                $now->setTime(0, 0, 0); // cắt giờ phút giây
+                $diff = $now->diff($tourDate)->days;
+    
+                if ($diff == 1) { // Cách đúng 1 ngày
+                    if ($row['Orders'] < 10) {
+                        // Update trạng thái = 3 (Lịch trình bị hủy)
+                        $update = "UPDATE tour_schedule SET Trangthai = 3 WHERE id = " . intval($row['idsh']);
+                        $conn->query($update);
+                        $row['Trangthai'] = 3; // cập nhật luôn trên dữ liệu trả về
+                    } else {
+                        // Update trạng thái = 2 (Sắp khởi hành)
+                        $update = "UPDATE tour_schedule SET Trangthai = 2 WHERE id = " . intval($row['idsh']);
+                        $conn->query($update);
+                        $row['Trangthai'] = 2;
+                    }
+                }
+                $users[] = $row; // Lưu vào mảng kết quả
             }
-
-
         }
-
-        echo json_encode($users); // Trả về JSON
+    
+        echo json_encode($users);
         exit;
-    } elseif ($action == "xemlichtrinh1") {
+    }
+     elseif ($action == "xemlichtrinh1") {
         $id = $_GET['id'];
         $query = "SELECT tour_schedule.*,assignment_tour.*,employees.Name AS emna,employees.id AS idem FROM tour_schedule LEFT JOIN assignment_tour ON tour_schedule.id=assignment_tour.id_toursche 
         LEFT JOIN employees ON assignment_tour.employid=employees.id where tour_schedule.id='$id'";
@@ -2635,21 +2647,70 @@ ORDER BY departure_time.ngaykhoihanh ASC
 
 
 
-    } elseif ($action == "xemdichvuhdv") {
-
-        $query = "SELECT * FROM booking_ordertour INNER JOIN booking_detail_tour ON booking_ordertour.Booking_id=booking_detail_tour.Booking_id WHERE booking_ordertour.Booking_status = '2'";
+    }elseif ($action == "xemdichvuhdv") {
+        $user_id = $_SESSION['id'];
+        $current_date = date('Y-m-d'); // Lấy ngày hiện tại theo định dạng 'YYYY-MM-DD'
+    
+        $query = "
+            SELECT 
+                ts.Date,
+                ts.Schedule,
+                ts.Locations,
+                ts.Trangthai,
+                ts.Name AS tourname,
+                ts.id AS idtourshe,
+                ts.id_tour,
+                e.Name AS EmployeeName,
+                t.Itinerary
+            FROM 
+                tour_schedule ts
+            LEFT JOIN 
+                assignment_tour at ON ts.id = at.id_toursche
+            LEFT JOIN 
+                employees e ON at.employid = e.id
+            LEFT JOIN 
+                tour t ON ts.id_tour = t.id
+            WHERE e.id = '$user_id'
+            ORDER BY 
+                ts.Date, ts.Schedule;
+        ";
+    
         $result = $conn->query($query);
-
+    
         $users = [];
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                $users[] = $row; // Lưu từng bản ghi vào mảng
+                // Lấy số ngày từ Schedule, ví dụ: "4 ngày 3 đêm" => lấy số 4
+                preg_match('/(\d+)\s+ngày/', $row['Schedule'], $matches);
+                $days_in_tour = isset($matches[1]) ? (int)$matches[1] : 0; // Lấy số ngày (4 ngày)
+    
+                // Lấy ngày bắt đầu của tour, loại bỏ phần giờ, phút, giây (chỉ lấy ngày)
+                $start_date = date('Y-m-d', strtotime($row['Date']));
+    
+                // Tính ngày kết thúc của tour bằng cách cộng số ngày vào ngày bắt đầu
+                $end_date = date('Y-m-d', strtotime($start_date . ' + ' . $days_in_tour . ' days'));
+    
+                // So sánh nếu ngày hiện tại vượt qua ngày kết thúc, thì cập nhật trạng thái
+                if ($current_date > $end_date) {
+                    // Cập nhật trạng thái tour thành 4 (đã kết thúc) trong cơ sở dữ liệu
+                    $update_query = "
+                        UPDATE tour_schedule
+                        SET Trangthai = 4
+                        WHERE id = " . $row['idtourshe'] . "
+                    ";
+                    $conn->query($update_query); // Thực thi câu lệnh UPDATE
+                    $row['Trangthai'] = 4; // Cập nhật trạng thái trong kết quả trả về
+                }
+    
+                $users[] = $row; // Lưu thông tin vào mảng
             }
         }
-
-        echo json_encode($users); // Trả về JSON
+    
+        echo json_encode($users); // Trả về kết quả dưới dạng JSON
         exit;
-    } elseif ($action == "lich") {
+    }
+    
+     elseif ($action == "lich") {
         $start_date = $_GET['start_date'] ?? date('Y-m-d');
         $start_date1 = date('Y-m-d', strtotime('monday this week', strtotime($start_date)));
         $end_date = date('Y-m-d', strtotime($start_date1 . ' + 6 days')); // Kết thúc tuần là Chủ nhật
@@ -2660,14 +2721,18 @@ ORDER BY departure_time.ngaykhoihanh ASC
                 ts.Date,
                 ts.Schedule,
                 ts.Locations,
+                ts.Trangthai,
                 ts.Name AS tourname,
-                e.Name AS EmployeeName
+                e.Name AS EmployeeName,
+                t.Itinerary
             FROM 
                 tour_schedule ts
             LEFT JOIN 
                 assignment_tour at ON ts.id = at.id_toursche
             LEFT JOIN 
                 employees e ON at.employid = e.id
+            LEFT JOIN 
+                tour t ON ts.id_tour = t.id
             WHERE 
                 ts.Date BETWEEN ? AND ? AND e.id = ?
             ORDER BY 
@@ -3461,7 +3526,8 @@ elseif ($action == "xong") {
         $year = isset($_GET['year']) ? intval($_GET['year']) : date('Y');
         $month = isset($_GET['month']) ? intval($_GET['month']) : null;
         $vung = isset($_GET['vung']) ? $_GET['vung'] : null; // Sửa lỗi gán biến
-        $day = isset($_GET['day']) ? intval($_GET['day']) : null;
+        $from_date = isset($_GET['from_date']) ? $_GET['from_date'] : null;
+        $to_date = isset($_GET['to_date']) ? $_GET['to_date'] : null;
         $refund = isset($_GET['huy']) ? $_GET['huy'] : null; // Sửa lỗi gán biến
         $thanh = isset($_GET['thanh']) ? $_GET['thanh'] : null; // Sửa lỗi gán biến
         // Truy vấn SQL
@@ -3493,8 +3559,8 @@ elseif ($action == "xong") {
         if (!empty($month)) {
             $query .= " AND MONTH(booking_ordertour.created_at) = " . intval($month);
         }
-        if (!empty($day)) {
-            $query .= " AND DAY(booking_ordertour.created_at) = " . intval($day);
+        if (!empty($from_date) && !empty($to_date)) {
+            $query .= " AND DATE(booking_ordertour.created_at) BETWEEN '$from_date' AND '$to_date'";
         }
     
         // Thêm điều kiện vùng miền nếu có
@@ -3524,6 +3590,68 @@ elseif ($action == "xong") {
         } else {
             echo json_encode(['error' => 'Lỗi truy vấn SQL: ' . $conn->error]);
         }
+    }
+    elseif ($action == "xemdichvuhdv") {
+        $user_id = $_SESSION['id'];
+        $current_date = date('Y-m-d'); // Lấy ngày hiện tại theo định dạng 'YYYY-MM-DD'
+    
+        $query = "
+            SELECT 
+                ts.Date,
+                ts.Schedule,
+                ts.Locations,
+                ts.Trangthai,
+                ts.Name AS tourname,
+                ts.id AS idtourshe,
+                ts.id_tour,
+                e.Name AS EmployeeName,
+                t.Itinerary
+            FROM 
+                tour_schedule ts
+            LEFT JOIN 
+                assignment_tour at ON ts.id = at.id_toursche
+            LEFT JOIN 
+                employees e ON at.employid = e.id
+            LEFT JOIN 
+                tour t ON ts.id_tour = t.id
+            WHERE e.id = '$user_id' AND ts.Trangthai = 4
+            ORDER BY 
+                ts.Date, ts.Schedule;
+        ";
+    
+        $result = $conn->query($query);
+    
+        $users = [];
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                // Lấy số ngày từ Schedule, ví dụ: "4 ngày 3 đêm" => lấy số 4
+                preg_match('/(\d+)\s+ngày/', $row['Schedule'], $matches);
+                $days_in_tour = isset($matches[1]) ? (int)$matches[1] : 0; // Lấy số ngày (4 ngày)
+    
+                // Lấy ngày bắt đầu của tour, loại bỏ phần giờ, phút, giây (chỉ lấy ngày)
+                $start_date = date('Y-m-d', strtotime($row['Date']));
+    
+                // Tính ngày kết thúc của tour bằng cách cộng số ngày vào ngày bắt đầu
+                $end_date = date('Y-m-d', strtotime($start_date . ' + ' . $days_in_tour . ' days'));
+    
+                // So sánh nếu ngày hiện tại vượt qua ngày kết thúc, thì cập nhật trạng thái
+                if ($current_date > $end_date) {
+                    // Cập nhật trạng thái tour thành 4 (đã kết thúc) trong cơ sở dữ liệu
+                    $update_query = "
+                        UPDATE tour_schedule
+                        SET Trangthai = 4
+                        WHERE id = " . $row['idtourshe'] . "
+                    ";
+                    $conn->query($update_query); // Thực thi câu lệnh UPDATE
+                    $row['Trangthai'] = 4; // Cập nhật trạng thái trong kết quả trả về
+                }
+    
+                $users[] = $row; // Lưu thông tin vào mảng
+            }
+        }
+    
+        echo json_encode($users); // Trả về kết quả dưới dạng JSON
+        exit;
     }
        
 

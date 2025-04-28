@@ -368,6 +368,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo 'missing_data';
             exit;
         }
+        if(empty($_POST['adults'])){
+            echo 'missing_data2';
+            exit;
+        }
         if (empty($datetime)) {
             echo 'missing_data1';
             exit;

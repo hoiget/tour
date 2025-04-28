@@ -179,6 +179,32 @@
     content: attr(data-header); /* lấy label từ thuộc tính data-header */
   }
 }
+/* Kiểu cho nút .but */
+.but {
+    background-color: #4CAF50; /* Màu nền xanh lá */
+    color: white; /* Màu chữ trắng */
+    padding: 10px 14px; /* Khoảng cách xung quanh chữ */
+    border: none; /* Không viền */
+    border-radius: 8px; /* Bo tròn góc */
+    cursor: pointer; /* Hiển thị con trỏ chuột khi di chuột lên nút */
+    font-size: 16px; /* Kích thước chữ */
+    text-align: center; /* Canh giữa chữ */
+    transition: background-color 0.3s ease; /* Hiệu ứng chuyển màu nền khi hover */
+}
+
+/* Hiệu ứng khi hover */
+.but:hover {
+    background-color: #45a049; /* Màu nền tối hơn khi hover */
+}
+
+/* Responsive: Cải thiện hiển thị trên màn hình nhỏ */
+@media (max-width: 600px) {
+    .but {
+        width: 100%; /* Nút chiếm toàn bộ chiều rộng trên màn hình nhỏ */
+        padding: 12px; /* Điều chỉnh khoảng cách khi màn hình nhỏ */
+    }
+}
+
     </style>
 
 <h1>Quản lý dịch vụ tour</h1>
@@ -196,15 +222,12 @@
                 <tr>
                     <th>ID</th>
                     <th>Tên tour</th>
-                    <th>Gía tour</th>
-                    <th>Tổng thanh toán</th>
-                    <th>Người đặt</th>
-                    <th>Số điện thoại</th>
-                    <th>Địa chỉ</th>
-                    <th>Phương tiện</th>
-                    <th>Ngày đặt</th>
-                    <th>Số lượng người tham gia</th>
-                    <th>Trạng Thái</th>
+                    <th>Thời gian khởi hành</th>
+                    <th>Thời gian</th>
+                    <th>Địa điểm</th>
+                    <th>Lịch trình</th>
+                    <th>Trạng thái</th>
+                   <th>Thao tác</th>
                     
                 </tr>
             </thead>
@@ -252,20 +275,26 @@ document.addEventListener('DOMContentLoaded', applyResponsiveTableHeaders);
                     eventHtml += `
                      
                       <tr>
-                    <td>${event.Booking_id}</td>
-                    <td>${event.Tour_name}</td>
-                    <td>${event.Price}</td>
-                    <td>${event.Total_pay}</td>
-                    <td>${event.User_name}</td>
-                    <td>${event.Phone_num}</td>
-                    <td>${event.Address}</td>
-                    <td>${event.Arrival}</td>
-                    <td>${event.Datetime}</td>
-                    <td>${event.participants}</td>     
+                    <td>${event.idtourshe}</td>
+                    <td>${event.tourname}</td>
+                    <td>${event.Date}</td>
+                    <td>${event.Schedule}</td>
+                    <td>${event.Locations}</td>
+                    <td>${event.Itinerary}</td>
+                    
+                  
                     `;
                
-                    if(event.Booking_status == '2'){
-                     eventHtml += '<td><span style="color:green">Đã xác nhận</span></td>' 
+                    if(event.Trangthai == 1){
+                     eventHtml += '<td><span style="color:green">Hoạt động</span></td><td>Lịch trình chưa thể viết báo cáo</td>' 
+                    }else if(event.Trangthai == 2){
+                        eventHtml += '<td><span style="color:purple">Sắp khởi hành</span></td><td>Lịch trình chưa thể viết báo cáo</td>' 
+                    }else if(event.Trangthai == 3){
+                        eventHtml += '<td><span style="color:red">Lịch trình bị hủy</span></td><td>Lịch trình chưa thể viết báo cáo</td>'
+                    }else if(event.Trangthai == 4){
+                        eventHtml += '<td><span style="color:violet">Lịch trình đã hoàn thành</span></td>'
+                        eventHtml += '<td><a href="indexa.php?baocao&idtour='+ event.id_tour +'"><button class="but">Viết báo cáo </button></a></td>'
+                        
                     }
                 
                     
