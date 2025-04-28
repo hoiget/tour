@@ -3591,7 +3591,7 @@ elseif ($action == "xong") {
             echo json_encode(['error' => 'Lỗi truy vấn SQL: ' . $conn->error]);
         }
     }
-    elseif ($action == "xemdichvuhdv") {
+    elseif ($action == "xemdichvuhdv1") {
         $user_id = $_SESSION['id'];
         $current_date = date('Y-m-d'); // Lấy ngày hiện tại theo định dạng 'YYYY-MM-DD'
     
