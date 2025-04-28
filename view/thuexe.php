@@ -100,7 +100,7 @@ ul li a:hover {
         </div>
 
         <label>Ngày & Giờ đón:</label>
-        <input type="datetime-local" class="form-control" name="pickup_time" required>
+        <input type="datetime-local" class="form-control" id="date-input" name="pickup_time" required>
 
         <label>Địa điểm đón:</label>
         <input type="text" class="form-control" name="pickup_location" required>
@@ -144,7 +144,7 @@ ul li a:hover {
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
-  
+
   $(document).ready(function () {
    
     const pricePerKm = {
@@ -235,15 +235,18 @@ ul li a:hover {
     });
 
     // Kiểm tra ngày & giờ đón ngay khi chọn
-    $("input[name='pickup_time']").on("change", function () {
-        let pickupTime = new Date($(this).val());
-        let currentTime = new Date();
-        if (pickupTime <= currentTime) {
-            showError($(this), "Ngày & giờ đón phải sau thời điểm hiện tại.");
-        } else {
-            hideError($(this));
-        }
-    });
+ 
+ $("input[name='pickup_time']").on("change", function () {
+    let pickupTime = new Date($(this).val());
+    let currentTime = new Date();
+    currentTime.setDate(currentTime.getDate() + 2); // Cộng thêm 1 ngày
+
+    if (pickupTime <= currentTime) {
+        showError($(this), "Ngày & giờ đón phải sau ít nhất 2 ngày so với hiện tại.");
+    } else {
+        hideError($(this));
+    }
+});
 
     // Xử lý gửi form
     $("#rent-car-form").submit(function (e) {

@@ -12,6 +12,12 @@
         width: 80%;
         margin: auto;
     }
+    .error-msg {
+    color: red;
+    font-size: 12px;
+    margin-top: 4px;
+    display: block;
+}
 </style>
 
     <div class="container9 mt-5">
@@ -93,7 +99,37 @@
         </form>
         <br><br>
     </div>
+    <script>
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('departure_date').setAttribute('min', today);
 
+     
+ $("input[name='departure_date']").on("change", function () {
+    let pickupTime = new Date($(this).val());
+    let currentTime = new Date();
+    currentTime.setDate(currentTime.getDate() + 6); // Cộng thêm 1 ngày
+
+    if (pickupTime <= currentTime) {
+        showError($(this), "Ngày & giờ đón phải sau ít nhất 1 tuần so với hiện tại.");
+    } else {
+        hideError($(this));
+    }
+});
+
+function showError(element, message) {
+        let errorLabel = element.next(".error-msg");
+        if (errorLabel.length === 0) {
+            element.after(`<span class="error-msg" style="color:red; font-size:12px;">${message}</span>`);
+        } else {
+            errorLabel.text(message);
+        }
+    }
+
+    // Hàm ẩn lỗi
+    function hideError(element) {
+        element.next(".error-msg").remove();
+    }
+</script>
     <script>
 
 $(document).ready(function () {
@@ -156,44 +192,53 @@ $(document).ready(function () {
 
     // Hàm gửi form
     function guitouryeucau() {
-        let days = $("#days").val();
-        let nights = $("#nights").val();
-        let duration = days + " ngày " + nights + " đêm";
-        $("#tour_duration").val(duration);
+    let days = $("#days").val();
+    let nights = $("#nights").val();
+    let duration = days + " ngày " + nights + " đêm";
+    $("#tour_duration").val(duration);
 
-        // Gom dữ liệu lịch trình thành chuỗi JSON
-        let itineraryData = {};
-        for (let i = 1; i <= days; i++) {
-            itineraryData[`Ngày ${i}`] = $(`#itinerary_day_${i}`).val();
-        }
-        $("#itinerary").val(JSON.stringify(itineraryData)); // Lưu dưới dạng JSON
-
-        // Gửi form bằng AJAX
-        $.ajax({
-            url: './api/api.php',
-            type: 'POST',
-            data: $('#guitouryeucau').serialize(),
-            success: function (response) {
-                console.log(response);
-                if (response.trim() === 'Phản hồi của bạn đã được gửi thành công!') {
-                    openPopup('Thông báo', 'Phản hồi của bạn đã được gửi thành công!');
-                    setTimeout(function () {
-                        window.location.href = 'index.php?custom_tour';
-                    }, 2000);
-                }else if(response.trim() === 'empty'){
-                    openPopup('Thông báo', 'Thiếu dữ liệu!');
-                } 
-                else {
-                    openPopup('Lỗi', );
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error("Lỗi AJAX:", status, error);
-                openPopup("Lỗi", "Không thể gửi yêu cầu. Vui lòng thử lại!");
-            }
-        });
+    // Gom dữ liệu lịch trình thành chuỗi JSON
+    let itineraryData = {};
+    for (let i = 1; i <= days; i++) {
+        itineraryData[`Ngày ${i}`] = $(`#itinerary_day_${i}`).val();
     }
-   
+    $("#itinerary").val(JSON.stringify(itineraryData));
+
+    // === Kiểm tra ngày khởi hành có hợp lệ không ===
+    let departureDate = new Date($('#departure_date').val());
+    let today = new Date();
+    today.setDate(today.getDate() + 6); // Cộng thêm 6 ngày để đủ 1 tuần
+
+    if (departureDate <= today) {
+        
+        return; // Không gửi form nếu sai
+    }
+
+    // Gửi form bằng AJAX
+    $.ajax({
+        url: './api/api.php',
+        type: 'POST',
+        data: $('#guitouryeucau').serialize(),
+        success: function (response) {
+            console.log(response);
+            if (response.trim() === 'Phản hồi của bạn đã được gửi thành công!') {
+                openPopup('Thông báo', 'Phản hồi của bạn đã được gửi thành công!');
+                setTimeout(function () {
+                    window.location.href = 'index.php?custom_tour';
+                }, 2000);
+            } else if (response.trim() === 'empty') {
+                openPopup('Thông báo', 'Thiếu dữ liệu!');
+            } else {
+                openPopup('Lỗi', 'Có lỗi xảy ra.');
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("Lỗi AJAX:", status, error);
+            openPopup("Lỗi", "Không thể gửi yêu cầu. Vui lòng thử lại!");
+        }
+    });
+}
+
     // Gửi form khi nhấn nút
     $('#button').on('click', function (e) {
         e.preventDefault();
