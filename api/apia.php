@@ -1453,7 +1453,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
      elseif ($action == "get_thongke") {
         $query = "SELECT 
             COUNT(t.id) AS total_tours, 
-            SUM(CASE WHEN t.Status = 'Active' THEN 1 ELSE 0 END) AS total_active,
+            SUM(CASE WHEN t.Status = 'Hoạt động' THEN 1 ELSE 0 END) AS total_active,
             SUM(CASE WHEN t.Status = 'Inactive' THEN 1 ELSE 0 END) AS total_inactive,
             COUNT(r.Sr_no) AS total_reviews
         FROM

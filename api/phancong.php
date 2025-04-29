@@ -465,7 +465,30 @@ if ($action == "get_mysalary") {
         echo json_encode(null);
     }
 }
+if ($_GET['action'] == 'xemkss') {
+    $data = json_decode(file_get_contents('php://input'), true);
+    $diaDiems = $data['diadiem'] ?? [];
 
+    if (!empty($diaDiems)) {
+        $placeList = array_map(function ($place) use ($conn) {
+            return "'" . mysqli_real_escape_string($conn, $place) . "'";
+        }, $diaDiems);
+
+        $placeIn = implode(',', $placeList);
+        $sql = "SELECT * FROM rooms WHERE Diadiem IN ($placeIn)";
+        $result = mysqli_query($conn, $sql);
+        $output = [];
+
+        while ($row = mysqli_fetch_assoc($result)) {
+            $output[] = $row;
+        }
+
+        echo json_encode($output);
+    } else {
+        echo json_encode([]);
+    }
+    exit;
+}
 ?>
 
 

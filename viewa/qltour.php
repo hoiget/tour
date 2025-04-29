@@ -873,23 +873,11 @@ $(document).ready(function() {
 <script>
     $(document).ready(function () {
     // Lắng nghe khi nhập tên tour
-    $('#ten').on('input', function () {
-        let tourName = $(this).val().trim(); // Lấy giá trị nhập vào
-        if (tourName.length > 2) { // Chỉ tìm kiếm nếu nhập ít nhất 3 ký tự
-            let diaDiem = layDiaDiem(tourName); // Hàm trích xuất địa điểm từ tên tour
-            if (diaDiem) {
-                xemks(diaDiem); // Gọi API tìm khách sạn theo địa điểm
-            }
-        }
-    });
+
 });
 
 // Hàm trích xuất địa điểm từ tên tour (ví dụ: "Tour Đà Nẵng 3N2Đ" -> "Đà Nẵng")
-function layDiaDiem(tourName) {
-    let regex = /\b([\p{L}]+(?:\s[\p{L}]+)?)\b/ui; // Lấy đúng 2 từ đầu tiên
-    let match = tourName.match(regex);
-    return match ? match[1].trim() : null;
-}
+
 
 // Hàm lấy danh sách khách sạn theo địa điểm
 function xemks(diaDiem = '') {

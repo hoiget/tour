@@ -803,11 +803,11 @@ function applyFilter() {
                 <p>${event.total_rooms}</p>
             </div>
             <div class="card red">
-                <h3>Tour hoạt động</h3>
+                <h3>Phòng hoạt động</h3>
                 <p>${event.total_active}</p>
             </div>
             <div class="card blue">
-                <h3>Tour tạm ngừng</h3>
+                <h3>Phòng tạm ngừng</h3>
                 <p>${event.total_inactive}</p>
             </div>
             <div class="card orange">

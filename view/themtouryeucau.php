@@ -249,53 +249,57 @@ $(document).ready(function () {
 });
 </script>
 <script>
-    $(document).ready(function () {
-    // Lắng nghe khi nhập tên tour
+ $(document).ready(function () {
     $('#tour_name').on('input', function () {
-        let tourName = $(this).val().trim(); // Lấy giá trị nhập vào
-        if (tourName.length > 2) { // Chỉ tìm kiếm nếu nhập ít nhất 3 ký tự
-            let diaDiem = layDiaDiem(tourName); // Hàm trích xuất địa điểm từ tên tour
-            if (diaDiem) {
-                xemks(diaDiem); // Gọi API tìm khách sạn theo địa điểm
+        let tourName = $(this).val().trim();
+        if (tourName.length > 2) {
+            let diaDiems = layDiaDiems(tourName);
+            if (Array.isArray(diaDiems) && diaDiems.length > 0) {
+                xemks(diaDiems); // Gọi một lần cho nhiều địa điểm
             }
         }
     });
-});
 
-// Hàm trích xuất địa điểm từ tên tour (ví dụ: "Tour Đà Nẵng 3N2Đ" -> "Đà Nẵng")
-function layDiaDiem(tourName) {
-    let regex = /\b([\p{L}]+(?:\s[\p{L}]+)?)\b/ui; // Lấy đúng 2 từ đầu tiên
-    let match = tourName.match(regex);
-    return match ? match[1].trim() : null;
-}
-
-// Hàm lấy danh sách khách sạn theo địa điểm
-function xemks(diaDiem = '') {
-    $.ajax({
-    url: `./api/api.php?action=xemkss&diadiem=${encodeURIComponent(diaDiem)}`,
-    type: 'GET',
-    dataType: 'json',
-    success: function (response) {
-        if (Array.isArray(response) && response.length > 0) {
-            let eventHtml = '<select class="form-control" id="khachsan" name="khachsan" required>';
-            eventHtml += '<option value="">Chọn khách sạn</option>'; // Tuỳ chọn mặc định
-
-            response.forEach(function (event) {
-                eventHtml += `<option value="${event.id}">${event.Name} - ${event.Diadiem}</option>`;
-            });
-
-            eventHtml += '</select>';
-            $('#ks').html(eventHtml);
-        } else {
-            $('#ks').html('<div class="col">Không tìm thấy khách sạn phù hợp.</div>');
-        }
-    },
-    error: function (xhr, status, error) {
-        console.error('Lỗi khi tải thông tin khách sạn:', xhr.responseText);
-        $('#ks').html(`<div class="col text-danger">Lỗi: ${xhr.status} - ${xhr.statusText}<br>${xhr.responseText}</div>`);
+    function layDiaDiems(tourName) {
+        tourName = tourName.replace(/^tour\s+/i, '');
+        tourName = tourName.replace(/\d+\s?(ngày|đêm|n|d)/gi, '');
+        tourName = tourName.replace(/\d+n\d+đ/gi, '');
+        tourName = tourName.replace(/[^\p{L}\s\-,\/→]/gu, '').trim();
+        let parts = tourName.split(/[-\/,→]+/);
+        return parts.map(p => p.trim()).filter(p => p.length > 0);
     }
 });
 
+
+
+
+// Hàm lấy danh sách khách sạn theo địa điểm
+function xemks(diaDiemArr = []) {
+    $.ajax({
+        url: './api/phancong.php?action=xemkss',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ diadiem: diaDiemArr }),
+        dataType: 'json',
+        success: function (response) {
+            if (Array.isArray(response) && response.length > 0) {
+                let eventHtml = '<select class="form-control" id="khachsan" name="khachsan" required>';
+                eventHtml += '<option value="">Chọn khách sạn</option>';
+                response.forEach(function (event) {
+                    eventHtml += `<option value="${event.id}">${event.Name} - ${event.Diadiem}</option>`;
+                });
+                eventHtml += '</select>';
+                $('#ks').html(eventHtml);
+            } else {
+                $('#ks').html('<div class="col">Không tìm thấy khách sạn phù hợp.</div>');
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error('Lỗi khi tải thông tin khách sạn:', xhr.responseText);
+            $('#ks').html(`<div class="col text-danger">Lỗi: ${xhr.status} - ${xhr.statusText}<br>${xhr.responseText}</div>`);
+        }
+    });
 }
+
 
 </script>
