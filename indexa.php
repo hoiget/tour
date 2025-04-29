@@ -283,6 +283,12 @@ if (isset($_SESSION['login_time']) && ($currentTime - $_SESSION['login_time'] > 
           <span>Tính lương</span>
         </a>
           </li>
+          <li class="nav-item">
+        <a class="nav-link" href="indexa.php?duyedon">
+        <i class="bi bi-journal-text" title="Xem đơn nghỉ"></i>
+          <span>Duyệt đơn nghỉ</span>
+        </a>
+          </li>
       <?php
 }
 elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
@@ -291,6 +297,18 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
         <a class="nav-link " href="indexa.php">
         <i class="bi bi-house"></i>
           <span>Trang chủ</span>
+        </a>
+</li>
+<li class="nav-item">
+        <a class="nav-link " href="indexa.php?donnghi">
+        <i class="bi bi-pencil" title="Viết đơn nghỉ"></i>
+          <span>Đơn xin nghỉ</span>
+        </a>
+</li>
+<li class="nav-item">
+        <a class="nav-link " href="indexa.php?xemdonnghi">
+        <i class="bi bi-journal-text" title="Xem đơn nghỉ"></i>
+          <span>Xem đơn xin nghỉ</span>
         </a>
 </li>
 <?php if($role == 'CSKH'){?>
@@ -505,6 +523,10 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
     $show = false;
     include_once("viewa/tinhluong.php");
   }
+  if(isset($_REQUEST['duyedon'])){
+    $show = false;
+    include_once("viewa/duyetdonnghi.php");
+  }
   if($show){
     include_once("viewa/thongke.php");
 }
@@ -559,6 +581,14 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
       $show = false;
       include_once("viewa/xemluong.php");
     }
+    if(isset($_REQUEST['donnghi'])){
+      $show = false;
+      include_once("viewa/xinnghi.php");
+    }
+    if(isset($_REQUEST['xemdonnghi'])){
+      $show = false;
+      include_once("viewa/xemdonnghi.php");
+    }
     if($show){
       include_once("viewa/thongke.php");
   }
@@ -595,6 +625,14 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
       include_once("viewa/xemdattour.php");
       
     }
+    if(isset($_REQUEST['donnghi'])){
+      $show = false;
+      include_once("viewa/xinnghi.php");
+    }
+    if(isset($_REQUEST['xemdonnghi'])){
+      $show = false;
+      include_once("viewa/xemdonnghi.php");
+    }
     if(isset($_REQUEST['xemluong'])){
       $show = false;
       include_once("viewa/xemluong.php");
@@ -620,9 +658,17 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
       $show = false;
       include_once("viewa/xembaocaonv.php");
     } 
+    if(isset($_REQUEST['donnghi'])){
+      $show = false;
+      include_once("viewa/xinnghi.php");
+    }
     if(isset($_REQUEST['xemluong'])){
       $show = false;
       include_once("viewa/xemluong.php");
+    }
+    if(isset($_REQUEST['xemdonnghi'])){
+      $show = false;
+      include_once("viewa/xemdonnghi.php");
     }
     if($show){
       include_once("viewa/lich.php");

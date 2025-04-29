@@ -1336,19 +1336,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sdt=$_POST['sdt'];
     $email=$_POST['em'];
     $loai=$_POST['loai'];
-    $bien=$_POST['bs'];
+  
     $status=$_POST['status'];
     $user_id = $_SESSION['id'];
-    if (empty($hoten) || empty($sdt) || empty($email) || empty($loai) || empty($bien)) {
+    if (empty($hoten) || empty($sdt) || empty($email) || empty($loai)) {
         echo  'Thiếu dữ liệu đầu vào';
         exit;
     }
    
 
 
-    $update_query = "UPDATE drivers SET name = ?, phone = ?,email = ?,	vehicle_type = ?,vehicle_plate = ?,status = ? WHERE driver_id = ?";
+    $update_query = "UPDATE drivers SET name = ?, phone = ?,email = ?,	vehicle_type = ?,status = ? WHERE driver_id = ?";
     $stmt = $conn->prepare($update_query);
-    $stmt->bind_param("ssssssi", $hoten, $sdt,$email,$loai,$bien,$status, $ma);
+    $stmt->bind_param("sssssi", $hoten, $sdt,$email,$loai,$status, $ma);
 
 
     if ($stmt->execute()) {
@@ -1366,19 +1366,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sdt=$_POST['sdt'];
     $email=$_POST['em'];
     $loai=$_POST['loai'];
-    $bien=$_POST['bs'];
+   
     $status=$_POST['status'];
     $user_id = $_SESSION['id'];
-    if (empty($hoten) || empty($sdt) || empty($email) || empty($loai) || empty($bien)) {
+    if (empty($hoten) || empty($sdt) || empty($email) || empty($loai)) {
         echo  'Thiếu dữ liệu đầu vào';
         exit;
     }
 
     
 
-    $insert_query = "INSERT INTO drivers (name,phone,email,vehicle_type,vehicle_plate,status) VALUES (?,?,?,?,?,?)";
+    $insert_query = "INSERT INTO drivers (name,phone,email,vehicle_type,status) VALUES (?,?,?,?,?)";
     $stmt = $conn->prepare($insert_query);
-    $stmt->bind_param("ssssss",$hoten, $sdt,$email,$loai,$bien,$status);
+    $stmt->bind_param("sssss",$hoten, $sdt,$email,$loai,$status);
 
 
     if ($stmt->execute()) {

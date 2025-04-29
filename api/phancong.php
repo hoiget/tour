@@ -30,7 +30,8 @@ if ($action === 'addShift') {
 
     $conn->query("INSERT INTO schedule (employee_id, shift_type, shift_date, status) 
                   VALUES ($employee_id, '$shift_type', '$shift_date', '$status')");
-    echo json_encode(['status' => 'success']);
+    echo json_encode(['status' => 'success', 'message' => 'Đã gửi đơn nghỉ.']);
+    exit;
 }
 if ($action === 'updateShift') {
     $shift_id = $_POST['shift_id'];
@@ -289,34 +290,67 @@ if ($action === 'submitReport') {
     $file_name = NULL; // Mặc định không có file
 
     // Xử lý file nếu có upload
-    if (!empty($_FILES['report_file']['name'])) {
-        $file_name = time() . "_" . basename($_FILES['report_file']['name']);
-        $target_dir = "../uploads/reports/";
-        $target_file = $target_dir . $file_name;
-
-        $file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-        $allowed_types = array("pdf", "doc", "docx");
-
-        if (!in_array($file_type, $allowed_types)) {
-            die("❌ Chỉ chấp nhận file PDF hoặc Word!");
-        }
-
-        if (!move_uploaded_file($_FILES["report_file"]["tmp_name"], $target_file)) {
-            die("❌ Lỗi khi tải file lên server!");
-        }
-    }
-
-    // Chèn vào database
-    $stmt = $conn->prepare("INSERT INTO reports (guide_id, report_type,tour, report_content, report_file,approved_by) VALUES (?, ?,?, ?, ?,?)");
-    $stmt->bind_param("isissi", $guide_id, $report_type,$tour, $report_content, $file_name,$admin_id);
+    if(empty($tour)){
+        $tour1= null;
+        if (!empty($_FILES['report_file']['name'])) {
+            $file_name = time() . "_" . basename($_FILES['report_file']['name']);
+            $target_dir = "../uploads/reports/";
+            $target_file = $target_dir . $file_name;
     
-    if ($stmt->execute()) {
-        echo "✅ Báo cáo đã được gửi thành công!";
-    } else {
-        echo "❌ Lỗi khi gửi báo cáo!";
+            $file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+            $allowed_types = array("pdf", "doc", "docx");
+    
+            if (!in_array($file_type, $allowed_types)) {
+                die("❌ Chỉ chấp nhận file PDF hoặc Word!");
+            }
+    
+            if (!move_uploaded_file($_FILES["report_file"]["tmp_name"], $target_file)) {
+                die("❌ Lỗi khi tải file lên server!");
+            }
+        }
+    
+        // Chèn vào database
+        $stmt = $conn->prepare("INSERT INTO reports (guide_id, report_type,tour, report_content, report_file,approved_by) VALUES (?, ?,?, ?, ?,?)");
+        $stmt->bind_param("isissi", $guide_id, $report_type,$tour1, $report_content, $file_name,$admin_id);
+        
+        if ($stmt->execute()) {
+            echo "✅ Báo cáo đã được gửi thành công!";
+        } else {
+            echo "❌ Lỗi khi gửi báo cáo!";
+        }
+    
+        $stmt->close();
+    }else{
+        if (!empty($_FILES['report_file']['name'])) {
+            $file_name = time() . "_" . basename($_FILES['report_file']['name']);
+            $target_dir = "../uploads/reports/";
+            $target_file = $target_dir . $file_name;
+    
+            $file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+            $allowed_types = array("pdf", "doc", "docx");
+    
+            if (!in_array($file_type, $allowed_types)) {
+                die("❌ Chỉ chấp nhận file PDF hoặc Word!");
+            }
+    
+            if (!move_uploaded_file($_FILES["report_file"]["tmp_name"], $target_file)) {
+                die("❌ Lỗi khi tải file lên server!");
+            }
+        }
+    
+        // Chèn vào database
+        $stmt = $conn->prepare("INSERT INTO reports (guide_id, report_type,tour, report_content, report_file,approved_by) VALUES (?, ?,?, ?, ?,?)");
+        $stmt->bind_param("isissi", $guide_id, $report_type,$tour, $report_content, $file_name,$admin_id);
+        
+        if ($stmt->execute()) {
+            echo "✅ Báo cáo đã được gửi thành công!";
+        } else {
+            echo "❌ Lỗi khi gửi báo cáo!";
+        }
+    
+        $stmt->close();
     }
-
-    $stmt->close();
+   
 }
 
 if ($_GET['action'] === 'getToursByIds' && isset($_GET['ids'])) {
@@ -489,7 +523,140 @@ if ($_GET['action'] == 'xemkss') {
     }
     exit;
 }
+
+
+if ($action == 'request') {
+    $employee_id = $_POST['employee_id'];
+    $reason = $_POST['reason'];
+    $from_date = $_POST['from_date'];
+    $to_date = $_POST['to_date'];
+    $place = $_POST['place'];
+    $phone = $_POST['phone'];
+    $position = $_POST['position'];
+    $workplace = $_POST['workplace'];
+    $department = $_POST['department'];
+    $request_date = date('Y-m-d');
+
+    $stmt = $conn->prepare("INSERT INTO leave_requests 
+        (employee_id, reason, from_date, to_date, place, phone, position, workplace, department, request_date)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("isssssssss", $employee_id, $reason, $from_date, $to_date, $place, $phone, $position, $workplace, $department, $request_date);
+    $stmt->execute();
+
+    echo json_encode(['status' => 'success', 'message' => 'Đã gửi đơn nghỉ.']);
+    exit;
+}
+elseif ($action == 'approve') {
+    $request_id = $_POST['request_id'];
+    $daily_penalty = 100000;
+
+    $conn->begin_transaction();
+
+    try {
+        // Lấy thông tin đơn nghỉ
+        $stmt = $conn->prepare("SELECT employee_id, from_date, to_date FROM leave_requests WHERE id = ?");
+        $stmt->bind_param("i", $request_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows === 0) throw new Exception("Đơn không tồn tại.");
+
+        $row = $result->fetch_assoc();
+        $employee_id = $row['employee_id'];
+        $from_date = new DateTime($row['from_date']);
+        $to_date = new DateTime($row['to_date']);
+
+        // Tính số ngày nghỉ (kể cả ngày đầu và cuối)
+        $interval = $from_date->diff($to_date)->days + 1;
+        $total_penalty = $interval * $daily_penalty;
+
+        // Trừ lương trong bảng salaries
+        $stmt = $conn->prepare("UPDATE salaries SET basic_salary = basic_salary - ?,total_salary=basic_salary + allowance WHERE employee_id = ? ");
+        $stmt->bind_param("ii", $total_penalty, $employee_id);
+        if (!$stmt->execute()) throw new Exception("Lỗi khi trừ lương.");
+
+        // Cập nhật trạng thái đơn
+        $stmt = $conn->prepare("UPDATE leave_requests SET status = 'approved' WHERE id = ?");
+        $stmt->bind_param("i", $request_id);
+        if (!$stmt->execute()) throw new Exception("Lỗi khi cập nhật trạng thái đơn.");
+
+        $conn->commit();
+        echo json_encode(['status' => 'success', 'message' => "Đã duyệt đơn. Trừ {$interval} ngày = " . number_format($total_penalty) . " VNĐ."]);
+    } catch (Exception $e) {
+        $conn->rollback();
+        echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+    }
+}
+
+
+elseif ($action == 'list') {
+    // Danh sách đơn chờ duyệt
+    $result = $conn->query("SELECT lr.*, e.name FROM leave_requests lr
+                            JOIN employees e ON lr.employee_id = e.id
+                            ");
+    $data = [];
+    while ($row = $result->fetch_assoc()) {
+        $data[] = $row;
+    }
+    echo json_encode($data);
+}
+elseif ($action == 'listxem') {
+    // Danh sách đơn chờ 
+    $employee_id = $_SESSION['id'];
+    $result = $conn->query("SELECT lr.*, e.name FROM leave_requests lr
+                            JOIN employees e ON lr.employee_id = e.id WHERE e.id = '$employee_id'
+                            ");
+    $data = [];
+    while ($row = $result->fetch_assoc()) {
+        $data[] = $row;
+    }
+    echo json_encode($data);
+}
+// Lấy danh sách đơn của nhân viên hiện tại
+
+if ($action == 'getnhan') {
+    $id = $_GET['id'];
+
+    $stmt = $conn->prepare("
+        SELECT 
+            lr.id AS request_id,
+            lr.reason, lr.from_date, lr.to_date, lr.place, lr.phone, lr.position,
+            lr.workplace, lr.department, lr.request_date, lr.status,
+            e.id AS employee_id, e.Name AS employee_name, e.Email
+        FROM leave_requests lr
+        JOIN employees e ON lr.employee_id = e.id
+        WHERE lr.id = ?
+    ");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+
+    $result = $stmt->get_result()->fetch_assoc();
+    echo json_encode($result);
+    exit;
+}
+if ($action == 'getnhan') {
+    $id = $_GET['id'];
+
+    $stmt = $conn->prepare("
+        SELECT 
+            lr.id AS request_id,
+            lr.reason, lr.from_date, lr.to_date, lr.place, lr.phone, lr.position,
+            lr.workplace, lr.department, lr.request_date, lr.status,
+            e.id AS employee_id, e.Name AS employee_name, e.Email
+        FROM leave_requests lr
+        JOIN employees e ON lr.employee_id = e.id
+        WHERE lr.id = ?
+    ");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+
+    $result = $stmt->get_result()->fetch_assoc();
+    echo json_encode($result);
+    exit;
+}
+
+
 ?>
+
 
 
 

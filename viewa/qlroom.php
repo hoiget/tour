@@ -350,7 +350,48 @@
 </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('ngaynhan').setAttribute('min', today);
+    document.getElementById('ngaytra').setAttribute('min', today);
 
+     
+ $("input[name='ngaynhan']").on("change", function () {
+    let pickupTime = new Date($(this).val());
+    let currentTime = new Date();
+    currentTime.setDate(currentTime.getDate() + 3); // Cộng thêm 1 ngày
+
+    if (pickupTime <= currentTime) {
+        showError($(this), "Ngày phải sau ít nhất 3 ngày so với hiện tại.");
+    } else {
+        hideError($(this));
+    }
+});
+$("input[name='ngaytra']").on("change", function () {
+    let pickupTime = new Date($(this).val());
+    let currentTime = new Date();
+    currentTime.setDate(currentTime.getDate() + 3); // Cộng thêm 1 ngày
+
+    if (pickupTime <= currentTime) {
+        showError($(this), "Ngày phải sau ít nhất 3 ngày so với hiện tại.");
+    } else {
+        hideError($(this));
+    }
+});
+function showError(element, message) {
+        let errorLabel = element.next(".error-msg");
+        if (errorLabel.length === 0) {
+            element.after(`<span class="error-msg" style="color:red; font-size:12px;">${message}</span>`);
+        } else {
+            errorLabel.text(message);
+        }
+    }
+
+    // Hàm ẩn lỗi
+    function hideError(element) {
+        element.next(".error-msg").remove();
+    }
+</script>
 <script>
     
     function applyResponsiveTableHeaders() {
@@ -640,7 +681,19 @@ function capnhatroom() {
 
         // Thu thập dữ liệu form
         var formData = new FormData(this);
+        let departureDate = new Date($('#ngaynhan').val());
+        let departureDate1 = new Date($('#ngaytra').val());
+    let today = new Date();
+    today.setDate(today.getDate() + 3); // Cộng thêm 6 ngày để đủ 1 tuần
 
+    if (departureDate <= today) {
+        openPopup('Thông báo', 'Ngày phải sau ít nhất 3 ngày so với hiện tại.');
+        return; // Không gửi form nếu sai
+    }
+    if (departureDate1 <= today) {
+        openPopup('Thông báo', 'Ngày phải sau ít nhất 3 ngày so với hiện tại.');
+        return; // Không gửi form nếu sai
+    }
         $.ajax({
             type: 'POST',
             url: './api/apia.php',
@@ -680,7 +733,19 @@ function themroom() {
 
         // Thu thập dữ liệu form
         var formData = new FormData(this);
+        let departureDate = new Date($('#ngaynhan').val());
+        let departureDate1 = new Date($('#ngaytra').val());
+    let today = new Date();
+    today.setDate(today.getDate() + 3); // Cộng thêm 6 ngày để đủ 1 tuần
 
+    if (departureDate <= today) {
+        openPopup('Thông báo', 'Ngày phải sau ít nhất 3 ngày so với hiện tại.');
+        return; // Không gửi form nếu sai
+    }
+    if (departureDate1 <= today) {
+        openPopup('Thông báo', 'Ngày phải sau ít nhất 3 ngày so với hiện tại.');
+        return; // Không gửi form nếu sai
+    }
         $.ajax({
             type: 'POST',
             url: './api/apia.php',

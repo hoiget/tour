@@ -3,8 +3,8 @@ include './api/connect.php';
 
 $stmt = $conn->query("SELECT r.*, e.Name as guide_name,t.Name AS tourname
                      FROM reports r 
-                     JOIN employees e ON r.guide_id = e.id
-                     JOIN tour t ON r.tour =t.id");
+                     LEFT JOIN employees e ON r.guide_id = e.id
+                     LEFT JOIN tour t ON r.tour =t.id");
 
 $reports = [];
 while ($row = $stmt->fetch_assoc()) {

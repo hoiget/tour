@@ -3,8 +3,8 @@ include './api/connect.php';
 $user_id=$_SESSION['id'] ;
 $stmt = $conn->query("SELECT r.*, e.Name as guide_name,t.Name AS tourname
                      FROM reports r 
-                     JOIN employees e ON r.guide_id = e.id
-                     JOIN tour t ON r.tour =t.id
+                     LEFT JOIN employees e ON r.guide_id = e.id
+                     LEFT JOIN tour t ON r.tour =t.id
                      WHERE r.guide_id='$user_id'");
 
 $reports = [];

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th4 29, 2025 lúc 10:51 AM
+-- Thời gian đã tạo: Th4 29, 2025 lúc 01:45 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -268,7 +268,34 @@ INSERT INTO `activity_logs` (`id`, `user_id`, `action_type`, `description`, `use
 (234, 1, 'Update', 'Cập nhật tour ID:67 Tour Mekong Delta', 'employees', '2025-04-29 13:53:22'),
 (235, 1, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-04-29 13:53:28'),
 (236, 1, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-04-29 15:41:29'),
-(237, 1, 'logout', 'Khách hàng đăng xuất khỏi hệ thống', 'user', '2025-04-29 15:42:29');
+(237, 1, 'logout', 'Khách hàng đăng xuất khỏi hệ thống', 'user', '2025-04-29 15:42:29'),
+(238, 3, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-04-29 15:53:42'),
+(239, 3, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-04-29 15:59:41'),
+(240, 1, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-04-29 16:00:09'),
+(241, 1, 'Insert', 'Thêm tour Tiêu đề: sss', 'employees', '2025-04-29 16:04:12'),
+(242, 1, 'Delete', 'Xóa tour ID: 72', 'employees', '2025-04-29 16:08:48'),
+(243, 1, 'Insert', 'Thêm tour Tiêu đề: sss', 'employees', '2025-04-29 16:15:57'),
+(244, 1, 'Delete', 'Xóa tour ID: 73', 'employees', '2025-04-29 16:16:06'),
+(245, 1, 'Insert', 'Thêm tour Tiêu đề: ss', 'employees', '2025-04-29 16:26:45'),
+(246, 1, 'Delete', 'Xóa tour ID: 74', 'employees', '2025-04-29 16:26:53'),
+(247, 1, 'Insert', 'Thêm phòng', 'employees', '2025-04-29 16:34:59'),
+(248, 1, 'Update', 'Cập nhật phòng', 'employees', '2025-04-29 16:35:12'),
+(249, 1, 'Update', 'Cập nhật phòng', 'employees', '2025-04-29 16:35:48'),
+(250, 1, 'Insert', 'Thêm tài xế Tên: sss', 'employees', '2025-04-29 16:40:43'),
+(251, 1, 'Update', 'Cập nhật tài xế ID:89 Tên: sss', 'employees', '2025-04-29 16:42:11'),
+(252, 1, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-04-29 16:43:22'),
+(253, 1, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-04-29 17:09:21'),
+(254, 1, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-04-29 17:15:21'),
+(255, 2, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-04-29 17:15:27'),
+(256, 2, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-04-29 17:15:33'),
+(257, 2, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-04-29 17:16:58'),
+(258, 2, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-04-29 17:17:04'),
+(259, 2, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-04-29 17:38:04'),
+(260, 2, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-04-29 17:39:48'),
+(261, 2, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-04-29 18:16:33'),
+(262, 2, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-04-29 18:24:27'),
+(263, 1, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-04-29 18:24:32'),
+(264, 1, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-04-29 18:24:43');
 
 -- --------------------------------------------------------
 
@@ -716,7 +743,6 @@ CREATE TABLE `drivers` (
   `phone` varchar(15) NOT NULL,
   `email` varchar(100) DEFAULT NULL,
   `vehicle_type` varchar(50) DEFAULT NULL,
-  `vehicle_plate` varchar(20) DEFAULT NULL,
   `status` enum('Active','Inactive') DEFAULT 'Active',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -725,51 +751,52 @@ CREATE TABLE `drivers` (
 -- Đang đổ dữ liệu cho bảng `drivers`
 --
 
-INSERT INTO `drivers` (`driver_id`, `name`, `phone`, `email`, `vehicle_type`, `vehicle_plate`, `status`, `created_at`) VALUES
-(1, 'Nguyễn Văn A', '0987654321', 'nguyenvana@gmail.com', 'Xe khách', '51G-12345', 'Active', '2025-03-19 00:48:36'),
-(2, 'Trần Thị B', '0912345678', 'tranthib@example.com', 'Xe khách', '52H-67890', 'Active', '2025-03-19 00:48:36'),
-(3, 'Lê Văn C', '0909123456', 'levanc@example.com', 'Xe khách', '53K-11223', 'Inactive', '2025-03-19 00:48:36'),
-(4, 'Phạm Văn D', '0934567890', 'phamvand@example.com', 'Máy bay', '54M-44556', 'Active', '2025-03-19 00:48:36'),
-(5, 'Hoàng Thị E', '0971234567', 'hoangthie@example.com', 'Du thuyền', '55N-77889', 'Active', '2025-03-19 00:48:36'),
-(48, 'Đinh Văn F', '0939998888', 'dinhvanf@gmail.com', 'Xe khách', '50D-99001', 'Active', '2025-03-19 04:20:30'),
-(49, 'Bùi Văn G', '0921112222', 'buivang@gmail.com', 'Xe khách', '50E-33445', 'Active', '2025-03-19 05:00:00'),
-(50, 'Ngô Văn H', '0916667777', 'ngovanh@gmail.com', 'Xe khách', '51F-55667', 'Inactive', '2025-03-19 05:45:18'),
-(51, 'Vũ Văn I', '0903334444', 'vuvani@gmail.com', 'Xe khách', '50G-77889', 'Active', '2025-03-19 06:25:40'),
-(52, 'Dương Văn K', '0898889999', 'duongvank@gmail.com', 'Xe khách', '51H-99012', 'Active', '2025-03-19 07:10:05'),
-(53, 'Nguyễn Văn L', '0887776666', 'nguyenvanl@gmail.com', 'Xe khách', '51I-11234', 'Inactive', '2025-03-19 08:30:20'),
-(54, 'Trần Văn M', '0876665555', 'tranvanm@gmail.com', 'Xe khách', '50J-55678', 'Active', '2025-03-19 09:00:50'),
-(55, 'Lê Văn N', '0865554444', 'levann@gmail.com', 'Xe khách', '50K-77890', 'Active', '2025-03-19 09:45:12'),
-(56, 'Phạm Văn O', '0854443333', 'phamvano@gmail.com', 'Xe khách', '51L-99023', 'Active', '2025-03-19 10:30:40'),
-(57, 'Hoàng Văn P', '0843332222', 'hoangvanp@gmail.com', 'Xe khách', '50M-11245', 'Inactive', '2025-03-19 11:15:05'),
-(58, 'Đinh Văn Q', '0832221111', 'dinhvanq@gmail.com', 'Xe khách', '51N-33456', 'Active', '2025-03-19 12:00:30'),
-(59, 'Bùi Văn R', '0821110000', 'buivanr@gmail.com', 'Xe khách', '50O-55678', 'Active', '2025-03-19 12:45:10'),
-(60, 'Ngô Văn S', '0810009999', 'ngovans@gmail.com', 'Xe khách', '51P-77890', 'Active', '2025-03-19 13:30:50'),
-(61, 'Vũ Văn T', '0809998888', 'vuvant@gmail.com', 'Xe khách', '50Q-99034', 'Inactive', '2025-03-19 14:15:25'),
-(62, 'Dương Văn U', '0798887777', 'duongvanu@gmail.com', 'Xe khách', '51R-11256', 'Active', '2025-03-19 15:00:00'),
-(63, 'Nguyễn Văn V', '0787776666', 'nguyenvanv@gmail.com', 'Xe khách', '50S-33467', 'Active', '2025-03-19 15:45:12'),
-(64, 'Trần Văn W', '0776665555', 'tranvanw@gmail.com', 'Xe khách', '51T-55678', 'Active', '2025-03-19 16:30:40'),
-(65, 'Lê Văn X', '0765554444', 'levanx@gmail.com', 'Xe khách', '50U-77890', 'Inactive', '2025-03-19 17:15:05'),
-(66, 'Phạm Văn Y', '0754443333', 'phamvany@gmail.com', 'Xe khách', '51V-99045', 'Active', '2025-03-19 18:00:30'),
-(67, 'Hoàng Văn Z', '0743332222', 'hoangvanz@gmail.com', 'Xe khách', '50W-11278', 'Active', '2025-03-19 18:45:10'),
-(68, 'Đinh Văn AA', '0732221111', 'dinhvanaa@gmail.com', 'Xe khách', '51X-33489', 'Active', '2025-03-19 19:30:50'),
-(69, 'Bùi Văn BB', '0721110000', 'buivanbb@gmail.com', 'Xe khách', '50Y-55690', 'Inactive', '2025-03-19 20:15:25'),
-(70, 'Ngô Văn CC', '0710009999', 'ngovancc@gmail.com', 'Xe khách', '51Z-77891', 'Active', '2025-03-19 21:00:00'),
-(71, 'Vũ Văn DD', '0709998888', 'vuvandd@gmail.com', 'Xe khách', '50AA-99056', 'Active', '2025-03-19 21:45:12'),
-(72, 'Dương Văn EE', '0698887777', 'duongvanee@gmail.com', 'Xe khách', '51BB-11290', 'Active', '2025-03-19 22:30:40'),
-(73, 'Nguyễn Văn FF', '0687776666', 'nguyenvanff@gmail.com', 'Xe khách', '50CC-33412', 'Inactive', '2025-03-19 23:15:05'),
-(74, 'Trần Văn GG', '0676665555', 'tranvangg@gmail.com', 'Xe khách', '51DD-55634', 'Active', '2025-03-20 00:00:30'),
-(75, 'Lê Văn HH', '0665554444', 'levanhh@gmail.com', 'Xe khách', '50EE-77856', 'Active', '2025-03-20 00:45:10'),
-(76, 'Phạm Văn II', '0654443333', 'phamvanii@gmail.com', 'Xe khách', '51FF-99078', 'Active', '2025-03-20 01:30:50'),
-(77, 'Hoàng Văn JJ', '0643332222', 'hoangvanjj@gmail.com', 'Xe khách', '50GG-11290', 'Active', '2025-03-20 02:15:25'),
-(78, 'Đinh Văn KK', '0632221111', 'dinhvankk@gmail.com', 'Xe khách', '51HH-33412', 'Inactive', '2025-03-20 03:00:00'),
-(79, 'Bùi Văn LL', '0621110000', 'buivanll@gmail.com', 'Xe khách', '50II-55634', 'Active', '2025-03-20 03:45:12'),
-(80, 'Ngô Văn MM', '0610009999', 'ngovanmm@gmail.com', 'Xe khách', '51JJ-77856', 'Active', '2025-03-20 04:30:40'),
-(81, 'Vũ Văn NN', '0609998888', 'vuvannn@gmail.com', 'Xe khách', '50KK-99078', 'Inactive', '2025-03-20 05:15:05'),
-(82, 'Dương Văn OO', '0598887777', 'duongvanoo@gmail.com', 'Xe khách', '51LL-11234', 'Active', '2025-03-20 06:00:30'),
-(83, 'Nguyễn Văn PP', '0587776666', 'nguyenvanpp@gmail.com', 'Xe khách', '50MM-33445', 'Active', '2025-03-20 06:45:10'),
-(84, 'Trần Văn QQ', '0576665555', 'tranvanqq@gmail.com', 'Xe khách', '51NN-55678', 'Active', '2025-03-20 07:30:50'),
-(85, 'Lê Văn RR', '0565554444', 'levanrr@gmail.com', 'Xe khách', '50OO-77890', 'Inactive', '2025-03-20 08:15:25'),
-(86, 'Phạm Văn SS', '0554443333', 'phamvanss@gmail.com', 'Xe khách', '51PP-99012', 'Active', '2025-03-20 09:00:00');
+INSERT INTO `drivers` (`driver_id`, `name`, `phone`, `email`, `vehicle_type`, `status`, `created_at`) VALUES
+(1, 'Nguyễn Văn A', '0987654321', 'nguyenvana@gmail.com', 'Xe khách', 'Active', '2025-03-19 00:48:36'),
+(2, 'Trần Thị B', '0912345678', 'tranthib@example.com', 'Xe khách', 'Active', '2025-03-19 00:48:36'),
+(3, 'Lê Văn C', '0909123456', 'levanc@example.com', 'Xe khách', 'Inactive', '2025-03-19 00:48:36'),
+(4, 'Phạm Văn D', '0934567890', 'phamvand@example.com', 'Máy bay', 'Active', '2025-03-19 00:48:36'),
+(5, 'Hoàng Thị E', '0971234567', 'hoangthie@example.com', 'Du thuyền', 'Active', '2025-03-19 00:48:36'),
+(48, 'Đinh Văn F', '0939998888', 'dinhvanf@gmail.com', 'Xe khách', 'Active', '2025-03-19 04:20:30'),
+(49, 'Bùi Văn G', '0921112222', 'buivang@gmail.com', 'Xe khách', 'Active', '2025-03-19 05:00:00'),
+(50, 'Ngô Văn H', '0916667777', 'ngovanh@gmail.com', 'Xe khách', 'Inactive', '2025-03-19 05:45:18'),
+(51, 'Vũ Văn I', '0903334444', 'vuvani@gmail.com', 'Xe khách', 'Active', '2025-03-19 06:25:40'),
+(52, 'Dương Văn K', '0898889999', 'duongvank@gmail.com', 'Xe khách', 'Active', '2025-03-19 07:10:05'),
+(53, 'Nguyễn Văn L', '0887776666', 'nguyenvanl@gmail.com', 'Xe khách', 'Inactive', '2025-03-19 08:30:20'),
+(54, 'Trần Văn M', '0876665555', 'tranvanm@gmail.com', 'Xe khách', 'Active', '2025-03-19 09:00:50'),
+(55, 'Lê Văn N', '0865554444', 'levann@gmail.com', 'Xe khách', 'Active', '2025-03-19 09:45:12'),
+(56, 'Phạm Văn O', '0854443333', 'phamvano@gmail.com', 'Xe khách', 'Active', '2025-03-19 10:30:40'),
+(57, 'Hoàng Văn P', '0843332222', 'hoangvanp@gmail.com', 'Xe khách', 'Inactive', '2025-03-19 11:15:05'),
+(58, 'Đinh Văn Q', '0832221111', 'dinhvanq@gmail.com', 'Xe khách', 'Active', '2025-03-19 12:00:30'),
+(59, 'Bùi Văn R', '0821110000', 'buivanr@gmail.com', 'Xe khách', 'Active', '2025-03-19 12:45:10'),
+(60, 'Ngô Văn S', '0810009999', 'ngovans@gmail.com', 'Xe khách', 'Active', '2025-03-19 13:30:50'),
+(61, 'Vũ Văn T', '0809998888', 'vuvant@gmail.com', 'Xe khách', 'Inactive', '2025-03-19 14:15:25'),
+(62, 'Dương Văn U', '0798887777', 'duongvanu@gmail.com', 'Xe khách', 'Active', '2025-03-19 15:00:00'),
+(63, 'Nguyễn Văn V', '0787776666', 'nguyenvanv@gmail.com', 'Xe khách', 'Active', '2025-03-19 15:45:12'),
+(64, 'Trần Văn W', '0776665555', 'tranvanw@gmail.com', 'Xe khách', 'Active', '2025-03-19 16:30:40'),
+(65, 'Lê Văn X', '0765554444', 'levanx@gmail.com', 'Xe khách', 'Inactive', '2025-03-19 17:15:05'),
+(66, 'Phạm Văn Y', '0754443333', 'phamvany@gmail.com', 'Xe khách', 'Active', '2025-03-19 18:00:30'),
+(67, 'Hoàng Văn Z', '0743332222', 'hoangvanz@gmail.com', 'Xe khách', 'Active', '2025-03-19 18:45:10'),
+(68, 'Đinh Văn AA', '0732221111', 'dinhvanaa@gmail.com', 'Xe khách', 'Active', '2025-03-19 19:30:50'),
+(69, 'Bùi Văn BB', '0721110000', 'buivanbb@gmail.com', 'Xe khách', 'Inactive', '2025-03-19 20:15:25'),
+(70, 'Ngô Văn CC', '0710009999', 'ngovancc@gmail.com', 'Xe khách', 'Active', '2025-03-19 21:00:00'),
+(71, 'Vũ Văn DD', '0709998888', 'vuvandd@gmail.com', 'Xe khách', 'Active', '2025-03-19 21:45:12'),
+(72, 'Dương Văn EE', '0698887777', 'duongvanee@gmail.com', 'Xe khách', 'Active', '2025-03-19 22:30:40'),
+(73, 'Nguyễn Văn FF', '0687776666', 'nguyenvanff@gmail.com', 'Xe khách', 'Inactive', '2025-03-19 23:15:05'),
+(74, 'Trần Văn GG', '0676665555', 'tranvangg@gmail.com', 'Xe khách', 'Active', '2025-03-20 00:00:30'),
+(75, 'Lê Văn HH', '0665554444', 'levanhh@gmail.com', 'Xe khách', 'Active', '2025-03-20 00:45:10'),
+(76, 'Phạm Văn II', '0654443333', 'phamvanii@gmail.com', 'Xe khách', 'Active', '2025-03-20 01:30:50'),
+(77, 'Hoàng Văn JJ', '0643332222', 'hoangvanjj@gmail.com', 'Xe khách', 'Active', '2025-03-20 02:15:25'),
+(78, 'Đinh Văn KK', '0632221111', 'dinhvankk@gmail.com', 'Xe khách', 'Inactive', '2025-03-20 03:00:00'),
+(79, 'Bùi Văn LL', '0621110000', 'buivanll@gmail.com', 'Xe khách', 'Active', '2025-03-20 03:45:12'),
+(80, 'Ngô Văn MM', '0610009999', 'ngovanmm@gmail.com', 'Xe khách', 'Active', '2025-03-20 04:30:40'),
+(81, 'Vũ Văn NN', '0609998888', 'vuvannn@gmail.com', 'Xe khách', 'Inactive', '2025-03-20 05:15:05'),
+(82, 'Dương Văn OO', '0598887777', 'duongvanoo@gmail.com', 'Xe khách', 'Active', '2025-03-20 06:00:30'),
+(83, 'Nguyễn Văn PP', '0587776666', 'nguyenvanpp@gmail.com', 'Xe khách', 'Active', '2025-03-20 06:45:10'),
+(84, 'Trần Văn QQ', '0576665555', 'tranvanqq@gmail.com', 'Xe khách', 'Active', '2025-03-20 07:30:50'),
+(85, 'Lê Văn RR', '0565554444', 'levanrr@gmail.com', 'Xe khách', 'Inactive', '2025-03-20 08:15:25'),
+(86, 'Phạm Văn SS', '0554443333', 'phamvanss@gmail.com', 'Xe khách', 'Active', '2025-03-20 09:00:00'),
+(89, 'sss', '0988888888', 'phamvanádss@gmail.com', 'Xe khách', 'Active', '2025-04-29 09:40:43');
 
 -- --------------------------------------------------------
 
@@ -924,6 +951,34 @@ CREATE TABLE `feedback` (
 INSERT INTO `feedback` (`id`, `name`, `email`, `subject`, `message`, `admin_id`, `created_at`) VALUES
 (1, 'ss', 'dvtc@gmail.com', 'ss', 'ss', NULL, '2025-01-09 08:46:19'),
 (2, 'ss', 'sss@gmail.com', 'ss', 'ss', NULL, '2025-01-09 08:46:57');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `leave_requests`
+--
+
+CREATE TABLE `leave_requests` (
+  `id` int(11) NOT NULL,
+  `employee_id` int(11) DEFAULT NULL,
+  `reason` text DEFAULT NULL,
+  `status` enum('pending','approved','rejected') DEFAULT 'pending',
+  `from_date` date DEFAULT NULL,
+  `to_date` date DEFAULT NULL,
+  `place` varchar(255) DEFAULT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `position` varchar(100) DEFAULT NULL,
+  `workplace` varchar(255) DEFAULT NULL,
+  `department` varchar(100) DEFAULT NULL,
+  `request_date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `leave_requests`
+--
+
+INSERT INTO `leave_requests` (`id`, `employee_id`, `reason`, `status`, `from_date`, `to_date`, `place`, `phone`, `position`, `workplace`, `department`, `request_date`) VALUES
+(9, 2, 'ĐSSS', 'approved', '2025-05-01', '2025-05-11', 'ở nhà', '0736282900', 'Chăm sóc khách hàng', 'hcm', 'cs', '2025-04-29');
 
 -- --------------------------------------------------------
 
@@ -1132,7 +1187,7 @@ CREATE TABLE `reports` (
   `id` int(11) NOT NULL,
   `guide_id` int(11) DEFAULT NULL,
   `report_type` enum('tour','work') DEFAULT NULL,
-  `tour` int(11) NOT NULL,
+  `tour` int(11) DEFAULT NULL,
   `report_content` text DEFAULT NULL,
   `report_file` varchar(255) DEFAULT NULL,
   `status` enum('pending','approved','rejected') DEFAULT 'pending',
@@ -1148,7 +1203,9 @@ CREATE TABLE `reports` (
 INSERT INTO `reports` (`id`, `guide_id`, `report_type`, `tour`, `report_content`, `report_file`, `status`, `created_at`, `approved_by`, `approved_at`) VALUES
 (21, 3, 'tour', 58, 'â', NULL, 'approved', '2025-04-28 02:59:34', 1, '2025-04-28 03:25:25'),
 (22, 3, 'tour', 58, 'ccc', NULL, 'rejected', '2025-04-28 03:19:54', 1, NULL),
-(24, 3, 'tour', 60, 'cccc', NULL, 'approved', '2025-04-28 03:22:24', 1, '2025-04-28 03:25:33');
+(24, 3, 'tour', 60, 'cccc', NULL, 'approved', '2025-04-28 03:22:24', 1, '2025-04-28 03:25:33'),
+(28, 3, 'work', NULL, 'sss', NULL, 'pending', '2025-04-29 08:57:00', 1, NULL),
+(29, 3, 'work', NULL, 'sssss', NULL, 'pending', '2025-04-29 08:57:07', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -1212,7 +1269,8 @@ INSERT INTO `rooms` (`id`, `Name`, `Diadiem`, `Ngaynhan`, `Ngaytra`, `Area`, `Pr
 (16, 'The Grand Lotus Hotel', 'Miền Tây Sông Nước', '2025-04-18', '2025-04-20', '30m²', 1000000, '2', '1', 'Hoạt động', 'no', 1),
 (17, 'Sunrise Paradise Resort', 'Côn Đảo', '2025-04-20', '2025-04-24', '40m²', 2000000, '2', '1', 'Hoạt động', 'no', 1),
 (18, 'Blue Ocean Villa', 'Vũng Tàu', '2025-05-02', '2025-05-04', '50m²', 1000000, '3', '2', 'Hoạt động', 'no', 1),
-(19, 'Andamantra Resort ', '', '2025-04-18', '2025-04-30', '30m²', 900000, '2', '1', 'Hoạt động', 'no', 1);
+(19, 'Andamantra Resort ', '', '2025-04-18', '2025-04-30', '30m²', 900000, '2', '1', 'Hoạt động', 'no', 1),
+(20, 'sss', 'Tr', '2025-05-04', '2025-05-11', '30m²', 100000, '12', '1', 'Hoạt động', 'no', 1);
 
 -- --------------------------------------------------------
 
@@ -1239,7 +1297,8 @@ INSERT INTO `rooms_facilities` (`Sr_no`, `Room_id`, `Facilities_id`) VALUES
 (14, 16, 5),
 (15, 17, 4),
 (16, 18, 5),
-(17, 19, 5);
+(17, 19, 5),
+(18, 20, 5);
 
 -- --------------------------------------------------------
 
@@ -1266,7 +1325,8 @@ INSERT INTO `rooms_features` (`Sr_no`, `Room_id`, `Features_id`) VALUES
 (14, 16, 5),
 (15, 17, 3),
 (16, 18, 5),
-(17, 19, 5);
+(17, 19, 5),
+(18, 20, 5);
 
 -- --------------------------------------------------------
 
@@ -1294,7 +1354,8 @@ INSERT INTO `rooms_images` (`Sr_no`, `Room_id`, `Image`, `Thumb`) VALUES
 (14, 16, 'mientay.jpg', ''),
 (15, 17, 'cd.jpg', ''),
 (16, 18, 'vt.jpg', ''),
-(17, 19, 'TA.jpeg', '');
+(17, 19, 'TA.jpeg', ''),
+(18, 20, 'nga.jpg', '');
 
 -- --------------------------------------------------------
 
@@ -1316,16 +1377,16 @@ CREATE TABLE `salaries` (
 --
 
 INSERT INTO `salaries` (`id`, `employee_id`, `month_year`, `allowance`, `basic_salary`, `total_salary`) VALUES
-(42, 1, '2025-04', 100000.00, 10000000.00, 10100000.00),
-(43, 2, '2025-04', 100000.00, 7000000.00, 7100000.00),
+(42, 1, '2025-04', 100000.00, 9700000.00, 9800000.00),
+(43, 2, '2025-04', 100000.00, 5900000.00, 6000000.00),
 (44, 3, '2025-04', 0.00, 7000000.00, 7000000.00),
 (45, 7, '2025-04', 0.00, 7000000.00, 7000000.00),
 (46, 8, '2025-04', 0.00, 7000000.00, 7000000.00),
 (47, 9, '2025-04', 0.00, 8000000.00, 8000000.00),
 (48, 10, '2025-04', 0.00, 10000000.00, 10000000.00),
 (49, 11, '2025-04', 0.00, 8000000.00, 8000000.00),
-(50, 1, '2025-03', 0.00, 10000000.00, 10000000.00),
-(51, 2, '2025-03', 0.00, 8000000.00, 8000000.00),
+(50, 1, '2025-03', 0.00, 9700000.00, 10000000.00),
+(51, 2, '2025-03', 0.00, 5500000.00, 5500000.00),
 (52, 3, '2025-03', 0.00, 7000000.00, 7000000.00),
 (53, 7, '2025-03', 0.00, 7000000.00, 7000000.00),
 (54, 8, '2025-03', 0.00, 7000000.00, 7000000.00),
@@ -7082,7 +7143,6 @@ INSERT INTO `tour_schedule` (`id`, `id_tour`, `Name`, `Date`, `Schedule`, `Locat
 (214, 69, 'Tour Mũi Né', '2025-12-27 00:00:00', '3 ngày 2 đêm', 'Hà Nội', 1),
 (215, 69, 'Tour Mũi Né', '2025-11-26 00:00:00', '3 ngày 2 đêm', 'Hà Nội', 1),
 (216, 69, 'Tour Mũi Né', '2025-07-31 00:00:00', '3 ngày 2 đêm', 'Hà Nội', 1),
-(217, 70, 'Tour Cần Thơ', '0000-00-00 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
 (218, 70, 'Tour Cần Thơ', '2025-07-20 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
 (219, 70, 'Tour Cần Thơ', '2025-05-02 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
 (220, 70, 'Tour Cần Thơ', '2025-11-29 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
@@ -7257,8 +7317,7 @@ ALTER TABLE `deposit_hotel`
 ALTER TABLE `drivers`
   ADD PRIMARY KEY (`driver_id`),
   ADD UNIQUE KEY `phone` (`phone`),
-  ADD UNIQUE KEY `email` (`email`),
-  ADD UNIQUE KEY `vehicle_plate` (`vehicle_plate`);
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- Chỉ mục cho bảng `employees`
@@ -7284,6 +7343,13 @@ ALTER TABLE `features`
 ALTER TABLE `feedback`
   ADD PRIMARY KEY (`id`),
   ADD KEY `admin_id` (`admin_id`);
+
+--
+-- Chỉ mục cho bảng `leave_requests`
+--
+ALTER TABLE `leave_requests`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_employee_leave` (`employee_id`);
 
 --
 -- Chỉ mục cho bảng `messages`
@@ -7450,7 +7516,7 @@ ALTER TABLE `wishlist`
 -- AUTO_INCREMENT cho bảng `activity_logs`
 --
 ALTER TABLE `activity_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=238;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=265;
 
 --
 -- AUTO_INCREMENT cho bảng `admin`
@@ -7504,13 +7570,13 @@ ALTER TABLE `customer_assignment`
 -- AUTO_INCREMENT cho bảng `departure_dates`
 --
 ALTER TABLE `departure_dates`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=204;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=208;
 
 --
 -- AUTO_INCREMENT cho bảng `departure_time`
 --
 ALTER TABLE `departure_time`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=223;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=230;
 
 --
 -- AUTO_INCREMENT cho bảng `deposit_hotel`
@@ -7522,7 +7588,7 @@ ALTER TABLE `deposit_hotel`
 -- AUTO_INCREMENT cho bảng `drivers`
 --
 ALTER TABLE `drivers`
-  MODIFY `driver_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
+  MODIFY `driver_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
 
 --
 -- AUTO_INCREMENT cho bảng `employees`
@@ -7547,6 +7613,12 @@ ALTER TABLE `features`
 --
 ALTER TABLE `feedback`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT cho bảng `leave_requests`
+--
+ALTER TABLE `leave_requests`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT cho bảng `messages`
@@ -7594,7 +7666,7 @@ ALTER TABLE `rentals`
 -- AUTO_INCREMENT cho bảng `reports`
 --
 ALTER TABLE `reports`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT cho bảng `request_tour`
@@ -7606,25 +7678,25 @@ ALTER TABLE `request_tour`
 -- AUTO_INCREMENT cho bảng `rooms`
 --
 ALTER TABLE `rooms`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT cho bảng `rooms_facilities`
 --
 ALTER TABLE `rooms_facilities`
-  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT cho bảng `rooms_features`
 --
 ALTER TABLE `rooms_features`
-  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT cho bảng `rooms_images`
 --
 ALTER TABLE `rooms_images`
-  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT cho bảng `salaries`
@@ -7648,19 +7720,19 @@ ALTER TABLE `tichdiem`
 -- AUTO_INCREMENT cho bảng `tour`
 --
 ALTER TABLE `tour`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 
 --
 -- AUTO_INCREMENT cho bảng `tour_images`
 --
 ALTER TABLE `tour_images`
-  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
 -- AUTO_INCREMENT cho bảng `tour_schedule`
 --
 ALTER TABLE `tour_schedule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=225;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=232;
 
 --
 -- AUTO_INCREMENT cho bảng `user_credit`
@@ -7748,6 +7820,12 @@ ALTER TABLE `deposit_hotel`
 --
 ALTER TABLE `feedback`
   ADD CONSTRAINT `feedback_ibfk_1` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`Sr_no`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+--
+-- Các ràng buộc cho bảng `leave_requests`
+--
+ALTER TABLE `leave_requests`
+  ADD CONSTRAINT `fk_employee_leave` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Các ràng buộc cho bảng `messages`

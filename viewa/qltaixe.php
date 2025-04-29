@@ -258,10 +258,7 @@
                                 </select>
                                
                             </div>
-                            <div>
-                                <label for="anh">Biển số xe:</label>
-                                 <input type="text" id="bs" name="bs" 
-                            </div>
+                            
                         </div>
                         <div class="form-group">
                             <div>
@@ -299,7 +296,7 @@
                 <th>Số điện thoại</th>
                 <th>Email</th>
                 <th>Loại xe</th>
-                <th>Biển số xe</th>
+               
                 <th>Trạng Thái</th>
                 <th>Ngày tạo</th>
                 <th>Action</th>
@@ -349,7 +346,7 @@ document.addEventListener('DOMContentLoaded', applyResponsiveTableHeaders);
                     <td>${event.phone}</td>
                     <td>${event.email}</td>
                     <td>${event.vehicle_type}</td>
-                    <td>${event.vehicle_plate}</td>
+                  
                     <td>${event.status}</td>
                     <td>${event.created_at}</td>
                    `;
@@ -438,10 +435,7 @@ function openRatingModal(Id) {
                                 </select>
                                
                             </div>
-                            <div>
-                                <label for="anh">Biển số xe:</label>
-                                 <input type="text" id="bs" name="bs" value="${taixe.vehicle_plate}">
-                            </div>
+                           
                         </div>
                         <div class="form-group">
                             <div>
@@ -598,7 +592,7 @@ function searchroom(event) {
                    <td>${event.phone}</td>
                    <td>${event.email}</td>
                    <td>${event.vehicle_type}</td>
-                   <td>${event.vehicle_plate}</td>
+                
                    <td>${event.status}</td>
                    <td>${event.created_at}</td>
                   `;

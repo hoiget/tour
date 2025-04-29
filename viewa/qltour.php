@@ -188,6 +188,12 @@
     content: attr(data-header); /* lấy label từ thuộc tính data-header */
   }
 }
+.error-msg {
+    color: red;
+    font-size: 12px;
+    margin-top: 4px;
+    display: block;
+}
     </style>
 <h1>Quản lý tour</h1>
 <div class="modal fade" id="ratingModal" tabindex="" aria-labelledby="ratingModalLabel" aria-hidden="true">
@@ -293,8 +299,8 @@
                             <div>
                                 <label for="Title">Ngày khởi hành:</label>
                                
-                                <input type="date" id="nkh" name="nkh" value="">
-                                <input type="date" id="departure_date">
+                                <input hidden type="date" id="nkh" name="nkh" value="null">
+                                <input type="date" id="departure_date" name="departure_date">
                                 <button type="button" onclick="addDate()">Thêm ngày</button>
                                 <ul id="dateList"></ul>
                                 <input type="hidden" name="departure_dates" id="departure_dates">
@@ -414,30 +420,79 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('departure_date').setAttribute('min', today);
 
-    let departureDates = [];
+     
+ $("input[name='departure_date']").on("change", function () {
+    let pickupTime = new Date($(this).val());
+    let currentTime = new Date();
+    currentTime.setDate(currentTime.getDate() + 6); // Cộng thêm 1 ngày
 
-    function addDate() {
-        let dateInput = document.getElementById("departure_date");
-        let dateList = document.getElementById("dateList");
+    if (pickupTime <= currentTime) {
+        showError($(this), "Ngày phải sau ít nhất 1 tuần so với hiện tại.");
+    } else {
+        hideError($(this));
+    }
+});
 
-        if (dateInput.value && !departureDates.includes(dateInput.value)) {
-            departureDates.push(dateInput.value);
-            let listItem = document.createElement("li");
-            listItem.textContent = dateInput.value;
-            dateList.appendChild(listItem);
+function showError(element, message) {
+        let errorLabel = element.next(".error-msg");
+        if (errorLabel.length === 0) {
+            element.after(`<span class="error-msg" style="color:red; font-size:12px;">${message}</span>`);
+        } else {
+            errorLabel.text(message);
         }
-
-        document.getElementById("departure_dates").value = JSON.stringify(departureDates);
-        dateInput.value = ""; // Xóa input sau khi thêm
     }
 
-    document.getElementById("departureForm").addEventListener("submit", function (event) {
-        if (departureDates.length === 0) {
-            alert("Vui lòng chọn ít nhất một ngày khởi hành!");
-            event.preventDefault();
-        }
-    });
+    // Hàm ẩn lỗi
+    function hideError(element) {
+        element.next(".error-msg").remove();
+    }
+</script>
+    <script>
+
+let departureDates = [];
+
+function addDate() {
+    let dateInput = document.getElementById("departure_date");
+    let dateValue = dateInput.value;
+
+    if (!dateValue) return;
+
+    let selectedDate = new Date(dateValue);
+    selectedDate.setHours(0, 0, 0, 0); // Xóa giờ để so sánh chính xác
+
+    let today = new Date();
+    today.setHours(0, 0, 0, 0);
+    today.setDate(today.getDate() + 6); // Ngày tối thiểu hợp lệ là sau 6 ngày
+
+    if (selectedDate <= today) {
+        openPopup("Vui lòng chọn ngày khởi hành sau hôm nay + 6 ngày.","");
+        return;
+    }
+
+    if (!departureDates.includes(dateValue)) {
+        departureDates.push(dateValue);
+
+        let listItem = document.createElement("li");
+        listItem.textContent = dateValue;
+        document.getElementById("dateList").appendChild(listItem);
+
+        document.getElementById("departure_dates").value = JSON.stringify(departureDates);
+        dateInput.value = "";
+    } else {
+        openPopup("Ngày này đã được chọn.","");
+    }
+}
+
+document.getElementById("departureForm").addEventListener("submit", function (event) {
+    if (departureDates.length === 0) {
+        openPopup("Vui lòng chọn ít nhất một ngày khởi hành!","");
+        event.preventDefault();
+    }
+});
+
 </script>
 <script>
     
@@ -618,7 +673,7 @@ function openRatingModal(Id) {
                             </div>
                             <div>
                                 <label for="Title">Status:</label>
-                               
+                              
                                 <input type="text" id="status" name="status" value="${data[0].Status}">
                             </div>
                         </div>
@@ -626,8 +681,8 @@ function openRatingModal(Id) {
                             <div>
                                 <label for="Title">Ngày khởi hành:</label>
                                
-                                <input type="date" id="nkh" name="nkh" value="${data[0].Depart}">
-                                <input type="date" id="departure_date">
+                                <input hidden type="date" id="nkh" name="nkh" value="${data[0].Depart}">
+                                <input type="date" id="departure_date" name="departure_date">
                                 <button type="button" onclick="addDate()">Thêm ngày</button>
                                 <ul id="dateList">
                                 ${departureList}</ul>
@@ -763,8 +818,8 @@ function themtour() {
         e.preventDefault();
 
         // Thu thập dữ liệu form
-        var formData = new FormData(this);
-
+           // Thu thập dữ liệu form
+           var formData = new FormData(this);
         $.ajax({
             type: 'POST',
             url: './api/apia.php',
@@ -774,7 +829,7 @@ function themtour() {
             success: function (response) {
               
                 if (response === 'insert_success') {
-                    openPopup('Thông báo', 'Cập nhật thành công');
+                    openPopup('Thông báo', 'Thêm thành công');
                     setTimeout(function () {
                         window.location.href = 'indexa.php?qltour';
                     }, 2000);
