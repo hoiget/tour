@@ -112,6 +112,7 @@
                         <th>Lý do nghỉ</th>
                         <th>Thời gian nghỉ</th>
                         <th>Trạng thái</th> <!-- Cột trạng thái -->
+                        <th>Lý do từ chối</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -123,15 +124,23 @@
                 statusClass = 'status-approved';
             } else if (row.status === 'rejected') {
                 statusClass = 'status-rejected';
+                
             }
+         
 
             html += `
                 <tr onclick="showDetail(${row.id})">
                     <td>${row.name}</td>
                     <td>${row.reason}</td>
                     <td>${formatVietnamDate(row.from_date)} đến ${formatVietnamDate(row.to_date)}</td>
+                    
                     <td class="${statusClass}">${row.status === 'approved' ? 'Đã duyệt' : (row.status === 'rejected' ? 'Từ chối' : 'Chưa duyệt')}</td>
-                </tr>
+            `
+                if (row.status === 'rejected' && row.reject_reason) {
+                    html += `<td style="margin-top:20px; color: red;"><b>${row.reject_reason || 's'}</b></td>`;
+                }
+
+                html += `</tr>
             `;
         });
         html += `

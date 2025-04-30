@@ -130,7 +130,32 @@
     <script>
         function taonhanvien() {
         $('#taonhanvien').submit(function(e) {
+
             e.preventDefault();
+          
+           
+            let phone = document.getElementById('phone').value.trim();
+            let password = document.getElementById('password').value.trim();
+            // Các mẫu kiểm tra dữ liệu
+          
+            const phonePattern = /^0\d{9}$/; // Số điện thoại Việt Nam 10 chữ số
+            const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+
+            // Kiểm tra các trường dữ liệu
+        
+
+        
+
+            if (!phonePattern.test(phone)) {
+                openPopup('Thông báo', 'Số điện thoại không hợp lệ! Vui lòng nhập đúng định dạng (0xxxxxxxxx).');
+                return;
+            }
+
+            if (!passwordPattern.test(password)) {
+                openPopup('Thông báo', 'Mật khẩu phải chứa ít nhất 1 chữ cái, 1 số, 1 ký tự đặc biệt và ít nhất 8 ký tự.');
+                return;
+            }
+
             $.ajax({
                 type: 'POST',
                 url: './api/apia.php',
@@ -144,9 +169,14 @@
                         }, 2000);
                     }
                     else if(response === 'missing_data'){
-                        openPopup('thông báo','Rỗng');
-                    }else{
-                        openPopup('Lỗi','Lỗi');
+                        openPopup('thông báo','Thiếu dữ liệu');
+                    }else if(response === 'invalid_code'){
+                        openPopup('thông báo','Mã nhân viên không hợp lệ');
+                    }else if(response === 'user_exists'){
+                        openPopup('thông báo','Tài khoản đã tồn tại trùng email hoặc số điện thoại hoặc mã nhân viên');
+                    }
+                    else{
+                        openPopup('Thông báo','Lỗi');
                     }
                     
                     

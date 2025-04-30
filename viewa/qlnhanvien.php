@@ -432,6 +432,26 @@ function openRatingModal(Id) {
     function capnhatnv() {
     $('#capnhatnv').submit(function(e) {
         e.preventDefault();
+        let phone = document.getElementById('phone').value.trim();
+            let password = document.getElementById('password').value.trim();
+            // Các mẫu kiểm tra dữ liệu
+          
+            const phonePattern = /^0\d{9}$/; // Số điện thoại Việt Nam 10 chữ số
+            if (!phonePattern.test(phone)) {
+                    openPopup('Thông báo', 'Số điện thoại không hợp lệ! Vui lòng nhập đúng định dạng (0xxxxxxxxx).');
+                    return;
+                }
+       
+            if (password !== "") {
+                const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+
+                if (!passwordPattern.test(password)) {
+                    openPopup('Thông báo', 'Mật khẩu phải chứa ít nhất 1 chữ cái, 1 số, 1 ký tự đặc biệt và ít nhất 8 ký tự.');
+                    return;
+                }
+            }
+
+           
         $.ajax({
             type: 'POST',
             url: './api/apia.php',
@@ -448,7 +468,12 @@ function openRatingModal(Id) {
                 } else if (response.startsWith('update_error')) {
                     // Nếu response là lỗi, in ra lỗi chi tiết
                     openPopup('Lỗi', response); // Hoặc có thể in chi tiết lỗi bằng cách xử lý dữ liệu phía backend trả về
-                } else {
+                }else if(response === 'invalid_code'){
+                        openPopup('thông báo','Mã nhân viên không hợp lệ');
+                    } else if(response === 'user_exists1'){
+                        openPopup('thông báo','Mã nhân viên đã tồn tại ');
+                    }
+                else {
                     // In lỗi chi tiết trong trường hợp không phải lỗi "update_error"
                     var errorMessage = response || 'Có lỗi xảy ra';
                     openPopup('Lỗi', errorMessage);

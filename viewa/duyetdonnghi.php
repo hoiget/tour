@@ -87,6 +87,7 @@
     font-size: 16px;
     cursor: pointer;
 }
+
 </style>
 
 
@@ -97,10 +98,20 @@
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
         <div id="leaveDetailContent"></div>
-        <button id="approveBtn">Duyệt đơn</button>
+      
     </div>
 </div>
 
+<div id="rejectPopup" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="$('#rejectPopup').hide()">&times;</span>
+        <h3>Lý do từ chối đơn</h3>
+        <textarea id="rejectReason" rows="4" style="width: 100%; padding: 10px; margin-top: 10px;"></textarea>
+        <div class="modal-actions">
+            <button onclick="submitReject()">Xác nhận từ chối</button>
+        </div>
+    </div>
+</div>
 
 <script>
 function loadLeaveRequests() {
@@ -124,6 +135,7 @@ function loadLeaveRequests() {
                     <td>${row.reason}</td>
                     <td>${formatVietnamDate(row.from_date)} đến ${formatVietnamDate(row.to_date)}</td>
                     <td>${row.status}</td>
+                    
                 </tr>
             `;
         });
@@ -159,13 +171,26 @@ function showDetail(id) {
                 <p style="text-align: right;">${formatVietnamDate(data.request_date)}</p>
                 <p style="text-align: right;"><b>Người làm đơn</b><br>(Ký, ghi rõ họ tên)</p>
                 <p style="text-align: right; margin-top: 40px;">${data.employee_name || '.....................'}</p>
+                <input type="hidden" id="month" value="${data.from_date}">
             </div>
         `;
-
+        if(data.status === 'pending') {
+          
+          html += `<div style="text-align: center; margin-top: 20px;">
+                        <button style="width:40%" id="approveBtn" style="padding: 8px 16px;">Duyệt đơn</button>
+                        <button id="rejectBtn" style="padding: 8px 16px; background: red; color: white;width:40%; border-radius: 6px;">Từ chối đơn</button>
+                     </div>`;
+        }
         $('#leaveDetailContent').html(html);
         $('#approveBtn').off().on('click', function() {
             approveLeave(data.request_id);
         });
+        $('#rejectBtn').off().on('click', function () {
+                currentRejectId = data.request_id;
+                $('#rejectReason').val('');
+                $('#rejectPopup').show();
+        });
+
         $('#leaveModal').show();
     });
 }
@@ -177,6 +202,7 @@ function formatVietnamDate(dateStr) {
 }
 
 function approveLeave(id) {
+  
     $.post('./api/phancong.php?action=approve', { request_id: id }, function(res) {
         openPopup(res.message);
         closeModal();
@@ -186,6 +212,25 @@ function approveLeave(id) {
 
 function closeModal() {
     $('#leaveModal').hide();
+}
+let currentRejectId = null;
+
+function submitReject() {
+    const reason = $('#rejectReason').val().trim();
+    if (!reason) {
+        alert("Vui lòng nhập lý do từ chối.");
+        return;
+    }
+
+    $.post('./api/phancong.php?action=reject', {
+        request_id: currentRejectId,
+        reason: reason
+    }, function (res) {
+        openPopup(res.message,'');
+        $('#rejectPopup').hide();
+        $('#leaveModal').hide();
+        loadLeaveRequests();
+    }, 'json');
 }
 
 loadLeaveRequests();

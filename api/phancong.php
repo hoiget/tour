@@ -562,17 +562,34 @@ elseif ($action == 'approve') {
 
         $row = $result->fetch_assoc();
         $employee_id = $row['employee_id'];
-        $from_date = new DateTime($row['from_date']);
-        $to_date = new DateTime($row['to_date']);
+        $from = new DateTime($row['from_date']);
+        $to = new DateTime($row['to_date']);
+        $to->modify('+1 day'); // để vòng lặp chạy đến hết to_date
 
-        // Tính số ngày nghỉ (kể cả ngày đầu và cuối)
-        $interval = $from_date->diff($to_date)->days + 1;
-        $total_penalty = $interval * $daily_penalty;
+        // Trừ lương theo từng tháng
+        $current = clone $from;
+        $monthlyPenalties = []; // lưu số ngày nghỉ theo từng tháng
 
-        // Trừ lương trong bảng salaries
-        $stmt = $conn->prepare("UPDATE salaries SET basic_salary = basic_salary - ?,total_salary=basic_salary + allowance WHERE employee_id = ? ");
-        $stmt->bind_param("ii", $total_penalty, $employee_id);
-        if (!$stmt->execute()) throw new Exception("Lỗi khi trừ lương.");
+        while ($current < $to) {
+            $monthKey = $current->format("Y-m");
+            if (!isset($monthlyPenalties[$monthKey])) {
+                $monthlyPenalties[$monthKey] = 0;
+            }
+            $monthlyPenalties[$monthKey]++;
+            $current->modify('+1 day');
+        }
+
+        $messages = [];
+        foreach ($monthlyPenalties as $month => $days) {
+            $penalty = $days * $daily_penalty;
+
+            // Trừ vào lương theo month_year
+            $stmt = $conn->prepare("UPDATE salaries SET basic_salary = basic_salary - ?, total_salary = basic_salary + allowance WHERE employee_id = ? AND month_year = ?");
+            $stmt->bind_param("iis", $penalty, $employee_id, $month);
+            if (!$stmt->execute()) throw new Exception("Không thể cập nhật lương cho tháng $month");
+
+            $messages[] = "Trừ $days ngày (".number_format($penalty)." VNĐ) trong tháng $month";
+        }
 
         // Cập nhật trạng thái đơn
         $stmt = $conn->prepare("UPDATE leave_requests SET status = 'approved' WHERE id = ?");
@@ -580,12 +597,13 @@ elseif ($action == 'approve') {
         if (!$stmt->execute()) throw new Exception("Lỗi khi cập nhật trạng thái đơn.");
 
         $conn->commit();
-        echo json_encode(['status' => 'success', 'message' => "Đã duyệt đơn. Trừ {$interval} ngày = " . number_format($total_penalty) . " VNĐ."]);
+        echo json_encode(['status' => 'success', 'message' => "Đã duyệt đơn.\n" . implode("<br>", $messages)]);
     } catch (Exception $e) {
         $conn->rollback();
         echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
     }
 }
+
 
 
 elseif ($action == 'list') {
@@ -652,6 +670,24 @@ if ($action == 'getnhan') {
     $result = $stmt->get_result()->fetch_assoc();
     echo json_encode($result);
     exit;
+}
+elseif ($action == 'reject') {
+    $request_id = $_POST['request_id'];
+    $reason = trim($_POST['reason']);
+
+    if (empty($reason)) {
+        echo json_encode(['status' => 'error', 'message' => 'Lý do từ chối không được để trống.']);
+        exit;
+    }
+
+    $stmt = $conn->prepare("UPDATE leave_requests SET status = 'rejected', reject_reason = ? WHERE id = ?");
+    $stmt->bind_param("si", $reason, $request_id);
+
+    if ($stmt->execute()) {
+        echo json_encode(['status' => 'success', 'message' => 'Đã từ chối đơn nghỉ.']);
+    } else {
+        echo json_encode(['status' => 'error', 'message' => 'Lỗi khi từ chối đơn.']);
+    }
 }
 
 

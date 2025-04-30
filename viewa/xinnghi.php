@@ -57,16 +57,30 @@
     <input type="text" name="place" placeholder="Nhập địa điểm nghỉ" required>
 
     <label>Điện thoại liên hệ:</label>
-    <input type="text" name="phone" required>
+    <input type="text" name="phone" value="<?php echo $sdt; ?>" required>
 
     <label>Chức vụ:</label>
-    <input type="text" name="position" required>
+    <input type="text" name="position" value="<?php  
+            if($role == 'QL'){
+                echo "Nhân viên dịch vụ"; 
+              }elseif($role == 'CSKH'){
+                echo "Nhân viên chăm sóc khách hàng";
+              }elseif($role == 'HDV'){
+                echo "Hướng dẫn viên";
+    } ?>" required>
 
     <label>Nơi công tác:</label>
     <input type="text" name="workplace" required>
 
     <label>Phòng ban:</label>
-    <input type="text" name="department" required>
+    <input type="text" name="department" required  value="<?php  
+            if($role == 'QL'){
+                echo "Quản lý dịch vụ"; 
+              }elseif($role == 'CSKH'){
+                echo "Chăm sóc khách hàng";
+              }elseif($role == 'HDV'){
+                echo "Dịch vụ Hướng dẫn";
+    } ?>">
 
     <button type="submit">Gửi đơn</button>
 </form>

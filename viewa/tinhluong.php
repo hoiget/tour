@@ -81,6 +81,7 @@ button:hover {
     <thead>
         <tr>
             <th>Tên nhân viên</th>
+            <th>Chức vụ</th>
             <th>Phụ cấp</th>
             <th>Lương cơ bản</th>
             <th>Tổng lương</th>
@@ -124,13 +125,15 @@ function loadSalaries() {
             data.forEach(row => {
                 tbody.innerHTML += `
                 <tr>
-                    <td>${row.name}[${row.Permissions}]</td>
+                    <td>${row.name}</td>
+                     <td>${row.Permissions === 'QL' ? 'Nhân viên quản lý dịch vụ' : row.Permissions === 'CSKH' ? 'Nhân viên chăm sóc khách hàng' : 'Hướng dẫn viên'}</td>
                      <td><input type="number" value="${row.allowance}" min="0" onchange="updateSalary(${row.id}, 'allowance', this)" /></td>
         <td><input type="number" value="${row.basic_salary}" min="0" onchange="updateSalary(${row.id}, 'basic_salary', this)" /></td>
                     <td>${parseInt(row.total_salary).toLocaleString('vi-VN')} đ
                     </td>
                     <td><button onclick="saveSalary(${row.id})">Lưu</button></td>
                 </tr>`;
+               
             });
         });
 }

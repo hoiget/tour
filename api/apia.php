@@ -62,11 +62,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
         // Kiểm tra nếu các trường bắt buộc rỗng
-        if (empty($username) || empty($email) || empty($phone)) {
+        if (empty($username) || empty($email) || empty($phone) || empty($address)) {
             echo 'missing_data';
             exit;
         }
-
+        $check_query = "SELECT * FROM employees WHERE Employee_code = ? OR Email = ? OR Phone_number = ?";
+        $stmt1 = $conn->prepare($check_query);
+        $stmt1->bind_param("sss", $ma,$email, $phone);
+        $stmt1->execute();
+        $result1 = $stmt1->get_result();
+    
+        if ($result1->num_rows > 0) {
+            echo 'user_exists';
+            exit;
+        }
+    
         // Cập nhật thông tin người dùng
         $prefix = substr($ma, 0, 2); // Lấy 2 ký tự đầu
         switch ($prefix) {
@@ -113,11 +123,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
         // Kiểm tra nếu các trường bắt buộc rỗng
-        if (empty($username) || empty($email) || empty($phone)) {
+        if (empty($username) || empty($email) || empty($phone) || empty($address)) {
             echo 'missing_data';
             exit;
         }
-
+        $check_query = "SELECT * FROM employees WHERE Employee_code = ?";
+        $stmt1 = $conn->prepare($check_query);
+        $stmt1->bind_param("s", $ma);
+        $stmt1->execute();
+        $result1 = $stmt1->get_result();
+    
+        if ($result1->num_rows > 0) {
+            echo 'user_exists1';
+            exit;
+        }
+        $prefix = substr($ma, 0, 2); // Lấy 2 ký tự đầu
+        switch ($prefix) {
+            case 'QL':
+                $permissions = 'QL';
+                break;
+            case 'CS':
+                $permissions = 'CSKH';
+                break;
+            case 'HD':
+                $permissions = 'HDV';
+                break;
+            default:
+                echo 'invalid_code'; // Nếu không khớp với mẫu nào, báo lỗi
+                exit;
+        }
         // Nếu mật khẩu mới không được cung cấp, không thay đổi mật khẩu
         if (empty($password)) {
             // Cập nhật mà không thay đổi mật khẩu
