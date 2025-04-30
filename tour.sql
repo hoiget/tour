@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th4 29, 2025 lúc 01:45 PM
+-- Thời gian đã tạo: Th4 30, 2025 lúc 03:53 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -295,7 +295,17 @@ INSERT INTO `activity_logs` (`id`, `user_id`, `action_type`, `description`, `use
 (261, 2, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-04-29 18:16:33'),
 (262, 2, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-04-29 18:24:27'),
 (263, 1, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-04-29 18:24:32'),
-(264, 1, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-04-29 18:24:43');
+(264, 1, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-04-29 18:24:43'),
+(265, 27, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-04-30 08:05:23'),
+(266, 27, 'logout', 'Khách hàng đăng xuất khỏi hệ thống', 'user', '2025-04-30 08:06:35'),
+(267, 1, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-04-30 08:06:49'),
+(268, 1, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-04-30 08:10:30'),
+(269, 2, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-04-30 08:10:35'),
+(270, 2, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-04-30 08:12:09'),
+(271, 1, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-04-30 08:37:31'),
+(272, 1, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-04-30 08:38:03'),
+(273, 1, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-04-30 08:49:41'),
+(274, 1, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-04-30 08:51:00');
 
 -- --------------------------------------------------------
 
@@ -881,7 +891,8 @@ INSERT INTO `employees` (`id`, `Employee_code`, `Name`, `Username`, `Password`, 
 (110, 'HDNV024', 'Đỗ Văn VV', 'dovanvv', 'e10adc3949ba59abbe56e057f20f883e', 'dovanvv@example.com', '0900000048', 'Quảng Ninh', 'HDV', '2025-04-28 06:34:29'),
 (111, 'CSNV015', 'Ngô Thị WW', 'ngothiww', 'e10adc3949ba59abbe56e057f20f883e', 'ngothiww@example.com', '0900000049', 'Vũng Tàu', 'CSKH', '2025-04-28 06:34:29'),
 (112, 'HDNV025', 'Nguyễn Văn XX', 'nguyenvanxx', 'e10adc3949ba59abbe56e057f20f883e', 'nguyenvanxx@example.com', '0900000050', 'Hà Nội', 'HDV', '2025-04-28 06:34:29'),
-(113, 'QLNV011', 'Trần Thị YY', 'tranthiyy', 'e10adc3949ba59abbe56e057f20f883e', 'tranthiyy@example.com', '0900000051', 'Hồ Chí Minh', 'QL', '2025-04-28 06:34:29');
+(113, 'QLNV011', 'Trần Thị YY', 'tranthiyy', 'e10adc3949ba59abbe56e057f20f883e', 'tranthiyy@example.com', '0900000051', 'Hồ Chí Minh', 'QL', '2025-04-28 06:34:29'),
+(117, 'QLNV4264', 'NValkfnsansf', 'NValkfnsansf', '619ce14ca2272f0a86e86c3df935928f', 'afasfasf@gkka', '0838383890', 'àafs', 'QL', '2025-04-29 17:00:00');
 
 -- --------------------------------------------------------
 
@@ -970,15 +981,18 @@ CREATE TABLE `leave_requests` (
   `position` varchar(100) DEFAULT NULL,
   `workplace` varchar(255) DEFAULT NULL,
   `department` varchar(100) DEFAULT NULL,
-  `request_date` date NOT NULL
+  `request_date` date NOT NULL,
+  `reject_reason` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `leave_requests`
 --
 
-INSERT INTO `leave_requests` (`id`, `employee_id`, `reason`, `status`, `from_date`, `to_date`, `place`, `phone`, `position`, `workplace`, `department`, `request_date`) VALUES
-(9, 2, 'ĐSSS', 'approved', '2025-05-01', '2025-05-11', 'ở nhà', '0736282900', 'Chăm sóc khách hàng', 'hcm', 'cs', '2025-04-29');
+INSERT INTO `leave_requests` (`id`, `employee_id`, `reason`, `status`, `from_date`, `to_date`, `place`, `phone`, `position`, `workplace`, `department`, `request_date`, `reject_reason`) VALUES
+(9, 2, 'ĐSSS', 'approved', '2025-05-01', '2025-05-11', 'ở nhà', '0736282900', 'Chăm sóc khách hàng', 'hcm', 'cs', '2025-04-29', NULL),
+(10, 2, 'Đi chơi', 'approved', '2025-04-30', '2025-05-02', 'Đi chơi', '0738939003', 'Nhân viên chăm sóc khách hàng', 'W', 'Chăm sóc khách hàng', '2025-04-30', NULL),
+(11, 1, 'aa', 'rejected', '2025-04-24', '2025-04-26', 'â', '0976889999', 'Nhân viên dịch vụ', 'a', 'Quản lý dịch vụ', '2025-04-30', 'không thích jopw');
 
 -- --------------------------------------------------------
 
@@ -1377,8 +1391,8 @@ CREATE TABLE `salaries` (
 --
 
 INSERT INTO `salaries` (`id`, `employee_id`, `month_year`, `allowance`, `basic_salary`, `total_salary`) VALUES
-(42, 1, '2025-04', 100000.00, 9700000.00, 9800000.00),
-(43, 2, '2025-04', 100000.00, 5900000.00, 6000000.00),
+(42, 1, '2025-04', 100000.00, 9400000.00, 9500000.00),
+(43, 2, '2025-04', 100000.00, 8000000.00, 8100000.00),
 (44, 3, '2025-04', 0.00, 7000000.00, 7000000.00),
 (45, 7, '2025-04', 0.00, 7000000.00, 7000000.00),
 (46, 8, '2025-04', 0.00, 7000000.00, 7000000.00),
@@ -1386,7 +1400,7 @@ INSERT INTO `salaries` (`id`, `employee_id`, `month_year`, `allowance`, `basic_s
 (48, 10, '2025-04', 0.00, 10000000.00, 10000000.00),
 (49, 11, '2025-04', 0.00, 8000000.00, 8000000.00),
 (50, 1, '2025-03', 0.00, 9700000.00, 10000000.00),
-(51, 2, '2025-03', 0.00, 5500000.00, 5500000.00),
+(51, 2, '2025-03', 0.00, 8000000.00, 8000000.00),
 (52, 3, '2025-03', 0.00, 7000000.00, 7000000.00),
 (53, 7, '2025-03', 0.00, 7000000.00, 7000000.00),
 (54, 8, '2025-03', 0.00, 7000000.00, 7000000.00),
@@ -7516,7 +7530,7 @@ ALTER TABLE `wishlist`
 -- AUTO_INCREMENT cho bảng `activity_logs`
 --
 ALTER TABLE `activity_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=265;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=275;
 
 --
 -- AUTO_INCREMENT cho bảng `admin`
@@ -7594,7 +7608,7 @@ ALTER TABLE `drivers`
 -- AUTO_INCREMENT cho bảng `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=114;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
 
 --
 -- AUTO_INCREMENT cho bảng `facilities`
@@ -7618,7 +7632,7 @@ ALTER TABLE `feedback`
 -- AUTO_INCREMENT cho bảng `leave_requests`
 --
 ALTER TABLE `leave_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT cho bảng `messages`
