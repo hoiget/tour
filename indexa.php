@@ -112,7 +112,7 @@ if (isset($_SESSION['login_time']) && ($currentTime - $_SESSION['login_time'] > 
     </div><!-- End Logo -->
 
     <div class="search-bar">
-    <span><h3><?php 
+    <span><h3 style="margin-top: 20px; margin-right: 100px;"><?php 
             if(isset($_SESSION['Admin_name'])){
               echo "<center>Quản trị viên</center>"; 
             }elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
@@ -136,7 +136,7 @@ if (isset($_SESSION['login_time']) && ($currentTime - $_SESSION['login_time'] > 
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle" style="width: 100%; aspect-ratio: 1 / 1; object-fit: cover;">
             <span class="d-none d-md-block dropdown-toggle ps-2"><?php 
             if(isset($_SESSION['Admin_name'])){
               echo $username; 
@@ -230,14 +230,14 @@ if (isset($_SESSION['login_time']) && ($currentTime - $_SESSION['login_time'] > 
       <li class="nav-item">
         <a class="nav-link" href="indexa.php?feedback">
         <i class="bi bi-chat-square-dots"></i>
-          <span>xem feedback</span>
+          <span>Xem feedback</span>
         </a>
       </li><!-- End Dashboard Nav -->
       <li class="nav-item">
         <a class="nav-link" href="indexa.php?xembaocao">
         <i class="bi bi-table"></i>
 
-          <span>xem báo cáo</span>
+          <span>Xem báo cáo</span>
         </a>
       </li><!-- End Dashboard Nav -->
       <li class="nav-item">
@@ -335,7 +335,7 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
   <li class="nav-item">
         <a class="nav-link " href="indexa.php?xemdv">
         <i class="bi bi-info-circle"></i>
-          <span>xem lịch trình</span>
+          <span>Xem lịch trình</span>
         </a>
       </li><!-- End Dashboard Nav -->
       <li class="nav-item">
@@ -363,7 +363,7 @@ elseif(isset($_SESSION['Email']) && isset($_SESSION['Phone_number'])){
       <li class="nav-item">
         <a class="nav-link " href="indexa.php?feedback">
         <i class="bi bi-chat-square-dots"></i>
-          <span>xem feedback</span>
+          <span>Xem feedback</span>
         </a>
       </li><!-- End Dashboard Nav -->
       <li class="nav-item">

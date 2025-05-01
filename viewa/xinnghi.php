@@ -82,7 +82,7 @@
                 echo "Dịch vụ Hướng dẫn";
     } ?>">
 
-    <button type="submit">Gửi đơn</button>
+    <div style="text-align: center;"><button type="submit">Gửi đơn</button></div>
 </form>
 
 <script>

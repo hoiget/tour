@@ -100,7 +100,7 @@
     <label for="report_file">Đính kèm file (PDF/Word):</label>
     <input type="file" name="report_file" id="report_file" accept=".pdf,.doc,.docx">
 
-    <button type="submit">Gửi báo cáo</button>
+    <div style="display: block; margin:auto; width: 200px;"><button type="submit">Gửi báo cáo</button></div>
 </form>
 
 <p id="responseMessage" class="success-message"></p>
