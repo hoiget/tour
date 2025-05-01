@@ -72,25 +72,24 @@
                 <input type="number" class="form-control" id="tour_price" name="tour_price" required>
             </div>
 
-            <!-- Lịch Trình -->
-            <div class="mb-3">
-            <div id="itinerary-container"></div>
-
-            <!-- Ô nhập liệu ẩn để chứa toàn bộ lịch trình dạng JSON -->
-            <textarea id="itinerary" name="itinerary" hidden></textarea>
-            </div>
-
             <!-- Thời Gian Tour -->
        <!-- Thời Gian Tour -->
 <div class="mb-3">
     <label for="tour_duration" class="form-label">Thời Gian Tour</label>
     <span>
-        <input type="number" id="days"  min="0" placeholder="" style="width: 50px; border-radius: 5px; border: 1px solid black;"> ngày
-        <input type="number" id="nights"  min="0" placeholder="" style="width: 50px; border-radius: 5px; border: 1px solid black;"> đêm
+        <input type="number" id="days"  min="0" placeholder="" style="width: 50px; border-radius: 5px; border: 1px solid grey;"> ngày
+        <input type="number" id="nights"  min="0" placeholder="" style="width: 50px; border-radius: 5px; border: 1px solid grey;"> đêm
     </span> 
     <input type="hidden" name="tour_duration" id="tour_duration">
 </div>
 
+<!-- Lịch Trình -->
+<div class="mb-3">
+            <div id="itinerary-container"></div>
+
+            <!-- Ô nhập liệu ẩn để chứa toàn bộ lịch trình dạng JSON -->
+            <textarea id="itinerary" name="itinerary" hidden></textarea>
+            </div>
 
             <!-- Nút Submit -->
             <div style="width: 100%; text-align: center;">

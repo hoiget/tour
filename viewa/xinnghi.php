@@ -68,7 +68,7 @@
     <label>Phòng ban:</label>
     <input type="text" name="department" required>
 
-    <button type="submit">Gửi đơn</button>
+    <div style="text-align: center;"><button type="submit">Gửi đơn</button></div>
 </form>
 
 <script>

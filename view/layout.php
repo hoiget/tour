@@ -331,7 +331,7 @@ width: 55%;
         <form id="tour-search-form">
         <div id="tour-search" class="search-form">
             <input type="text" name="name" placeholder="Bạn muốn đi đâu?" class="search-input">
-            <div class="extra-fields">
+            
             <input type="date" name="date" class="date-input1" id="date-input1">
             <select class="month-select hidden-on-mobile" id="month-select">
                 <option value="">Tháng</option>
@@ -354,29 +354,28 @@ width: 55%;
                 <option value="medium">5 - 10 triệu</option>
                 <option value="high">Trên 10 triệu</option>
             </select>
-            </div>
-            <button type="submit" class="search-button" style="background-color: white; border: 1px solid black">🔍</button>
+            
+            <button type="submit" class="search-button" style="background-color: white; border: 1px solid grey">🔍</button>
     
         </div>
         </form>
         <!-- Form tìm kiếm Khách sạn -->
         <form id="hotel-search-form">
-        <div id="hotel-search" class="search-form" style="display: none; margin-top: 25px;">
-            <input type="text"  name="name" placeholder="Nhập tên khách sạn/Địa điểm" class="search-input1" style="border: 1px solid black; border-radius: 5px; width: 250px">
+        <div id="hotel-search" class="search-form" style="display: flex; margin-top: 25px;">
+            <input type="text"  name="name" placeholder="Nhập tên khách sạn/Địa điểm" class="search-input1" style="border: 1px solid grey; border-radius: 5px; width: 1000px">
             
-            <div class="extra-fields1">
+            
                 <div class="date-input-wrapper" data-label="Ngày nhận">
-                    <input type="date" style="width:100%;border: 1px solid black" id="ngay-nhan" class="date-input" name="checkin" style="border: 1px solid black; border-radius: 5px;">
+                    <input type="date" style="width: 100%; border: 1px solid grey" id="ngay-nhan" class="date-input" name="checkin" style="border: 1px solid grey; border-radius: 5px;">
                 </div>
                 <div class="date-input-wrapper" data-label="Ngày trả">
-                    <input type="date" style="width:100%;border: 1px solid black" id="ngay-tra" class="date-input" name="checkout" style="border: 1px solid black; border-radius: 5px;">
+                    <input type="date" style="width: 100%; border: 1px solid grey" id="ngay-tra" class="date-input" name="checkout" style="border: 1px solid grey; border-radius: 5px;">
                 </div>
             
-            
-                <input type="number" id="adult" name="adult" placeholder="Số người lớn" style="width: 150px;border: 1px solid black">
-                <input type="number" name="children" id="children"  placeholder="Số trẻ em" style="width: 150px;border: 1px solid black">
+                <input type="number" id="adult" name="adult" placeholder="Số người lớn" style="width: 150px;border: 1px solid grey">
+                <input type="number" name="children" id="children"  placeholder="Số trẻ em" style="width: 150px;border: 1px solid grey">
 
-                <select name="price" id="price" style="border: 1px solid black">
+                <select name="price" id="price" style="border: 1px solid grey">
                     <option value="">Chọn giá</option>
                     <option value="low">Dưới 1 triệu</option>
                     <option value="medium">1 triệu - 2 triệu</option>
@@ -384,8 +383,8 @@ width: 55%;
                     <option value="high">3 triệu - 4 triệu</option>
                     <option value="higher">Trên 4 triệu</option>
                 </select>
-            </div>
-            <button type="submit" class="hotel-search-button" style="background-color: white; border: 1px solid black">🔍</button>
+
+            <button type="submit" class="hotel-search-button" style="background-color: white; border: 1px solid grey">🔍</button>
         </div>
         </form>
     </div>
