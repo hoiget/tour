@@ -74,14 +74,14 @@
 
             <!-- Thời Gian Tour -->
        <!-- Thời Gian Tour -->
-<div class="mb-3">
-    <label for="tour_duration" class="form-label">Thời Gian Tour</label>
-    <span>
-        <input type="number" id="days"  min="0" placeholder="" style="width: 50px; border-radius: 5px; border: 1px solid grey;"> ngày
-        <input type="number" id="nights"  min="0" placeholder="" style="width: 50px; border-radius: 5px; border: 1px solid grey;"> đêm
-    </span> 
-    <input type="hidden" name="tour_duration" id="tour_duration">
-</div>
+            <div class="mb-3">
+                <label for="tour_duration" class="form-label">Thời Gian Tour</label>
+                <span>
+                    <input type="number" id="days"  min="0" placeholder="" style="width: 50px; border-radius: 5px; border: 1px solid grey;"> ngày
+                    <input type="number" id="nights"  min="0" placeholder="" style="width: 50px; border-radius: 5px; border: 1px solid grey;"> đêm
+                </span> 
+                <input type="hidden" name="tour_duration" id="tour_duration">
+            </div>
 
 <!-- Lịch Trình -->
 <div class="mb-3">
