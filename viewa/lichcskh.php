@@ -120,13 +120,13 @@
 <body>
     <h1>Lịch làm việc</h1>
 
-    <div class="table-container">
+<div class="table-container">
 <div class="calendar-container">
-  <div class="calendar-header">
-    <button id="prev-week">Trở về</button>
+  <div class="calendar-header" style="margin-top: 10px">
+    <button id="prev-week" style="border-radius: 5%; border: 1px solid grey;">Trở về</button>
     <input type="date" id="calendar-date">
-    <a href="indexa.php?lichcskh"><button>Hiện tại</button></a>
-    <button id="next-week">Tiếp</button>
+    <a href="indexa.php?lichcskh"><button style="border-radius: 5%; border: 1px solid grey;">Hiện tại</button></a>
+    <button id="next-week" style="border-radius: 5%; border: 1px solid grey;">Tiếp</button>
   </div>
   <table class="calendar-table">
     <thead>

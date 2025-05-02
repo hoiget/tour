@@ -168,11 +168,10 @@
         <label for="hdv">Tên nhân viên:</label>
         <select name="hdv1" id="hdv">
           <option value="" selected>Chọn nhân viên</option>
-        </select><br><br>
+        </select>
         <span id="tenhdv"></span> 
+        <div style="margin: auto; margin-left: 30px; width: 100px; display: inline-block"><button type="submit" class="submit-btn">Cập nhật</button></div>
       </div>
-<br>
-      <button type="submit" class="submit-btn">Cập nhật</button>
       </form>
   </div>
 </div>
@@ -264,8 +263,7 @@
                               html += `<span style="color:red">Lịch trình bị hủy</span>`;
                             }
                             html += `
-                      <br><button style="background-color: red;
-    color: #fff;" class="delete-btn" onclick="xoalichtrinh(${tour.idsh})">🗑️ Xóa</button>
+                      <br><button style="background-color: #DC143C; color: white; border: 1px solid black; border-radius: 3px" class="delete-btn" onclick="xoalichtrinh(${tour.idsh})">🗑️ Xóa</button>
                     </div>`;
             
            
