@@ -147,14 +147,14 @@ a{
                 <option value="medium">5 - 10 triệu</option>
                 <option value="high">Trên 10 triệu</option>
             </select>
-            <button class="search-button">🔍</button>
+            <button type="submit" class="search-button" style="background-color: white; border: 1px solid grey">🔍</button>
         </div>
 
       
             
         <div class="container-layout">
     <!-- Sidebar -->
-<div class="sidebar1">
+<div class="sidebar1" style="background-color: white;">
     <h5>Loại tour bạn muốn đi?</h5>
     <div>
         <input type="radio" id="family" name="type" value="Gia đình">

@@ -235,9 +235,9 @@
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th style="width: 50px">ID</th>
                     <th>Tên đặc điểm</th>
-                    <th>Action</th>
+                    <th style="width: 100px">Action</th>
                 </tr>
             </thead>
            
