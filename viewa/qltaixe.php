@@ -216,7 +216,7 @@
     <input type="text" id="search" name="TX" placeholder="Tìm kiếm mã/tên" onkeydown="searchroom(event)">
    
 
-    <button class="btn edit1" data-bs-toggle="modal" data-bs-target="#ratingModalthem">+</button>
+    <button style="margin-left: 10px;" class="btn edit1" data-bs-toggle="modal" data-bs-target="#ratingModalthem">+</button>
 <div class="modal fade" id="ratingModalthem" tabindex="" aria-labelledby="ratingModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg"> <!-- Thêm modal-lg ở đây -->
         <div class="modal-content">

@@ -94,7 +94,7 @@
     border: 1px solid #ccc;
     padding: 10px;
     border-radius: 5px;
-    background-color: #007bff;
+    background-color: #0056b3;
     height: 150px;
    
 }
@@ -316,13 +316,13 @@ label{
         <option value="higher">Trên 4 triệu</option>
     </select>
 
-    <button class="search-button hidden-on-mobile">🔍</button>
+    <button class="search-button hidden-on-mobile" style="background-color: white; border: 1px solid grey">🔍</button>
 </div>
 
             
         <div class="container-layout">
     <!-- Sidebar -->
-<div class="sidebar">
+<div class="sidebar" style="background-color: #6495ED">
     <h5>Diện tích:<h5>
     <div>
         <input type="radio" id="area_small" name="area" value="Small">        

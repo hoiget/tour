@@ -97,7 +97,7 @@
     <section id="services" class="services section">
 
     <div class="container my-5">
-    <h1 class="text-center mb-4" style="color:black">Tin Tức - GoWender</h1>
+    <h1 class="text-center mb-4" style="color:black">Tin Tức - GoWander</h1>
     <div class="row" id="tintuc">
       <!-- News cards will be rendered here -->
     </div>
