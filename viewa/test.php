@@ -124,24 +124,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['Booking_id'])) {
     $pdf->writeHTML($html, true, false, true, false, '');
     
 
-// $folder = './pdf/';
-$folder = __DIR__ . "/../pdf/";
-if (!file_exists($folder)) {
-    mkdir($folder, 0777, true); // Tạo thư mục nếu chưa có
-}
+    ob_end_clean(); // Dọn dẹp bộ đệm đầu ra (rất quan trọng nếu không sẽ bị lỗi header)
 
-// Tên file PDF
-$filename = 'booking_details_' . $bookingId . '.pdf';
-$filePath = $folder . $filename;
-ob_end_clean(); 
-// Xuất file PDF vào thư mục
-$pdf->Output($filePath, 'F'); // 'F' để lưu file trên server
-
-// Trả về URL tải file
-$pdfUrl = "http://localhost/tour/pdf/" . $filename; // Đổi yourdomain.com thành tên miền của bạn
-echo json_encode(['status' => 'success', 'pdf_url' => $pdfUrl]);
-
-exit;
+    // Tên file PDF
+    $filename = 'booking_details_' . $bookingId . '.pdf';
+    
+    // Xuất PDF trực tiếp để trình duyệt tải về
+    $pdf->Output($filename, 'D'); // 'D' để force download
+    exit;
 
 }
 ?>
