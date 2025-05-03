@@ -342,7 +342,7 @@ button.add-to-compare:hover {
 
 
 
-
+<form action="" method="get">
         <!-- Search Bar -->
         <div class="search-bar">
     <input type="text" placeholder="Bạn muốn đi đâu?" class="search-input" id="main-search">
@@ -371,7 +371,7 @@ button.add-to-compare:hover {
     </select>
     <button class="search-button hidden-on-mobile">🔍</button>
 </div>
-
+</form>
 <script>
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('date-input').setAttribute('min', today);
@@ -475,7 +475,7 @@ function xemtour() {
                             <a href="index.php?idtour=${event.tourid}&xemdanhgiatour=${event.tourid}&xemdanhgiarating=${event.tourid}">
                                 <h4>${event.Name}</h4>
                                 <p>
-                                    Mã tour: ${event.tourid} <br>
+
                                     Thời gian: ${event.timetour} <br>
                                     Phương tiện: ${event.vehicle}
                                 </p>
@@ -557,7 +557,7 @@ function xemtourtheomien(mien) {
                             <a href="index.php?idtour=${event.tourid}&xemdanhgiatour=${event.tourid}&xemdanhgiarating=${event.tourid}">
                                 <h4>${event.Name}</h4>
                                 <p>
-                                    Mã tour: ${event.tourid} <br>
+                                   
                                     Thời gian: ${event.timetour} <br>
                                     Phương tiện: ${event.vehicle}
                                 </p>
@@ -638,7 +638,7 @@ function timKiemTourtype(type) {
                             <a href="index.php?idtour=${event.tourid}&xemdanhgiatour=${event.tourid}&xemdanhgiarating=${event.tourid}">
                                 <h4>${event.Name}</h4>
                                 <p>
-                                    Mã tour: ${event.tourid} <br>
+                                   
                                     Thời gian: ${event.timetour} <br>
                                     Phương tiện: ${event.vehicle}
                                 </p>
@@ -722,7 +722,7 @@ function timKiemThongTin(name, date, budget, month) {
                             <a href="index.php?idtour=${event.tourid}&xemdanhgiatour=${event.tourid}&xemdanhgiarating=${event.tourid}">
                                 <h4>${event.Name}</h4>
                                 <p>
-                                    Mã tour: ${event.tourid} <br>
+                                   
                                     Thời gian: ${event.timetour} <br>
                                     Phương tiện: ${event.vehicle}
                                 </p>
@@ -806,7 +806,7 @@ $.ajax({
                             <a href="index.php?idtour=${event.tourid}&xemdanhgiatour=${event.tourid}&xemdanhgiarating=${event.tourid}">
                                 <h4>${event.Name}</h4>
                                 <p>
-                                    Mã tour: ${event.tourid} <br>
+                                   
                                     Thời gian: ${event.timetour} <br>
                                     Phương tiện: ${event.vehicle}
                                 </p>
@@ -984,7 +984,7 @@ $('.submenu-right a').on('click', function (e) {
                             <a href="index.php?idtour=${tour.tourid}&xemdanhgiatour=${tour.tourid}&xemdanhgiarating=${tour.tourid}">
                                 <h4>${tour.Name}</h4>
                                 <p>
-                                    Mã tour: ${tour.tourid} <br>
+                                   
                                     Thời gian: ${tour.timetour} <br>
                                     Phương tiện: ${tour.vehicle}
                                 </p>

@@ -147,7 +147,7 @@
     </thead>
     <tbody>
       <tr>
-        <td>Sáng</td>
+        <td>Sáng <br> (Từ 6h -> 11h)</td>
         <td id="morning-mon"></td>
         <td id="morning-tue"></td>
         <td id="morning-wed"></td>
@@ -157,7 +157,7 @@
         <td id="morning-sun"></td>
       </tr>
       <tr>
-        <td>Chiều</td>
+        <td>Chiều <br> (Từ 1h -> 5h)</td>
         <td id="afternoon-mon"></td>
         <td id="afternoon-tue"></td>
         <td id="afternoon-wed"></td>
@@ -167,7 +167,7 @@
         <td id="afternoon-sun"></td>
       </tr>
       <tr>
-        <td>Tối</td>
+        <td>Tối <br> (Từ 6h -> 12h)</td>
         <td id="evening-mon"></td>
         <td id="evening-tue"></td>
         <td id="evening-wed"></td>
@@ -258,7 +258,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const cell = document.getElementById(cellId);
 
     if (cell) {
-        cell.innerHTML = `<div class="shift-box"><strong>${item.employee_names}</strong></div>`;
+        cell.innerHTML = `<div class="shift-box"><strong>Làm việc</strong></div>`;
     }
 });
 
