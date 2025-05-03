@@ -289,9 +289,10 @@ label{
 </style>
     <div class="container2">
         <!-- Menu Tabs -->
-     
-        <!-- Search Bar -->
+    
+
         <div class="search-bar">
+            
     <input type="text" name="name" placeholder="Nhập tên phòng/Địa điểm" class="search-input" id="hotel-main-search">
 
     <div class="date-input-container hidden-on-mobile">
@@ -515,6 +516,8 @@ if (urlParams.has('ks')) {
 
     // Gọi API tìm kiếm khách sạn
     timKiemThongTinks(name, price, area, adult, children, checkin, checkout);
+}else {
+    xemks()
 }
     $('.sidebar input[type="radio"]').change(function () {
         var selectedType = $(this).val(); // Lấy giá trị từ radio button
