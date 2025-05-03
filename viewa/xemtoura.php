@@ -369,7 +369,7 @@ button.add-to-compare:hover {
         <option value="medium">5 - 10 triệu</option>
         <option value="high">Trên 10 triệu</option>
     </select>
-    <button class="search-button hidden-on-mobile">🔍</button>
+    <button class="search-button hidden-on-mobile" style="background-color: white; border: 1px solid grey">🔍</button>
 </div>
 </form>
 <script>
@@ -391,7 +391,7 @@ button.add-to-compare:hover {
         <div class="container-layout">
     <!-- Sidebar -->
 <div class="sidebar1">
-    <div class="timm">
+    <div class="timm" style="background-color: white; border: 1px solid grey; border-radius: 5px;">
     <h5>Loại tour bạn muốn đi?</h5>
     <div>
         <input type="radio" id="family" name="type" value="Gia đình">
