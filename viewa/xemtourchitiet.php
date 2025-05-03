@@ -377,7 +377,7 @@ function goiYTours() {
                                         Thời gian: ${tour.timetour}
                                     </p>
                                    <center><a href="index.php?idtour=${tour.tourid}&xemdanhgiatour=${tour.tourid}&xemdanhgiarating=${tour.tourid}" class="btn btn-primary">
-                                    Xem cho tiết</a></center>
+                                    Xem chi tiết</a></center>
                                 </div>
                             </div>
                         </div>
