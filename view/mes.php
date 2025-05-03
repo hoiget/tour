@@ -119,15 +119,15 @@ color:black;
 </div>
 
 <div id="chat-box">
-    <p>Chọn nhân viên chăm sóc khách hàng</p>
-    <select id="employee-select">
-        <option value="">Chọn nhân viên...</option>
+    <p>Chọn nhân viên chăm sóc khách hàng:</p>
+    <select id="employee-select" style="height: 30px;">
+        <option value="">Chọn nhân viên</option>
     </select>
-    <button id="create-room">Tạo phòng chat</button>
-    <p>Hoặc nhập mã phòng:</p>
+    <button id="create-room" style="border: 1px solid grey; border-radius: 5px;">Tạo phòng chat</button>
+    <p style="margin-top: 5px">Hoặc nhập mã phòng:</p>
     <input type="text" id="room-id-input" placeholder="Nhập mã phòng">
-    <button id="join-room">Vào phòng</button>
-    <div id="messages"></div>
+    <button id="join-room" style="border: 1px solid grey; border-radius: 5px; height: 30px;">Vào phòng chat</button>
+    <div id="messages" style="margin-top: 10px"></div>
     <input type="text" id="message-input" placeholder="Nhập tin nhắn...">
     <button id="send-btn">Gửi</button>
 </div>
@@ -140,7 +140,7 @@ $(document).ready(function () {
 
     function fetchEmployees() {
         $.getJSON('./api/api.php?action=danhsachcskh', function (data) {
-            let options = '<option value="">Chọn nhân viên...</option>';
+            let options = '<option value="">Chọn nhân viên</option>';
             data.forEach(emp => {
                 options += `<option value="${emp.id}">${emp.Name}</option>`;
             });

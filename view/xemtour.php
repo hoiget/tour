@@ -474,7 +474,7 @@ function xemtour() {
                                 <img src="./assets/img/tour/${event.Image}" alt=""> 
                             </a>
                             <a href="index.php?idtour=${event.tourid}&xemdanhgiatour=${event.tourid}&xemdanhgiarating=${event.tourid}">
-                                <h4>${event.Name}</h4>
+                                <h4 style=" margin-top: 10px">${event.Name}</h4>
                                 <p>
 
                                     Thời gian: ${event.timetour} <br>
@@ -556,7 +556,7 @@ function xemtourtheomien(mien) {
                                 <img src="./assets/img/tour/${event.Image}" alt=""> 
                             </a>
                             <a href="index.php?idtour=${event.tourid}&xemdanhgiatour=${event.tourid}&xemdanhgiarating=${event.tourid}">
-                                <h4>${event.Name}</h4>
+                                <h4 style=" margin-top: 10px">${event.Name}</h4>
                                 <p>
                                    
                                     Thời gian: ${event.timetour} <br>
@@ -637,7 +637,7 @@ function timKiemTourtype(type) {
                                 <img src="./assets/img/tour/${event.Image}" alt=""> 
                             </a>
                             <a href="index.php?idtour=${event.tourid}&xemdanhgiatour=${event.tourid}&xemdanhgiarating=${event.tourid}">
-                                <h4>${event.Name}</h4>
+                                <h4 style=" margin-top: 10px">${event.Name}</h4>
                                 <p>
                                    
                                     Thời gian: ${event.timetour} <br>
@@ -721,7 +721,7 @@ function timKiemThongTin(name, date, budget, month) {
                                 <img src="./assets/img/tour/${event.Image}" alt=""> 
                             </a>
                             <a href="index.php?idtour=${event.tourid}&xemdanhgiatour=${event.tourid}&xemdanhgiarating=${event.tourid}">
-                                <h4>${event.Name}</h4>
+                                <h4 style=" margin-top: 10px">${event.Name}</h4>
                                 <p>
                                    
                                     Thời gian: ${event.timetour} <br>
@@ -805,7 +805,7 @@ $.ajax({
                                 <img src="./assets/img/tour/${event.Image}" alt=""> 
                             </a>
                             <a href="index.php?idtour=${event.tourid}&xemdanhgiatour=${event.tourid}&xemdanhgiarating=${event.tourid}">
-                                <h4>${event.Name}</h4>
+                                <h4 style=" margin-top: 10px">${event.Name}</h4>
                                 <p>
                                    
                                     Thời gian: ${event.timetour} <br>
@@ -983,7 +983,7 @@ $('.submenu-right a').on('click', function (e) {
                                 <img src="./assets/img/tour/${tour.Image}" alt=""> 
                             </a>
                             <a href="index.php?idtour=${tour.tourid}&xemdanhgiatour=${tour.tourid}&xemdanhgiarating=${tour.tourid}">
-                                <h4>${tour.Name}</h4>
+                                <h4 style=" margin-top: 10px">${tour.Name}</h4>
                                 <p>
                                    
                                     Thời gian: ${tour.timetour} <br>

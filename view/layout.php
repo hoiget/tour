@@ -362,7 +362,7 @@ width: 55%;
         <!-- Form tìm kiếm Khách sạn -->
         <form id="hotel-search-form">
         <div id="hotel-search" class="search-form" style="display: none; margin-top: 25px;">
-            <input type="text"  name="name" placeholder="Nhập tên khách sạn/Địa điểm" class="search-input1" style="border: 1px solid black; border-radius: 5px; width: 250px">
+            <input type="text"  name="name" placeholder="Nhập tên khách sạn/Địa điểm" class="search-input1" style="border: 1px solid black; border-radius: 5px; width: 600px">
             
           
                 <div class="date-input-wrapper" data-label="Ngày nhận">
