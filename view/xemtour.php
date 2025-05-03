@@ -144,6 +144,7 @@ a{
     flex-wrap: wrap;
     gap: 5px;
     margin-top: 5px;
+    margin-left: 10px;
 }
 
 .departure-date {
@@ -479,7 +480,7 @@ function xemtour() {
                                     Thời gian: ${event.timetour} <br>
                                     Phương tiện: ${event.vehicle}
                                 </p>
-                                <strong>Khởi hành:</strong>
+                                <strong style="margin-left: 10px">Khởi hành:</strong>
                                 <div class="departure-box">`;
 
                     // Lặp danh sách ngày khởi hành và hiển thị trong box
@@ -499,13 +500,13 @@ function xemtour() {
 
 
                     eventHtml += `</div>
-                                <strong>Giá từ:</strong> 
-                                <br> <span style="color:red">`;
+                                <strong style="margin-left: 10px">Giá từ:</strong> 
+                                <br> <span style="color:red; margin-left: 10px">`;
 
                     if (parseInt(event.discount) == 0) {
                         eventHtml += parseInt(event.Price).toLocaleString('vi-VN') + ` đ </span>`;
                     } else if (parseInt(event.discount) > 0) {
-                        eventHtml +=`<del style="color:black">`+ parseInt(event.Price).toLocaleString('vi-VN') + ` đ</del> </span><br><span style="color:red"> Còn lại: `
+                        eventHtml +=`<del style="color:black">`+ parseInt(event.Price).toLocaleString('vi-VN') + ` đ</del> </span><br><span style="color:red; margin-left: 10px""> Còn lại: `
                         eventHtml += parseInt(event.discount).toLocaleString('vi-VN') + ` đ</span>`;
                     }
 
@@ -561,7 +562,7 @@ function xemtourtheomien(mien) {
                                     Thời gian: ${event.timetour} <br>
                                     Phương tiện: ${event.vehicle}
                                 </p>
-                                <strong>Khởi hành:</strong>
+                                <strong style="margin-left: 10px">Khởi hành:</strong>
                                 <div class="departure-box">`;
 
                     // Lặp danh sách ngày khởi hành và hiển thị trong box
@@ -581,13 +582,13 @@ function xemtourtheomien(mien) {
 
 
                     eventHtml += `</div>
-                                <strong>Giá từ:</strong> 
-                                  <br> <span style="color:red">`;
+                                <strong style="margin-left: 10px">Giá từ:</strong> 
+                                  <br> <span style="color:red; margin-left: 10px">`;
 
                     if (parseInt(event.discount) == 0) {
                         eventHtml += parseInt(event.Price).toLocaleString('vi-VN') + ` đ </span>`;
                     } else if (parseInt(event.discount) > 0) {
-                        eventHtml +=`<del style="color:black">`+ parseInt(event.Price).toLocaleString('vi-VN') + ` đ</del> </span><br><span style="color:red"> Còn lại: `
+                        eventHtml +=`<del style="color:black">`+ parseInt(event.Price).toLocaleString('vi-VN') + ` đ</del> </span><br><span style="color:red; margin-left: 10px""> Còn lại: `
                         eventHtml += parseInt(event.discount).toLocaleString('vi-VN') + ` đ</span>`;
                     }
 
@@ -642,7 +643,7 @@ function timKiemTourtype(type) {
                                     Thời gian: ${event.timetour} <br>
                                     Phương tiện: ${event.vehicle}
                                 </p>
-                                <strong>Khởi hành:</strong>
+                                <strong style="margin-left: 10px">Khởi hành:</strong>
                                 <div class="departure-box">`;
 
                     // Lặp danh sách ngày khởi hành và hiển thị trong box
@@ -662,13 +663,13 @@ function timKiemTourtype(type) {
 
 
                     eventHtml += `</div>
-                                <strong>Giá từ:</strong> 
+                                <strong style="margin-left: 10px">Giá từ:</strong> 
                                   <br> <span style="color:red">`;
 
                     if (parseInt(event.discount) == 0) {
                         eventHtml += parseInt(event.Price).toLocaleString('vi-VN') + ` đ </span>`;
                     } else if (parseInt(event.discount) > 0) {
-                        eventHtml +=`<del style="color:black">`+ parseInt(event.Price).toLocaleString('vi-VN') + ` đ</del> </span><br><span style="color:red"> Còn lại: `
+                        eventHtml +=`<del style="color:black">`+ parseInt(event.Price).toLocaleString('vi-VN') + ` đ</del> </span><br><span style="color:red; margin-left: 10px""> Còn lại: `
                         eventHtml += parseInt(event.discount).toLocaleString('vi-VN') + ` đ</span>`;
                     }
 
@@ -726,7 +727,7 @@ function timKiemThongTin(name, date, budget, month) {
                                     Thời gian: ${event.timetour} <br>
                                     Phương tiện: ${event.vehicle}
                                 </p>
-                                <strong>Khởi hành:</strong>
+                                <strong style="margin-left: 10px">Khởi hành:</strong>
                                 <div class="departure-box">`;
 
                     // Lặp danh sách ngày khởi hành và hiển thị trong box
@@ -746,13 +747,13 @@ function timKiemThongTin(name, date, budget, month) {
 
 
                     eventHtml += `</div>
-                                <strong>Giá từ:</strong> 
+                                <strong style="margin-left: 10px">Giá từ:</strong> 
                                  <br> <span style="color:red">`;
 
                     if (parseInt(event.discount) == 0) {
                         eventHtml += parseInt(event.Price).toLocaleString('vi-VN') + ` đ </span>`;
                     } else if (parseInt(event.discount) > 0) {
-                        eventHtml +=`<del style="color:black">`+ parseInt(event.Price).toLocaleString('vi-VN') + ` đ</del> </span><br><span style="color:red"> Còn lại: `
+                        eventHtml +=`<del style="color:black">`+ parseInt(event.Price).toLocaleString('vi-VN') + ` đ</del> </span><br><span style="color:red; margin-left: 10px""> Còn lại: `
                         eventHtml += parseInt(event.discount).toLocaleString('vi-VN') + ` đ</span>`;
                     }
 
@@ -810,7 +811,7 @@ $.ajax({
                                     Thời gian: ${event.timetour} <br>
                                     Phương tiện: ${event.vehicle}
                                 </p>
-                                <strong>Khởi hành:</strong>
+                                <strong style="margin-left: 10px">Khởi hành:</strong>
                                 <div class="departure-box">`;
 
                     // Lặp danh sách ngày khởi hành và hiển thị trong box
@@ -830,13 +831,13 @@ $.ajax({
 
 
                     eventHtml += `</div>
-                                <strong>Giá từ:</strong> 
+                                <strong style="margin-left: 10px">Giá từ:</strong> 
                                   <br> <span style="color:red">`;
 
                     if (parseInt(event.discount) == 0) {
                         eventHtml += parseInt(event.Price).toLocaleString('vi-VN') + ` đ </span>`;
                     } else if (parseInt(event.discount) > 0) {
-                        eventHtml +=`<del style="color:black">`+ parseInt(event.Price).toLocaleString('vi-VN') + ` đ</del> </span><br><span style="color:red"> Còn lại: `
+                        eventHtml +=`<del style="color:black">`+ parseInt(event.Price).toLocaleString('vi-VN') + ` đ</del> </span><br><span style="color:red; margin-left: 10px""> Còn lại: `
                         eventHtml += parseInt(event.discount).toLocaleString('vi-VN') + ` đ</span>`;
                     }
 
@@ -988,7 +989,7 @@ $('.submenu-right a').on('click', function (e) {
                                     Thời gian: ${tour.timetour} <br>
                                     Phương tiện: ${tour.vehicle}
                                 </p>
-                                <strong>Khởi hành:</strong>
+                                <strong style="margin-left: 10px">Khởi hành:</strong>
                                 <div class="departure-box">`;
 
                     // Lặp danh sách ngày khởi hành và hiển thị trong box
@@ -1008,8 +1009,8 @@ $('.submenu-right a').on('click', function (e) {
 
 
                     eventHtml += `</div>
-                                <strong>Giá từ:</strong> 
-                                <br> <p> <span style="color:red">
+                                <strong style="margin-left: 10px">Giá từ:</strong> 
+                                <br> <p> <span style="color:red; margin-left: 10px">
                         ${discount > 0 ? "<del style='color:black'>" +price.toLocaleString('vi-VN') + " đ </del> <br>Còn lại : " + discount.toLocaleString('vi-VN') : price.toLocaleString('vi-VN')} đ
                     </span></p>`;
 
