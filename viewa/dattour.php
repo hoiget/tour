@@ -325,7 +325,6 @@ function selectPayment(selectedOption) {
 document.addEventListener('DOMContentLoaded', async function () {
     let calendarEl = document.getElementById('calendar');
 
-    // Kiểm tra xem FullCalendar có thực sự được load không
     if (typeof FullCalendar === 'undefined') {
         console.error("Lỗi: FullCalendar chưa được load đúng cách!");
         return;
@@ -333,12 +332,12 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     let calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
-        locale: 'vi', // Set ngôn ngữ tiếng Việt
+        locale: 'vi',
         selectable: true,
         events: async function (fetchInfo, successCallback, failureCallback) {
             try {
-              const urlParams = new URLSearchParams(window.location.search);
-              const idtour = urlParams.get('dattour'); // Lấy ID từ URL
+                const urlParams = new URLSearchParams(window.location.search);
+                const idtour = urlParams.get('dattour'); // Lấy ID từ URL
                 let response = await fetch('./api/api.php?action=xemdattour&dattour=' + idtour);
                 if (!response.ok) {
                     throw new Error("Lỗi khi tải dữ liệu từ API");
@@ -346,8 +345,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 let data = await response.json();
 
                 let events = data.map(item => ({
-               
-                    title: item.Price.toLocaleString('vi-VN').replace(/\./g, '') + "₫",
+                    title: item.Price.toLocaleString('vi-VN') + "₫", // Định dạng tiền tệ
                     start: item.departure_date,
                     color: item.is_available ? '#ff0000' : '#cccccc',
                     textColor: item.is_available ? '#ffffff' : '#666666',
@@ -356,6 +354,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                     }
                 }));
 
+
                 successCallback(events);
             } catch (error) {
                 console.error("Lỗi tải dữ liệu:", error);
@@ -363,23 +362,39 @@ document.addEventListener('DOMContentLoaded', async function () {
             }
         },
         dateClick: function (info) {
-            let selectedEvent = calendar.getEvents().find(event => event.startStr === info.dateStr);
-            if (selectedEvent && selectedEvent.extendedProps.isAvailable) {
-                // Cập nhật giá trị ngày khởi hành vào input
-                document.getElementById('ns').value = info.dateStr;
-                const dateStr = info.dateStr; // Giả sử giá trị là "2025-03-08"
-                const [year, month, day] = dateStr.split("-");
-                const formattedDate = `${day}/${month}/${year}`;
-                document.getElementById('ns1').innerText =formattedDate;
-                openPopup("Bạn đã chọn ngày khởi hành: " + info.dateStr,'');
-            } else {
-                openPopup("Ngày này không khả dụng!",'');
-            }
-        }
+    let selectedDate = new Date(info.dateStr);
+    let today = new Date();
+    today.setHours(0, 0, 0, 0); // Đặt giờ về 00:00 để chỉ so sánh ngày
+
+    // Tạo ngày giới hạn (ngày hiện tại + 2)
+    let limitDate = new Date(today);
+    limitDate.setDate(today.getDate() + 2);
+
+    if (selectedDate < limitDate) { // Không cho chọn trước ngày khởi hành 2 ngày
+        openPopup("Bạn không thể chọn ngày khởi hành này!", '');
+        return;
+    }
+
+    let selectedEvent = calendar.getEvents().find(event => event.startStr === info.dateStr);
+    if (selectedEvent && selectedEvent.extendedProps.isAvailable) {
+        document.getElementById('ns').value = info.dateStr;
+
+        const dateStr = info.dateStr; 
+        const [year, month, day] = dateStr.split("-");
+        const formattedDate = `${day}/${month}/${year}`;
+        document.getElementById('ns1').innerText = formattedDate;
+
+        openPopup("Bạn đã chọn ngày khởi hành: " + formattedDate, '');
+    } else {
+        openPopup("Ngày này không khả dụng!", '');
+    }
+}
+
     });
 
     calendar.render();
 });
+
 </script>
 <br><br>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
