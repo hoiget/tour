@@ -265,7 +265,7 @@ ul li a:hover {
             data: formData,
             dataType: "json",
             success: function (response) {
-                openPopup(response.success || response.error);
+                openPopup(response.success || response.error,'');
                 setTimeout(function() {
                             window.location.href = 'index.php?xemxe'; // Chuyển hướng sau 2 giây
                 }, 2000);
