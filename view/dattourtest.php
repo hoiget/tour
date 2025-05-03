@@ -310,7 +310,7 @@ button:hover {
 </style>
 
 <div class="step-indicator">
-  <span class="step active"><i class="fas fa-calendar-alt"></i>1. Ngày khởi hành</span>
+  <span class="step active">1. Ngày khởi hành</span>
   <span class="step">2. Thông tin người dùng và tour</span>
   <span class="step">3. Đặt tour</span>
   

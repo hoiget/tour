@@ -294,9 +294,9 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(res => res.json())
         .then(data => {
             if (data.status === "added") {
-                btn.textContent = "❤️ yêu thích";
+                btn.textContent = "❤️ Yêu thích";
             } else if (data.status === "removed") {
-                btn.textContent = "🤍 yêu thích";
+                btn.textContent = "🤍 Yêu thích";
             } else {
                 alert(data.message || "Lỗi xảy ra");
             }
@@ -383,7 +383,7 @@ function xemdanhgiarating() {
 
             <div class="item" data-id="${event.idtour}" data-type="tour">
                 <h2 style="color:black">${event.Name}</h2>
-                <button class="wishlist-btn" data-id="${event.idtour}" data-type="tour">🤍 yêu thích</button>
+                <button class="wishlist-btn" data-id="${event.idtour}" data-type="tour">🤍 Yêu thích</button>
             </div>
             <div class="tour-details">
                 <div class="image">
@@ -445,7 +445,7 @@ function xemdanhgiarating() {
                 </div>
             </div>
              
-            <p class="ndo" style="color:black; font-size:20px; white-space: pre-line;">
+            <p class="ndo" style="color:black; font-size:20px;">
            
 
                 <b>Lịch trình:</b> 
