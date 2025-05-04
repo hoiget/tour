@@ -330,7 +330,7 @@ width: 55%;
         <!-- Form tìm kiếm Tour -->
         <form id="tour-search-form">
         <div id="tour-search" class="search-form">
-            <input type="text" name="name" placeholder="Bạn muốn đi đâu?" class="search-input">
+            <input type="text" id="tour" name="name" placeholder="Bạn muốn đi đâu?" class="search-input">
           
             <input type="date" name="date" class="date-input1" id="date-input1">
             <select class="month-select hidden-on-mobile" id="month-select">
