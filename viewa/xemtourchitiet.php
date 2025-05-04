@@ -267,7 +267,7 @@ function xemdanhgiarating() {
                                 <li><strong>Khởi hành:</strong> ${event.Depart} (${event.Orders || '0'} lượt đặt)</li>
                                 <li><strong>Phương tiện:</strong> ${event.vehicle}</li>
                                 <li><strong>Xuất phát:</strong> ${event.DepartureLocation}</li>
-                                <li><strong>Lịch trình:</strong> ${event.Itinerary}</li>
+                               
                             </ul>
                             <div class="details1">`
                             if (parseInt(event.discount)==0) {

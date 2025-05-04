@@ -334,6 +334,28 @@ document.addEventListener('DOMContentLoaded', async function () {
         initialView: 'dayGridMonth',
         locale: 'vi',
         selectable: true,
+        buttonText: {
+        today: 'HÔM NAY'  // ← Đổi chữ tại đây
+    },
+    datesSet: function(arg) {
+    const titleEl = document.querySelector('.fc-toolbar-title');
+    if (titleEl) {
+        // Dùng currentStart là ngày 1 của tháng đang xem
+        const currentDate = new Date(arg.view.currentStart);
+        const displayedMonth = currentDate.getMonth(); // 0-11
+        const year = currentDate.getFullYear();
+
+        const customMonthNames = [
+            "Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6",
+            "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"
+        ];
+
+        titleEl.textContent = `${customMonthNames[displayedMonth]} năm ${year}`;
+    }
+}
+
+,
+
         events: async function (fetchInfo, successCallback, failureCallback) {
             try {
                 const urlParams = new URLSearchParams(window.location.search);
