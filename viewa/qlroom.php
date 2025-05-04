@@ -216,7 +216,7 @@
     <input type="text" id="search" name="MAR" placeholder="Tìm kiếm mã room" onkeydown="searchroom(event)">
    
 
-    <button class="btn edit1" data-bs-toggle="modal" data-bs-target="#ratingModalthem">+</button>
+    <button style="margin-left: 10px;" class="btn edit1" data-bs-toggle="modal" data-bs-target="#ratingModalthem">+</button>
 <div class="modal fade" id="ratingModalthem" tabindex="" aria-labelledby="ratingModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg"> <!-- Thêm modal-lg ở đây -->
         <div class="modal-content">
@@ -250,14 +250,14 @@
                         </div>
                         <div class="form-group">
                             <div>
-                                <label for="price">Gía phòng:</label>
+                                <label for="price">Giá phòng:</label>
                                 <input type="number" id="price" name="price" >
                             </div>
                             <div>
                                 <label for="status">Status:</label>
                                 <select id="status" name="status">
                                     <option value="Hoạt động" selected>Hoạt động</option>
-                                    <option value="ko Hoạt động">ko Hoạt động</option>
+                                    <option value="ko Hoạt động">Không Hoạt động</option>
                                 </select>
                                 
                             </div>

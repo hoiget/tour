@@ -218,7 +218,7 @@
     <input type="text" id="search" name="MAT" placeholder="Tìm kiếm mã tour" onkeydown="searchtour(event)">
    
 
-    <button class="btn edit1" data-bs-toggle="modal" data-bs-target="#ratingModalthem">+</button>
+    <button style="margin-left: 10px;" class="btn edit1" data-bs-toggle="modal" data-bs-target="#ratingModalthem">+</button>
 <div class="modal fade" id="ratingModalthem" tabindex="" aria-labelledby="ratingModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg"> <!-- Thêm modal-lg ở đây -->
         <div class="modal-content">
@@ -251,7 +251,7 @@
                         </div>
                         <div class="form-group">
                             <div>
-                                <label for="Title">Gía tour:</label>
+                                <label for="Title">Giá tour:</label>
                                
                                 <input type="number" id="price" name="price" value="">
                             </div>
@@ -271,12 +271,12 @@
                         </div>
                         <div class="form-group">
                             <div>
-                                <label for="Title">Số lương tối đa:</label>
+                                <label for="Title">Số lượnng tối đa:</label>
                                
                                 <input type="number" id="td" name="td" value="">
                             </div>
                              <div>
-                                <label for="Title">Số lương tối thiểu:</label>
+                                <label for="Title">Số lượng tối thiểu:</label>
                                
                                 <input type="number" id="tt" name="tt" value="">
                             </div>
@@ -301,7 +301,7 @@
                                
                                 <input hidden type="date" id="nkh" name="nkh" value="null">
                                 <input type="date" id="departure_date" name="departure_date">
-                                <button type="button" onclick="addDate()">Thêm ngày</button>
+                                <button type="button" onclick="addDate()" style="margin-top: 10px; border: 1px solid grey; border-radius: 5px;">Thêm ngày</button>
                                 <ul id="dateList"></ul>
                                 <input type="hidden" name="departure_dates" id="departure_dates">
                             </div>
@@ -395,7 +395,7 @@
                 <th>Tên tour</th>
                 <th>Tên khách sạn</th>
                 <th>Phong cách</th>
-                <th>Gía</th>
+                <th>Giá</th>
                 <th>Ảnh</th>
                 <th>Phần trăm trẻ em</th>
                 <th>Số lượng tối đa</th>
