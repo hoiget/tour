@@ -125,7 +125,7 @@ color:black;
       font-size: 28px;
       cursor: pointer;
       box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      z-index: 999;
+      z-index: 100;
     }
 
     #micButton:hover {
