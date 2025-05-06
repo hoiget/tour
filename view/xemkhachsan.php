@@ -378,6 +378,7 @@ label{
                             <div class="tour-card">
                             <a href="index.php?idks=${event.idroom}&xemdanhgiaks=${event.idroom}&xemdanhgiaratingks=${event.idroom}"><img src="./assets/img/ks/${event.Image}" alt=""> </a>
                             <a href="index.php?idroomks=${event.idroom}&xemdanhgiaks=${event.idroom}&xemdanhgiaratingks=${event.idroom}"><p>${event.Name}<br>${event.Thumb}<br><br>${event.Diadiem}<br><br>
+                            <span style="color:red">Giá mỗi đêm: ${parseInt(event.Price).toLocaleString('vi-VN')} đ</span></p>
                             
                             `;
                            
@@ -417,6 +418,7 @@ function timKiemKStype(type) {
                             <div class="tour-card">
                             <a href="index.php?idks=${tour.id}&xemdanhgiaks=${tour.id}&xemdanhgiaratingks=${tour.id}"><img src="./assets/img/ks/${tour.Image}" alt=""> </a>
                             <a href="index.php?idks=${tour.id}&xemdanhgiaks=${tour.id}&xemdanhgiaratingks=${tour.id}"><p>${tour.Name}<br>${tour.Thumb}<br><br>${tour.Diadiem}<br><br>
+                            <span style="color:red" >Giá mỗi đêm: ${parseInt(tour.Price).toLocaleString('vi-VN')} đ </span></p>
                             `;
                            
                            
@@ -469,7 +471,7 @@ function timKiemThongTinks(name, price, area, adult, children, checkin, checkout
                                 <img src="./assets/img/ks/${tour.Image}" alt="">
                             </a>
                             <a href="index.php?idks=${tour.id}&xemdanhgiaks=${tour.id}&xemdanhgiaratingks=${tour.id}">
-                                <p>${tour.Name}<br>${tour.Thumb}<br><br>${tour.Diadiem}<br><br>
+                               <p>${tour.Name}<br>${tour.Thumb}<br><br>${tour.Diadiem}<br><br>  <span style="color:red">Giá mỗi đêm: ${parseInt(tour.Price).toLocaleString('vi-VN')} đ </span></p>
                               
                             </a>
                         </div>

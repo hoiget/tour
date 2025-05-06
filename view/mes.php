@@ -260,13 +260,13 @@ color:black;
         window.location.href = "index.php?ks";
       } else if (command.includes("xem khách sạn")) {
         window.location.href = "index.php?ks";
-      } else if (command.includes("đặt khách sạn")) {
+      } else if (command.includes("khách sạn")) {
         window.location.href = "index.php?ks";
       } else if (command.includes("xem phòng")) {
         window.location.href = "index.php?ks";
       }else if (command.includes("thuê xe")) {
         window.location.href = "index.php?thuexe";
-      } else if (command.includes("Theo yêu cầu")) {
+      } else if (command.includes("theo yêu cầu")) {
         window.location.href = "index.php?custom_tour";
       }else if (command.includes("nam")) {
         window.location.href = "index.php?tour&mien=Nam";
@@ -295,6 +295,9 @@ color:black;
       }
       else if (command.includes("liên hệ")) {
         window.location.href = "index.php?contact";
+      } 
+      else if (command.includes("đăng xuất")) {
+        window.location.href = "./logout.php";
       } 
        else if(command.includes("cuộn xuống")) {
        

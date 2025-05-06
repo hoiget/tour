@@ -446,12 +446,12 @@ function xemdanhgiarating() {
             </div>
              
             <p class="ndo" style="color:black; font-size:20px;">
-           
-
-                <b>Lịch trình:</b> 
-                ${event.Itinerary} 
                 <b>Nội dung:</b>
-                ${event.Description}
+                ${event.Description}<br>
+
+                <b>Lịch trình:</b> <br>
+                <span style="white-space:pre-line">${event.Itinerary}</span> 
+               
             </p>`;
 
         $('#xemchitiet').html(eventHtml);
