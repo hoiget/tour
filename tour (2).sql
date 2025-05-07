@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th4 30, 2025 lúc 03:53 AM
+-- Thời gian đã tạo: Th5 07, 2025 lúc 04:19 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -305,7 +305,111 @@ INSERT INTO `activity_logs` (`id`, `user_id`, `action_type`, `description`, `use
 (271, 1, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-04-30 08:37:31'),
 (272, 1, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-04-30 08:38:03'),
 (273, 1, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-04-30 08:49:41'),
-(274, 1, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-04-30 08:51:00');
+(274, 1, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-04-30 08:51:00'),
+(275, 29, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-02 06:29:12'),
+(276, 27, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-02 06:29:22'),
+(277, 27, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-02 06:29:35'),
+(278, 27, 'logout', 'Khách hàng đăng xuất khỏi hệ thống', 'user', '2025-05-02 06:30:24'),
+(279, 3, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-02 06:30:31'),
+(280, 3, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-05-02 06:31:22'),
+(281, 27, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-03 07:20:21'),
+(282, 27, 'logout', 'Khách hàng đăng xuất khỏi hệ thống', 'user', '2025-05-03 07:21:28'),
+(283, 3, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-03 07:21:40'),
+(284, 3, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-05-03 07:21:47'),
+(285, 2, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-03 07:22:06'),
+(286, 2, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-05-03 07:22:54'),
+(287, 1, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-03 07:23:00'),
+(288, 1, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-05-03 07:24:32'),
+(289, 2, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-03 07:24:39'),
+(290, 2, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-05-03 07:29:23'),
+(291, 1, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-03 07:29:27'),
+(292, 1, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-05-03 07:30:07'),
+(293, 3, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-03 07:30:13'),
+(294, 3, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-05-03 07:30:40'),
+(295, 1, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-03 07:30:46'),
+(296, 1, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-05-03 07:32:21'),
+(297, 2, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-03 07:32:26'),
+(298, 2, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-05-03 07:34:10'),
+(299, 27, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-03 07:34:15'),
+(300, 27, 'logout', 'Khách hàng đăng xuất khỏi hệ thống', 'user', '2025-05-03 07:38:25'),
+(301, 2, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-03 07:38:30'),
+(302, 2, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-05-03 07:42:06'),
+(303, 2, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-03 09:47:12'),
+(304, 2, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-05-03 10:05:05'),
+(305, 27, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-03 10:05:09'),
+(306, 27, 'logout', 'Khách hàng đăng xuất khỏi hệ thống', 'user', '2025-05-03 10:06:32'),
+(307, 2, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-03 10:06:41'),
+(308, 27, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-03 18:20:12'),
+(309, 27, 'logout', 'Khách hàng đăng xuất khỏi hệ thống', 'user', '2025-05-03 18:45:32'),
+(310, 2, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-04 07:38:23'),
+(311, 2, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-04 07:38:23'),
+(312, 2, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-05-04 07:38:31'),
+(313, 2, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-04 07:43:33'),
+(314, 2, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-05-04 07:45:18'),
+(315, 1, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-04 07:49:39'),
+(316, 27, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-04 08:44:49'),
+(317, 27, 'logout', 'Khách hàng đăng xuất khỏi hệ thống', 'user', '2025-05-04 08:44:53'),
+(318, 27, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-04 08:49:02'),
+(319, 27, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-06 12:32:11'),
+(320, 27, 'logout', 'Khách hàng đăng xuất khỏi hệ thống', 'user', '2025-05-06 12:53:15'),
+(321, 2, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-06 13:10:49'),
+(322, 1, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-07 07:23:50'),
+(323, 1, 'Update', 'Cập nhật tour ID:53 Tour Vũng Tàu - Long Hải', 'employees', '2025-05-07 07:28:00'),
+(324, 1, 'Update', 'Cập nhật tour ID:62 Tour Hàn Quốc - Seoul - Nami', 'employees', '2025-05-07 07:31:21'),
+(325, 1, 'Update', 'Cập nhật tour ID:54 Tour Mộc Châu - Sơn La', 'employees', '2025-05-07 07:32:11'),
+(326, 1, 'Update', 'Cập nhật tour ID:51 Tour Miền Tây Sông Nước', 'employees', '2025-05-07 07:33:13'),
+(327, 1, 'Update', 'Cập nhật tour ID:51 Tour Miền Tây Sông Nước', 'employees', '2025-05-07 07:33:14'),
+(328, 1, 'Update', 'Cập nhật tour ID:52 Tour Côn Đảo Huyền Bí', 'employees', '2025-05-07 07:33:42'),
+(329, 1, 'Update', 'Cập nhật tour ID:47 Đà Nẵng', 'employees', '2025-05-07 07:34:21'),
+(330, 1, 'Update', 'Cập nhật tour ID:47 Đà Nẵng', 'employees', '2025-05-07 07:37:31'),
+(331, 1, 'Update', 'Cập nhật tour ID:55 Tour Hà Giang - Cao Nguyên Đá', 'employees', '2025-05-07 07:37:57'),
+(332, 1, 'Update', 'Cập nhật tour ID:60 Tour Phong Nha - Kẻ Bàng', 'employees', '2025-05-07 07:38:30'),
+(333, 1, 'Update', 'Cập nhật tour ID:56 Tour Tràng An - Bái Đính', 'employees', '2025-05-07 07:38:59'),
+(334, 1, 'Update', 'Cập nhật phòng', 'employees', '2025-05-07 07:40:16'),
+(335, 1, 'Update', 'Cập nhật phòng', 'employees', '2025-05-07 07:40:55'),
+(336, 1, 'Update', 'Cập nhật phòng', 'employees', '2025-05-07 07:41:49'),
+(337, 1, 'Insert', 'Thêm phòng', 'employees', '2025-05-07 07:47:42'),
+(338, 1, 'Update', 'Cập nhật phòng', 'employees', '2025-05-07 07:56:16'),
+(339, 1, 'Update', 'Cập nhật phòng', 'employees', '2025-05-07 07:57:51'),
+(340, 1, 'Insert', 'Thêm phòng', 'employees', '2025-05-07 08:00:38'),
+(341, 1, 'Insert', 'Thêm phòng', 'employees', '2025-05-07 08:02:30'),
+(342, 1, 'Insert', 'Thêm phòng', 'employees', '2025-05-07 08:04:22'),
+(343, 1, 'Insert', 'Thêm phòng', 'employees', '2025-05-07 08:05:34'),
+(344, 1, 'Insert', 'Thêm phòng', 'employees', '2025-05-07 08:06:35'),
+(345, 1, 'Insert', 'Thêm phòng', 'employees', '2025-05-07 08:07:38'),
+(346, 1, 'Insert', 'Thêm phòng', 'employees', '2025-05-07 08:07:38'),
+(347, 1, 'Insert', 'Thêm phòng', 'employees', '2025-05-07 08:08:44'),
+(348, 1, 'Insert', 'Thêm phòng', 'employees', '2025-05-07 08:10:06'),
+(349, 1, 'Insert', 'Thêm phòng', 'employees', '2025-05-07 08:11:04'),
+(350, 1, 'Insert', 'Thêm phòng', 'employees', '2025-05-07 08:12:18'),
+(351, 1, 'Insert', 'Thêm phòng', 'employees', '2025-05-07 08:13:52'),
+(352, 1, 'Insert', 'Thêm phòng', 'employees', '2025-05-07 08:14:55'),
+(353, 1, 'Insert', 'Thêm phòng', 'employees', '2025-05-07 08:16:03'),
+(354, 1, 'Insert', 'Thêm phòng', 'employees', '2025-05-07 08:17:07'),
+(355, 1, 'Insert', 'Thêm phòng', 'employees', '2025-05-07 08:18:15'),
+(356, 1, 'Insert', 'Thêm tour Tiêu đề: Tour An Giang', 'employees', '2025-05-07 08:23:04'),
+(357, 1, 'Insert', 'Thêm tour Tiêu đề: Tour Anh Quốc', 'employees', '2025-05-07 08:25:35'),
+(358, 1, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-07 08:25:42'),
+(359, 1, 'Insert', 'Thêm tour Tiêu đề: Tour Úc', 'employees', '2025-05-07 08:38:18'),
+(360, 1, 'Insert', 'Thêm tour Tiêu đề: Tour Cần Thơ', 'employees', '2025-05-07 08:40:20'),
+(361, 1, 'Insert', 'Thêm tour Tiêu đề: Tour Cát Bà', 'employees', '2025-05-07 08:42:07'),
+(362, 1, 'Insert', 'Thêm tour Tiêu đề: Tour Đài Loan', 'employees', '2025-05-07 08:43:44'),
+(363, 1, 'Insert', 'Thêm tour Tiêu đề: Tour Đức', 'employees', '2025-05-07 08:45:25'),
+(364, 1, 'Insert', 'Thêm tour Tiêu đề: Tour Gia Lai', 'employees', '2025-05-07 08:47:00'),
+(365, 1, 'Update', 'Cập nhật tour ID:82 Tour Gia Lai', 'employees', '2025-05-07 08:47:26'),
+(366, 1, 'Insert', 'Thêm tour Tiêu đề: Tour Hạ Long', 'employees', '2025-05-07 08:49:22'),
+(367, 1, 'Insert', 'Thêm tour Tiêu đề: Tour Hội An', 'employees', '2025-05-07 08:51:10'),
+(368, 1, 'Insert', 'Thêm tour Tiêu đề: Tour Hội An', 'employees', '2025-05-07 08:51:10'),
+(369, 1, 'Insert', 'Thêm tour Tiêu đề: Tour Hồng Kông', 'employees', '2025-05-07 08:52:35'),
+(370, 1, 'Insert', 'Thêm tour Tiêu đề: Tour Italia', 'employees', '2025-05-07 08:54:10'),
+(371, 1, 'Insert', 'Thêm tour Tiêu đề: Tour Lâm Đồng', 'employees', '2025-05-07 08:55:56'),
+(372, 1, 'Insert', 'Thêm tour Tiêu đề: Tour Lý Sơn', 'employees', '2025-05-07 08:57:12'),
+(373, 1, 'Insert', 'Thêm tour Tiêu đề: Tour Ninh Thuận', 'employees', '2025-05-07 08:58:31'),
+(374, 1, 'Insert', 'Thêm tour Tiêu đề: Tour Phan Thiết', 'employees', '2025-05-07 09:05:22'),
+(375, 1, 'Insert', 'Thêm tour Tiêu đề: Tour Pháp', 'employees', '2025-05-07 09:06:50'),
+(376, 1, 'Insert', 'Thêm tour Tiêu đề: Tour Singapore', 'employees', '2025-05-07 09:08:37'),
+(377, 1, 'Insert', 'Thêm tour Tiêu đề: Tour Tây Ban Nha', 'employees', '2025-05-07 09:10:12'),
+(378, 1, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-05-07 09:11:18');
 
 -- --------------------------------------------------------
 
@@ -492,7 +596,8 @@ CREATE TABLE `chat_rooms` (
 
 INSERT INTO `chat_rooms` (`id`, `room_id`, `user_id`, `employee_id`, `Action`, `created_at`) VALUES
 (9, 'room_67e214b03a6d1', 1, 2, 0, '2025-03-25 02:28:00'),
-(10, 'room_680c3600bc8f7', 1, 11, 0, '2025-04-26 01:25:20');
+(10, 'room_680c3600bc8f7', 1, 11, 0, '2025-04-26 01:25:20'),
+(11, 'room_6816bed04c172', 1, 64, 0, '2025-05-04 01:11:44');
 
 -- --------------------------------------------------------
 
@@ -613,7 +718,74 @@ INSERT INTO `departure_dates` (`id`, `tour_id`, `departure_date`, `is_available`
 (200, 70, '2025-11-29', 1),
 (201, 71, '2025-05-04', 1),
 (202, 71, '2025-07-11', 1),
-(203, 71, '2025-06-12', 1);
+(203, 71, '2025-06-12', 1),
+(208, 75, '2025-05-31', 1),
+(209, 75, '2025-06-04', 1),
+(210, 75, '2025-08-28', 1),
+(211, 75, '2025-12-26', 1),
+(212, 76, '2025-05-31', 1),
+(213, 76, '2025-06-08', 1),
+(214, 76, '2025-07-20', 1),
+(215, 77, '2025-05-18', 1),
+(216, 77, '2025-06-20', 1),
+(217, 77, '2025-07-26', 1),
+(218, 77, '2025-11-13', 1),
+(219, 78, '2025-05-31', 1),
+(220, 78, '2025-06-01', 1),
+(221, 78, '2025-05-22', 1),
+(222, 78, '2025-10-23', 1),
+(223, 79, '2025-05-31', 1),
+(224, 79, '2025-05-22', 1),
+(225, 79, '2025-06-07', 1),
+(226, 79, '2025-07-25', 1),
+(227, 80, '2025-05-23', 1),
+(228, 80, '2025-05-31', 1),
+(229, 80, '2025-06-08', 1),
+(230, 80, '2025-07-16', 1),
+(231, 81, '2025-05-24', 1),
+(232, 81, '2025-05-31', 1),
+(233, 81, '2025-06-08', 1),
+(234, 81, '2025-07-25', 1),
+(235, 82, '2025-05-16', 1),
+(236, 82, '2025-05-29', 1),
+(237, 82, '2025-06-08', 1),
+(238, 82, '2025-08-23', 1),
+(239, 83, '2025-05-23', 1),
+(240, 83, '2025-05-31', 1),
+(241, 83, '2025-06-01', 1),
+(242, 84, '2025-05-25', 1),
+(243, 84, '2025-06-01', 1),
+(244, 84, '2025-08-16', 1),
+(245, 85, '2025-05-25', 1),
+(246, 85, '2025-06-01', 1),
+(247, 85, '2025-08-16', 1),
+(248, 86, '2025-05-31', 1),
+(249, 86, '2025-06-01', 1),
+(250, 86, '2025-06-07', 1),
+(251, 87, '2025-05-24', 1),
+(252, 87, '2025-05-31', 1),
+(253, 87, '2025-06-08', 1),
+(254, 88, '2025-05-23', 1),
+(255, 88, '2025-05-31', 1),
+(256, 88, '2025-06-08', 1),
+(257, 89, '2025-05-30', 1),
+(258, 89, '2025-06-08', 1),
+(259, 89, '2025-08-01', 1),
+(260, 90, '2025-05-29', 1),
+(261, 90, '2025-06-08', 1),
+(262, 90, '2025-07-24', 1),
+(263, 91, '2025-05-31', 1),
+(264, 91, '2025-06-08', 1),
+(265, 91, '2025-06-20', 1),
+(266, 92, '2025-05-30', 1),
+(267, 92, '2025-06-08', 1),
+(268, 92, '2025-07-18', 1),
+(269, 93, '2025-05-30', 1),
+(270, 93, '2025-06-08', 1),
+(271, 93, '2025-07-03', 1),
+(272, 94, '2025-05-31', 1),
+(273, 94, '2025-06-08', 1),
+(274, 94, '2025-06-05', 1);
 
 -- --------------------------------------------------------
 
@@ -721,7 +893,74 @@ INSERT INTO `departure_time` (`id`, `id_tour`, `Day_depart`, `ngaykhoihanh`, `Or
 (218, 70, '2 ngày 1 đêm', '2025-11-29', 0),
 (220, 71, '5 ngày 4 đêm', '2025-05-04', 0),
 (221, 71, '5 ngày 4 đêm', '2025-07-11', 0),
-(222, 71, '5 ngày 4 đêm', '2025-06-12', 0);
+(222, 71, '5 ngày 4 đêm', '2025-06-12', 0),
+(231, 75, '2 ngày 1 đêm', '2025-05-31', 0),
+(232, 75, '2 ngày 1 đêm', '2025-06-04', 0),
+(233, 75, '2 ngày 1 đêm', '2025-08-28', 0),
+(234, 75, '2 ngày 1 đêm', '2025-12-26', 0),
+(236, 76, '3 ngày 2 đêm', '2025-05-31', 0),
+(237, 76, '3 ngày 2 đêm', '2025-06-08', 0),
+(238, 76, '3 ngày 2 đêm', '2025-07-20', 0),
+(240, 77, '2 ngày 1 đêm', '2025-05-18', 0),
+(241, 77, '2 ngày 1 đêm', '2025-06-20', 0),
+(242, 77, '2 ngày 1 đêm', '2025-07-26', 0),
+(243, 77, '2 ngày 1 đêm', '2025-11-13', 0),
+(245, 78, '2 ngày 1 đêm', '2025-05-31', 0),
+(246, 78, '2 ngày 1 đêm', '2025-06-01', 0),
+(247, 78, '2 ngày 1 đêm', '2025-05-22', 0),
+(248, 78, '2 ngày 1 đêm', '2025-10-23', 0),
+(250, 79, '2 ngày 1 đêm', '2025-05-31', 0),
+(251, 79, '2 ngày 1 đêm', '2025-05-22', 0),
+(252, 79, '2 ngày 1 đêm', '2025-06-07', 0),
+(253, 79, '2 ngày 1 đêm', '2025-07-25', 0),
+(255, 80, '2 ngày 1 đêm', '2025-05-23', 0),
+(256, 80, '2 ngày 1 đêm', '2025-05-31', 0),
+(257, 80, '2 ngày 1 đêm', '2025-06-08', 0),
+(258, 80, '2 ngày 1 đêm', '2025-07-16', 0),
+(260, 81, '2 ngày 1 đêm', '2025-05-24', 0),
+(261, 81, '2 ngày 1 đêm', '2025-05-31', 0),
+(262, 81, '2 ngày 1 đêm', '2025-06-08', 0),
+(263, 81, '2 ngày 1 đêm', '2025-07-25', 0),
+(265, 82, '2 ngày 1 đêm', '2025-05-16', 0),
+(266, 82, '2 ngày 1 đêm', '2025-05-29', 0),
+(267, 82, '2 ngày 1 đêm', '2025-06-08', 0),
+(268, 82, '2 ngày 1 đêm', '2025-08-23', 0),
+(270, 83, '2 ngày 1 đêm', '2025-05-23', 0),
+(271, 83, '2 ngày 1 đêm', '2025-05-31', 0),
+(272, 83, '2 ngày 1 đêm', '2025-06-01', 0),
+(274, 84, '2 ngày 1 đêm', '2025-05-25', 0),
+(275, 84, '2 ngày 1 đêm', '2025-06-01', 0),
+(276, 84, '2 ngày 1 đêm', '2025-08-16', 0),
+(278, 85, '2 ngày 1 đêm', '2025-05-25', 0),
+(279, 85, '2 ngày 1 đêm', '2025-06-01', 0),
+(280, 85, '2 ngày 1 đêm', '2025-08-16', 0),
+(282, 86, '3 ngày 2 đêm', '2025-05-31', 0),
+(283, 86, '3 ngày 2 đêm', '2025-06-01', 0),
+(284, 86, '3 ngày 2 đêm', '2025-06-07', 0),
+(286, 87, '2 ngày 1 đêm', '2025-05-24', 0),
+(287, 87, '2 ngày 1 đêm', '2025-05-31', 0),
+(288, 87, '2 ngày 1 đêm', '2025-06-08', 0),
+(290, 88, '2 ngày 1 đêm', '2025-05-23', 0),
+(291, 88, '2 ngày 1 đêm', '2025-05-31', 0),
+(292, 88, '2 ngày 1 đêm', '2025-06-08', 0),
+(294, 89, '2 ngày 1 đêm', '2025-05-30', 0),
+(295, 89, '2 ngày 1 đêm', '2025-06-08', 0),
+(296, 89, '2 ngày 1 đêm', '2025-08-01', 0),
+(298, 90, '2 ngày 1 đêm', '2025-05-29', 0),
+(299, 90, '2 ngày 1 đêm', '2025-06-08', 0),
+(300, 90, '2 ngày 1 đêm', '2025-07-24', 0),
+(302, 91, '2 ngày 1 đêm', '2025-05-31', 0),
+(303, 91, '2 ngày 1 đêm', '2025-06-08', 0),
+(304, 91, '2 ngày 1 đêm', '2025-06-20', 0),
+(306, 92, '3 ngày 2 đêm', '2025-05-30', 0),
+(307, 92, '3 ngày 2 đêm', '2025-06-08', 0),
+(308, 92, '3 ngày 2 đêm', '2025-07-18', 0),
+(310, 93, '2 ngày 1 đêm', '2025-05-30', 0),
+(311, 93, '2 ngày 1 đêm', '2025-06-08', 0),
+(312, 93, '2 ngày 1 đêm', '2025-07-03', 0),
+(314, 94, '2 ngày 1 đêm', '2025-05-31', 0),
+(315, 94, '2 ngày 1 đêm', '2025-06-08', 0),
+(316, 94, '2 ngày 1 đêm', '2025-06-05', 0);
 
 -- --------------------------------------------------------
 
@@ -1020,7 +1259,8 @@ INSERT INTO `messages` (`id`, `sender_id`, `receiver_id`, `room_id`, `sender_typ
 (76, 1, 2, 'room_67e214b03a6d1', 'user', 'sss', '2025-03-25 02:28:20', 0),
 (77, 1, 2, 'room_67e214b03a6d1', 'guide', 'XXX', '2025-03-25 02:28:41', 0),
 (78, 1, 2, 'room_67e214b03a6d1', 'user', 'x', '2025-04-01 10:17:34', 0),
-(79, 1, 2, 'room_67e214b03a6d1', 'user', 'po', '2025-04-26 01:25:16', 0);
+(79, 1, 2, 'room_67e214b03a6d1', 'user', 'po', '2025-04-26 01:25:16', 0),
+(80, 1, 64, 'room_6816bed04c172', 'user', 'ccc', '2025-05-04 01:11:47', 0);
 
 -- --------------------------------------------------------
 
@@ -1189,7 +1429,8 @@ INSERT INTO `rentals` (`rental_id`, `customer_name`, `customer_phone`, `customer
 (3, 'Phuc Hung', '0987389890', 'phuc@gmail.com', '4 chỗ', 50, '2025-04-06 08:11:00', 'Tp hồ', 'Hà ', 'sss', '', 1, '2025-03-27 01:12:07', 1),
 (10, 'Phan Hung', '0736278299', 'comonhay@gmail.com', '4 chỗ', NULL, '2025-04-18 08:33:00', 'Thuận An', 'Hà ', 's', '2.040.000 VNĐ', 0, '2025-04-17 01:33:36', 27),
 (11, 'Phan Hung', '0736278299', 'comonhay@gmail.com', '4 chỗ', NULL, '2025-04-18 08:33:00', 'Thuận An', 'Hà ', 's', '2.040.000 VNĐ', 0, '2025-04-17 01:33:36', 27),
-(12, 'Phan Hung', '0736278299', 'comonhay@gmail.com', '4 chỗ', NULL, '2025-04-19 08:33:00', 'Thuận An', 'Núi bà Tây Ninh', 'ss', '3.060.000 VNĐ', 0, '2025-04-17 01:33:57', 27);
+(12, 'Phan Hung', '0736278299', 'comonhay@gmail.com', '4 chỗ', NULL, '2025-04-19 08:33:00', 'Thuận An', 'Núi bà Tây Ninh', 'ss', '3.060.000 VNĐ', 0, '2025-04-17 01:33:57', 27),
+(13, 'Phan Hung', '0736278299', 'comonhay@gmail.com', '4 chỗ', NULL, '2025-05-06 10:05:00', 'Thuận An', 'Núi bà Tây Ninh', 'ss', '2.040.000 VNĐ', 0, '2025-05-03 03:05:34', 27);
 
 -- --------------------------------------------------------
 
@@ -1265,6 +1506,7 @@ CREATE TABLE `rooms` (
   `Price` int(11) NOT NULL,
   `Adult` varchar(255) NOT NULL,
   `Children` varchar(255) NOT NULL,
+  `noidung` text NOT NULL,
   `Status` varchar(255) NOT NULL,
   `Removed` varchar(255) NOT NULL,
   `employeesId` int(11) DEFAULT NULL
@@ -1274,17 +1516,34 @@ CREATE TABLE `rooms` (
 -- Đang đổ dữ liệu cho bảng `rooms`
 --
 
-INSERT INTO `rooms` (`id`, `Name`, `Diadiem`, `Ngaynhan`, `Ngaytra`, `Area`, `Price`, `Adult`, `Children`, `Status`, `Removed`, `employeesId`) VALUES
-(9, 'Aquasun Hotel', 'Phú Quốc', '2025-04-01', '2025-05-11', '20m²', 2400000, '2', '1', 'Hoạt động', 'no', 1),
-(10, 'Salute Premium Hotel & Spa', 'Hà Nội', '2025-02-22', '2025-02-26', '30m²', 3000000, '4', '2', 'Hoạt động', 'no', 1),
-(11, 'Madelise Central Grand Hotel', 'Đà Nẵng', '2025-02-22', '2025-02-25', '40m²', 5000000, '4', '0', 'Hoạt động', 'no', 1),
-(12, 'Sapa Horizon Hotel', 'Sapa', '2025-02-12', '2025-02-14', '50m²', 5500000, '4', '2', 'Hoạt động', 'no', 1),
-(13, 'Grand Paradise Hotel', 'Huế', '2025-02-25', '2025-02-28', '60m²', 6000000, '5', '2', 'ko Hoạt động', 'no', 1),
-(16, 'The Grand Lotus Hotel', 'Miền Tây Sông Nước', '2025-04-18', '2025-04-20', '30m²', 1000000, '2', '1', 'Hoạt động', 'no', 1),
-(17, 'Sunrise Paradise Resort', 'Côn Đảo', '2025-04-20', '2025-04-24', '40m²', 2000000, '2', '1', 'Hoạt động', 'no', 1),
-(18, 'Blue Ocean Villa', 'Vũng Tàu', '2025-05-02', '2025-05-04', '50m²', 1000000, '3', '2', 'Hoạt động', 'no', 1),
-(19, 'Andamantra Resort ', '', '2025-04-18', '2025-04-30', '30m²', 900000, '2', '1', 'Hoạt động', 'no', 1),
-(20, 'sss', 'Tr', '2025-05-04', '2025-05-11', '30m²', 100000, '12', '1', 'Hoạt động', 'no', 1);
+INSERT INTO `rooms` (`id`, `Name`, `Diadiem`, `Ngaynhan`, `Ngaytra`, `Area`, `Price`, `Adult`, `Children`, `noidung`, `Status`, `Removed`, `employeesId`) VALUES
+(9, 'Aquasun Hotel', 'Phú Quốc', '2025-04-01', '2025-05-11', '20m²', 2400000, '2', '1', '', 'Hoạt động', 'no', 1),
+(10, 'Salute Premium Hotel & Spa', 'Hà Nội', '2025-02-22', '2025-02-26', '30m²', 3000000, '4', '2', '', 'Hoạt động', 'no', 1),
+(11, 'Madelise Central Grand Hotel', 'Đà Nẵng', '2025-02-22', '2025-02-25', '40m²', 5000000, '4', '0', '', 'Hoạt động', 'no', 1),
+(12, 'Sapa Horizon Hotel', 'Sapa', '2025-02-12', '2025-02-14', '50m²', 5500000, '4', '2', '', 'Hoạt động', 'no', 1),
+(13, 'Grand Paradise Hotel', 'Huế', '2025-02-25', '2025-02-28', '60m²', 6000000, '5', '2', '', 'ko Hoạt động', 'no', 1),
+(16, 'The Grand Lotus Hotel', 'Miền Tây Sông Nước', '2025-04-18', '2025-04-20', '30m²', 1000000, '2', '1', '', 'Hoạt động', 'no', 1),
+(17, 'Sunrise Paradise Resort', 'Côn Đảo', '2025-05-23', '2025-05-27', '40m²', 2000000, '2', '1', '', 'Hoạt động', 'no', 1),
+(18, 'Blue Ocean Villa', 'Vũng Tàu', '2025-05-02', '2025-05-04', '50m²', 1000000, '3', '2', '', 'Hoạt động', 'no', 1),
+(19, 'Andamantra Resort ', '', '2025-05-11', '2025-05-15', '30m²', 900000, '2', '1', '', 'Hoạt động', 'no', 1),
+(20, 'Suaopa', 'Nga', '2025-05-11', '2025-05-16', '30m²', 100000, '12', '1', '', 'Hoạt động', 'no', 1),
+(21, 'Khách Sạn Biển Xanh', 'An giang', '2025-05-11', '2025-05-13', '28m²', 900000, '2', '1', 'Vị trí trung tâm – Nằm ngay tại trung tâm thành phố, thuận tiện di chuyển đến các điểm tham quan và mua sắm. Phòng nghỉ hiện đại – Trang bị đầy đủ tiện nghi như TV màn hình phẳng, máy điều hòa, minibar, két sắt cá nhân.', 'Hoạt động', 'no', 1),
+(22, 'The Grand Palace Hotel', 'Anh quốc', '2025-06-01', '2025-06-04', '35m²', 3000000, '2', '0', 'Wifi miễn phí – Kết nối internet tốc độ cao miễn phí trong toàn bộ khuôn viên khách sạn. Bữa sáng buffet phong phú – Đa dạng món ăn Á - Âu phục vụ hàng ngày. Tọa lạc ở địa điểm thuận lợi cho việc di chuyển đến địa điểm du lịch.', 'Hoạt động', 'no', 1),
+(23, 'Khách Sạn Sài Gòn Mộng Mơ', 'sài gòn', '2025-05-15', '2025-05-17', '22m²', 700000, '2', '2', 'Nhà hàng sang trọng – Thưởng thức ẩm thực tinh tế trong không gian đẳng cấp. Có hồ bơi ngoài trời – Hồ bơi rộng rãi với tầm nhìn đẹp và khu vực ghế nằm thư giãn. Mang đến cho khách hàng không gian thoải mái nhất.', 'Hoạt động', 'no', 1),
+(24, 'Ocean View Resort', 'Châu âu', '2025-07-02', '2025-07-05', '40m²', 2200000, '3', '1', 'Có dịch vụ spa & massage – Thư giãn với các liệu trình chăm sóc sức khỏe. Ban công riêng – Có ban công với tầm nhìn ra biển hoặc thành phố. Không gian phòng thoáng đãng, rộng rãi phù hợp với hộ gia đình hoặc nhóm nhỏ.', 'Hoạt động', 'no', 1),
+(25, 'Khách Sạn Hương Quê', 'Cần Thơ', '2025-05-20', '2025-05-22', '25m²', 650000, '2', '0', 'Phù hợp cho gia đình nhỏ – Có phòng gia đình và dịch vụ trông trẻ em. Thiết kế tinh tế – Không gian nội thất sang trọng, mang phong cách hiện đại hoặc cổ điển. Được đánh giá cao – Nhận được nhiều phản hồi tích cực từ du khách trên các nền tảng đặt phòng.', 'Hoạt động', 'no', 1),
+(26, 'Lavender Boutique Hotel', 'Châu âu', '2025-06-10', '2025-06-13', '30m²', 1100000, '2', '1', 'Tọa lạc tại vị trí trung tâm thuận tiện, khách sạn mang phong cách kiến trúc hiện đại, được thiết kế hài hòa giữa sự sang trọng và ấm cúng. Hệ thống phòng nghỉ rộng rãi, trang bị đầy đủ tiện nghi như giường cao cấp, điều hòa, truyền hình cáp, két an toàn và minibar. Nhà hàng tại khách sạn phục vụ ẩm thực phong phú từ Á đến Âu, cùng với quầy bar sang trọng, là nơi lý tưởng để thư giãn sau một ngày dài. Ngoài ra, khách sạn còn có trung tâm thể hình, phòng spa – massage, hồ bơi ngoài trời và dịch vụ đưa đón sân bay chuyên nghiệp. Với đội ngũ nhân viên thân thiện, chuyên nghiệp và tận tâm.', 'Hoạt động', 'no', 1),
+(27, 'Paradise Villa', 'Châu âu', '2025-08-01', '2025-08-03', '45m²', 3000000, '4', '2', 'Ẩn mình giữa không gian thiên nhiên thanh bình, khu nghỉ dưỡng là nơi lý tưởng để nghỉ dưỡng, tái tạo năng lượng và tận hưởng trọn vẹn từng khoảnh khắc yên bình. Các phòng nghỉ được thiết kế mở, sử dụng vật liệu tự nhiên, đón trọn ánh sáng và không khí trong lành. Khu nghỉ dưỡng còn cung cấp các hoạt động ngoài trời như đạp xe, yoga, chèo kayak hoặc tham quan làng nghề địa phương, giúp bạn khám phá văn hóa bản địa một cách chân thực và tinh tế.', 'Hoạt động', 'no', 1),
+(28, 'Paradise Villa', 'Châu âu', '2025-08-01', '2025-08-03', '45m²', 3000000, '4', '2', 'Ẩn mình giữa không gian thiên nhiên thanh bình, khu nghỉ dưỡng là nơi lý tưởng để nghỉ dưỡng, tái tạo năng lượng và tận hưởng trọn vẹn từng khoảnh khắc yên bình. Các phòng nghỉ được thiết kế mở, sử dụng vật liệu tự nhiên, đón trọn ánh sáng và không khí trong lành. Khu nghỉ dưỡng còn cung cấp các hoạt động ngoài trời như đạp xe, yoga, chèo kayak hoặc tham quan làng nghề địa phương, giúp bạn khám phá văn hóa bản địa một cách chân thực và tinh tế.', 'Hoạt động', 'no', 1),
+(29, 'Khách Sạn Tre Xanh', 'Cát bà', '2025-07-01', '2025-07-04', '20m²', 500000, '1', '0', 'Khách sạn mang trong mình một dấu ấn riêng biệt với thiết kế nghệ thuật, tinh tế và giàu cảm hứng. Mỗi phòng nghỉ là một không gian độc đáo, được trang trí tỉ mỉ với nội thất thủ công, tranh vẽ hoặc các vật dụng mang hơi thở địa phương. Đặc biệt, quán cà phê hoặc rooftop bar của khách sạn là nơi lý tưởng để thưởng thức đồ uống và chiêm ngưỡng khung cảnh thành phố từ trên cao. Đây là lựa chọn lý tưởng cho những du khách yêu thích sự khác biệt, tinh tế và cảm giác gần gũi như đang ở nhà.', 'Hoạt động', 'no', 1),
+(30, 'Luxury Stay Da Nang', 'Gia lai', '2025-05-17', '2025-05-19', '32m²', 1800000, '2', '1', '\r\nKhách sạn mang trong mình một dấu ấn riêng biệt với thiết kế nghệ thuật, tinh tế và giàu cảm hứng. Mỗi phòng nghỉ là một không gian độc đáo, được trang trí tỉ mỉ với nội thất thủ công, tranh vẽ hoặc các vật dụng mang hơi thở địa phương. Đặc biệt, quán cà phê hoặc rooftop bar của khách sạn là nơi lý tưởng để thưởng thức đồ uống và chiêm ngưỡng khung cảnh thành phố từ trên cao. Đây là lựa chọn lý tưởng cho những du khách yêu thích sự khác biệt, tinh tế và cảm giác gần gũi như đang ở nhà.\r\n', 'Hoạt động', 'no', 1),
+(31, 'Moonlight Hotel', 'Đức', '2025-05-23', '2025-05-25', '27m²', 3000000, '2', '1', 'Với vị trí sát bờ biển tuyệt đẹp, khách sạn sở hữu tầm nhìn bao quát đại dương xanh ngát, nơi bạn có thể đón ánh bình minh mỗi sớm mai ngay từ ban công phòng nghỉ. Hệ thống phòng được thiết kế thoáng mát, tông màu nhẹ nhàng, kết hợp giữa nội thất hiện đại và nét duyên dáng vùng biển. Tại đây, bạn có thể thưởng thức hải sản tươi sống tại nhà hàng bên biển, ngâm mình trong hồ bơi nước mặn, hoặc tham gia các hoạt động như lặn biển, câu cá, mô tô nước…', 'Hoạt động', 'no', 1),
+(32, 'Khách Sạn Hoa Hồng', 'Hội an', '2025-05-25', '2025-05-27', '23m²', 780000, '2', '1', 'Tọa lạc tại một vị trí lý tưởng giữa thiên nhiên hùng vĩ, khách sạn là biểu tượng của sự sang trọng, riêng tư. Từng chi tiết trong thiết kế đều được chăm chút kỹ lưỡng để mang lại cảm giác thư thái và thoải mái tuyệt đối. Các phòng nghỉ đều có ban công hoặc sân vườn riêng, bồn tắm view biển hoặc núi, nội thất nhập khẩu cao cấp. Nhà hàng trong khuôn viên phục vụ các món ăn đa dạng, phong phú mang đến những buổi tối sống động. Spa trị liệu quốc tế, lớp yoga buổi sáng, dịch vụ đưa đón riêng và các hoạt động giải trí cao cấp khiến kỳ nghỉ của bạn trở nên trọn vẹn.', 'Hoạt động', 'no', 1),
+(33, 'Sunny Hill Resort', 'Pháp', '2025-08-08', '2025-08-10', '50m²', 2500000, '3', '2', 'Khách sạn được thiết kế dành riêng cho các gia đình, với không gian rộng rãi, tiện nghi và thân thiện cho cả người lớn lẫn trẻ nhỏ. Phòng nghỉ có thể kết nối giữa các phòng, giường phụ và cũi trẻ em có sẵn theo yêu cầu, cùng nhiều tiện ích như khu vui chơi trẻ em, hồ bơi gia đình, và nhà hàng phục vụ thực đơn trẻ nhỏ. Khách sạn cũng cung cấp dịch vụ giữ trẻ, tour gia đình hoặc các hoạt động ngoài trời giúp cả nhà có thể cùng nhau khám phá mà vẫn an toàn và thoải mái ', 'Hoạt động', 'no', 1),
+(34, 'Green Leaf Hotel', 'Tây ninh', '2025-06-06', '2025-06-10', '29m²', 1000000, '2', '0', 'Khách sạn được thiết kế dành riêng cho các gia đình, với không gian rộng rãi, tiện nghi và thân thiện cho cả người lớn lẫn trẻ nhỏ. Phòng nghỉ có thể kết nối giữa các phòng, giường phụ và cũi trẻ em có sẵn theo yêu cầu, cùng nhiều tiện ích như khu vui chơi trẻ em, hồ bơi gia đình, và nhà hàng phục vụ thực đơn trẻ nhỏ. Khách sạn cũng cung cấp dịch vụ giữ trẻ, tour gia đình hoặc các hoạt động ngoài trời giúp cả nhà có thể cùng nhau khám phá mà vẫn an toàn và thoải mái ', 'Hoạt động', 'no', 1),
+(35, 'Khách Sạn Biển Gọi', 'Phan thiết', '2025-05-28', '2025-05-30', '26m²', 850000, '2', '1', 'Nằm ngay trung tâm khu vực sôi động nhất thành phố, khách sạn là điểm dừng chân lý tưởng cho khách công tác hoặc du khách muốn khám phá nhịp sống đô thị. Phòng nghỉ hiện đại, trang bị bàn làm việc, wifi tốc độ cao, đưa đón sân bay. Ngoài ra, từ khách sạn chỉ mất vài phút để đến các điểm tham quan nổi tiếng, khu mua sắm, nhà hàng và trung tâm giải trí.', 'Hoạt động', 'no', 1),
+(36, 'Diamond Sea Hotel', 'Tây ban nha', '2025-06-11', '2025-06-14', '38m²', 2000000, '3', '1', 'Khách sạn được thiết kế dành riêng cho các gia đình, với không gian rộng rãi, tiện nghi và thân thiện cho cả người lớn lẫn trẻ nhỏ.Nằm ngay trung tâm khu vực sôi động nhất thành phố, khách sạn là điểm dừng chân lý tưởng cho khách công tác hoặc du khách muốn khám phá nhịp sống đô thị. Phòng nghỉ hiện đại, trang bị bàn làm việc, wifi tốc độ cao, đưa đón sân bay', 'Hoạt động', 'no', 1),
+(37, 'Khách Sạn Phố Núi', 'Lâm đồng - Lý sơn', '2025-05-29', '2025-05-31', '24m²', 720000, '2', '1', 'Mang đậm nét văn hóa bản địa trong từng chi tiết trang trí, khách sạn này giúp du khách không chỉ lưu trú mà còn thực sự cảm nhận được không khí địa phương. Từ họa tiết trên rèm cửa, vật dụng thủ công cho đến các món ăn địa phương trong thực đơn sáng, tất cả đều tạo nên một không gian gần gũi, ấm áp và khác biệt. Nhân viên địa phương nhiệt tình sẵn sàng chia sẻ về các điểm đến ít người biết, giúp bạn có trải nghiệm du lịch sâu sắc và chân thực. Phù hợp cho du khách ưa thích sự khám phá, văn hóa và trải nghiệm nguyên bản.', 'Hoạt động', 'no', 1);
 
 -- --------------------------------------------------------
 
@@ -1312,7 +1571,24 @@ INSERT INTO `rooms_facilities` (`Sr_no`, `Room_id`, `Facilities_id`) VALUES
 (15, 17, 4),
 (16, 18, 5),
 (17, 19, 5),
-(18, 20, 5);
+(18, 20, 5),
+(19, 21, 5),
+(20, 22, 3),
+(21, 23, 5),
+(22, 24, 5),
+(23, 25, 5),
+(24, 26, 5),
+(25, 27, 2),
+(26, 28, 2),
+(27, 29, 4),
+(28, 30, 5),
+(29, 31, 5),
+(30, 32, 5),
+(31, 33, 5),
+(32, 34, 5),
+(33, 35, 5),
+(34, 36, 5),
+(35, 37, 2);
 
 -- --------------------------------------------------------
 
@@ -1340,7 +1616,24 @@ INSERT INTO `rooms_features` (`Sr_no`, `Room_id`, `Features_id`) VALUES
 (15, 17, 3),
 (16, 18, 5),
 (17, 19, 5),
-(18, 20, 5);
+(18, 20, 5),
+(19, 21, 5),
+(20, 22, 3),
+(21, 23, 5),
+(22, 24, 5),
+(23, 25, 5),
+(24, 26, 5),
+(25, 27, 5),
+(26, 28, 5),
+(27, 29, 5),
+(28, 30, 5),
+(29, 31, 5),
+(30, 32, 5),
+(31, 33, 5),
+(32, 34, 5),
+(33, 35, 5),
+(34, 36, 5),
+(35, 37, 3);
 
 -- --------------------------------------------------------
 
@@ -1366,10 +1659,27 @@ INSERT INTO `rooms_images` (`Sr_no`, `Room_id`, `Image`, `Thumb`) VALUES
 (10, 12, 'luxury.jpg', 'Không gian cao cấp với nội thất sang trọng, tiện nghi đỉnh cao và trải nghiệm đẳng cấp.'),
 (11, 13, 'singlee.jpg', 'Phòng nhỏ gọn, ấm áp, dành riêng cho khách đi một mình, đầy đủ tiện nghi cho một kỳ nghỉ thoải mái.'),
 (14, 16, 'mientay.jpg', ''),
-(15, 17, 'cd.jpg', ''),
+(15, 17, 'sunrise.jpg', ''),
 (16, 18, 'vt.jpg', ''),
-(17, 19, 'TA.jpeg', ''),
-(18, 20, 'nga.jpg', '');
+(17, 19, 'andamantra.jpg', ''),
+(18, 20, 'nga.jpg', ''),
+(19, 21, '1.jpg', ''),
+(20, 22, '5.jpg', ''),
+(21, 23, '2.jpg', ''),
+(22, 24, '6.jpg', ''),
+(23, 25, '3.jpg', ''),
+(24, 26, '4.png', ''),
+(25, 27, '7.jpg', ''),
+(26, 28, '7.jpg', ''),
+(27, 29, '8.jpg', ''),
+(28, 30, '9.jpg', ''),
+(29, 31, '10.jpg', ''),
+(30, 32, '12.jpg', ''),
+(31, 33, '11.1.jpg', ''),
+(32, 34, '13.jpg', ''),
+(33, 35, '14.jpg', ''),
+(34, 36, '15.jpg', ''),
+(35, 37, '16.jpg', '');
 
 -- --------------------------------------------------------
 
@@ -7046,7 +7356,27 @@ INSERT INTO `tour` (`id`, `idks`, `Name`, `Style`, `Price`, `Child_price_percen`
 (68, 19, 'Tour Đà Lạt', 'Nghỉ dưỡng', 2200000, '45', 35, 13, 'Khám phá thành phố ngàn hoa và các điểm check-in sống ảo', 'Hoạt động', '2025-05-04', 'TP.Hồ Chí Minh', 'Ngày 1: Hồ Xuân Hương \r\nNgày 2: Thung lũng Tình Yêu', 1, 'Theo nhóm nhỏ', '2 ngày 1 đêm', 2000000, 'Xe khách', 'Nam'),
 (69, 19, 'Tour Mũi Né', 'Nghỉ dưỡng', 2800000, '40', 30, 10, 'Khám phá đồi cát và các resort sang trọng', 'Hoạt động', '', 'Hà Nội', 'Ngày 1: Đồi cát bay\r\nNgày 2: Suối Tiên', 1, 'Gia đình', '3 ngày 2 đêm', 0, 'Xe khách', 'Nam'),
 (70, 19, 'Tour Cần Thơ', 'Sông nước', 1600000, '50', 40, 15, 'Trải nghiệm chợ nổi Cái Răng và văn hóa miền Tây', 'Hoạt động', '', 'TP.Hồ Chí Minh', 'Ngày 1: Chợ nổi\r\nNgày 2: Vườn trái cây', 1, 'Gia đình', '2 ngày 1 đêm', 0, 'Xe khách', 'Nam'),
-(71, 19, 'Tour Moscow - Thủ đô nước Nga', 'Văn hóa', 25000000, '10', 20, 8, 'Khám phá thủ đô Moscow với Quảng trường Đỏ, Điện Kremlin và nhà thờ Saint Basil', 'Hoạt động', '', 'Hà Nội', 'Ngày 1: Quảng trường Đỏ\r\nNgày 2: Điện Kremlin', 1, 'Theo đoàn', '5 ngày 4 đêm', 20000000, 'Máy bay', 'Ngoài nước');
+(71, 19, 'Tour Moscow - Thủ đô nước Nga', 'Văn hóa', 25000000, '10', 20, 8, 'Khám phá thủ đô Moscow với Quảng trường Đỏ, Điện Kremlin và nhà thờ Saint Basil', 'Hoạt động', '', 'Hà Nội', 'Ngày 1: Quảng trường Đỏ\r\nNgày 2: Điện Kremlin', 1, 'Theo đoàn', '5 ngày 4 đêm', 20000000, 'Máy bay', 'Ngoài nước'),
+(75, 21, 'Tour An Giang', 'Sinh thái', 2000000, '30', 25, 10, 'Khám phá An Giang, vùng đất tâm linh và văn hóa đặc sắc với những thắng cảnh nổi bật như núi Sam, miếu Bà Chúa Xứ, chùa Hang và rừng tràm Trà Sư. Du khách sẽ được trải nghiệm không khí linh thiêng, phong cảnh hoang sơ cùng văn hóa giao thoa giữa người Kinh, Chăm và Khmer. Tour thích hợp cho du lịch tâm linh, nghỉ dưỡng và tìm hiểu vùng sông nước miền Tây.', 'Hoạt động', '', 'TP.Hồ Chí Minh', 'Ngày 1: An giang\r\nNgày 2: ', 1, 'Theo đoàn', '2 ngày 1 đêm', 0, 'Xe khách', 'Nam'),
+(76, 26, 'Tour Anh Quốc', 'Hiện đại', 13000000, '20', 30, 10, 'Tour đưa bạn đến những thành phố nổi tiếng như London, Oxford, Manchester với cung điện Buckingham, tháp Big Ben, cầu Tháp London và vùng nông thôn cổ kính. Trải nghiệm nét văn hóa quý tộc xen lẫn hiện đại, tham quan bảo tàng Anh, thưởng thức trà chiều kiểu hoàng gia và hòa mình vào nhịp sống văn minh Châu Âu.', 'Hoạt động', '', 'TP.Hồ Chí Minh', 'Ngày 1: London\r\nNgày 2:Oxford, Manchester\r\nNgày 3: Điện Buckingham, tháp Big Ben, cầu Tháp London và vùng nông thôn cổ kính', 1, 'Theo đoàn', '3 ngày 2 đêm', 12500000, 'Máy bay', 'Ngoài nước'),
+(77, 24, 'Tour Úc', 'Hiện đại', 19000000, '20', 40, 10, 'Hành trình khám phá Sydney với Nhà hát Con Sò, cầu cảng Sydney, đến Melbourne cổ điển và dạo quanh đảo Kangaroo hoặc rạn san hô Great Barrier. Tour đưa bạn đến với thiên nhiên hùng vĩ, động vật hoang dã và lối sống phóng khoáng của người Úc. Phù hợp cho gia đình và những ai yêu thích không gian mở.', 'Hoạt động', '', 'TP.Hồ Chí Minh', 'Ngày 1:Sydney với Nhà hát Con S\r\nNgày 2:Melbourne cổ điển và dạo quanh đảo Kangaroo hoặc rạn san hô Great Barrier', 1, 'Theo đoàn', '2 ngày 1 đêm', 0, 'Máy bay', 'Ngoài nước'),
+(78, 25, 'Tour Cần Thơ', 'Sinh thái', 1500000, '30', 25, 10, 'Cần Thơ mang đậm nét văn hóa sông nước với chợ nổi Cái Răng sôi động từ sáng sớm, bến Ninh Kiều thơ mộng và các vườn trái cây trĩu quả. Bạn sẽ được đi thuyền, thưởng thức đặc sản miền Tây và trải nghiệm cuộc sống của người dân miền sông nước mộc mạc, chân thành.', 'Hoạt động', '', 'TP.Hồ Chí Minh', 'Ngày 1:\r\nNgày 2:', 1, 'Gia đình', '2 ngày 1 đêm', 0, 'Xe khách', 'Tây'),
+(79, 29, 'Tour Cát Bà', 'Sinh thái', 2000000, '30', 12, 5, 'Cát Bà nổi bật với những bãi biển xanh ngọc, rừng quốc gia xanh mát và hệ sinh thái biển đa dạng. Du khách sẽ được tham quan hang Quân Y, tắm biển tại Cát Cò, du thuyền trên vịnh Lan Hạ và thưởng thức hải sản tươi ngon. Đây là điểm đến lý tưởng cho du lịch nghỉ dưỡng cuối tuần.', 'Hoạt động', '', 'Hà Nội', 'Ngày 1:\r\nNgày 2:', 1, 'Gia đình', '2 ngày 1 đêm', 1900000, 'Xe khách', 'Bắc'),
+(80, 28, 'Tour Đài Loan', 'Hiện đại', 11000000, '30', 30, 10, 'Tour đưa bạn khám phá Đài Bắc sôi động với tháp Taipei 101, làng cổ Jiufen, công viên Dương Minh Sơn đến Cao Hùng – thành phố cảng hiện đại. Bạn sẽ được thưởng thức ẩm thực đường phố tại chợ đêm Shilin, trải nghiệm văn hóa đậm chất Hoa và chiêm ngưỡng cảnh sắc thiên nhiên hài hòa giữa núi rừng và biển cả.', 'Hoạt động', '', 'TP.Hồ Chí Minh', 'Ngày 1:\r\nNgày 2:', 1, 'Theo đoàn', '2 ngày 1 đêm', 10000000, 'Máy bay', 'Ngoài nước'),
+(81, 31, 'Tour Đức', 'Hiện đại', 20000000, '30', 12, 1, 'Khám phá nước Đức hiện đại với thành phố Berlin lịch sử, lâu đài Neuschwanstein như cổ tích, sông Rhine thơ mộng và vùng Bavaria truyền thống. Bạn sẽ được tìm hiểu lịch sử thế giới qua Bức tường Berlin, lang thang ở quảng trường Marienplatz và nếm thử bia Đức trứ danh trong các lễ hội.', 'Hoạt động', '', 'TP.Hồ Chí Minh', 'Ngày 1:\r\nNgày 2:', 1, 'Theo nhóm nhỏ', '2 ngày 1 đêm', 0, 'Máy bay', 'Ngoài nước'),
+(82, 30, 'Tour Gia Lai', 'Sinh thái', 2800000, '20', 30, 10, 'Gia Lai nổi bật với Biển Hồ Pleiku thơ mộng, thác Phú Cường hùng vĩ, núi lửa Chư Đăng Ya rực rỡ mùa dã quỳ. Du khách còn được hòa mình vào văn hóa Tây Nguyên qua tiếng cồng chiêng, nhà rông và lễ hội truyền thống. Thích hợp cho người thích khám phá thiên nhiên và tìm về bản sắc văn hóa dân tộc.', 'Hoạt động', '', 'TP.Hồ Chí Minh', 'Ngày 1:\r\nNgày 2:', 1, 'Gia đình', '2 ngày 1 đêm', 2700000, 'Xe khách', 'Trung'),
+(83, 19, 'Tour Hạ Long', 'Sinh thái', 3000000, '20', 15, 10, 'Vịnh Hạ Long là biểu tượng du lịch Việt Nam với hàng ngàn đảo đá vôi kỳ vĩ. Tour đưa bạn du ngoạn trên du thuyền sang trọng, khám phá hang Sửng Sốt, đảo Titop, hang Đầu Gỗ và thưởng thức hải sản tươi ngon trên biển. Đây là tour lý tưởng cho cả nghỉ dưỡng, trăng mật và khám phá di sản UNESCO.', 'Hoạt động', '', 'Hà Nội', 'Ngày 1:\r\nNgày 2:', 1, 'Gia đình', '2 ngày 1 đêm', 2900000, 'Xe khách', 'Bắc'),
+(84, 32, 'Tour Hội An', 'Sinh thái', 3500000, '20', 40, 10, 'Hội An cuốn hút du khách bởi vẻ đẹp cổ kính, những ngôi nhà tường vàng mái ngói rêu phong và ánh đèn lồng lung linh về đêm. Tour đưa bạn dạo bước trên phố cổ, tham quan chùa Cầu, nhà cổ Tấn Ký, chợ Hội An, và thưởng thức ẩm thực đặc trưng như cao lầu, bánh mì Phượng, cơm gà Bà Buội. Không gian bình yên nơi đây phù hợp cho cả nghỉ dưỡng lẫn khám phá văn hóa.', 'Hoạt động', '', 'TP.Hồ Chí Minh', 'Ngày 1:\r\nNgày 2:', 1, 'Theo đoàn', '2 ngày 1 đêm', 3100000, 'Xe khách', 'Trung'),
+(85, 32, 'Tour Hội An', 'Sinh thái', 3500000, '20', 40, 10, 'Hội An cuốn hút du khách bởi vẻ đẹp cổ kính, những ngôi nhà tường vàng mái ngói rêu phong và ánh đèn lồng lung linh về đêm. Tour đưa bạn dạo bước trên phố cổ, tham quan chùa Cầu, nhà cổ Tấn Ký, chợ Hội An, và thưởng thức ẩm thực đặc trưng như cao lầu, bánh mì Phượng, cơm gà Bà Buội. Không gian bình yên nơi đây phù hợp cho cả nghỉ dưỡng lẫn khám phá văn hóa.', 'Hoạt động', '', 'TP.Hồ Chí Minh', 'Ngày 1:\r\nNgày 2:', 1, 'Theo đoàn', '2 ngày 1 đêm', 3100000, 'Xe khách', 'Trung'),
+(86, 19, 'Tour Hồng Kông', 'Sinh thái', 24000000, '20', 30, 10, 'Hồng Kông nổi tiếng với nền kinh tế năng động, cảnh quan hiện đại xen lẫn truyền thống. Du khách sẽ được chiêm ngưỡng toàn cảnh từ đỉnh The Peak, tham quan Đại lộ Ngôi sao, thưởng ngoạn cảnh đêm Cảng Victoria và khám phá Disneyland Hồng Kông. Tour phù hợp cho gia đình có trẻ nhỏ và người đam mê mua sắm.', 'Hoạt động', '', 'TP.Hồ Chí Minh', 'Ngày 1:\r\nNgày 2:\r\nNgày 3:', 1, 'Theo đoàn', '3 ngày 2 đêm', 0, 'Máy bay', 'Ngoài nước'),
+(87, 26, 'Tour Italia', 'Hiện đại', 26000000, '30', 20, 10, 'Du lịch Italia là hành trình về với văn minh phương Tây, nơi có đấu trường Colosseum hùng vĩ, tháp nghiêng Pisa độc đáo và kênh đào Venice nên thơ. Tour đưa bạn khám phá các thành phố nghệ thuật như Rome, Florence, Milan, và nếm thử ẩm thực đặc trưng: pizza, pasta, gelato. Thích hợp cho cặp đôi, người yêu kiến trúc và lịch sử.', 'Hoạt động', '', 'TP.Hồ Chí Minh', 'Ngày 1:\r\nNgày 2:', 1, 'Theo đoàn', '2 ngày 1 đêm', 0, 'Máy bay', 'Ngoài nước'),
+(88, 30, 'Tour Lâm Đồng', 'Sinh thái', 5000000, '30', 30, 10, 'Ngoài Đà Lạt, Lâm Đồng còn ẩn chứa nhiều điểm đến hấp dẫn như thác Pongour, núi Langbiang, đồi chè Tâm Châu và làng Cù Lần. Tour đưa bạn đến những vùng đất yên bình, gần gũi thiên nhiên, thích hợp cho du lịch sinh thái, nghỉ dưỡng và team building.', 'Hoạt động', '', 'TP.Hồ Chí Minh', 'Ngày 1:\r\nNgày 2:', 1, 'Gia đình', '2 ngày 1 đêm', 0, 'Xe khách', 'Tây'),
+(89, 37, 'Tour Lý Sơn', 'Hiện đại', 6000000, '30', 25, 10, 'Lý Sơn là viên ngọc thô ngoài khơi Quảng Ngãi, nơi có bãi biển hoang sơ, vách đá nham thạch ấn tượng và những cánh đồng tỏi đặc trưng. Tour đưa bạn chinh phục cột cờ Tổ quốc, đỉnh Thới Lới, chùa Hang và đảo Bé, đồng thời trải nghiệm hải sản tươi ngon. Thích hợp cho người thích khám phá, check-in và thư giãn.', 'Hoạt động', '', 'TP.Hồ Chí Minh', 'Ngày 1:\r\nNgày 2:', 1, 'Theo nhóm nhỏ', '2 ngày 1 đêm', 5500000, 'Xe khách', 'Trung'),
+(90, 19, 'Tour Ninh Thuận', 'Sinh thái', 3500000, '20', 25, 10, 'Ninh Thuận gây ấn tượng bởi khung cảnh hoang sơ của biển Ninh Chữ, vịnh Vĩnh Hy và đồi cát Nam Cương. Du khách còn có cơ hội tìm hiểu văn hóa Chăm tại tháp Po Klong Garai, làng gốm Bàu Trúc, và thưởng thức đặc sản nho, táo, thịt cừu. Tour phù hợp cho những ai yêu vẻ đẹp thiên nhiên nguyên bản và trải nghiệm văn hóa bản địa độc đáo.', 'Hoạt động', '', 'TP.Hồ Chí Minh', 'Ngày 1:\r\nNgày 2:', 1, 'Gia đình', '2 ngày 1 đêm', 3400000, 'Xe khách', 'Nam'),
+(91, 35, 'Tour Phan Thiết', 'Sinh thái', 5000000, '30', 29, 10, 'Tour đưa bạn đến với Mũi Né – thiên đường nghỉ dưỡng với bãi biển trong xanh, đồi cát bay và làng chài rực rỡ. Khám phá Suối Tiên, lâu đài rượu vang, tháp Chăm Poshanư và thưởng thức hải sản tươi sống ven biển. Phù hợp cho du lịch nghỉ dưỡng ngắn ngày và kỳ nghỉ gia đình.', 'Hoạt động', '', 'TP.Hồ Chí Minh', 'Ngày 1:\r\nNgày 2:', 1, 'Theo đoàn', '2 ngày 1 đêm', 0, 'Xe khách', 'Nam'),
+(92, 33, 'Tour Pháp', 'Hiện đại', 30000000, '30', 40, 12, 'Du lịch Pháp là hành trình chạm đến trái tim của châu Âu, nơi có tháp Eiffel biểu tượng, đại lộ Champs-Élysées, cung điện Versailles và bảo tàng Louvre. Bạn sẽ được trải nghiệm không khí lãng mạn của Paris, văn hóa nghệ thuật tinh tế, cùng ẩm thực trứ danh như bánh mì baguette, rượu vang và phô mai. Phù hợp cho cặp đôi và du lịch cao cấp.', 'Hoạt động', '', 'TP.Hồ Chí Minh', 'Ngày 1:\r\nNgày 2:\r\nNgày 3:', 1, 'Theo đoàn', '3 ngày 2 đêm', 28000000, 'Máy bay', 'Ngoài nước'),
+(93, 24, 'Tour Singapore', 'Hiện đại', 15000000, '40', 30, 10, 'Singapore chào đón bạn bằng vẻ hiện đại bậc nhất Đông Nam Á với Marina Bay Sands, Vườn bên Vịnh (Gardens by the Bay), đảo Sentosa và phố Orchard sầm uất. Tour kết hợp giữa vui chơi, mua sắm và trải nghiệm văn hóa đa dạng trong môi trường an toàn, thân thiện. Rất lý tưởng cho gia đình và nhóm bạn trẻ.', 'Hoạt động', '', 'TP.Hồ Chí Minh', 'Ngày 1:\r\nNgày 2:', 1, 'Theo nhóm nhỏ', '2 ngày 1 đêm', 14000000, 'Máy bay', 'Ngoài nước'),
+(94, 36, 'Tour Tây Ban Nha', 'Hiện đại', 30000000, '30', 25, 11, 'Tây Ban Nha mang đến trải nghiệm đậm chất Latin với Barcelona nghệ thuật, Madrid sôi động và vùng Andalusia rực rỡ. Tour đưa bạn chiêm ngưỡng công trình của Gaudí, thưởng thức flamenco, và khám phá các đấu trường bò tót. Ẩm thực đặc trưng với tapas, paella và rượu sangria cũng là điểm nhấn không thể bỏ lỡ.', 'Hoạt động', '', 'TP.Hồ Chí Minh', 'Ngày 1:\r\nNgày 2:', 1, 'Theo đoàn', '2 ngày 1 đêm', 28000000, 'Máy bay', 'Ngoài nước');
 
 -- --------------------------------------------------------
 
@@ -7067,22 +7397,22 @@ CREATE TABLE `tour_images` (
 
 INSERT INTO `tour_images` (`Sr_no`, `id_tour`, `Image`, `Thumb`) VALUES
 (1, 46, 'hanoi.jpg', ''),
-(2, 47, 'danang.jpg', ''),
+(2, 47, 'danangnew.jpg', ''),
 (3, 48, 'hue.jpg', ''),
 (4, 49, 'sapa1.jpg', ''),
 (5, 50, 'phuq.jpg', ''),
-(6, 51, 'mt.jfif', ''),
-(7, 52, 'cond.jfif', ''),
-(8, 53, 'vt.jfif', ''),
-(9, 54, 'mc.jfif', ''),
-(10, 55, 'gh.jfif', ''),
-(11, 56, 'tr.jfif', ''),
+(6, 51, 'mientay.jpg', ''),
+(7, 52, 'condao.jpg', ''),
+(8, 53, 'vungtau.jpg', ''),
+(9, 54, 'mocchau.jpg', ''),
+(10, 55, 'hagiang.jpg', ''),
+(11, 56, 'trangan.jpg', ''),
 (12, 57, 'an.jpg', ''),
 (13, 58, 'namk.jpg', ''),
 (14, 59, 'ky-co-1.jpg', ''),
-(15, 60, 'pn.jfif', ''),
+(15, 60, 'phongnha.jpg', ''),
 (16, 61, 'muang-boran-4-8565.jpg', ''),
-(17, 62, 'hq.jfif', ''),
+(17, 62, 'hanquoc.jpg', ''),
 (18, 63, 'Nhb.jpg', ''),
 (19, 64, 'hn.jpg', ''),
 (67, 66, 'cv.png', ''),
@@ -7090,7 +7420,27 @@ INSERT INTO `tour_images` (`Sr_no`, `id_tour`, `Image`, `Thumb`) VALUES
 (69, 68, 'dalat.png', ''),
 (70, 69, 'muine.png', ''),
 (71, 70, 'ctho.jpg', ''),
-(72, 71, 'nga.jpg', '');
+(72, 71, 'nga.jpg', ''),
+(76, 75, 'angiang.jpg', ''),
+(77, 76, 'anh.jpg', ''),
+(78, 77, 'australia.jpg', ''),
+(79, 78, 'cantho.jpg', ''),
+(80, 79, 'catba.jpg', ''),
+(81, 80, 'dailoan.jpg', ''),
+(82, 81, 'germany.jpg', ''),
+(83, 82, 'gialai.jpg', ''),
+(84, 83, 'halong.jpg', ''),
+(85, 84, 'hoian.jpg', ''),
+(86, 85, 'hoian.jpg', ''),
+(87, 86, 'hongkong.png', ''),
+(88, 87, 'italia.jpg', ''),
+(89, 88, 'lamdong.jpg', ''),
+(90, 89, 'lyson.jpg', ''),
+(91, 90, 'ninhthuan.jpg', ''),
+(92, 91, 'phanthiet.jpg', ''),
+(93, 92, 'phap.jpg', ''),
+(94, 93, 'singapore1.jpg', ''),
+(95, 94, 'spain.png', '');
 
 -- --------------------------------------------------------
 
@@ -7117,30 +7467,30 @@ INSERT INTO `tour_schedule` (`id`, `id_tour`, `Name`, `Date`, `Schedule`, `Locat
 (55, 59, 'Tour Quy Nhơn - Kỳ Co - Eo Gió', '2025-07-10 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh', 1),
 (56, 59, 'Tour Quy Nhơn - Kỳ Co - Eo Gió', '2025-07-10 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh', 1),
 (57, 59, 'Tour Quy Nhơn - Kỳ Co - Eo Gió', '2025-07-10 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh', 1),
-(148, 51, 'Tour Miền Tây Sông Nước', '2025-07-10 00:00:00', '4 ngày 3 đêm', 'TP.Hồ Chí Minh', 1),
-(149, 51, 'Tour Miền Tây Sông Nước', '2025-06-05 00:00:00', '4 ngày 3 đêm', 'TP.Hồ Chí Minh', 1),
-(150, 51, 'Tour Miền Tây Sông Nước', '2025-12-26 00:00:00', '4 ngày 3 đêm', 'TP.Hồ Chí Minh', 1),
-(166, 60, 'Tour Phong Nha - Kẻ Bàng', '2025-04-24 00:00:00', '2 ngày 1 đêm', 'Đà Nẵng', 1),
-(167, 60, 'Tour Phong Nha - Kẻ Bàng', '2025-05-04 00:00:00', '2 ngày 1 đêm', 'Đà Nẵng', 1),
-(168, 60, 'Tour Phong Nha - Kẻ Bàng', '2025-05-11 00:00:00', '2 ngày 1 đêm', 'Đà Nẵng', 1),
-(169, 60, 'Tour Phong Nha - Kẻ Bàng', '2025-12-20 00:00:00', '2 ngày 1 đêm', 'Đà Nẵng', 1),
-(170, 60, 'Tour Phong Nha - Kẻ Bàng', '2025-10-16 00:00:00', '2 ngày 1 đêm', 'Đà Nẵng', 1),
-(171, 58, 'Tour An Giang - Châu Đốc', '2025-04-29 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 2),
+(148, 51, 'Tour Miền Tây Sông Nước', '2025-03-30 00:00:00', '4 ngày 3 đêm', 'TP.Hồ Chí Minh', 1),
+(149, 51, 'Tour Miền Tây Sông Nước', '2025-03-30 00:00:00', '4 ngày 3 đêm', 'TP.Hồ Chí Minh', 1),
+(150, 51, 'Tour Miền Tây Sông Nước', '2025-03-30 00:00:00', '4 ngày 3 đêm', 'TP.Hồ Chí Minh', 1),
+(166, 60, 'Tour Phong Nha - Kẻ Bàng', '2025-03-08 00:00:00', '2 ngày 1 đêm', 'Đà Nẵng', 1),
+(167, 60, 'Tour Phong Nha - Kẻ Bàng', '2025-03-08 00:00:00', '2 ngày 1 đêm', 'Đà Nẵng', 3),
+(168, 60, 'Tour Phong Nha - Kẻ Bàng', '2025-03-08 00:00:00', '2 ngày 1 đêm', 'Đà Nẵng', 1),
+(169, 60, 'Tour Phong Nha - Kẻ Bàng', '2025-03-08 00:00:00', '2 ngày 1 đêm', 'Đà Nẵng', 1),
+(170, 60, 'Tour Phong Nha - Kẻ Bàng', '2025-03-08 00:00:00', '2 ngày 1 đêm', 'Đà Nẵng', 1),
+(171, 58, 'Tour An Giang - Châu Đốc', '2025-04-29 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 4),
 (172, 58, 'Tour An Giang - Châu Đốc', '2025-05-07 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
 (173, 58, 'Tour An Giang - Châu Đốc', '2025-07-17 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
 (174, 58, 'Tour An Giang - Châu Đốc', '2025-12-20 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
 (175, 57, 'Tour Mỹ Tho - Bến Tre', '2025-09-12 00:00:00', '1 ngày', 'TP.Hồ Chí Minh', 1),
 (176, 57, 'Tour Mỹ Tho - Bến Tre', '2025-12-09 00:00:00', '1 ngày', 'TP.Hồ Chí Minh', 1),
-(177, 53, 'Tour Vũng Tàu - Long Hải', '2025-04-25 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
-(178, 53, 'Tour Vũng Tàu - Long Hải', '2025-06-20 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
-(179, 53, 'Tour Vũng Tàu - Long Hải', '2025-12-27 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
-(184, 55, 'Tour Hà Giang - Cao Nguyên Đá', '2025-04-23 00:00:00', '3 ngày 2 đêm', 'Hà Nội', 1),
-(185, 55, 'Tour Hà Giang - Cao Nguyên Đá', '2025-06-13 00:00:00', '3 ngày 2 đêm', 'Hà Nội', 1),
-(186, 55, 'Tour Hà Giang - Cao Nguyên Đá', '2025-07-11 00:00:00', '3 ngày 2 đêm', 'Hà Nội', 1),
-(187, 55, 'Tour Hà Giang - Cao Nguyên Đá', '2025-11-21 00:00:00', '3 ngày 2 đêm', 'Hà Nội', 1),
+(177, 53, 'Tour Vũng Tàu - Long Hải', '2025-03-08 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(178, 53, 'Tour Vũng Tàu - Long Hải', '2025-03-08 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(179, 53, 'Tour Vũng Tàu - Long Hải', '2025-03-08 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(184, 55, 'Tour Hà Giang - Cao Nguyên Đá', '2025-03-08 00:00:00', '3 ngày 2 đêm', 'Hà Nội', 1),
+(185, 55, 'Tour Hà Giang - Cao Nguyên Đá', '2025-03-08 00:00:00', '3 ngày 2 đêm', 'Hà Nội', 1),
+(186, 55, 'Tour Hà Giang - Cao Nguyên Đá', '2025-03-08 00:00:00', '3 ngày 2 đêm', 'Hà Nội', 1),
+(187, 55, 'Tour Hà Giang - Cao Nguyên Đá', '2025-03-08 00:00:00', '3 ngày 2 đêm', 'Hà Nội', 1),
 (193, 59, 'Tour Quy Nhơn - Kỳ Co - Eo Gió', '2025-07-10 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh', 1),
 (194, 59, 'Tour Quy Nhơn - Kỳ Co - Eo Gió', '2025-07-10 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh', 1),
-(197, 47, 'Đà Nẵng', '2025-04-08 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(197, 47, 'Đà Nẵng', '2025-03-25 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
 (201, 46, 'Hà Nội', '2025-07-24 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
 (202, 66, 'Tour Sài Gòn - Địa đạo Củ Chi', '2025-10-01 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
 (203, 66, 'Tour Sài Gòn - Địa đạo Củ Chi', '2025-10-01 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
@@ -7149,21 +7499,82 @@ INSERT INTO `tour_schedule` (`id`, `id_tour`, `Name`, `Date`, `Schedule`, `Locat
 (206, 67, 'Tour Mekong Delta', '2025-04-20 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
 (207, 67, 'Tour Mekong Delta', '2025-04-20 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
 (208, 67, 'Tour Mekong Delta', '2025-04-20 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
-(209, 68, 'Tour Đà Lạt', '2025-05-04 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(209, 68, 'Tour Đà Lạt', '2025-05-04 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 3),
 (210, 68, 'Tour Đà Lạt', '2025-05-10 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
 (211, 68, 'Tour Đà Lạt', '2025-08-01 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
 (212, 68, 'Tour Đà Lạt', '2025-11-14 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
-(213, 69, 'Tour Mũi Né', '0000-00-00 00:00:00', '3 ngày 2 đêm', 'Hà Nội', 1),
 (214, 69, 'Tour Mũi Né', '2025-12-27 00:00:00', '3 ngày 2 đêm', 'Hà Nội', 1),
 (215, 69, 'Tour Mũi Né', '2025-11-26 00:00:00', '3 ngày 2 đêm', 'Hà Nội', 1),
 (216, 69, 'Tour Mũi Né', '2025-07-31 00:00:00', '3 ngày 2 đêm', 'Hà Nội', 1),
 (218, 70, 'Tour Cần Thơ', '2025-07-20 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
 (219, 70, 'Tour Cần Thơ', '2025-05-02 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
 (220, 70, 'Tour Cần Thơ', '2025-11-29 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
-(221, 71, 'Tour Moscow - Thủ đô nước Nga', '0000-00-00 00:00:00', '5 ngày 4 đêm', 'Hà Nội', 1),
-(222, 71, 'Tour Moscow - Thủ đô nước Nga', '2025-05-04 00:00:00', '5 ngày 4 đêm', 'Hà Nội', 1),
+(222, 71, 'Tour Moscow - Thủ đô nước Nga', '2025-05-04 00:00:00', '5 ngày 4 đêm', 'Hà Nội', 3),
 (223, 71, 'Tour Moscow - Thủ đô nước Nga', '2025-07-11 00:00:00', '5 ngày 4 đêm', 'Hà Nội', 1),
-(224, 71, 'Tour Moscow - Thủ đô nước Nga', '2025-06-12 00:00:00', '5 ngày 4 đêm', 'Hà Nội', 1);
+(224, 71, 'Tour Moscow - Thủ đô nước Nga', '2025-06-12 00:00:00', '5 ngày 4 đêm', 'Hà Nội', 1),
+(233, 75, 'Tour An Giang', '2025-05-31 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(234, 75, 'Tour An Giang', '2025-06-04 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(235, 75, 'Tour An Giang', '2025-08-28 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(236, 75, 'Tour An Giang', '2025-12-26 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(238, 76, 'Tour Anh Quốc', '2025-05-31 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh', 1),
+(239, 76, 'Tour Anh Quốc', '2025-06-08 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh', 1),
+(240, 76, 'Tour Anh Quốc', '2025-07-20 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh', 1),
+(242, 77, 'Tour Úc', '2025-05-18 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(243, 77, 'Tour Úc', '2025-06-20 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(244, 77, 'Tour Úc', '2025-07-26 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(245, 77, 'Tour Úc', '2025-11-13 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(247, 78, 'Tour Cần Thơ', '2025-05-31 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(248, 78, 'Tour Cần Thơ', '2025-06-01 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(249, 78, 'Tour Cần Thơ', '2025-05-22 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(250, 78, 'Tour Cần Thơ', '2025-10-23 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(252, 79, 'Tour Cát Bà', '2025-05-31 00:00:00', '2 ngày 1 đêm', 'Hà Nội', 1),
+(253, 79, 'Tour Cát Bà', '2025-05-22 00:00:00', '2 ngày 1 đêm', 'Hà Nội', 1),
+(254, 79, 'Tour Cát Bà', '2025-06-07 00:00:00', '2 ngày 1 đêm', 'Hà Nội', 1),
+(255, 79, 'Tour Cát Bà', '2025-07-25 00:00:00', '2 ngày 1 đêm', 'Hà Nội', 1),
+(257, 80, 'Tour Đài Loan', '2025-05-23 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(258, 80, 'Tour Đài Loan', '2025-05-31 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(259, 80, 'Tour Đài Loan', '2025-06-08 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(260, 80, 'Tour Đài Loan', '2025-07-16 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(262, 81, 'Tour Đức', '2025-05-24 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(263, 81, 'Tour Đức', '2025-05-31 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(264, 81, 'Tour Đức', '2025-06-08 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(265, 81, 'Tour Đức', '2025-07-25 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(272, 83, 'Tour Hạ Long', '2025-05-23 00:00:00', '2 ngày 1 đêm', 'Hà Nội', 1),
+(273, 83, 'Tour Hạ Long', '2025-05-31 00:00:00', '2 ngày 1 đêm', 'Hà Nội', 1),
+(274, 83, 'Tour Hạ Long', '2025-06-01 00:00:00', '2 ngày 1 đêm', 'Hà Nội', 1),
+(276, 84, 'Tour Hội An', '2025-05-25 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(277, 84, 'Tour Hội An', '2025-06-01 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(278, 84, 'Tour Hội An', '2025-08-16 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(280, 85, 'Tour Hội An', '2025-05-25 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(281, 85, 'Tour Hội An', '2025-06-01 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(282, 85, 'Tour Hội An', '2025-08-16 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(284, 86, 'Tour Hồng Kông', '2025-05-31 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh', 1),
+(285, 86, 'Tour Hồng Kông', '2025-06-01 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh', 1),
+(286, 86, 'Tour Hồng Kông', '2025-06-07 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh', 1),
+(288, 87, 'Tour Italia', '2025-05-24 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(289, 87, 'Tour Italia', '2025-05-31 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(290, 87, 'Tour Italia', '2025-06-08 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(292, 88, 'Tour Lâm Đồng', '2025-05-23 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(293, 88, 'Tour Lâm Đồng', '2025-05-31 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(294, 88, 'Tour Lâm Đồng', '2025-06-08 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(296, 89, 'Tour Lý Sơn', '2025-05-30 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(297, 89, 'Tour Lý Sơn', '2025-06-08 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(298, 89, 'Tour Lý Sơn', '2025-08-01 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(300, 90, 'Tour Ninh Thuận', '2025-05-29 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(301, 90, 'Tour Ninh Thuận', '2025-06-08 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(302, 90, 'Tour Ninh Thuận', '2025-07-24 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(304, 91, 'Tour Phan Thiết', '2025-05-31 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(305, 91, 'Tour Phan Thiết', '2025-06-08 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(306, 91, 'Tour Phan Thiết', '2025-06-20 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(308, 92, 'Tour Pháp', '2025-05-30 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh', 1),
+(309, 92, 'Tour Pháp', '2025-06-08 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh', 1),
+(310, 92, 'Tour Pháp', '2025-07-18 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh', 1),
+(312, 93, 'Tour Singapore', '2025-05-30 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(313, 93, 'Tour Singapore', '2025-06-08 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(314, 93, 'Tour Singapore', '2025-07-03 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(316, 94, 'Tour Tây Ban Nha', '2025-05-31 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(317, 94, 'Tour Tây Ban Nha', '2025-06-08 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(318, 94, 'Tour Tây Ban Nha', '2025-06-05 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1);
 
 -- --------------------------------------------------------
 
@@ -7231,7 +7642,8 @@ INSERT INTO `wishlist` (`id`, `user_id`, `item_id`, `type`, `created_at`) VALUES
 (6, 1, 56, 'tour', '2025-04-09 08:32:15'),
 (15, 1, 54, 'tour', '2025-04-10 13:51:44'),
 (16, 1, 57, 'tour', '2025-04-10 13:51:47'),
-(17, 27, 46, 'tour', '2025-04-17 08:33:16');
+(17, 27, 46, 'tour', '2025-04-17 08:33:16'),
+(18, 27, 64, 'tour', '2025-05-06 12:49:17');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -7530,7 +7942,7 @@ ALTER TABLE `wishlist`
 -- AUTO_INCREMENT cho bảng `activity_logs`
 --
 ALTER TABLE `activity_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=275;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=379;
 
 --
 -- AUTO_INCREMENT cho bảng `admin`
@@ -7572,7 +7984,7 @@ ALTER TABLE `booking_ordertour`
 -- AUTO_INCREMENT cho bảng `chat_rooms`
 --
 ALTER TABLE `chat_rooms`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT cho bảng `customer_assignment`
@@ -7584,13 +7996,13 @@ ALTER TABLE `customer_assignment`
 -- AUTO_INCREMENT cho bảng `departure_dates`
 --
 ALTER TABLE `departure_dates`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=208;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=275;
 
 --
 -- AUTO_INCREMENT cho bảng `departure_time`
 --
 ALTER TABLE `departure_time`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=230;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=317;
 
 --
 -- AUTO_INCREMENT cho bảng `deposit_hotel`
@@ -7638,7 +8050,7 @@ ALTER TABLE `leave_requests`
 -- AUTO_INCREMENT cho bảng `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT cho bảng `news`
@@ -7674,7 +8086,7 @@ ALTER TABLE `rating_reviewtour`
 -- AUTO_INCREMENT cho bảng `rentals`
 --
 ALTER TABLE `rentals`
-  MODIFY `rental_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `rental_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT cho bảng `reports`
@@ -7692,25 +8104,25 @@ ALTER TABLE `request_tour`
 -- AUTO_INCREMENT cho bảng `rooms`
 --
 ALTER TABLE `rooms`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT cho bảng `rooms_facilities`
 --
 ALTER TABLE `rooms_facilities`
-  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT cho bảng `rooms_features`
 --
 ALTER TABLE `rooms_features`
-  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT cho bảng `rooms_images`
 --
 ALTER TABLE `rooms_images`
-  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT cho bảng `salaries`
@@ -7734,19 +8146,19 @@ ALTER TABLE `tichdiem`
 -- AUTO_INCREMENT cho bảng `tour`
 --
 ALTER TABLE `tour`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
 
 --
 -- AUTO_INCREMENT cho bảng `tour_images`
 --
 ALTER TABLE `tour_images`
-  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
 
 --
 -- AUTO_INCREMENT cho bảng `tour_schedule`
 --
 ALTER TABLE `tour_schedule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=232;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=319;
 
 --
 -- AUTO_INCREMENT cho bảng `user_credit`
@@ -7758,7 +8170,7 @@ ALTER TABLE `user_credit`
 -- AUTO_INCREMENT cho bảng `wishlist`
 --
 ALTER TABLE `wishlist`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
