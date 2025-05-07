@@ -215,7 +215,7 @@
     <div class="container">
     <div class="search-bar">
     
-    <input type="text" id="search" name="MAT" placeholder="Tìm kiếm mã tour" onkeydown="searchtour(event)">
+    <input type="text" id="search" name="MAT" placeholder="Tìm kiếm mã tour hoặc tên tour" onkeydown="searchtour(event)">
    
 
     <button style="margin-left: 10px;" class="btn edit1" data-bs-toggle="modal" data-bs-target="#ratingModalthem">+</button>
@@ -392,6 +392,7 @@
         <thead>
             <tr>
                 <th>ID</th>
+                <th>Mã tour</th>
                 <th>Tên tour</th>
                 <th>Tên khách sạn</th>
                 <th>Phong cách</th>
@@ -524,11 +525,13 @@ document.addEventListener('DOMContentLoaded', applyResponsiveTableHeaders);
             if (Array.isArray(response) && response.length > 0) {
                 var events = response;
                 var eventHtml = '';
+                var i= 1;
                 events.forEach(function(event) {
                     let departureList = event.departure_dates.map(date => `<li>${date}</li>`).join("");
                     eventHtml += `
                      
                       <tr>
+                    <td>${i++}</td>
                     <td>${event.idtour}</td>
                    
                     <td>${event.tourname}</td>
@@ -567,12 +570,12 @@ document.addEventListener('DOMContentLoaded', applyResponsiveTableHeaders);
                 $('#employee-table').html(eventHtml);
                 applyResponsiveTableHeaders();
             } else {
-                $('#employee-table').html('<div class="col">Không tìm thấy thông tin người dùng.</div>');
+                $('#employee-table').html('<div class="col">Không tìm thông tin tour nào.</div>');
             }
         },
         error: function(xhr, status, error) {
             console.error('Lỗi khi lấy thông tin:', error);
-            $('#employee-table').html('<div class="col">Đã xảy ra lỗi khi tải thông tin người dùng.</div>');
+            $('#employee-table').html('<div class="col">Đã xảy ra lỗi khi tải thông tin tour.</div>');
         }
     });
 }
@@ -865,13 +868,16 @@ function searchtour(event) {
             data: { action: 'timmatour', MAT: searchValue }, // Gửi mã nhân viên tìm kiếm qua GET
             dataType: 'json', // Kết quả trả về là JSON
             success: function(response) {
+                console.log(response);
                 if (Array.isArray(response) && response.length > 0) {
                     var events = response;
                     var eventHtml = '';
+                    var i= 1;
                     events.forEach(function(event) {
+                        let departureList = event.departure_dates.map(date => `<li>${date}</li>`).join("");
                         eventHtml += `
                      
-                     <tr>
+                     <tr> <td>${i++}</td>
                    <td>${event.idtour}</td>
                     <td>${event.tourname}</td>
                     <td>${event.roomname}</td>
@@ -883,7 +889,9 @@ function searchtour(event) {
                    <td>${event.Min_participant}</td>
                    <td class="description">${event.Description}</td>
                    <td>${event.Status}</td>
-                   <td>${event.Depart}</td>
+                   <td><ul>${departureList}</ul>
+                    </td>
+                 
                    <td>${event.DepartureLocation}</td>
                    <td class="description">${event.Itinerary}</td>
                    <td>${event.tennhanvien}</td>
@@ -906,7 +914,7 @@ function searchtour(event) {
                     $('#employee-table').html(eventHtml);
                     applyResponsiveTableHeaders();
                 } else {
-                    $('#employee-table').html('<tr><td colspan="8">Không tìm thấy nhân viên nào.</td></tr>');
+                    $('#employee-table').html('<tr><td colspan="8">Không tìm thông tin tour nào.</td></tr>');
                 }
             },
             error: function(xhr, status, error) {

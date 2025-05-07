@@ -167,10 +167,10 @@ function xemdanhgiaratingks() {
             <h2 style="color:black">${event.room_name || 'Tên phòng không có'}</h2>
            
             <div class="tour-details">
-              <div class="image">
-                <img src="./assets/img/ks/${event.Image || 'default.jpg'}" alt="" />
-                <br><br><h2 style="color:black">Thông tin tiện ích phòng</h2>
-                <p style="color:black;font-size:20px">${event.Description || 'Mô tả chưa có'}</p>
+              <div class="image" style="width:70%">
+                <img  src="./assets/img/ks/${event.Image || 'default.jpg'}" alt="" />
+                <br><br><h2 style="color:black">Thông tin phòng</h2>
+                <p style="color:black;font-size:20px">${event.noidung || 'Mô tả chưa có'}</p>
               </div>
               
               <div class="details">

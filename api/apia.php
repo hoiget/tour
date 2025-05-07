@@ -739,12 +739,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Cập nhật bảng `room`
             $update_room_query = "
                 UPDATE rooms 
-                SET Name = ?,Diadiem = ?,Ngaynhan = ?,Ngaytra = ?, Area = ?, Price = ?, Adult = ?, Children = ?, Status = ?, 
+                SET Name = ?,Diadiem = ?,Ngaynhan = ?,Ngaytra = ?, Area = ?, Price = ?, Adult = ?, Children = ?,noidung = ?, Status = ?, 
                     Removed = ?, employeesId = ?
                 WHERE id = ?";
             $stmt_room = $conn->prepare($update_room_query);
             $stmt_room->bind_param(
-                "sssssissssii",
+                "sssssisssssii",
                 $name,
                 $diadiem,
                 $ngaynhan,
@@ -753,6 +753,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $price,
                 $adult,
                 $children,
+                $description,
                 $status,
                 $remove,
                 $employee_id,
@@ -839,11 +840,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Thêm mới vào bảng `rooms`
             $insert_room_query = "
-                INSERT INTO rooms (Name,Diadiem,Ngaynhan,Ngaytra, Area, Price, Adult, Children, Status, Removed, employeesId)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                INSERT INTO rooms (Name,Diadiem,Ngaynhan,Ngaytra, Area, Price, Adult, Children,noidung, Status, Removed, employeesId)
+                VALUES (?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?)";
             $stmt_room = $conn->prepare($insert_room_query);
             $stmt_room->bind_param(
-                "sssssissssi",
+                "sssssisssssi",
                 $name,
                 $diadiem,
                 $ngaynhan,  
@@ -852,6 +853,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $price,
                 $adult,
                 $children,
+                $description,
                 $status,
                 $remove,
                 $employee_id
@@ -1750,22 +1752,23 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         LEFT JOIN employees ON tour.employeesId = employees.id 
         LEFT JOIN departure_dates ON tour.id = departure_dates.tour_id
         LEFT JOIN rooms ON tour.idks = rooms.id
-         WHERE tour.id='$code'
+         WHERE tour.id='$code' OR tour.Name LIKE '%$code%' 
         GROUP BY tour.id 
        ";
-            $result = $conn->query($query);
+           
+    $result = $conn->query($query);
 
-            $users = [];
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    $users[] = $row; // Lưu từng bản ghi vào mảng
-                }
-            }
+    $users = [];
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $row['departure_dates'] = $row['departure_dates'] ? explode(",", $row['departure_dates']) : [];
+            $users[] = $row; // Lưu từng bản ghi vào mảng
+        }
+    }
 
-            // Trả về mảng nhân viên dưới dạng JSON
-            echo json_encode($users);
+    echo json_encode($users);
         } else {
-            // Trả về mảng rỗng nếu không có mã nhân viên
+            
             echo json_encode([]);
         }
         exit;

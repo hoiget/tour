@@ -438,7 +438,7 @@ document.addEventListener('DOMContentLoaded', applyResponsiveTableHeaders);
                     <td>${event.facility_name}</td>
                     <td>${event.Ngaynhan}</td>
                    <td>${event.Ngaytra}</td>
-                    <td class="description">${event.Description}</td>
+                    <td class="description">${event.noidung}</td>
                     <td>${event.tennhanvien}</td>
                    `;
                 
@@ -564,7 +564,7 @@ function openRatingModal(Id) {
                         <div class="form-group">
                             <div>
                                 <label for="dereption">Nội dung:</label>
-                                <textarea id="dereption" name="dereption" rows="5">${room.Description}</textarea>
+                                <textarea id="dereption" name="dereption" rows="5">${room.noidung}</textarea>
                             </div>
                             <div hidden>
                                 <label for="emid">Người tạo:</label>
@@ -813,7 +813,7 @@ function searchroom(event) {
                    <td>${event.facility_name}</td>
                    <td>${event.Ngaynhan}</td>
                    <td>${event.Ngaytra}</td>
-                   <td class="description">${event.Description}</td>
+                   <td class="description">${event.noidung}</td>
                    <td>${event.tennhanvien}</td>
                   `;
                

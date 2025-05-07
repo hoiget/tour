@@ -312,16 +312,16 @@
                       <br> Hướng dẫn viên đảm nhiệm: ${event.emna || "Chưa có"}
                       <br> Trạng thái: 
                             `
-                            if(tour.Trangthai == 1){
-                              html += `<span style="color:green">Hoạt động</span>`;
-                            }else if(tour.Trangthai == 2){
-                              html += `<span style="color:purple">Sắp khởi hành</span>`;
-                            }else if(tour.Trangthai == 4){
-                              html += `<span style="color:Violet">Lịch trình đã hoàn thành</span>`;
+                            if(event.Trangthai == 1){
+                              eventHtml += `<span style="color:green">Hoạt động</span>`;
+                            }else if(event.Trangthai == 2){
+                              eventHtml += `<span style="color:purple">Sắp khởi hành</span>`;
+                            }else if(event.Trangthai == 4){
+                              eventHtml += `<span style="color:Violet">Lịch trình đã hoàn thành</span>`;
                             }else{
-                              html += `<span style="color:red">Lịch trình bị hủy</span>`;
+                              eventHtml += `<span style="color:red">Lịch trình bị hủy</span>`;
                             }
-                            html += `
+                            eventHtml += `
                       <br><button style="background-color: #007bff; color: #fff;" class="delete-btn" onclick="xoalichtrinh(${event.idsh})">🗑️ Xóa</button>
                     </div>`;
                 });
