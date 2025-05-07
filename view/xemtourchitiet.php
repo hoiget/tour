@@ -107,7 +107,17 @@ h3{
 }
 .ndo{
     color:black;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px;
+    transition: box-shadow 0.3s ease-in-out; 
 }
+.ndo:hover {
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3); /* Hiệu ứng khi hover, bóng đổ sâu hơn */
+}
+
 .review p{
     color:black;
 }
@@ -388,7 +398,7 @@ function xemdanhgiarating() {
             <div class="tour-details">
                 <div class="image">
                     <img src="./assets/img/tour/${event.Image}" alt="Tour du lịch" />
-                    <br><br><h2 style="color:black">Thông tin tour</h2>
+                   
                 </div>
                 <div class="details">
                     <h3 style="color:black;font-size:20px">Chi tiết Tour</h3>
@@ -446,6 +456,7 @@ function xemdanhgiarating() {
             </div>
              
             <p class="ndo" style="color:black; font-size:20px;">
+            <b>Thông tin tour</b><br><br>
                 <b>Nội dung:</b>
                 ${event.Description}<br>
 
