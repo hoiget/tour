@@ -109,6 +109,8 @@
 }
 
 .tour-card {
+    position: relative; /* Bắt buộc để absolute hoạt động đúng */
+  display: inline-block;
     margin-bottom: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -329,6 +331,14 @@ button.add-to-compare {
 button.add-to-compare:hover {
     background-color: #218838;
 }
+.wishlist-btn{
+    position: absolute;
+  top: 10px; /* Cách đáy 10px */
+  left: 10px;  /* Cách phải 10px */
+  padding: 8px 16px;
+  background-color: rgba(0, 0, 0, 0.6);
+  cursor: pointer;``
+}
 </style>
 
 
@@ -447,6 +457,55 @@ button.add-to-compare:hover {
         
     </div>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+   
+
+    // Bấm ❤️
+    document.addEventListener("click", function (e) {
+        if (!e.target.classList.contains("wishlist-btn")) return;
+        const btn = e.target;
+        const item_id = btn.dataset.id;
+        const type = btn.dataset.type;
+
+        fetch("./api/wishlist.php?action=toggle", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: `item_id=${item_id}&type=${type}`
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === "added") {
+                btn.textContent = "❤️";
+            } else if (data.status === "removed") {
+                btn.textContent = "🤍";
+            } else {
+                alert(data.message || "Lỗi xảy ra");
+            }
+        });
+    });
+});
+function checkWishlist() {
+    const userLoggedIn = true;
+    if (userLoggedIn) {
+        fetch("./api/wishlist.php?action=get&type=tour")
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if (data.status === "success") {
+                    const wishlist = data.items.map(String); // Đảm bảo ID là chuỗi
+                    document.querySelectorAll(".wishlist-btn").forEach(btn => {
+                        if (wishlist.includes(btn.dataset.id)) {
+                            btn.textContent = "❤️";
+                            btn.classList.add("liked");
+                        }
+                    });
+                }
+            });
+    }
+}
+
+</script>
 <script>
 function xemtour() {
     $.ajax({
@@ -470,8 +529,9 @@ function xemtour() {
 
                     eventHtml += `
                         <div class="tour-card">
+                         <button class="wishlist-btn" data-id="${event.tourid}" data-type="tour">🤍</button>
                             <a href="index.php?idtour=${event.tourid}&xemdanhgiatour=${event.tourid}&xemdanhgiarating=${event.tourid}">
-                                <img src="./assets/img/tour/${event.Image}" alt=""> 
+                                <img style="display: block;" src="./assets/img/tour/${event.Image}" alt=""> 
                             </a>
                             <a href="index.php?idtour=${event.tourid}&xemdanhgiatour=${event.tourid}&xemdanhgiarating=${event.tourid}">
                                 <h4 style=" margin-top: 10px">${event.Name}</h4>
@@ -518,6 +578,7 @@ function xemtour() {
                     }
                 });
                 $('#xemtour').html(eventHtml);
+                checkWishlist(); // Kiểm tra danh sách yêu thích sau khi tải tour
             } else {
                 $('#xemtour').html('<div class="col">Không tìm thấy thông tin tour.</div>');
             }
@@ -552,6 +613,7 @@ function xemtourtheomien(mien) {
 
                     eventHtml += `
                         <div class="tour-card">
+                         <button class="wishlist-btn" data-id="${event.tourid}" data-type="tour">🤍</button>
                             <a href="index.php?idtour=${event.tourid}&xemdanhgiatour=${event.tourid}&xemdanhgiarating=${event.tourid}">
                                 <img src="./assets/img/tour/${event.Image}" alt=""> 
                             </a>
@@ -601,6 +663,7 @@ function xemtourtheomien(mien) {
                     }
                 });
                 $('#xemtour').html(eventHtml);
+                checkWishlist(); // Kiểm tra danh sách yêu thích sau khi tải tour
             } else {
                 $('#xemtour').html('<div class="col">Không có tour nào.</div>');
             }
@@ -633,6 +696,7 @@ function timKiemTourtype(type) {
 
                     eventHtml += `
                         <div class="tour-card">
+                         <button class="wishlist-btn" data-id="${event.tourid}" data-type="tour">🤍</button>
                             <a href="index.php?idtour=${event.tourid}&xemdanhgiatour=${event.tourid}&xemdanhgiarating=${event.tourid}">
                                 <img src="./assets/img/tour/${event.Image}" alt=""> 
                             </a>
@@ -682,6 +746,7 @@ function timKiemTourtype(type) {
                     }
                 });
                 $('#xemtour').html(eventHtml);
+                checkWishlist(); // Kiểm tra danh sách yêu thích sau khi tải tour
             } else {
                 $('#xemtour').html('<div class="col">Không tìm thấy tour nào.</div>');
             }
@@ -717,6 +782,7 @@ function timKiemThongTin(name, date, budget, month) {
 
                     eventHtml += `
                         <div class="tour-card">
+                         <button class="wishlist-btn" data-id="${event.tourid}" data-type="tour">🤍</button>
                             <a href="index.php?idtour=${event.tourid}&xemdanhgiatour=${event.tourid}&xemdanhgiarating=${event.tourid}">
                                 <img src="./assets/img/tour/${event.Image}" alt=""> 
                             </a>
@@ -766,6 +832,7 @@ function timKiemThongTin(name, date, budget, month) {
                     }
                 });
                 $('#xemtour').html(eventHtml);
+                checkWishlist(); // Kiểm tra danh sách yêu thích sau khi tải tour
             } else {
                 $('#xemtour').html('<div class="col">Không tìm thấy tour nào.</div>');
             }
@@ -801,6 +868,7 @@ $.ajax({
 
                     eventHtml += `
                         <div class="tour-card">
+                         <button class="wishlist-btn" data-id="${event.tourid}" data-type="tour">🤍</button>
                             <a href="index.php?idtour=${event.tourid}&xemdanhgiatour=${event.tourid}&xemdanhgiarating=${event.tourid}">
                                 <img src="./assets/img/tour/${event.Image}" alt=""> 
                             </a>
@@ -850,6 +918,7 @@ $.ajax({
                     }
                 });
                 $('#xemtour').html(eventHtml);
+                checkWishlist(); // Kiểm tra danh sách yêu thích sau khi tải tour
         } else {
             $('#xemtour').html('<div class="col">Không tìm thấy tour nào.</div>');
         }
@@ -979,6 +1048,7 @@ $('.submenu-right a').on('click', function (e) {
 
                     eventHtml += `
                         <div class="tour-card">
+                         <button class="wishlist-btn" data-id="${tour.tourid}" data-type="tour">🤍</button>
                             <a href="index.php?idtour=${tour.tourid}&xemdanhgiatour=${tour.tourid}&xemdanhgiarating=${tour.tourid}">
                                 <img src="./assets/img/tour/${tour.Image}" alt=""> 
                             </a>
@@ -1026,6 +1096,7 @@ $('.submenu-right a').on('click', function (e) {
         });
 
         $('#xemtour').html(eventHtml);
+        checkWishlist(); // Kiểm tra danh sách yêu thích sau khi tải tour
     }
 
     // Xử lý khi nhấn nút lọc

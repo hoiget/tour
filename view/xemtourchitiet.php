@@ -270,24 +270,7 @@ h3{
         
         <script>
 document.addEventListener("DOMContentLoaded", function () {
-    const userLoggedIn = true; // kiểm tra người dùng đã đăng nhập hay chưa (có thể sửa lại)
-
-    // Lấy danh sách item đã yêu thích từ server
-    let wishlist = [];
-    if (userLoggedIn) {
-        fetch("./api/wishlist.php?action=get&type=tour") // hoặc type=room
-            .then(res => res.json())
-            .then(data => {
-                if (data.status === "success") {
-                    wishlist = data.items.map(String); // Chuyển về dạng chuỗi để so sánh
-                    document.querySelectorAll(".wishlist-btn").forEach(btn => {
-                        if (wishlist.includes(btn.dataset.id)) {
-                            btn.textContent = "❤️";
-                        }
-                    });
-                }
-            });
-    }
+   
 
     // Bấm ❤️
     document.addEventListener("click", function (e) {
@@ -316,9 +299,10 @@ document.addEventListener("DOMContentLoaded", function () {
 function checkWishlist() {
     const userLoggedIn = true;
     if (userLoggedIn) {
-        fetch("./api/wishlist_api.php?action=get&type=tour")
+        fetch("./api/wishlist.php?action=get&type=tour")
             .then(res => res.json())
             .then(data => {
+                console.log(data);
                 if (data.status === "success") {
                     const wishlist = data.items.map(String); // Đảm bảo ID là chuỗi
                     document.querySelectorAll(".wishlist-btn").forEach(btn => {

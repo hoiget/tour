@@ -37,6 +37,7 @@ switch ($action) {
 
     case 'get':
         $type = $_GET['type'];
+    
         $stmt = $conn->prepare("SELECT item_id FROM wishlist WHERE user_id = ? AND type = ?");
         $stmt->bind_param("is", $user_id, $type);
         $stmt->execute();
