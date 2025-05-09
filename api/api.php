@@ -2436,22 +2436,83 @@ ORDER BY
 
         // Thực hiện truy vấn
         $result = $conn->query($query);
-
-        $res = [];
         if ($result && $result->num_rows > 0) {
-            // Lấy từng dòng dữ liệu
-            while ($row = $result->fetch_assoc()) {
-                $res[] = $row;
+            $row = $result->fetch_assoc();
+    
+            // ---- THÔNG TIN THANH TOÁN ----
+            $orderCode = $row['Booking_id'].rand(1,1000);
+            $amount = $row['Total_pay'];
+            $description = $row['Tour_name'];
+            $cancelUrl = 'http://localhost/tour/index.php?cancel';
+            $returnUrl = 'http://localhost/tour/index.php?success';
+            $expiredAt = time() + 3600;
+    
+            // ---- BÍ MẬT (cần bảo mật) ----
+            $clientId ='8b91497c-50d6-491f-b601-6c0c2ccabc07';
+            $apiKey ='2c2ce71d-7d4f-4520-83bb-3b9fd5127975';
+            $checksumKey ='3dc1b6f3815230d7b5c14d97ec81e565324f2092595cf1af93c31c69caf8f45c';
+            
+            // Tạo chữ ký
+          
+    
+            // Dữ liệu gửi PayOS
+            $payload = [
+                'orderCode' => (int)$orderCode,
+                'amount' => (int)$amount,
+                'description' => $description,
+                'buyerName' => $row['User_name'] ?? '',
+                'buyerEmail' => 'buyer@gmail.com',
+                'buyerPhone' => $row['Phone_num'] ?? '',
+                'buyerAddress' => $row['Address'] ?? '',
+                'cancelUrl' => $cancelUrl,
+                'returnUrl' => $returnUrl,
+                'expiredAt' => $expiredAt
+            ];
+            
+            // ✅ Bổ sung chữ ký HMAC-SHA256 vào payload
+            $signData = "amount=$amount&cancelUrl=$cancelUrl&description=$description&orderCode=$orderCode&returnUrl=$returnUrl";
+            $signature = hash_hmac('sha256', $signData, $checksumKey);
+            $payload['signature'] = $signature;
+            
+            // Gửi đến PayOS
+            $ch = curl_init('https://api-merchant.payos.vn/v2/payment-requests');
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+              'Content-Type: application/json',
+              'x-client-id: ' . $clientId,
+              'x-api-key: ' . $apiKey,
+            ]);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
+            
+            $response = curl_exec($ch);
+            $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+            
+            // Parse kết quả từ PayOS
+            $payosResult = json_decode($response, true);
+            
+            // Nếu gọi thành công và có `checkoutUrl`
+            if ($http_code == 200 && isset($payosResult['code']) && $payosResult['code'] == '00' && isset($payosResult['data']['checkoutUrl'])) {
+                echo json_encode([
+                    'code' => '00',
+                    'data' => $payosResult['data']
+                ]);
+            } else {
+               
+            
+                echo json_encode([
+                    'code' => '01',
+                    'message' => 'Không tạo được thanh toán',
+                    'error' => $payosResult
+                ]);
             }
-        }
-
-        if (empty($res)) {
-            echo json_encode(["message" => "No tour found for the given ID"]);
+            
         } else {
-            echo json_encode($res); // Trả về dữ liệu dạng JSON
+            echo json_encode(['code' => '404', 'message' => 'Không tìm thấy đơn hàng hoặc bạn không có quyền']);
         }
         exit;
-    } 
+    }
     
     
    

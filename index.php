@@ -264,8 +264,16 @@ if(isset($_REQUEST['dattour'])){
   include_once("view/thanhtoan.php");
 }if(isset($_REQUEST['vietqr'])){
     $show = false;
-    include_once("view/atm_vietqr.php");
-  }if(isset($_REQUEST['cash'])){
+    include_once("view/payos.php");
+  }if(isset($_REQUEST['cancel'])){
+    $show = false;
+    include_once("view/cancel.php");
+  }if(isset($_REQUEST['success'])){
+    $show = false;
+    include_once("view/success.php");
+  }
+  
+  if(isset($_REQUEST['cash'])){
     $show = false;
     include_once("view/tienmat.php");
   }
