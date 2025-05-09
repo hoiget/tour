@@ -390,7 +390,7 @@ button:hover {
       <div class="payment-option" data-method="vietqr" onclick="selectPayment(this)">
         <div class="checkbox"></div>
         <img src="./assets/img/payos.png" width=50 height=30 alt="">
-        <span>Thanh toán payos</span>
+        <span>Thanh toán QR PAYOS</span>
       </div>
       <div class="payment-option" data-method="vnpay" onclick="selectPayment(this)">
         <div class="checkbox"></div>

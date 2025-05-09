@@ -68,6 +68,7 @@ p {
 
   p {
     font-size: 14px;
+    
   }
 
   #return-page-btn {
