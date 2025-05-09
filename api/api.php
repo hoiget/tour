@@ -2440,7 +2440,7 @@ ORDER BY
             $row = $result->fetch_assoc();
     
             // ---- THÔNG TIN THANH TOÁN ----
-            $orderCode = $row['Booking_id'].rand(1,1000);
+            $orderCode = $row['Booking_id'].rand(1,10000);
             $amount = $row['Total_pay'];
             $description = $row['Tour_name'];
             $cancelUrl = 'http://localhost/tour/index.php?cancel';
