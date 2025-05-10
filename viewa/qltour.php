@@ -271,7 +271,7 @@
                         </div>
                         <div class="form-group">
                             <div>
-                                <label for="Title">Số lượnng tối đa:</label>
+                                <label for="Title">Số lượng tối đa:</label>
                                
                                 <input type="number" id="td" name="td" value="">
                             </div>
