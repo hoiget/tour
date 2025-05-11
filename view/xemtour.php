@@ -219,7 +219,9 @@ a{
     .tour-card p,strong {
         font-size: 12px;
     }
-
+ span,del {
+        font-size: 12px;
+    }
     .tour-card h4 {
         font-size: 14px;
     }
@@ -559,14 +561,15 @@ function xemtour() {
 });
 
 
-                    eventHtml += `</div>
-                                <strong style="margin-left: 10px">Giá từ:</strong> 
-                                <br> <span style="color:red; margin-left: 10px">`;
+                    eventHtml += `</div><br>
+                               `;
 
                     if (parseInt(event.discount) == 0) {
-                        eventHtml += parseInt(event.Price).toLocaleString('vi-VN') + ` đ </span>`;
+                        eventHtml +=` <strong style="margin-left: 10px">Giá:</strong> 
+                                <span style="color:red; margin-left: 10px">`+ parseInt(event.Price).toLocaleString('vi-VN') + ` đ </span>`;
                     } else if (parseInt(event.discount) > 0) {
-                        eventHtml +=`<del style="color:black">`+ parseInt(event.Price).toLocaleString('vi-VN') + ` đ</del> </span><br><span style="color:red; margin-left: 10px""> Còn lại: `
+                        eventHtml +=` <strong style="margin-left: 10px">Giá từ:</strong> 
+                                <span style="color:red; margin-left: 10px"><del style="color:black">`+ parseInt(event.Price).toLocaleString('vi-VN') + ` đ</del> </span><br><span style="color:red; margin-left: 10px"> Còn lại: `
                         eventHtml += parseInt(event.discount).toLocaleString('vi-VN') + ` đ</span>`;
                     }
 
@@ -643,14 +646,15 @@ function xemtourtheomien(mien) {
 });
 
 
-                    eventHtml += `</div>
-                                <strong style="margin-left: 10px">Giá từ:</strong> 
-                                  <br> <span style="color:red; margin-left: 10px">`;
+                    eventHtml += `</div> <br>
+                                `;
 
                     if (parseInt(event.discount) == 0) {
-                        eventHtml += parseInt(event.Price).toLocaleString('vi-VN') + ` đ </span>`;
+                        eventHtml += `<strong style="margin-left: 10px">Giá:</strong> 
+                                  <span style="color:red; margin-left: 10px">` +parseInt(event.Price).toLocaleString('vi-VN') + ` đ </span>`;
                     } else if (parseInt(event.discount) > 0) {
-                        eventHtml +=`<del style="color:black">`+ parseInt(event.Price).toLocaleString('vi-VN') + ` đ</del> </span><br><span style="color:red; margin-left: 10px""> Còn lại: `
+                        eventHtml +=`<strong style="margin-left: 10px">Giá từ:</strong> 
+                                  <span style="color:red; margin-left: 10px"><del style="color:black">`+ parseInt(event.Price).toLocaleString('vi-VN') + ` đ</del> </span><br><span style="color:red; margin-left: 10px">Còn lại: `
                         eventHtml += parseInt(event.discount).toLocaleString('vi-VN') + ` đ</span>`;
                     }
 
@@ -727,13 +731,14 @@ function timKiemTourtype(type) {
 
 
                     eventHtml += `</div>
-                                <strong style="margin-left: 10px">Giá từ:</strong> 
-                                  <br> <span style="color:red">`;
+                               <br>`;
 
                     if (parseInt(event.discount) == 0) {
-                        eventHtml += parseInt(event.Price).toLocaleString('vi-VN') + ` đ </span>`;
+                        eventHtml +=`<strong style="margin-left: 10px">Giá:</strong> 
+                                  <span style="color:red; margin-left: 10px">` + parseInt(event.Price).toLocaleString('vi-VN') + ` đ </span>`;
                     } else if (parseInt(event.discount) > 0) {
-                        eventHtml +=`<del style="color:black">`+ parseInt(event.Price).toLocaleString('vi-VN') + ` đ</del> </span><br><span style="color:red; margin-left: 10px""> Còn lại: `
+                        eventHtml +=`<strong style="margin-left: 10px">Giá từ:</strong> 
+                                  <span style="color:red; margin-left: 10px"><del style="color:black">`+ parseInt(event.Price).toLocaleString('vi-VN') + ` đ</del> </span><br><span style="color:red; margin-left: 10px">Còn lại: `
                         eventHtml += parseInt(event.discount).toLocaleString('vi-VN') + ` đ</span>`;
                     }
 
@@ -813,13 +818,14 @@ function timKiemThongTin(name, date, budget, month) {
 
 
                     eventHtml += `</div>
-                                <strong style="margin-left: 10px">Giá từ:</strong> 
-                                 <br> <span style="color:red">`;
+                                <br>`;
 
                     if (parseInt(event.discount) == 0) {
-                        eventHtml += parseInt(event.Price).toLocaleString('vi-VN') + ` đ </span>`;
+                        eventHtml +=`<strong style="margin-left: 10px">Giá:</strong> 
+                                  <span style="color:red; margin-left: 10px">` + parseInt(event.Price).toLocaleString('vi-VN') + ` đ </span>`;
                     } else if (parseInt(event.discount) > 0) {
-                        eventHtml +=`<del style="color:black">`+ parseInt(event.Price).toLocaleString('vi-VN') + ` đ</del> </span><br><span style="color:red; margin-left: 10px""> Còn lại: `
+                        eventHtml +=`<strong style="margin-left: 10px">Giá từ:</strong> 
+                                  <span style="color:red; margin-left: 10px"><del style="color:black">`+ parseInt(event.Price).toLocaleString('vi-VN') + ` đ</del> </span><br><span style="color:red; margin-left: 10px">Còn lại: `
                         eventHtml += parseInt(event.discount).toLocaleString('vi-VN') + ` đ</span>`;
                     }
 
@@ -899,13 +905,14 @@ $.ajax({
 
 
                     eventHtml += `</div>
-                                <strong style="margin-left: 10px">Giá từ:</strong> 
-                                  <br> <span style="color:red">`;
+                                <br>`;
 
                     if (parseInt(event.discount) == 0) {
-                        eventHtml += parseInt(event.Price).toLocaleString('vi-VN') + ` đ </span>`;
+                        eventHtml +=`<strong style="margin-left: 10px">Giá:</strong> 
+                                  <span style="color:red; margin-left: 10px">` + parseInt(event.Price).toLocaleString('vi-VN') + ` đ </span>`;
                     } else if (parseInt(event.discount) > 0) {
-                        eventHtml +=`<del style="color:black">`+ parseInt(event.Price).toLocaleString('vi-VN') + ` đ</del> </span><br><span style="color:red; margin-left: 10px""> Còn lại: `
+                        eventHtml +=`<strong style="margin-left: 10px">Giá từ:</strong> 
+                                  <span style="color:red; margin-left: 10px"><del style="color:black">`+ parseInt(event.Price).toLocaleString('vi-VN') + ` đ</del> </span><br><span style="color:red; margin-left: 10px">Còn lại: `
                         eventHtml += parseInt(event.discount).toLocaleString('vi-VN') + ` đ</span>`;
                     }
 
@@ -1078,10 +1085,9 @@ $('.submenu-right a').on('click', function (e) {
 });
 
 
-                    eventHtml += `</div>
-                                <strong style="margin-left: 10px">Giá từ:</strong> 
-                                <br> <p> <span style="color:red; margin-left: 10px">
-                        ${discount > 0 ? "<del style='color:black'>" +price.toLocaleString('vi-VN') + " đ </del> <br>Còn lại : " + discount.toLocaleString('vi-VN') : price.toLocaleString('vi-VN')} đ
+                    eventHtml += `</div><br> 
+                                
+                        ${discount > 0 ? "<strong style='margin-left: 10px'>Giá từ:</strong> <p> <span style='color:red; margin-left: 10px'><del style='color:black'>" +price.toLocaleString('vi-VN') + " đ </del> <br>Còn lại : " + discount.toLocaleString('vi-VN') : "<strong style='margin-left: 10px'>Giá:</strong> <p> <span style='color:red; margin-left: 10px'>" + price.toLocaleString('vi-VN')} đ
                     </span></p>`;
 
                   
