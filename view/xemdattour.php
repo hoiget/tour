@@ -449,75 +449,86 @@ function xemtrangthai() {
         url: './api/api.php?action=xemtrangthai',
         type: 'GET',
         dataType: 'json',
-        success: function(response) {
+        success: function (response) {
             console.log(response);
             if (Array.isArray(response) && response.length > 0) {
                 let eventHtml = '';
-                response.forEach(function(event, index) {
+
+                response.forEach(function (event, index) {
                     if (index % 3 === 0) {
                         eventHtml += '<div class="card-container">';
                     }
 
                     eventHtml += `
-                    <div class="card">
-                        <h3>${event.User_name}</h3>
-                        <p><strong>Tên tour:</strong> ${event.Tour_name}</p>
-                        <p><strong>Giá tour:</strong> ${event.Price}</p>
-                        <p><strong>Tổng tiền:</strong> ${event.Total_pay}</p>
-                        <p><strong>Mã đơn:</strong> ${event.Booking_id}</p>
-                        <p><strong>Thời gian đặt:</strong> ${event.booking_time}</p>
-                         <input type="hidden" id="participants" name="participants" value="${event.participants}" readonly>
-                          <input type="hidden" id="idtour" name="idtour" value="${event.Tour_id}" readonly>
-                         <!-- Thêm id duy nhất cho mỗi đơn -->
+                        <div class="card">
+                            <h3>${event.User_name}</h3>
+                            <p><strong>Tên tour:</strong> ${event.Tour_name}</p>
+                            <p><strong>Giá tour:</strong> ${event.Price}</p>
+                            <p><strong>Tổng tiền:</strong> ${event.Total_pay}</p>
+                            <p><strong>Mã đơn:</strong> ${event.Booking_id}</p>
+                            <p><strong>Thời gian đặt:</strong> ${event.booking_time}</p>
+                            <input type="hidden" name="participants" value="${event.participants}" readonly>
+                            <input type="hidden" name="idtour" value="${event.Tour_id}" readonly>
                     `;
 
+                    // Trạng thái thanh toán
                     if (event.Payment_status == '1') {
                         eventHtml += '<p><strong>TT thanh toán:</strong> Chưa thanh toán</p>';
                     } else if (event.Payment_status == '2') {
                         eventHtml += '<p><strong>TT thanh toán:</strong> Đã thanh toán</p>';
-                       
                     }
 
+                    // Trạng thái đơn chưa hoàn tiền
                     if (event.refund == '0') {
                         if (event.Payment_status == '1') {
-                                eventHtml += `<div id="orderDetails_${event.Booking_id}"></div>`
-                            }
+                            eventHtml += `<div id="orderDetails_${event.Booking_id}"></div>`;
+                        }
 
+                        // Xử lý trạng thái xác nhận
                         if (event.Booking_status == '1') {
                             eventHtml += '<button class="btn review">Chưa xác nhận</button>';
                         } else if (event.Booking_status == '2') {
-                            
-                           
                             eventHtml += '<button class="btn review">Đã xác nhận</button>';
-                            
+
+                            // Nếu đã thanh toán => hiển thị đánh giá + PDF + Calendar
                             if (event.Payment_status == '2') {
-                                eventHtml += `<button type="button" class="btn review" data-bs-toggle="modal" data-bs-target="#ratingModaldanhgia" onclick="openRatingModal(${event.Booking_id})">Đánh giá Tour</button>`;
-                                eventHtml += `<button class="exportPdfBtn" data-booking-id="${event.Booking_id}">Xuất PDF</button> `
                                 eventHtml += `
-                                    <button class="btn calendar-btn" 
-                                        onclick="addToGoogleCalendar('${event.Tour_name}', '${event.Datetime}', '08:00', 'Địa điểm tour', '${event.Day_depart}')">
-                                        📅 Thêm vào Google Calendar
-                                    </button>
+                                    <button type="button" class="btn review" data-bs-toggle="modal" data-bs-target="#ratingModaldanhgia" onclick="openRatingModal(${event.Booking_id})">Đánh giá Tour</button>
+                                    <button class="exportPdfBtn" data-booking-id="${event.Booking_id}">Xuất PDF</button>
+                                    <button class="btn calendar-btn" onclick="addToGoogleCalendar('${event.Tour_name}', '${event.Datetime}', '08:00', 'Địa điểm tour', '${event.Day_depart}')">📅 Thêm vào Google Calendar</button>
                                 `;
-
                             } else {
-                               
-                                if(event.method == "vnpay"){
-                                eventHtml += `<button class="btn review"><a style="text-decoration:none;color:white" href="index.php?idtt=${event.Booking_id}">Thanh toán</a></button>`;
-                                }else if(event.method == "vietqr"){
-                                    eventHtml += `<button class="btn review"><a style="text-decoration:none;color:white" href="index.php?vietqr=${event.Booking_id}">Thanh toán</a></button>`;
+                                // Xử lý các phương thức thanh toán khác nhau
+                                if (event.method === "vnpay") {
+                                    eventHtml += `<button class="btn review"><a style="text-decoration:none;color:white" href="index.php?idtt=${event.Booking_id}">Thanh toán</a></button>`;
+                                } else if (event.method === "vietqr") {
+                                    const qrContainerId = `xemqr-container-${event.Booking_id}`;
+                                    eventHtml += `<div id="${qrContainerId}" class="btn review">Đang tải...</div>`;
 
-                                }else if(event.method == "cash"){
+                                    // Gọi AJAX riêng sau khi tạo giao diện
+                                    setTimeout(() => {
+                                        $.ajax({
+                                            url: './api/api.php?action=xemthanhtoanvietqr&vietqr=' + encodeURIComponent(event.Booking_id),
+                                            type: 'GET',
+                                            dataType: 'json',
+                                            success: function (res) {
+                                                console.log(res);
+                                                if (res.code === "00" && res.data) {
+                                                    const checkoutUrl = res.data.checkoutUrl;
+                                                    $(`#${qrContainerId}`).html(`<a style="text-decoration:none;color:white;" href="${checkoutUrl}" target="_blank">Thanh toán</a>`);
+                                                } else {
+                                                    $(`#${qrContainerId}`).html('<div>Không thể tạo thanh toán.</div>');
+                                                }
+                                            },
+                                            error: function () {
+                                                $(`#${qrContainerId}`).html('<div>Lỗi khi lấy QR thanh toán.</div>');
+                                            }
+                                        });
+                                    }, 0);
+                                } else if (event.method === "cash") {
                                     eventHtml += `<button class="btn review"><a style="text-decoration:none;color:white" href="index.php?cash=${event.Booking_id}">Thanh toán</a></button>`;
-
                                 }
                             }
-                            eventHtml += `
-                        <div>
-                            <input type="hidden" id="bookingIdInput_${index}" value="${event.Booking_id}" readonly>
-                            
-                        </div>
-                    `;
                         }
                     } else if (event.refund == '1') {
                         eventHtml += '<button class="btn cancel">Đã hủy</button>';
@@ -526,23 +537,26 @@ function xemtrangthai() {
                         }
                     }
 
+                    // Nút xem chi tiết
                     eventHtml += `
-                        <a href="#" id="btn detail" class="btn btn-dark view-details" data-id="${event.Booking_id}">Xem chi tiết</a>
-                    </div>`;
+                        <a href="#" class="btn btn-dark view-details" data-id="${event.Booking_id}">Xem chi tiết</a>
+                        </div>
+                    `;
 
-                    if ((index + 1) % 3 === 0 || (index + 1) === response.length) {
+                    if ((index + 1) % 3 === 0 || index + 1 === response.length) {
                         eventHtml += '</div><br>';
                     }
                 });
 
                 $('#xemtrangthai').html(eventHtml);
 
-                // Gọi loadBookingData cho từng đơn đặt tour
+                // Gọi hàm loadBookingData cho từng đơn
                 response.forEach(event => loadBookingData(event));
 
-                $('.view-details').on('click', function(e) {
+                // Xem chi tiết
+                $('.view-details').on('click', function (e) {
                     e.preventDefault();
-                    var newsId = $(this).data('id');
+                    let newsId = $(this).data('id');
                     view_news_details(newsId);
                 });
 
@@ -550,12 +564,13 @@ function xemtrangthai() {
                 $('#xemtrangthai').html('<div class="col">Không tìm thấy thông tin người dùng.</div>');
             }
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             console.error('Lỗi khi lấy thông tin:', error);
             $('#xemtrangthai').html('<div class="col">Đã xảy ra lỗi khi tải thông tin người dùng.</div>');
         }
     });
 }
+
 function addToGoogleCalendar(tourName, tourDate, tourTime, tourLocation, dayDepart) {
     console.log("Tour Name:", tourName);
     console.log("Tour Date:", tourDate);

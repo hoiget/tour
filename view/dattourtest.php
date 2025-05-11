@@ -389,8 +389,8 @@ button:hover {
       </div>
       <div class="payment-option" data-method="vietqr" onclick="selectPayment(this)">
         <div class="checkbox"></div>
-        <img src="./assets/img/payos.png" width=50 height=30 alt="">
-        <span>Thanh toán QR PAYOS</span>
+        <img src="./assets/img/qrcode.png" width=50 height=30 alt="">
+        <span>Thanh toán QR</span>
       </div>
       <div class="payment-option" data-method="vnpay" onclick="selectPayment(this)">
         <div class="checkbox"></div>

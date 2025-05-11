@@ -439,13 +439,13 @@ function xemdanhgiarating() {
                 </div>
             </div>
              
-            <p class="ndo" style="color:black; font-size:20px;">
+            <p class="ndo" style="color:black; font-size:20px;text-align: justify;">
             <b>Thông tin tour</b><br><br>
                 <b>Nội dung:</b>
-                ${event.Description}<br>
+                <span style="white-space:pre-line;">${event.Description}</span><br>
 
                 <b>Lịch trình:</b> <br>
-                <span style="white-space:pre-line">${event.Itinerary}</span> 
+                <span style="white-space:pre-line;">${event.Itinerary}</span> 
                
             </p>`;
 

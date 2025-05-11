@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th5 07, 2025 lúc 10:31 AM
+-- Thời gian đã tạo: Th5 11, 2025 lúc 12:07 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -425,7 +425,21 @@ INSERT INTO `activity_logs` (`id`, `user_id`, `action_type`, `description`, `use
 (391, 1, 'Insert', 'Thêm tour Tiêu đề: Tour Hy Lạp', 'employees', '2025-05-07 15:15:00'),
 (392, 1, 'Insert', 'Thêm tour Tiêu đề: Tour Châu Á – Việt Nam, Thái Lan, Singapore', 'employees', '2025-05-07 15:18:43'),
 (393, 1, 'Insert', 'Thêm tour Tiêu đề: Tour Châu Âu – Anh, Pháp, Đức, Ý', 'employees', '2025-05-07 15:20:46'),
-(394, 1, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-05-07 15:23:31');
+(394, 1, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-05-07 15:23:31'),
+(395, 1, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-07 15:40:47'),
+(396, 1, 'logout', 'Khách hàng đăng xuất khỏi hệ thống', 'user', '2025-05-07 15:42:27'),
+(397, 1, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-07 15:42:46'),
+(398, 1, 'logout', 'Khách hàng đăng xuất khỏi hệ thống', 'user', '2025-05-07 15:59:30'),
+(399, 27, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-07 15:59:34'),
+(400, 1, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-09 13:32:54'),
+(401, 1, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-09 14:34:15'),
+(402, 27, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-11 16:42:18'),
+(403, 27, 'logout', 'Khách hàng đăng xuất khỏi hệ thống', 'user', '2025-05-11 16:42:47'),
+(404, 1, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-11 16:42:56'),
+(405, 1, 'logout', 'Khách hàng đăng xuất khỏi hệ thống', 'user', '2025-05-11 16:56:48'),
+(406, 1, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-11 16:56:58'),
+(407, 1, 'Update', 'Cập nhật tour ID:47 Đà Nẵng', 'employees', '2025-05-11 17:00:00'),
+(408, 1, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-05-11 17:00:06');
 
 -- --------------------------------------------------------
 
@@ -525,7 +539,9 @@ INSERT INTO `booking_detail_tour` (`Sr_no`, `Booking_id`, `Tour_name`, `Price`, 
 (122, 238, 'Tour Côn Đảo Huyền Bí', '3000000', '3990000', 'Phuc Dang', '0141058698', '', 'Aquasun Hotel', '1000000'),
 (123, 239, 'Tour Quy Nhơn - Kỳ Co - Eo Gió', '3100000', '4090000', 'Phuc Dang', '0973873893', 'zf', 'Aquasun Hotel', '1000000'),
 (124, 240, 'Tour Quy Nhơn - Kỳ Co - Eo Gió', '3100000', '4090000', 'Emaiop', '0999999999', 'TP BÌNH THUẬN', 'Aquasun Hotel', '1000000'),
-(134, 250, 'Huế', '900000', '1900000', 'Phan Hung', '0736278299', 'sssss', 'Aquasun Hotel', '1000000');
+(134, 250, 'Huế', '900000', '1900000', 'Phan Hung', '0736278299', 'sssss', 'Aquasun Hotel', '1000000'),
+(135, 251, 'Tour Phong Nha - Kẻ Bàng', '2400000', '3280000', 'Phuc Hung', '0987389890', 'sssss', 'Aquasun Hotel', '1000000'),
+(136, 252, 'Tour Gia Lai', '2700000', '2700000', 'Phuc Hung', '0987389890', 'sssss', 'Luxury Stay Da Nang', '1000000');
 
 -- --------------------------------------------------------
 
@@ -589,7 +605,9 @@ INSERT INTO `booking_ordertour` (`Booking_id`, `User_id`, `Tour_id`, `Departure_
 (238, 30, 52, 138, 'Máy bay', '2', '1', 0, '2025-05-01', 1, '2025-04-17 08:21:03'),
 (239, 29, 59, 104, 'Máy bay', '2', '1', 0, '2025-04-25', 1, '2025-04-17 08:22:05'),
 (240, 32, 59, 104, 'Máy bay', '2', '1', 0, '2025-05-02', 1, '2025-04-24 07:36:59'),
-(250, 27, 48, 135, 'Xe khách', '2', '1', 0, '2025-05-01', 1, '2025-04-26 07:48:32');
+(250, 27, 48, 135, 'Xe khách', '2', '1', 0, '2025-05-01', 1, '2025-04-26 07:48:32'),
+(251, 1, 60, 168, 'Xe khách', '2', '1', 0, '2025-05-11', 1, '2025-05-11 14:14:09'),
+(252, 1, 82, 265, 'Xe khách', '2', '1', 0, '2025-05-29', 1, '2025-05-11 16:55:41');
 
 -- --------------------------------------------------------
 
@@ -893,7 +911,7 @@ INSERT INTO `departure_time` (`id`, `id_tour`, `Day_depart`, `ngaykhoihanh`, `Or
 (167, 61, '5 ngày 4 đêm', '2025-12-20', 0),
 (168, 60, '2 ngày 1 đêm', '2025-04-24', 0),
 (169, 60, '2 ngày 1 đêm', '2025-05-04', 0),
-(170, 60, '2 ngày 1 đêm', '2025-05-11', 0),
+(170, 60, '2 ngày 1 đêm', '2025-05-11', 1),
 (171, 60, '2 ngày 1 đêm', '2025-12-20', 0),
 (172, 60, '2 ngày 1 đêm', '2025-10-16', 0),
 (173, 58, '2 ngày 1 đêm', '2025-04-29', 10),
@@ -966,7 +984,7 @@ INSERT INTO `departure_time` (`id`, `id_tour`, `Day_depart`, `ngaykhoihanh`, `Or
 (262, 81, '2 ngày 1 đêm', '2025-06-08', 0),
 (263, 81, '2 ngày 1 đêm', '2025-07-25', 0),
 (265, 82, '2 ngày 1 đêm', '2025-05-16', 0),
-(266, 82, '2 ngày 1 đêm', '2025-05-29', 0),
+(266, 82, '2 ngày 1 đêm', '2025-05-29', 1),
 (267, 82, '2 ngày 1 đêm', '2025-06-08', 0),
 (268, 82, '2 ngày 1 đêm', '2025-08-23', 0),
 (270, 83, '2 ngày 1 đêm', '2025-05-23', 0),
@@ -1393,7 +1411,9 @@ INSERT INTO `participant` (`idpar`, `idbook`, `hoten`, `ngaysinh`, `gioitinh`, `
 (147, 238, 's', '2002-03-17', 'Nam', 'Người lớn'),
 (148, 239, 'ssss', '2003-07-17', 'Nam', 'Người lớn'),
 (149, 240, 'Họ ', '1998-07-24', 'Nam', 'Người lớn'),
-(155, 250, 'sss', '2003-06-26', 'Nam', 'Người lớn');
+(155, 250, 'sss', '2003-06-26', 'Nam', 'Người lớn'),
+(156, 251, 'Phuc hung', '2002-06-12', 'Nam', 'Người lớn'),
+(157, 252, 'aaa', '2001-09-11', 'Nam', 'Người lớn');
 
 -- --------------------------------------------------------
 
@@ -1422,7 +1442,9 @@ INSERT INTO `payments` (`id`, `user_id`, `idbook`, `method`, `created_at`) VALUE
 (76, 30, 238, 'vnpay', '2025-04-17 01:21:03'),
 (77, 29, 239, 'vnpay', '2025-04-17 01:22:05'),
 (78, 32, 240, 'vnpay', '2025-04-24 00:37:00'),
-(84, 27, 250, 'vnpay', '2025-04-26 00:48:32');
+(84, 27, 250, 'vnpay', '2025-04-26 00:48:32'),
+(85, 1, 251, 'vietqr', '2025-05-09 07:14:09'),
+(86, 1, 252, 'vietqr', '2025-05-11 09:55:41');
 
 -- --------------------------------------------------------
 
@@ -7359,7 +7381,7 @@ CREATE TABLE `tichdiem` (
 INSERT INTO `tichdiem` (`idtd`, `idkh`, `hangTV`, `diem`, `sotour`) VALUES
 (3, 17, 'New', 100, 0),
 (22, 20, 'New', 100, 0),
-(23, 1, 'New', 1200, 0),
+(23, 1, 'New', 0, 0),
 (30, 27, 'New', 0, 0),
 (32, 29, 'New', 0, 0),
 (33, 30, 'New', 0, 0),
@@ -7405,7 +7427,7 @@ CREATE TABLE `tour` (
 
 INSERT INTO `tour` (`id`, `idks`, `Name`, `Style`, `Price`, `Child_price_percen`, `Max_participant`, `Min_participant`, `Description`, `Status`, `Depart`, `DepartureLocation`, `Itinerary`, `employeesId`, `type`, `timetour`, `discount`, `vehicle`, `vung`) VALUES
 (46, 9, 'Hà Nội', 'Hiện đạid', 2400000, '45', 30, 10, 'Hà Nội, thủ đô của Việt Nam, nổi bật với sự kết hợp hài hòa giữa vẻ đẹp cổ kính và sự phát triển hiện đại. Nếu bạn có dịp đến thăm Hà Nội, một tour tham quan sẽ là cách tuyệt vời để khám phá những điểm đến nổi bật và tìm hiểu về lịch sử, văn hóa, cũng như ẩm thực đặc sắc của thành phố này.\\r\\n\\r\\nCác điểm tham quan nổi bật trong Tour Hà Nội:\\r\\nHoàn Kiếm và Hồ Gươm:\\r\\n\\r\\nĐây là biểu tượng của Hà Nội, gắn liền với câu chuyện lịch sử và truyền thuyết về thanh gươm. Du khách có thể tham quan đền Ngọc Sơn, tháp Rùa, và đi dạo quanh hồ để tận hưởng không gian yên bình giữa lòng thành phố.\\r\\nKhu phố cổ Hà Nội:\\r\\n\\r\\nKhu phố cổ là nơi lưu giữ nét đẹp truyền thống của Hà Nội với những ngôi nhà cổ, các con phố nhỏ hẹp và các cửa hàng bán đồ thủ công, đặc sản. Đây cũng là nơi bạn có thể thưởng thức nhiều món ăn đặc sản như phở, bún chả, nem rán.\\r\\nLăng Chủ tịch Hồ Chí Minh:\\r\\n\\r\\nLăng Hồ Chí Minh là nơi an nghỉ của Chủ tịch Hồ Chí Minh, vị lãnh tụ vĩ đại của dân tộc Việt Nam. Đây là một trong những điểm đến không thể thiếu trong hành trình khám phá Hà Nội.\\r\\nChùa Một Cột:\\r\\n\\r\\nĐây là ngôi chùa nổi tiếng với kiến trúc độc đáo, được xây dựng trên một cột đá duy nhất, mang đậm dấu ấn văn hóa Phật giáo của Hà Nội.\\r\\nBảo tàng Dân tộc học Việt Nam:\\r\\n\\r\\nMột trong những bảo tàng nổi bật tại Hà Nội, nơi lưu giữ và trưng bày các hiện vật, hình ảnh về các dân tộc và nền văn hóa đa dạng của Việt Nam.\\r\\nVăn Miếu – Quốc Tử Giám:\\r\\n\\r\\nLà trường đại học đầu tiên của Việt Nam, Văn Miếu không chỉ có giá trị lịch sử mà còn là biểu tượng của nền giáo dục Việt Nam xưa.\\r\\nHồ Tây:\\r\\n\\r\\nHồ Tây là hồ lớn nhất và đẹp nhất Hà Nội, thích hợp cho những ai muốn thư giãn, dạo bộ quanh hồ hoặc thưởng thức cà phê tại các quán ven hồ.\\r\\nHoạt động trong Tour Hà Nội:\\r\\nThưởng thức ẩm thực Hà Nội: Không thể thiếu khi tham gia tour Hà Nội là việc thưởng thức các món ăn đặc trưng như phở, bún thang, bún chả, cốm làng Vòng, và các loại chè truyền thống.\\r\\nTham quan các chợ truyền thống: Chợ Đồng Xuân, chợ Hàng Da, và chợ đêm Hà Nội là những nơi bạn có thể mua sắm đồ lưu niệm hoặc các sản phẩm thủ công độc đáo.\\r\\nDạo thuyền trên Hồ Tây hoặc Hồ Hoàn Kiếm: Trải nghiệm dạo thuyền giúp bạn cảm nhận không gian yên bình và lãng mạn của Hà Nội.\\r\\nThời gian lý tưởng cho Tour Hà Nội:\\r\\nHà Nội có bốn mùa rõ rệt, và mỗi mùa đều mang một vẻ đẹp đặc trưng:\\r\\n\\r\\nMùa xuân (tháng 1 – tháng 3): Thời tiết mát mẻ, cây cối đâm chồi nảy lộc, thích hợp cho việc tham quan.\\r\\nMùa hè (tháng 5 – tháng 8): Thời tiết ấm áp, phù hợp để tham quan các hồ, công viên và thưởng thức món ăn đường phố.\\r\\nMùa thu (tháng 9 – tháng 11): Mùa thu Hà Nội nổi tiếng với không khí mát mẻ, là thời điểm lý tưởng để dạo chơi và tận hưởng vẻ đẹp của các con phố cổ.\\r\\nMùa đông (tháng 12 – tháng 2): Mùa đông Hà Nội có khí lạnh, thích hợp cho những ai yêu thích sự yên tĩnh và lãng mạn.\', \'Active\', \'2025-01-17\', \'TP.Hồ Chí Minh\', \'Day 1:Hà Nội Day2:Hồ\', 1, \'Gia đình\', \'2 ngày 1 đêm\', 1900000, \'Máy bay\', \'Bắc\'),\r\n\r\n', 'Hoạt động', '2025-03-17', 'TP.Hồ Chí Minh', 'Day 1:Hà Nội \r\nDay2:Hồ', 1, 'Gia đình', '2 ngày 1 đêm', 2000000, 'Máy bay', 'Bắc'),
-(47, 9, 'Đà Nẵng', 'Cổ đại', 1900000, '40', 30, 10, 'Đà Nẵng, thành phố ven biển xinh đẹp của miền Trung Việt Nam, nổi bật với những bãi biển dài, cảnh quan thiên nhiên tuyệt đẹp, các di tích lịch sử, và ẩm thực đặc sắc. Tour Đà Nẵng là cơ hội tuyệt vời để khám phá một trong những thành phố năng động và phát triển bậc nhất của Việt Nam, nơi kết hợp giữa vẻ đẹp hiện đại và truyền thống.\\r\\n\\r\\nCác điểm tham quan nổi bật trong Tour Đà Nẵng:\\r\\nBà Nà Hills:\\r\\n\\r\\nBà Nà Hills là một trong những điểm du lịch nổi tiếng nhất tại Đà Nẵng, đặc biệt với cáp treo đạt kỷ lục thế giới về chiều dài. Bạn sẽ được thưởng ngoạn vẻ đẹp hùng vĩ của núi rừng và tham quan Cầu Vàng - cây cầu với đôi bàn tay khổng lồ nâng đỡ, tạo nên một khung cảnh độc đáo và ấn tượng.\\r\\nCầu Rồng:\\r\\n\\r\\nCầu Rồng là một trong những biểu tượng nổi bật của Đà Nẵng. Đặc biệt, vào mỗi cuối tuần, cầu Rồng có thể phun lửa và phun nước, tạo nên một cảnh tượng tuyệt vời thu hút nhiều du khách.\\r\\nBãi biển Mỹ Khê:\\r\\n\\r\\nVới bờ cát trắng mịn và làn nước trong xanh, Mỹ Khê là một trong những bãi biển đẹp nhất của Đà Nẵng, nơi du khách có thể thư giãn, tắm biển, tham gia các hoạt động thể thao dưới nước, hoặc thưởng thức các món hải sản tươi ngon.\\r\\nNgũ Hành Sơn:\\r\\n\\r\\nNgũ Hành Sơn là một nhóm năm ngọn núi đá vôi nổi bật, được đặt theo tên của các yếu tố trong ngũ hành (Kim, Mộc, Thủy, Hỏa, Thổ). Du khách có thể tham quan các chùa, động, và thưởng ngoạn toàn cảnh Đà Nẵng từ trên cao.\\r\\nChùa Linh Ứng:\\r\\n\\r\\nChùa Linh Ứng nằm trên bán đảo Sơn Trà, là một trong những ngôi chùa nổi tiếng với tượng Phật Bà Quan Âm cao nhất Việt Nam. Không gian yên tĩnh và cảnh quan tuyệt đẹp tại đây sẽ khiến bạn cảm thấy thư giãn và tĩnh tâm.\\r\\nCông viên Châu Á - Asia Park:\\r\\n\\r\\nLà khu vui chơi giải trí lớn với các trò chơi hấp dẫn, Asia Park đặc biệt nổi bật với Vòng quay mặt trời (Sun Wheel) cao nhất Việt Nam, từ đây du khách có thể nhìn ngắm toàn cảnh thành phố Đà Nẵng.\\r\\nCổ Viện Chàm:\\r\\n\\r\\nCổ Viện Chàm là nơi trưng bày các hiện vật văn hóa Chămpa cổ xưa, giúp du khách hiểu thêm về nền văn minh Chămpa từng phát triển mạnh mẽ tại miền Trung Việt Nam.\\r\\nHoạt động trong Tour Đà Nẵng:\\r\\nTham quan các điểm di tích lịch sử: Khám phá các ngôi chùa, di tích và bảo tàng như Chùa Linh Ứng, Cổ Viện Chàm, để tìm hiểu về lịch sử và văn hóa đặc sắc của Đà Nẵng và miền Trung.\\r\\nThưởng thức ẩm thực Đà Nẵng: Đà Nẵng nổi tiếng với các món ăn đặc sản như mì Quảng, bún chả cá, bánh tráng cuốn thịt heo, hải sản tươi sống. Đừng quên ghé qua các quán ăn ven biển để thưởng thức những món ngon.\\r\\nTrải nghiệm các hoạt động thể thao: Đà Nẵng có rất nhiều hoạt động thú vị như lướt sóng, chèo thuyền kayak, và các trò chơi thể thao dưới nước tại các bãi biển.\\r\\nThời gian lý tưởng cho Tour Đà Nẵng:\\r\\nMùa xuân (tháng 1 – tháng 3): Thời tiết mát mẻ và dễ chịu, rất thích hợp cho việc tham quan.\\r\\nMùa hè (tháng 5 – tháng 8): Thời gian lý tưởng để tắm biển và tham gia các hoạt động thể thao ngoài trời.\\r\\nMùa thu (tháng 9 – tháng 11): Thời tiết dễ chịu, không quá nóng và ít mưa, phù hợp để tham quan các điểm du lịch.\\r\\nMùa đông (tháng 12 – tháng 2): Mùa lạnh, thích hợp cho những ai muốn tránh cái cái nóng của mùa hè và tận hưởng không khí trong lành.', 'Hoạt động', '2025-03-25', 'TP.Hồ Chí Minh', 'Day 1:Đà nẵng', 1, 'Theo đoàn', '2 ngày 1 đêm', 0, 'Máy bay', 'Nam'),
+(47, 9, 'Đà Nẵng', 'Cổ đại', 1900000, '40', 30, 10, 'Đà Nẵng, thành phố ven biển xinh đẹp của miền Trung Việt Nam, nổi bật với những bãi biển dài, cảnh quan thiên nhiên tuyệt đẹp, các di tích lịch sử, và ẩm thực đặc sắc. Tour Đà Nẵng là cơ hội tuyệt vời để khám phá một trong những thành phố năng động và phát triển bậc nhất của Việt Nam, nơi kết hợp giữa vẻ đẹp hiện đại và truyền thống.\r\nCác điểm tham quan nổi bật trong Tour Đà Nẵng:\r\nBà Nà Hills:Bà Nà Hills là một trong những điểm du lịch nổi tiếng nhất tại Đà Nẵng, đặc biệt với cáp treo đạt kỷ lục thế giới về chiều dài. Bạn sẽ được thưởng ngoạn vẻ đẹp hùng vĩ của núi rừng và tham quan Cầu Vàng - cây cầu với đôi bàn tay khổng lồ nâng đỡ, tạo nên một khung cảnh độc đáo và ấn tượng.\r\nCầu Rồng:Cầu Rồng là một trong những biểu tượng nổi bật của Đà Nẵng. Đặc biệt, vào mỗi cuối tuần, cầu Rồng có thể phun lửa và phun nước, tạo nên một cảnh tượng tuyệt vời thu hút nhiều du khách.\r\nBãi biển Mỹ Khê:Với bờ cát trắng mịn và làn nước trong xanh, Mỹ Khê là một trong những bãi biển đẹp nhất của Đà Nẵng, nơi du khách có thể thư giãn, tắm biển, tham gia các hoạt động thể thao dưới nước, hoặc thưởng thức các món hải sản tươi ngon.\r\nNgũ Hành Sơn:Ngũ Hành Sơn là một nhóm năm ngọn núi đá vôi nổi bật, được đặt theo tên của các yếu tố trong ngũ hành (Kim, Mộc, Thủy, Hỏa, Thổ). Du khách có thể tham quan các chùa, động, và thưởng ngoạn toàn cảnh Đà Nẵng từ trên cao.\r\nChùa Linh Ứng:Chùa Linh Ứng nằm trên bán đảo Sơn Trà, là một trong những ngôi chùa nổi tiếng với tượng Phật Bà Quan Âm cao nhất Việt Nam. Không gian yên tĩnh và cảnh quan tuyệt đẹp tại đây sẽ khiến bạn cảm thấy thư giãn và tĩnh tâm.\r\nCông viên Châu Á - Asia Park:Là khu vui chơi giải trí lớn với các trò chơi hấp dẫn, Asia Park đặc biệt nổi bật với Vòng quay mặt trời (Sun Wheel) cao nhất Việt Nam, từ đây du khách có thể nhìn ngắm toàn cảnh thành phố Đà Nẵng.\r\nCổ Viện Chàm:Cổ Viện Chàm là nơi trưng bày các hiện vật văn hóa Chămpa cổ xưa, giúp du khách hiểu thêm về nền văn minh Chămpa từng phát triển mạnh mẽ tại miền Trung Việt Nam.\r\nHoạt động trong Tour Đà Nẵng:Tham quan các điểm di tích lịch sử: Khám phá các ngôi chùa, di tích và bảo tàng như Chùa Linh Ứng, Cổ Viện Chàm, để tìm hiểu về lịch sử và văn hóa đặc sắc của Đà Nẵng và miền Trung.Thưởng thức ẩm thực Đà Nẵng: Đà Nẵng nổi tiếng với các món ăn đặc sản như mì Quảng, bún chả cá, bánh tráng cuốn thịt heo, hải sản tươi sống. Đừng quên ghé qua các quán ăn ven biển để thưởng thức những món ngon.Trải nghiệm các hoạt động thể thao: Đà Nẵng có rất nhiều hoạt động thú vị như lướt sóng, chèo thuyền kayak, và các trò chơi thể thao dưới nước tại các bãi biển.\r\nThời gian lý tưởng cho Tour Đà Nẵng:\r\nMùa xuân (tháng 1 – tháng 3): Thời tiết mát mẻ và dễ chịu, rất thích hợp cho việc tham quan.\r\nMùa hè (tháng 5 – tháng 8): Thời gian lý tưởng để tắm biển và tham gia các hoạt động thể thao ngoài trời.\r\nMùa thu (tháng 9 – tháng 11): Thời tiết dễ chịu, không quá nóng và ít mưa, phù hợp để tham quan các điểm du lịch.\r\nMùa đông (tháng 12 – tháng 2): Mùa lạnh, thích hợp cho những ai muốn tránh cái cái nóng của mùa hè và tận hưởng không khí trong lành.', 'Hoạt động', '2025-03-25', 'TP.Hồ Chí Minh', 'Day 1:Đà nẵng', 1, 'Theo đoàn', '2 ngày 1 đêm', 0, 'Máy bay', 'Nam'),
 (48, 9, 'Huế', 'Hiện đại', 1000000, '30', 12, 1, 'thành phố cổ kính nằm bên dòng sông Hương, là một trong những điểm du lịch hấp dẫn nhất ở miền Trung Việt Nam. Nổi bật với di sản văn hóa phong phú, những công trình lịch sử, và cảnh sắc thiên nhiên đẹp như tranh vẽ, Huế luôn thu hút du khách với vẻ đẹp trầm mặc, huyền bí và lãng mạn. Tour Huế là cơ hội tuyệt vời để bạn khám phá những nét đặc sắc của vùng đất cố đô này.\\r\\n\\r\\nCác điểm tham quan nổi bật trong Tour Huế:\\r\\nKinh Thành Huế (Hoàng Cung):\\r\\n\\r\\nKinh Thành Huế là di sản văn hóa thế giới được UNESCO công nhận, là nơi vua Gia Long xây dựng trong thế kỷ 19, là trung tâm chính trị và văn hóa của triều đại Nguyễn. Bạn sẽ được tham quan Ngọ Môn, Cửu Đỉnh, Đại Nội, Điện Thái Hòa và nhiều công trình kiến trúc khác trong khu vực hoàng cung này.\\r\\nLăng Tẩm các vua Nguyễn:\\r\\n\\r\\nHuế nổi tiếng với các lăng tẩm của các vua triều Nguyễn, mỗi lăng có một kiến trúc riêng biệt và ẩn chứa câu chuyện lịch sử thú vị. Các lăng nổi tiếng như Lăng Khải Định, Lăng Minh Mạng, Lăng Gia Long, hay Lăng Tự Đức đều mang đậm dấu ấn kiến trúc cổ kính và sự trang nghiêm của triều đại Nguyễn.\\r\\nChùa Thiên Mụ:\\r\\n\\r\\nChùa Thiên Mụ là ngôi chùa cổ nhất và nổi tiếng nhất ở Huế, nằm trên đồi Hà Khê bên bờ sông Hương. Đây là một trong những biểu tượng của Huế, với kiến trúc độc đáo và tầm nhìn tuyệt đẹp ra sông Hương.\\r\\nSông Hương:\\r\\n\\r\\nSông Hương là một phần không thể thiếu trong Tour Huế, du khách có thể đi thuyền trên sông, tận hưởng cảnh đẹp hai bên bờ sông, chiêm ngưỡng các làng nghề truyền thống và thưởng thức những làn điệu ca Huế đặc sắc.\\r\\nChợ Đông Ba:\\r\\n\\r\\nChợ Đông Ba là chợ truyền thống lâu đời của Huế, nơi du khách có thể tìm mua những sản phẩm thủ công mỹ nghệ, đồ lưu niệm, quà tặng và các món ăn đặc sản nổi tiếng của Huế như bánh bèo, bánh nậm, cơm hến.\\r\\nCầu Trường Tiền:\\r\\n\\r\\nCầu Trường Tiền là biểu tượng của thành phố Huế, một cây cầu lịch sử nối liền hai bờ sông Hương. Cầu được xây dựng từ thời Pháp thuộc, mang một vẻ đẹp cổ kính, đặc biệt khi về đêm, ánh đèn lấp lánh phản chiếu trên mặt nước tạo nên cảnh tượng tuyệt đẹp.\\r\\nLàng nghề truyền thống Huế:\\r\\n\\r\\nHuế nổi tiếng với nhiều làng nghề truyền thống như làng nón lá Phú Cam, làng gốm Thanh Tiên, hay làng tranh dân gian. Bạn có thể tham quan các làng nghề này để tìm hiểu về quá trình sản xuất các sản phẩm thủ công mỹ nghệ độc đáo của Huế.\\r\\nHoạt động trong Tour Huế:\\r\\nTham quan các di tích lịch sử: Khám phá Kinh Thành Huế, các lăng tẩm của các vua Nguyễn, và các ngôi chùa, di tích văn hóa đặc sắc.\\r\\nThưởng thức ẩm thực Huế: Huế là thiên đường ẩm thực với các món ăn đặc trưng như bánh bèo, bánh nậm, bánh canh, cơm hến, bánh huế. Du khách có thể thưởng thức các món ăn truyền thống ngay tại các quán ăn, nhà hàng trong thành phố.\\r\\nTrải nghiệm văn hóa ca Huế: Ca Huế, loại hình âm nhạc truyền thống của Huế, là một phần không thể thiếu trong các tour tham quan. Bạn có thể nghe ca Huế trên sông Hương hoặc tại các nhà hát.\\r\\nThời gian lý tưởng cho Tour Huế:\\r\\nMùa xuân (tháng 1 – tháng 3): Thời tiết mát mẻ, dễ chịu, là thời điểm lý tưởng để tham quan các di tích và thưởng thức ẩm thực Huế.\\r\\nMùa hè (tháng 4 – tháng 6): Thời tiết nóng, thích hợp cho những ai muốn khám phá các bãi biển gần Huế như Lăng Cô.\\r\\nMùa thu (tháng 9 – tháng 11): Mùa mưa ở Huế, nhưng cũng là thời điểm Huế có khí hậu mát mẻ và ít khách du lịch, thích hợp cho những ai muốn tránh đám đông.\\r\\nMùa đông (tháng 12 – tháng 2): Huế trở nên lạnh và sương mù, tạo ra một không gian lãng mạn và huyền bí, phù hợp cho những chuyến du lịch nghỉ dưỡng.', 'Hoạt động', '2025-03-21', 'TP.Hồ Chí Minh', 'Lịch trình ngày 1:\r\nLịch trình ngày 2:', 1, 'Theo nhóm nhỏ', '2 ngày 1 đêm', 900000, 'Xe khách', 'Trung'),
 (49, 9, 'Sapa', 'Hiện đại', 3100000, '40', 40, 10, 'Sapa, một thị trấn nhỏ nằm ở phía Tây Bắc Việt Nam, nổi tiếng với những cảnh quan thiên nhiên hùng vĩ, văn hóa độc đáo của các dân tộc thiểu số, và khí hậu mát mẻ quanh năm. Đây là một điểm đến lý tưởng cho những ai yêu thích khám phá thiên nhiên, tận hưởng không khí trong lành và tìm hiểu về các phong tục tập quán đặc sắc của các cộng đồng dân tộc như H\\\'mông, Dao, Tày, Giáy. Tour Sapa mang đến cho du khách những trải nghiệm tuyệt vời về một vùng đất đầy bí ẩn và vẻ đẹp thiên nhiên.\\r\\n\\r\\nCác điểm tham quan nổi bật trong Tour Sapa:\\r\\nFansipan – Nóc nhà của Đông Dương:\\r\\n\\r\\nFansipan là đỉnh núi cao nhất Đông Dương, với độ cao 3.143m. Du khách có thể tham gia các tour leo núi, hoặc nếu không muốn leo, có thể đi cáp treo để chiêm ngưỡng toàn cảnh thiên nhiên hùng vĩ của Sapa từ trên cao.\\r\\nThị trấn Sapa:\\r\\n\\r\\nThị trấn Sapa nổi bật với những ngôi nhà có kiến trúc Pháp cổ, các khu chợ địa phương và không gian yên bình. Du khách có thể tản bộ dọc các con phố để cảm nhận vẻ đẹp thơ mộng của thị trấn này, thưởng thức các món ăn đặc sản và mua sắm các sản phẩm thủ công.\\r\\nBản Cát Cát:\\r\\n\\r\\nBản Cát Cát là một trong những bản làng của người H\\\'mông, nơi bạn có thể tìm hiểu về đời sống và văn hóa của người dân tộc thiểu số. Tại đây, bạn có thể tham quan các ngôi nhà truyền thống, xem các hoạt động sản xuất thổ cẩm, dệt vải và thưởng thức các món ăn đặc trưng.\\r\\nThung lũng Mường Hoa:\\r\\n\\r\\nThung lũng Mường Hoa nổi tiếng với những cánh đồng lúa bậc thang xanh mướt, những con suối trong vắt và những bãi đá cổ với những hình vẽ kỳ lạ. Đây là nơi lý tưởng để chụp ảnh và thưởng thức cảnh đẹp thiên nhiên hoang sơ.\\r\\nBản Tả Phìn:\\r\\n\\r\\nBản Tả Phìn là nơi sinh sống của người Dao Đỏ, nổi tiếng với nghề thêu tay và các sản phẩm thủ công mỹ nghệ. Du khách có thể tham gia các hoạt động tìm hiểu về văn hóa địa phương, ngắm cảnh và mua sắm các sản phẩm thủ công độc đáo.\\r\\nHồ Sapa:\\r\\n\\r\\nHồ Sapa là một trong những điểm du lịch nổi tiếng của thị trấn. Bạn có thể đi dạo quanh hồ, thư giãn và tận hưởng không khí trong lành của vùng núi cao.\\r\\nChợ Sapa:\\r\\n\\r\\nChợ Sapa là nơi tụ tập của các dân tộc thiểu số, đặc biệt là vào cuối tuần. Du khách có thể tìm mua các sản phẩm thủ công truyền thống như thổ cẩm, vòng tay, trang sức, và thưởng thức các món ăn đặc sản địa phương như thịt trâu gác bếp, xôi ngũ sắc.\\r\\nHoạt động trong Tour Sapa:\\r\\nTrekking và leo núi: Khám phá các bản làng xa xôi, leo núi Fansipan, hoặc trekking qua những con đường mòn, các thửa ruộng bậc thang.\\r\\nTham quan các bản làng: Ghé thăm các bản làng của người H\\\'mông, Dao, Tày, Giáy để tìm hiểu về đời sống và văn hóa đặc sắc của các dân tộc thiểu số.\\r\\nTrải nghiệm ẩm thực Sapa: Sapa nổi tiếng với các món ăn đặc sản như thịt trâu gác bếp, cá hồi Sapa, xôi ngũ sắc, măng rừng, và rượu cần.\\r\\nThăm các khu chợ: Chợ Sapa, chợ Tả Phìn, chợ Cát Cát… là những nơi bạn có thể mua sắm các sản phẩm thổ cẩm, đồ lưu niệm độc đáo.\\r\\nThời gian lý tưởng cho Tour Sapa:\\r\\nMùa xuân (tháng 1 – tháng 3): Đây là mùa hoa mận, hoa đào nở rộ, khung cảnh đẹp như tranh vẽ, thích hợp cho những ai muốn tận hưởng không khí mát mẻ và cảnh sắc tươi mới.\\r\\nMùa hè (tháng 4 – tháng 6): Thời gian lý tưởng để tham gia trekking, leo núi và khám phá thiên nhiên. Sapa vào mùa hè có khí hậu mát mẻ và dễ chịu, rất thích hợp cho các hoạt động ngoài trời.\\r\\nMùa thu (tháng 9 – tháng 11): Đây là mùa lúa chín, các cánh đồng lúa bậc thang ở Sapa khoác lên mình màu vàng óng ả. Đây là thời điểm tuyệt vời để thưởng thức cảnh sắc thiên nhiên tuyệt đẹp.\\r\\nMùa đông (tháng 12 – tháng 2): Sapa vào mùa đông có thể rất lạnh, thậm chí có tuyết rơi, tạo nên một không gian huyền bí và lãng mạn, rất thích hợp cho những ai yêu thích sự yên tĩnh và muốn trải nghiệm khí hậu lạnh.', 'Hoạt động', '2025-03-18', 'TP.Hồ Chí Minh', 'Lịch trình ngày 1:\r\nLịch trình ngày 2:\r\nLịch trình ngày 3:', 1, 'Theo đoàn', '3 ngày 2 đêm', 2900000, 'Du thuyền', 'Bắc'),
 (50, 9, 'Phú Quốc', 'Hiện đại', 5500000, '35', 50, 10, 'Phú Quốc, hòn đảo ngọc xinh đẹp của Việt Nam, nằm ở vịnh Thái Lan, được biết đến với bãi biển trong xanh, cát trắng mịn, thiên nhiên hoang sơ và hệ sinh thái phong phú. Đây là một trong những điểm du lịch hấp dẫn bậc nhất tại Việt Nam, thu hút du khách bởi cảnh quan thiên nhiên tuyệt vời, ẩm thực đặc sản độc đáo và những hoạt động giải trí thú vị. Tour Phú Quốc sẽ đưa bạn đến khám phá vẻ đẹp của thiên đường du lịch biển đảo này.\\r\\n\\r\\nCác điểm tham quan nổi bật trong Tour Phú Quốc:\r\n- Bãi Sao:Bãi Sao là một trong những bãi biển đẹp nhất Phú Quốc, với cát trắng mịn và làn nước trong xanh. Nơi đây còn được biết đến với vẻ đẹp hoang sơ, là địa điểm lý tưởng để tắm biển, thư giãn và tham gia các hoạt động thể thao dưới nước như lướt ván, chèo thuyền kayak.\r\n- Vinpearl Safari Phú Quốc:Vinpearl Safari là khu bảo tồn động vật bán hoang dã lớn nhất Việt Nam, nơi bạn có thể tham quan các loài động vật quý hiếm như hươu cao cổ, vượn, sư tử và các loài động vật hoang dã khác trong môi trường tự nhiên.\r\n- Công viên giải trí VinWonders Phú Quốc:VinWonders Phú Quốc là công viên giải trí lớn, nơi du khách có thể trải nghiệm các trò chơi cảm giác mạnh, khám phá các khu vực chủ đề như Khu vui chơi nước, Thế giới phiêu lưu, và thưởng thức các chương trình biểu diễn đặc sắc.\r\n- Dinh Cậu:Dinh Cậu là một ngôi đền nhỏ nằm trên một mỏm đá, với cảnh quan tuyệt đẹp hướng ra biển. Đây là nơi cầu bình an, may mắn và cũng là một điểm du lịch tâm linh quan trọng tại Phú Quốc.\r\n- Hòn Móng Tay:Hòn Móng Tay là một hòn đảo nhỏ hoang sơ, với nước biển trong vắt và những bãi cát trắng mịn. Đây là một địa điểm lý tưởng để lặn ngắm san hô, tắm biển và tham gia các hoạt động ngoài trời.\r\nChùa Hộ Quốc (Thiền viện Trúc Lâm Phú Quốc):Chùa Hộ Quốc là một trong những ngôi chùa lớn và đẹp tại Phú Quốc, được xây dựng theo kiến trúc cổ điển của Phật giáo. Tọa lạc trên đỉnh núi, chùa mang đến một không gian thanh tịnh, yên bình và có tầm nhìn rộng ra biển.\r\n- Chợ Dương Đông:Chợ Dương Đông là một trong những khu chợ lớn và nhộn nhịp tại Phú Quốc. Du khách có thể đến đây để thưởng thức các món ăn đặc sản địa phương như hải sản tươi sống, bánh tét mật cật, nước mắm Phú Quốc và mua sắm các món quà lưu niệm.\r\n- Hoạt động trong Tour Phú Quốc:Tắm biển và tham gia các hoạt động thể thao dưới nước: Phú Quốc nổi tiếng với các bãi biển đẹp như Bãi Sao, Bãi Dài, và Bãi Kem, là nơi lý tưởng để tắm biển, tham gia lướt sóng, chèo thuyền kayak và lặn ngắm san hô.\r\n- Khám phá các đảo nhỏ: Du khách có thể tham gia các tour khám phá các đảo nhỏ quanh Phú Quốc như Hòn Móng Tay, Hòn Gầm Ghì, Hòn Đồi Mồi, để tận hưởng vẻ đẹp thiên nhiên hoang sơ và tham gia các hoạt động lặn ngắm san hô.\r\n- Thưởng thức ẩm thực Phú Quốc: Phú Quốc là thiên đường ẩm thực với các món hải sản tươi ngon như tôm hùm, cua huỳnh đế, nghêu, sò, ốc, đặc biệt là nước mắm Phú Quốc nổi tiếng. Du khách cũng có thể thưởng thức các món ăn đặc sản như bánh tét mật cật, bánh canh ghẹ.\r\n- Tham quan các di tích lịch sử và văn hóa: Ngoài các hoạt động giải trí, du khách cũng có thể tham quan các di tích lịch sử và văn hóa tại Phú Quốc, như Dinh Cậu, Chùa Hộ Quốc và các làng nghề truyền thống.\r\n- Thời gian lý tưởng cho Tour Phú Quốc:\r\n  +Mùa khô (tháng 11 – tháng 4): Đây là thời gian lý tưởng để du lịch Phú Quốc, với thời tiết mát mẻ, ít mưa, rất thích hợp cho các hoạt động ngoài trời và tắm biển.\r\n  +Mùa mưa (tháng 5 – tháng 10): Phú Quốc vẫn có vẻ đẹp riêng trong mùa mưa, nhưng thời tiết có thể không thuận lợi cho các hoạt động ngoài trời. Tuy nhiên, nếu bạn muốn tìm kiếm sự yên tĩnh và tránh đám đông, mùa mưa cũng là một lựa chọn.', 'Hoạt động', '2025-03-30', 'TP.Hồ Chí Minh', 'Lịch trình ngày 1:\r\nLịch trình ngày 2:', 1, 'Theo đoàn', '5 ngày 4 đêm', 4900000, 'Xe khách', 'Nam'),
@@ -7758,11 +7780,15 @@ CREATE TABLE `wishlist` (
 --
 
 INSERT INTO `wishlist` (`id`, `user_id`, `item_id`, `type`, `created_at`) VALUES
-(6, 1, 56, 'tour', '2025-04-09 08:32:15'),
 (15, 1, 54, 'tour', '2025-04-10 13:51:44'),
 (16, 1, 57, 'tour', '2025-04-10 13:51:47'),
 (17, 27, 46, 'tour', '2025-04-17 08:33:16'),
-(18, 27, 64, 'tour', '2025-05-06 12:49:17');
+(18, 27, 64, 'tour', '2025-05-06 12:49:17'),
+(25, 1, 68, 'tour', '2025-05-07 15:48:38'),
+(28, 1, 67, 'tour', '2025-05-07 15:50:45'),
+(30, 1, 60, 'tour', '2025-05-07 15:55:56'),
+(31, 1, 56, 'tour', '2025-05-07 15:59:18'),
+(32, 27, 56, 'tour', '2025-05-07 16:03:12');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -8061,7 +8087,7 @@ ALTER TABLE `wishlist`
 -- AUTO_INCREMENT cho bảng `activity_logs`
 --
 ALTER TABLE `activity_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=395;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=409;
 
 --
 -- AUTO_INCREMENT cho bảng `admin`
@@ -8085,7 +8111,7 @@ ALTER TABLE `booking_details_ks`
 -- AUTO_INCREMENT cho bảng `booking_detail_tour`
 --
 ALTER TABLE `booking_detail_tour`
-  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=135;
+  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=137;
 
 --
 -- AUTO_INCREMENT cho bảng `booking_orderks`
@@ -8097,7 +8123,7 @@ ALTER TABLE `booking_orderks`
 -- AUTO_INCREMENT cho bảng `booking_ordertour`
 --
 ALTER TABLE `booking_ordertour`
-  MODIFY `Booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=251;
+  MODIFY `Booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=253;
 
 --
 -- AUTO_INCREMENT cho bảng `chat_rooms`
@@ -8181,13 +8207,13 @@ ALTER TABLE `news`
 -- AUTO_INCREMENT cho bảng `participant`
 --
 ALTER TABLE `participant`
-  MODIFY `idpar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=156;
+  MODIFY `idpar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=158;
 
 --
 -- AUTO_INCREMENT cho bảng `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
 
 --
 -- AUTO_INCREMENT cho bảng `rating_reviews_ks`
@@ -8289,7 +8315,7 @@ ALTER TABLE `user_credit`
 -- AUTO_INCREMENT cho bảng `wishlist`
 --
 ALTER TABLE `wishlist`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
