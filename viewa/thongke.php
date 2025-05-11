@@ -890,7 +890,7 @@ function getBookingStats(year, month = 0, vung = 0, from_date = null, to_date = 
         type: 'GET',
         dataType: 'json',
         success: function(response) {
-            console.log(response);
+         
             let eventHtml = '';
             let details = response.details || [];
 

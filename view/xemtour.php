@@ -962,17 +962,12 @@ if (urlParams.has('tour1')) {
 
     // Gọi API tìm kiếm
     timKiemThongTintk(name, date, budget, month)
-}else {
-    xemtour();
 }
-
 if (urlParams.has('mien')) {
     let selectedMien = urlParams.get('mien');
     console.log("Lọc theo miền:", selectedMien);
     xemtourtheomien(selectedMien);
-} else {
-    xemtour();
-}
+} 
 
 $('.submenu-right a').on('click', function (e) {
     let rawHref = $(this).attr('href'); 

@@ -219,7 +219,7 @@ function loadMessages() {
     if (!room_id) return;
 
     $.getJSON('./api/apia.php?action=xemtinnhan&room_id=' + room_id, function (response) {
-        console.log("Server Response:", response);
+    
         if (Array.isArray(response)) {
             let chatHtml = '';
             response.forEach(msg => {
@@ -271,7 +271,7 @@ function sendMessage() {
         contentType: false,
         processData: false,
         success: function (response) {
-            console.log("Server Response:", response);
+          
             if (response.trim() === 'success') {
                 $('#message-input').val('');
                 loadMessages();
