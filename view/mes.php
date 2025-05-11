@@ -359,11 +359,11 @@ function joinRoom() {
 function loadMessages() {
     if (!currentRoomId) return;
     
-    console.log("Tải tin nhắn cho phòng:", currentRoomId);
+   
 
     $.getJSON(`./api/api.php?action=xemtinnhan&room_id=${currentRoomId}`)
         .done(function (data) {
-            console.log("Tin nhắn nhận được:", data);
+            
             let messages = '';
             data.forEach(msg => {
                 let sender = msg.sender_type === 'user' ? 'Bạn' : 'Nhân viên';
