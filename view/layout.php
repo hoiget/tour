@@ -293,7 +293,7 @@ width: 55%;
                    <h1>Tour du lịch</h1>
                     <h2 class='title' style="color:white">${tour.Name}</h2>
                     <p class='description' style=" color: #FFFFFF;font-size:18px">${tour.Thumb}</p>
-                     <a href="index.php?idtour=${tour.id}&xemdanhgiatour=${tour.id}&xemdanhgiarating=${tour.id}"><button>Read More</button></a>
+                     <a href="index.php?idtour=${tour.id}&xemdanhgiatour=${tour.id}&xemdanhgiarating=${tour.id}"><button>Xem thêm</button></a>
                   </div>
                 </li>`;
             });

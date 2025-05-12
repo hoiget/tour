@@ -115,12 +115,12 @@
                   <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
                 </div>
                 <p>
-                none
+                Đặng Thanh Đại Phúc
                 </p>
                 <div class="profile mt-auto">
-                  <img src="assets/img/testimonials/testimonials-3.jpg" class="testimonial-img" alt="">
-                  <h3>none</h3>
-                  <h4>none</h4>
+                  <img src="#" class="testimonial-img" alt="">
+                  <h3></h3>
+                  <h4>20042221</h4>
                 </div>
               </div>
             </div><!-- End testimonial item -->
@@ -131,11 +131,11 @@
                   <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
                 </div>
                 <p>
-                none                </p>
+                Vĩnh Tuấn Anh                </p>
                 <div class="profile mt-auto">
-                  <img src="assets/img/testimonials/testimonials-4.jpg" class="testimonial-img" alt="">
-                  <h3>none</h3>
-                  <h4>none</h4>
+                  <img src="#" class="testimonial-img" alt="">
+                  <h3></h3>
+                  <h4>20920010</h4>
                 </div>
               </div>
             </div><!-- End testimonial item -->
