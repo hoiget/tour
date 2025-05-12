@@ -7,7 +7,7 @@
         <div class="container">
           <div class="row d-flex justify-content-center text-center">
             <div class="col-lg-8">
-              <h1>Liên hệ</h1>
+              <h1 data-i18n="contact">Liên hệ</h1>
             </div>
           </div>
         </div>

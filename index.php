@@ -126,38 +126,38 @@ if (isset($_SESSION['login_time']) && ($currentTime - $_SESSION['login_time'] > 
 
             <nav id="navmenu" class="navmenu">
                 <ul>
-                    <li><a href="index.php" class="active">Trang chủ<br></a></li>
-                    <li><a href="index.php?about">Giới thiệu</a></li>
-                    <li class="dropdown"><a href="#"><span>Dịch vụ</span> <i
+                    <li><a href="index.php" data-i18n="home" class="active">Trang chủ<br></a></li>
+                    <li><a href="index.php?about" data-i18n="about">Giới thiệu</a></li>
+                    <li class="dropdown"><a href="#"><span data-i18n="services">Dịch vụ</span> <i
                                 class="bi bi-chevron-down toggle-dropdown"></i></a>
                         <ul >
                             <li class="dropdown" style="">
-                                <a href="index.php?tour"><span>Đặt tour</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                                <a href="index.php?tour"><span data-i18n="bookTour">Đặt tour</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
                                 <ul class="submenu-right" style="left: 100%;top: 0;background-color: black;box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);z-index: 999;margin-left:10px;">
-                                    <li><a href="index.php?tour&mien=Nam">Tour miền nam</a></li>
-                                    <li><a href="index.php?tour&mien=Bắc">Tour miền bắc</a></li>
-                                    <li><a href="index.php?tour&mien=Trung">Tour miền trung</a></li>
-                                    <li><a href="index.php?tour&mien=Tây">Tour miền tây</a></li>
-                                    <li><a href="index.php?tour&mien=Ngoài nước">Tour nước ngoài</a></li>
+                                    <li><a href="index.php?tour&mien=Nam" data-i18n="Southern Tour">Tour miền nam</a></li>
+                                    <li><a href="index.php?tour&mien=Bắc" data-i18n="Northern Tour">Tour miền bắc</a></li>
+                                    <li><a href="index.php?tour&mien=Trung" data-i18n="Central Tour">Tour miền trung</a></li>
+                                    <li><a href="index.php?tour&mien=Tây" data-i18n="Western Tour">Tour miền tây</a></li>
+                                    <li><a href="index.php?tour&mien=Ngoài nước" data-i18n="Overseas Tour">Tour nước ngoài</a></li>
                                     <?php if(isset($_SESSION['Email']) || isset($_SESSION['sdt'])) { ?>
-                                    <li><a href="index.php?custom_tour">Tour theo yêu cầu</a></li>
-                                    <li><a href="index.php?thuexe">Thuê xe theo yêu cầu</a></li>
+                                    <li><a href="index.php?custom_tour" data-i18n="Tour on request">Tour theo yêu cầu</a></li>
+                                    <li><a href="index.php?thuexe" data-i18n="Car rental on demand">Thuê xe theo yêu cầu</a></li>
                                     <?php }?>
 
                                 </ul>          
                             </li>
-                            <li><a href="index.php?ks">Khách sạn</a></li>
+                            <li><a href="index.php?ks" data-i18n="hotels">Khách sạn</a></li>
                           
 
                         </ul>
                     </li>
-                    <li><a href="index.php?tintuc">Tin tức</a></li>
-                    <li><a href="index.php?contact">Liên hệ</a></li>
+                    <li><a href="index.php?tintuc" data-i18n="news">Tin tức</a></li>
+                    <li><a href="index.php?contact" data-i18n="contact">Liên hệ</a></li>
                     <?php
 if (!isset($_SESSION['Email']) || !isset($_SESSION['sdt'])) {
 ?>
-                    <li><a href="dangnhap.php"> <i class="fas fa-user"></i>Đăng nhập</a></li>
-                    <li><a href="dangky.php"><i class="fas fa-user-plus"></i>ĐĂNG KÝ</a></li>
+                    <li><a href="dangnhap.php" data-i18n="login"> <i class="fas fa-user"></i>Đăng nhập</a></li>
+                    <li><a href="dangky.php" data-i18n="register"><i class="fas fa-user-plus"></i>ĐĂNG KÝ</a></li>
                     <?php }elseif(isset($_SESSION['Email']) || isset($_SESSION['sdt'])) {?>
                     <?php
 
@@ -317,19 +317,19 @@ if($show){
             <div class="footer-left">
               
                 <ul class="footer-nav">
-                    <li><a href="index.php">Trang chủ</a></li>
-                    <li><a href="index.php?about">Giới thiệu</a></li>
+                    <li><a href="index.php" data-i18n="home">Trang chủ</a></li>
+                    <li><a href="index.php?about" data-i18n="about">Giới thiệu</a></li>
                    
-                    <li><a href="index.php?contact">Liên hệ</a></li>
-                    <li><a href="index.php?tintuc">Tin tức</a></li>
+                    <li><a href="index.php?contact" data-i18n="contact">Liên hệ</a></li>
+                    <li><a href="index.php?tintuc" data-i18n="news">Tin tức</a></li>
 
-                    <li>   <a style='text-decoration: none;' href="#" class="site-footer-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Chính sách bảo mật</a></li>
+                    <li>   <a style='text-decoration: none;' href="#" class="site-footer-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" data-i18n="privacy policy">Chính sách bảo mật</a></li>
                  
 
 
 <div style="width:900px" class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
   <div class="offcanvas-header">
-    <h5 id="offcanvasRightLabel">Chính sách bảo mật</h5>
+    <h5 id="offcanvasRightLabel" data-i18n="privacy policy">Chính sách bảo mật</h5>
     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body">
@@ -382,7 +382,7 @@ Thông tin cá nhân của khách hàng sẽ được lưu trữ trong thời gi
                     <a href="#"><i class="bi bi-linkedin"></i></a>
                 </div>
                 <div class="newsletter">
-                    <p>Nhận tin khuyến mãi & ưu đãi:</p>
+                    <p data-i18n="Receive promotions & offers">Nhận tin khuyến mãi & ưu đãi:</p>
                     <input type="email" placeholder="Nhập email của bạn">
                     <button>Đăng ký</button>
                 </div>
@@ -393,7 +393,12 @@ Thông tin cá nhân của khách hàng sẽ được lưu trữ trong thời gi
             </div>
         </div>
     </div>
-    <center><p> © <span id="year"></span><strong> GoWander</strong>. All Rights Reserved</p></center>
+    <center><p> © <span id="year"></span><strong> GoWander</strong>. All Rights Reserved
+  <select id="lang-select">
+  <option value="vi">Tiếng Việt</option>
+  <option value="en">English</option>
+</select>
+</p></center>
 </footer>
 
 <script>
@@ -408,6 +413,7 @@ Thông tin cá nhân của khách hàng sẽ được lưu trữ trong thời gi
 
 
     <!-- Vendor JS Files -->
+     <script src="languages/lang.js"></script>
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="assets/vendor/php-email-form/validate.js"></script>
     <script src="assets/vendor/aos/aos.js"></script>

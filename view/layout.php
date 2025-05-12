@@ -252,7 +252,7 @@ width: 55%;
   <link rel="stylesheet" href="./assets/css/tim.css">
   <section id="hero" class="hero section">
     
-  <ul class='slider' id="xemlayout">
+  <ul class='slider' id="xemlayout" >
  
   </ul>
   <nav class='nav'>
@@ -290,10 +290,10 @@ width: 55%;
               eventHtml += `
                 <li class='item' style="background-image: url('./assets/img/tour/${tour.Image}')">
                   <div class='content'>
-                   <h1>Tour du lịch</h1>
+                   <h1 data-i18n="tours">Tour du lịch</h1>
                     <h2 class='title' style="color:white">${tour.Name}</h2>
                     <p class='description' style=" color: #FFFFFF;font-size:18px">${tour.Thumb}</p>
-                     <a href="index.php?idtour=${tour.id}&xemdanhgiatour=${tour.id}&xemdanhgiarating=${tour.id}"><button>Xem thêm</button></a>
+                     <a href="index.php?idtour=${tour.id}&xemdanhgiatour=${tour.id}&xemdanhgiarating=${tour.id}"><button data-i18n="seeMore">Xem thêm</button></a>
                   </div>
                 </li>`;
             });
@@ -322,7 +322,7 @@ width: 55%;
             <div class="tab active" id="tour-tab">
                 <i class="fas fa-bus"></i> Tour
             </div>
-            <div class="tab" id="hotel-tab">
+            <div class="tab" id="hotel-tab" data-i18n="hotels">
                 <i class="fas fa-hotel"></i> Khách sạn
             </div>
         </div>
@@ -334,7 +334,7 @@ width: 55%;
           
             <input type="date" name="date" class="date-input1" id="date-input1">
             <select class="month-select hidden-on-mobile" id="month-select">
-                <option value="">Tháng</option>
+                <option value="" data-i18n="Month">Tháng</option>
                 <option value="1">Tháng 1</option>
                 <option value="2">Tháng 2</option>
                 <option value="3">Tháng 3</option>
@@ -504,8 +504,8 @@ document.addEventListener('DOMContentLoaded', () => {
 <section id="giam" class="giam">
  
 <div class="containere">
-        <h2>TOUR ĐANG GIẢM GIÁ</h2>
-        <p>Hãy tận hưởng trải nghiệm du lịch chuyên nghiệp, mang lại cho bạn những khoảnh khắc tuyệt vời và nâng tầm cuộc sống.</p>
+        <h2 data-i18n="discountTours">TOUR ĐANG GIẢM GIÁ</h2>
+        <p data-i18n="slogan">Hãy tận hưởng trải nghiệm du lịch chuyên nghiệp, mang lại cho bạn những khoảnh khắc tuyệt vời và nâng tầm cuộc sống.</p>
         
         <div class="slider1">
             <button class="nav-button prev1" onclick="prevSlide()">&#10094;</button>
@@ -573,8 +573,8 @@ document.addEventListener('DOMContentLoaded', () => {
   <section id="yeuthich" class="yeuthich">
  
 <div class="containere1">
-        <h2 style="text-align: center;">Địa điểm được yêu thích</h2>
-        <p style=" text-align: center;">Hãy chọn một điểm đến du lịch nổi tiếng dưới đây để khám phá các chuyến đi độc quyền của chúng tôi với mức giá vô cùng hợp lý.</p>
+        <h2 style="text-align: center;" data-i18n="featuredDestinations">Địa điểm được yêu thích</h2>
+        <p style=" text-align: center;" data-i18n="ndlike">Hãy chọn một điểm đến du lịch nổi tiếng dưới đây để khám phá các chuyến đi độc quyền của chúng tôi với mức giá vô cùng hợp lý.</p>
         
         <div class="slider12">
             <button class="nav-button prev12" onclick="prevSlide1()">&#10094;</button>
@@ -610,13 +610,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 let eventHtml = '';
                 response.forEach(function (tour) {
                     eventHtml += `
+
                         <div class='slide12'>
                             <a href="index.php?idtour=${tour.tourid}">
                                 <img src="./assets/img/tour/${tour.Image}" alt="${tour.Name}">
                             </a>
                             <div class="tour-info">
                                 <div class="tour-name1">${tour.Name}</div>
-                                <div class="tour-meta">Khởi hành: <b>${tour.DepartureLocation}</b></div>
+                                <div class="tour-meta" data-i18n="depart">Khởi hành: <b>${tour.DepartureLocation}</b></div>
                                 <div class="tour-meta">Ngày khởi hành: <b>${tour.Depart}</b></div>
                                 <div class="tour-meta">Thời gian: <b>${tour.timetour}</b></div>
                                 `
@@ -658,7 +659,7 @@ document.addEventListener('DOMContentLoaded', () => {
  <!-- Gallery Section -->
 
  <section id="gallery" class="gallery section">
- <h2 style="text-align: center">Tour sắp khởi hành</h2>
+ <h2 style="text-align: center" data-i18n="upcomingTours">Tour sắp khởi hành</h2>
     <div class="container-fluid" data-aos="fade-up" data-aos-delay="100">
         <div class="row gy-4 justify-content-center" id="gallery-content">
             <!-- Danh sách tour sẽ được tải vào đây bằng AJAX -->
