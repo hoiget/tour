@@ -394,10 +394,13 @@ Thông tin cá nhân của khách hàng sẽ được lưu trữ trong thời gi
         </div>
     </div>
     <center><p> © <span id="year"></span><strong> GoWander</strong>. All Rights Reserved
-  <select id="lang-select">
-  <option value="vi">Tiếng Việt</option>
-  <option value="en">English</option>
-</select>
+
+<!-- //   <select id="lang-select">
+//   <option value="vi">Tiếng Việt</option>
+//   <option value="en">English</option>
+// </select>
+
+
 </p></center>
 </footer>
 
