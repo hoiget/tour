@@ -27,7 +27,7 @@
               <div class="info-item d-flex align-items-center">
                 <i class="bi bi-geo-alt flex-shrink-0"></i>
                 <div>
-                  <h3>Địa điểm</h3>
+                  <h3 data-i18n="location">Địa điểm</h3>
                   <p>Gò Vấp, Đường 11, TP.HCM</p>
                 </div>
               </div>
@@ -37,7 +37,7 @@
               <div class="info-item d-flex align-items-center">
                 <i class="bi bi-telephone flex-shrink-0"></i>
                 <div>
-                  <h3>Điện thoại</h3>
+                  <h3 data-i18n="Phone">Điện thoại</h3>
                   <p>0965773899</p>
                 </div>
               </div>
@@ -55,7 +55,7 @@
 
           </div>
         </div>
-        <h1>Gửi ý kiến phản hồi</h1>
+        <h1 data-i18n="Send feedback">Gửi ý kiến phản hồi</h1>
        
         <form class="php-email-form" id="guiykien" action="./api/api.php" method="get"> 
         <input type="hidden" name="action" value="guiykien">

@@ -156,8 +156,8 @@ if (isset($_SESSION['login_time']) && ($currentTime - $_SESSION['login_time'] > 
                     <?php
 if (!isset($_SESSION['Email']) || !isset($_SESSION['sdt'])) {
 ?>
-                    <li><a href="dangnhap.php" data-i18n="login"> <i class="fas fa-user"></i>Đăng nhập</a></li>
-                    <li><a href="dangky.php" data-i18n="register"><i class="fas fa-user-plus"></i>ĐĂNG KÝ</a></li>
+                    <li><a href="dangnhap.php" ><i class="fas fa-user"></i><span data-i18n="login">Đăng nhập</span></a></li>
+                    <li><a href="dangky.php"><i class="fas fa-user-plus"></i><span >ĐĂNG KÝ</span></a></li>
                     <?php }elseif(isset($_SESSION['Email']) || isset($_SESSION['sdt'])) {?>
                     <?php
 
@@ -395,10 +395,10 @@ Thông tin cá nhân của khách hàng sẽ được lưu trữ trong thời gi
     </div>
     <center><p> © <span id="year"></span><strong> GoWander</strong>. All Rights Reserved
 
-<!-- //   <select id="lang-select">
-//   <option value="vi">Tiếng Việt</option>
-//   <option value="en">English</option>
-// </select>
+<!-- <select id="lang-select">
+   <option value="vi">Tiếng Việt</option>
+   <option value="en">English</option>
+</select> -->
 
 
 </p></center>
@@ -416,7 +416,7 @@ Thông tin cá nhân của khách hàng sẽ được lưu trữ trong thời gi
 
 
     <!-- Vendor JS Files -->
-     <script src="languages/lang.js"></script>
+     <!-- <script src="languages/lang.js"></script> -->
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="assets/vendor/php-email-form/validate.js"></script>
     <script src="assets/vendor/aos/aos.js"></script>
