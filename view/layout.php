@@ -355,7 +355,7 @@ width: 55%;
                 <option value="high">Trên 10 triệu</option>
             </select>
            
-            <button type="submit" class="search-button" style="background-color: white; border: 1px solid black">🔍</button>
+            <button type="submit" class="search-button" style="background-color: white; border: 1px solid grey">🔍</button>
     
         </div>
         </form>
@@ -627,7 +627,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                   `
                                 }else if(parseInt(tour.discount) > 0){
                                 eventHtml+=`
-                                    <del style="color:black">Gía từ: `+ parseInt(tour.Price).toLocaleString('vi-VN') + ` VNĐ</del>
+                                    <del style="color:black">Giá từ: `+ parseInt(tour.Price).toLocaleString('vi-VN') + ` VNĐ</del>
                                     <div class="price">`+ parseInt(tour.discount).toLocaleString('vi-VN') + ` VNĐ </div>
                                   
                                 `}
