@@ -123,7 +123,7 @@
             position: relative;
             border-radius: 10px; /* Bo góc hình ảnh */
             overflow: hidden;
-            width: 200px;
+            width: 170px;
            
         }
 
@@ -140,8 +140,8 @@
 }
 .tour-info {
         padding: 10px;
-        color:black;
-    }
+        color:black;     
+}
     .tour-name1 {
         font-size: 16px;
         font-weight: bold;

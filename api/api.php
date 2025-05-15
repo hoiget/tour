@@ -2073,7 +2073,11 @@ ORDER BY
     
     if ($action == "xemyeuthich") {
 
-        $query = "SELECT departure_time.*,tour_images.*,tour.*,tour.id AS tourid FROM tour LEFT JOIN tour_images ON tour.id = tour_images.id_tour LEFT JOIN departure_time ON tour.id = departure_time.id_tour  WHERE Orders < Max_participant AND Orders >= 1 
+        $query = "SELECT departure_time.*,tour_images.*,tour.*,tour.id AS tourid,COUNT(wishlist.item_id) AS total_wishlist
+        FROM tour LEFT JOIN tour_images ON tour.id = tour_images.id_tour 
+        LEFT JOIN departure_time ON tour.id = departure_time.id_tour 
+        LEFT JOIN wishlist ON wishlist.item_id = tour.id 
+        WHERE  wishlist.type = 'tour'
         GROUP BY tour.id 
         ORDER BY departure_time.ngaykhoihanh ASC LIMIT 10";
         $result = $conn->query($query);
