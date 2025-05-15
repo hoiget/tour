@@ -565,10 +565,10 @@ function xemtour() {
                                `;
 
                     if (parseInt(event.discount) == 0) {
-                        eventHtml +=` <strong style="margin-left: 10px">Giá:</strong> 
+                        eventHtml +=` <strong style="margin-left: 10px">Giá: </strong> 
                                 <span style="color:red; margin-left: 10px">`+ parseInt(event.Price).toLocaleString('vi-VN') + ` đ </span>`;
                     } else if (parseInt(event.discount) > 0) {
-                        eventHtml +=` <strong style="margin-left: 10px">Giá từ:</strong> 
+                        eventHtml +=` <strong style="margin-left: 10px">Giá từ: </strong> 
                                 <span style="color:red; margin-left: 10px"><del style="color:black">`+ parseInt(event.Price).toLocaleString('vi-VN') + ` đ</del> </span><br><span style="color:red; margin-left: 10px"> Còn lại: `
                         eventHtml += parseInt(event.discount).toLocaleString('vi-VN') + ` đ</span>`;
                     }
@@ -1082,8 +1082,8 @@ $('.submenu-right a').on('click', function (e) {
 
                     eventHtml += `</div><br> 
                                 
-                        ${discount > 0 ? "<strong style='margin-left: 10px'>Giá từ:</strong> <p> <span style='color:red; margin-left: 10px'><del style='color:black'>" +price.toLocaleString('vi-VN') + " đ </del> <br>Còn lại : " + discount.toLocaleString('vi-VN') : "<strong style='margin-left: 10px'>Giá:</strong> <p> <span style='color:red; margin-left: 10px'>" + price.toLocaleString('vi-VN')} đ
-                    </span></p>`;
+                        ${discount > 0 ? "<strong style='margin-left: 10px'>Giá từ:</strong> <del style='color:black'>" +price.toLocaleString('vi-VN') + " đ </del> <br><span style='color:red;margin-left: 10px;'>Còn lại : " + discount.toLocaleString('vi-VN') : "<strong style='margin-left: 10px'>Giá:</strong><span style='color:red; margin-left: 10px'>" + price.toLocaleString('vi-VN')} đ
+                    </span>`;
 
                   
 
