@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th5 11, 2025 lúc 12:07 PM
+-- Thời gian đã tạo: Th5 17, 2025 lúc 04:18 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -439,7 +439,33 @@ INSERT INTO `activity_logs` (`id`, `user_id`, `action_type`, `description`, `use
 (405, 1, 'logout', 'Khách hàng đăng xuất khỏi hệ thống', 'user', '2025-05-11 16:56:48'),
 (406, 1, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-11 16:56:58'),
 (407, 1, 'Update', 'Cập nhật tour ID:47 Đà Nẵng', 'employees', '2025-05-11 17:00:00'),
-(408, 1, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-05-11 17:00:06');
+(408, 1, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-05-11 17:00:06'),
+(409, 1, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-11 17:18:27'),
+(410, 1, 'logout', 'Khách hàng đăng xuất khỏi hệ thống', 'user', '2025-05-11 17:56:02'),
+(411, 2, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-11 17:56:07'),
+(412, 2, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-05-11 17:57:52'),
+(413, 27, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-12 14:27:44'),
+(414, 27, 'logout', 'Khách hàng đăng xuất khỏi hệ thống', 'user', '2025-05-12 14:28:09'),
+(415, 27, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-12 14:28:19'),
+(416, 27, 'logout', 'Khách hàng đăng xuất khỏi hệ thống', 'user', '2025-05-12 14:28:21'),
+(417, 1, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-12 14:28:30'),
+(418, 1, 'logout', 'Khách hàng đăng xuất khỏi hệ thống', 'user', '2025-05-12 14:28:52'),
+(419, 1, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-15 07:59:45'),
+(420, 1, 'Update', 'Cập nhật tour ID:46 Hà Nội', 'employees', '2025-05-15 07:59:56'),
+(421, 1, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-05-15 08:00:00'),
+(422, 1, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-17 07:20:12'),
+(423, 1, 'logout', 'Khách hàng đăng xuất khỏi hệ thống', 'user', '2025-05-17 07:24:06'),
+(424, 1, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-17 07:24:12'),
+(425, 1, 'Insert', 'Thêm tour Tiêu đề: Tour phú Quốc - Sunset Sanato - Bãi Sao', 'employees', '2025-05-17 07:29:52'),
+(426, 1, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-05-17 07:30:12'),
+(427, 1, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-17 07:34:03'),
+(428, 1, 'logout', 'Khách hàng đăng xuất khỏi hệ thống', 'user', '2025-05-17 08:21:26'),
+(429, 1, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-17 08:21:32'),
+(430, 1, 'Update', 'Cập nhật tour ID:105 Phú Quốc - Bãi Sao', 'employees', '2025-05-17 08:22:20'),
+(431, 1, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-05-17 08:22:27'),
+(432, 1, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-17 08:22:34'),
+(433, 1, 'logout', 'Khách hàng đăng xuất khỏi hệ thống', 'user', '2025-05-17 08:39:31'),
+(434, 1, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-17 08:39:37');
 
 -- --------------------------------------------------------
 
@@ -478,6 +504,24 @@ CREATE TABLE `assignment_tour` (
 
 INSERT INTO `assignment_tour` (`idass`, `id_toursche`, `employid`) VALUES
 (39, 171, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `auto_update_log`
+--
+
+CREATE TABLE `auto_update_log` (
+  `id` int(11) NOT NULL,
+  `last_update` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `auto_update_log`
+--
+
+INSERT INTO `auto_update_log` (`id`, `last_update`) VALUES
+(1, '2025-05-17');
 
 -- --------------------------------------------------------
 
@@ -535,13 +579,14 @@ INSERT INTO `booking_detail_tour` (`Sr_no`, `Booking_id`, `Tour_name`, `Price`, 
 (117, 233, 'Đà Nẵng', '2400000', '3105300', 'Phuc Hung', '0987389890', 'sssss', 'Aquasun Hotel', '1000000'),
 (119, 235, 'Tour Mộc Châu - Sơn La', '2400000', '3400000', 'Phuc Hung', '0987389890', 'sssss', 'Aquasun Hotel', '1000000'),
 (120, 236, 'Tour Mộc Châu - Sơn La', '2400000', '2400000', 'Phuc Hung', '0987389890', 'sssss', 'Aquasun Hotel', '1000000'),
-(121, 237, 'Tour Mộc Châu - Sơn La', '2400000', '3400000', 'Phuc Hung', '0987389890', 'sssss', 'Aquasun Hotel', '1000000'),
 (122, 238, 'Tour Côn Đảo Huyền Bí', '3000000', '3990000', 'Phuc Dang', '0141058698', '', 'Aquasun Hotel', '1000000'),
 (123, 239, 'Tour Quy Nhơn - Kỳ Co - Eo Gió', '3100000', '4090000', 'Phuc Dang', '0973873893', 'zf', 'Aquasun Hotel', '1000000'),
 (124, 240, 'Tour Quy Nhơn - Kỳ Co - Eo Gió', '3100000', '4090000', 'Emaiop', '0999999999', 'TP BÌNH THUẬN', 'Aquasun Hotel', '1000000'),
 (134, 250, 'Huế', '900000', '1900000', 'Phan Hung', '0736278299', 'sssss', 'Aquasun Hotel', '1000000'),
-(135, 251, 'Tour Phong Nha - Kẻ Bàng', '2400000', '3280000', 'Phuc Hung', '0987389890', 'sssss', 'Aquasun Hotel', '1000000'),
-(136, 252, 'Tour Gia Lai', '2700000', '2700000', 'Phuc Hung', '0987389890', 'sssss', 'Luxury Stay Da Nang', '1000000');
+(139, 255, 'Tour Cát Bà', '1900000', '3470000', 'Phuc Hung', '0987389890', 'sssss', 'Khách Sạn Tre Xanh', '1000000'),
+(140, 256, 'Tour phú Quốc - Sunset Sanato - Bãi Sao', '2000', '1002000', 'Phuc Hung', '0987389890', 'sssss', 'Aquasun Hotel', '1000000'),
+(142, 258, 'Tour phú Quốc,Sunset,Bãi', '2000', '2000', 'Phuc Hung', '0987389890', 'sssss', 'Aquasun Hotel', '1000000'),
+(143, 259, 'Phú Quốc - Bãi Sao', '2000', '2000', 'Phuc Hung', '0987389890', 'sssss', 'Aquasun Hotel', '1000000');
 
 -- --------------------------------------------------------
 
@@ -599,15 +644,16 @@ CREATE TABLE `booking_ordertour` (
 INSERT INTO `booking_ordertour` (`Booking_id`, `User_id`, `Tour_id`, `Departure_id`, `Arrival`, `Booking_status`, `Payment_status`, `refund`, `Datetime`, `participants`, `created_at`) VALUES
 (232, 1, 50, 69, 'Xe khách', '2', '2', 0, '2025-04-13', 1, '2025-04-07 09:29:19'),
 (233, 1, 47, 54, 'Máy bay', '2', '2', 1, '2025-05-14', 1, '2025-04-07 09:32:43'),
-(235, 1, 54, 182, 'Xe khách', '2', '1', 0, '2025-05-04', 1, '2025-04-12 13:03:57'),
+(235, 1, 54, 182, 'Xe khách', '2', '1', 2, '2025-05-04', 1, '2025-04-12 13:03:57'),
 (236, 1, 54, 182, 'Xe khách', '2', '2', 0, '2025-04-16', 1, '2025-03-11 08:54:00'),
-(237, 1, 54, 182, 'Xe khách', '2', '1', 0, '2025-04-16', 1, '2025-04-15 18:29:35'),
-(238, 30, 52, 138, 'Máy bay', '2', '1', 0, '2025-05-01', 1, '2025-04-17 08:21:03'),
-(239, 29, 59, 104, 'Máy bay', '2', '1', 0, '2025-04-25', 1, '2025-04-17 08:22:05'),
-(240, 32, 59, 104, 'Máy bay', '2', '1', 0, '2025-05-02', 1, '2025-04-24 07:36:59'),
-(250, 27, 48, 135, 'Xe khách', '2', '1', 0, '2025-05-01', 1, '2025-04-26 07:48:32'),
-(251, 1, 60, 168, 'Xe khách', '2', '1', 0, '2025-05-11', 1, '2025-05-11 14:14:09'),
-(252, 1, 82, 265, 'Xe khách', '2', '1', 0, '2025-05-29', 1, '2025-05-11 16:55:41');
+(238, 30, 52, 138, 'Máy bay', '2', '1', 1, '2025-05-01', 1, '2025-04-17 08:21:03'),
+(239, 29, 59, 104, 'Máy bay', '2', '1', 1, '2025-04-25', 1, '2025-04-17 08:22:05'),
+(240, 32, 59, 104, 'Máy bay', '2', '1', 1, '2025-05-02', 1, '2025-04-24 07:36:59'),
+(250, 27, 48, 135, 'Xe khách', '2', '1', 1, '2025-05-01', 1, '2025-04-26 07:48:32'),
+(255, 1, 79, 250, 'Xe khách', '2', '1', 0, '2025-05-31', 2, '2025-05-17 08:04:17'),
+(256, 1, 105, 359, 'Xe khách', '2', '1', 1, '2025-05-31', 1, '2025-05-17 08:05:58'),
+(258, 1, 105, 359, 'Xe khách', '2', '1', 0, '2025-05-31', 1, '2025-05-17 08:10:28'),
+(259, 1, 105, 359, 'Xe khách', '2', '1', 1, '2025-05-28', 1, '2025-05-17 08:22:57');
 
 -- --------------------------------------------------------
 
@@ -847,7 +893,10 @@ INSERT INTO `departure_dates` (`id`, `tour_id`, `departure_date`, `is_available`
 (302, 103, '2025-05-30', 1),
 (303, 104, '2025-05-31', 1),
 (304, 104, '2025-06-07', 1),
-(305, 104, '2025-06-27', 1);
+(305, 104, '2025-06-27', 1),
+(306, 105, '2025-05-31', 1),
+(307, 105, '2025-05-28', 1),
+(308, 105, '2025-06-08', 1);
 
 -- --------------------------------------------------------
 
@@ -924,9 +973,9 @@ INSERT INTO `departure_time` (`id`, `id_tour`, `Day_depart`, `ngaykhoihanh`, `Or
 (180, 53, '2 ngày 1 đêm', '2025-06-20', 0),
 (181, 53, '2 ngày 1 đêm', '2025-12-27', 0),
 (182, 54, '2 ngày 1 đêm', '2025-04-16', 1),
-(183, 54, '2 ngày 1 đêm', '2025-07-18', -1),
+(183, 54, '2 ngày 1 đêm', '2025-07-18', 0),
 (184, 54, '2 ngày 1 đêm', '2025-05-04', 1),
-(185, 54, '2 ngày 1 đêm', '2025-12-20', -1),
+(185, 54, '2 ngày 1 đêm', '2025-12-20', 0),
 (186, 55, '3 ngày 2 đêm', '2025-04-23', 0),
 (187, 55, '3 ngày 2 đêm', '2025-06-13', 0),
 (188, 55, '3 ngày 2 đêm', '2025-07-11', 0),
@@ -971,7 +1020,7 @@ INSERT INTO `departure_time` (`id`, `id_tour`, `Day_depart`, `ngaykhoihanh`, `Or
 (246, 78, '2 ngày 1 đêm', '2025-06-01', 0),
 (247, 78, '2 ngày 1 đêm', '2025-05-22', 0),
 (248, 78, '2 ngày 1 đêm', '2025-10-23', 0),
-(250, 79, '2 ngày 1 đêm', '2025-05-31', 0),
+(250, 79, '2 ngày 1 đêm', '2025-05-31', 2),
 (251, 79, '2 ngày 1 đêm', '2025-05-22', 0),
 (252, 79, '2 ngày 1 đêm', '2025-06-07', 0),
 (253, 79, '2 ngày 1 đêm', '2025-07-25', 0),
@@ -979,7 +1028,7 @@ INSERT INTO `departure_time` (`id`, `id_tour`, `Day_depart`, `ngaykhoihanh`, `Or
 (256, 80, '2 ngày 1 đêm', '2025-05-31', 0),
 (257, 80, '2 ngày 1 đêm', '2025-06-08', 0),
 (258, 80, '2 ngày 1 đêm', '2025-07-16', 0),
-(260, 81, '2 ngày 1 đêm', '2025-05-24', 0),
+(260, 81, '2 ngày 1 đêm', '2025-05-24', 1),
 (261, 81, '2 ngày 1 đêm', '2025-05-31', 0),
 (262, 81, '2 ngày 1 đêm', '2025-06-08', 0),
 (263, 81, '2 ngày 1 đêm', '2025-07-25', 0),
@@ -1050,7 +1099,10 @@ INSERT INTO `departure_time` (`id`, `id_tour`, `Day_depart`, `ngaykhoihanh`, `Or
 (353, 103, '6 ngày 5 đêm', '2025-05-30', 0),
 (355, 104, '8 ngày 7 đêm', '2025-05-31', 0),
 (356, 104, '8 ngày 7 đêm', '2025-06-07', 0),
-(357, 104, '8 ngày 7 đêm', '2025-06-27', 0);
+(357, 104, '8 ngày 7 đêm', '2025-06-27', 0),
+(359, 105, '4 ngày 3 đêm', '2025-05-31', 2),
+(360, 105, '4 ngày 3 đêm', '2025-05-28', 0),
+(361, 105, '4 ngày 3 đêm', '2025-06-08', 0);
 
 -- --------------------------------------------------------
 
@@ -1350,7 +1402,8 @@ INSERT INTO `messages` (`id`, `sender_id`, `receiver_id`, `room_id`, `sender_typ
 (77, 1, 2, 'room_67e214b03a6d1', 'guide', 'XXX', '2025-03-25 02:28:41', 0),
 (78, 1, 2, 'room_67e214b03a6d1', 'user', 'x', '2025-04-01 10:17:34', 0),
 (79, 1, 2, 'room_67e214b03a6d1', 'user', 'po', '2025-04-26 01:25:16', 0),
-(80, 1, 64, 'room_6816bed04c172', 'user', 'ccc', '2025-05-04 01:11:47', 0);
+(80, 1, 64, 'room_6816bed04c172', 'user', 'ccc', '2025-05-04 01:11:47', 0),
+(81, 1, 64, 'room_6816bed04c172', 'user', 'lll', '2025-05-11 10:47:43', 0);
 
 -- --------------------------------------------------------
 
@@ -1407,13 +1460,15 @@ INSERT INTO `participant` (`idpar`, `idbook`, `hoten`, `ngaysinh`, `gioitinh`, `
 (142, 233, 'ád', '1998-10-07', 'Nam', 'Người lớn'),
 (144, 235, 'sf', '1994-06-08', 'Nam', 'Người lớn'),
 (145, 236, 'xx', '1999-07-08', 'Nam', 'Người lớn'),
-(146, 237, 'ssss', '2006-03-11', 'Nam', 'Người lớn'),
 (147, 238, 's', '2002-03-17', 'Nam', 'Người lớn'),
 (148, 239, 'ssss', '2003-07-17', 'Nam', 'Người lớn'),
 (149, 240, 'Họ ', '1998-07-24', 'Nam', 'Người lớn'),
 (155, 250, 'sss', '2003-06-26', 'Nam', 'Người lớn'),
-(156, 251, 'Phuc hung', '2002-06-12', 'Nam', 'Người lớn'),
-(157, 252, 'aaa', '2001-09-11', 'Nam', 'Người lớn');
+(160, 255, 'Phú', '2000-07-17', 'Nam', 'Người lớn'),
+(161, 255, 'Ema', '2019-07-17', 'Nữ', 'Trẻ em (từ 2 -> 11 tuổi)'),
+(162, 256, 'Phú Hùng', '2000-05-17', 'Nam', 'Người lớn'),
+(164, 258, 'zzz', '1999-07-17', 'Nam', 'Người lớn'),
+(165, 259, 'aa', '2003-06-17', 'Nam', 'Người lớn');
 
 -- --------------------------------------------------------
 
@@ -1438,13 +1493,14 @@ INSERT INTO `payments` (`id`, `user_id`, `idbook`, `method`, `created_at`) VALUE
 (71, 1, 233, 'vnpay', '2025-04-07 02:32:43'),
 (73, 1, 235, 'vietqr', '2025-04-08 06:03:57'),
 (74, 1, 236, 'vnpay', '2025-04-10 01:54:00'),
-(75, 1, 237, 'vnpay', '2025-04-12 11:29:35'),
 (76, 30, 238, 'vnpay', '2025-04-17 01:21:03'),
 (77, 29, 239, 'vnpay', '2025-04-17 01:22:05'),
 (78, 32, 240, 'vnpay', '2025-04-24 00:37:00'),
 (84, 27, 250, 'vnpay', '2025-04-26 00:48:32'),
-(85, 1, 251, 'vietqr', '2025-05-09 07:14:09'),
-(86, 1, 252, 'vietqr', '2025-05-11 09:55:41');
+(89, 1, 255, 'vnpay', '2025-05-17 01:04:17'),
+(90, 1, 256, 'vietqr', '2025-05-17 01:05:58'),
+(92, 1, 258, 'vietqr', '2025-05-17 01:10:28'),
+(93, 1, 259, 'vietqr', '2025-05-17 01:22:57');
 
 -- --------------------------------------------------------
 
@@ -7426,7 +7482,7 @@ CREATE TABLE `tour` (
 --
 
 INSERT INTO `tour` (`id`, `idks`, `Name`, `Style`, `Price`, `Child_price_percen`, `Max_participant`, `Min_participant`, `Description`, `Status`, `Depart`, `DepartureLocation`, `Itinerary`, `employeesId`, `type`, `timetour`, `discount`, `vehicle`, `vung`) VALUES
-(46, 9, 'Hà Nội', 'Hiện đạid', 2400000, '45', 30, 10, 'Hà Nội, thủ đô của Việt Nam, nổi bật với sự kết hợp hài hòa giữa vẻ đẹp cổ kính và sự phát triển hiện đại. Nếu bạn có dịp đến thăm Hà Nội, một tour tham quan sẽ là cách tuyệt vời để khám phá những điểm đến nổi bật và tìm hiểu về lịch sử, văn hóa, cũng như ẩm thực đặc sắc của thành phố này.\\r\\n\\r\\nCác điểm tham quan nổi bật trong Tour Hà Nội:\\r\\nHoàn Kiếm và Hồ Gươm:\\r\\n\\r\\nĐây là biểu tượng của Hà Nội, gắn liền với câu chuyện lịch sử và truyền thuyết về thanh gươm. Du khách có thể tham quan đền Ngọc Sơn, tháp Rùa, và đi dạo quanh hồ để tận hưởng không gian yên bình giữa lòng thành phố.\\r\\nKhu phố cổ Hà Nội:\\r\\n\\r\\nKhu phố cổ là nơi lưu giữ nét đẹp truyền thống của Hà Nội với những ngôi nhà cổ, các con phố nhỏ hẹp và các cửa hàng bán đồ thủ công, đặc sản. Đây cũng là nơi bạn có thể thưởng thức nhiều món ăn đặc sản như phở, bún chả, nem rán.\\r\\nLăng Chủ tịch Hồ Chí Minh:\\r\\n\\r\\nLăng Hồ Chí Minh là nơi an nghỉ của Chủ tịch Hồ Chí Minh, vị lãnh tụ vĩ đại của dân tộc Việt Nam. Đây là một trong những điểm đến không thể thiếu trong hành trình khám phá Hà Nội.\\r\\nChùa Một Cột:\\r\\n\\r\\nĐây là ngôi chùa nổi tiếng với kiến trúc độc đáo, được xây dựng trên một cột đá duy nhất, mang đậm dấu ấn văn hóa Phật giáo của Hà Nội.\\r\\nBảo tàng Dân tộc học Việt Nam:\\r\\n\\r\\nMột trong những bảo tàng nổi bật tại Hà Nội, nơi lưu giữ và trưng bày các hiện vật, hình ảnh về các dân tộc và nền văn hóa đa dạng của Việt Nam.\\r\\nVăn Miếu – Quốc Tử Giám:\\r\\n\\r\\nLà trường đại học đầu tiên của Việt Nam, Văn Miếu không chỉ có giá trị lịch sử mà còn là biểu tượng của nền giáo dục Việt Nam xưa.\\r\\nHồ Tây:\\r\\n\\r\\nHồ Tây là hồ lớn nhất và đẹp nhất Hà Nội, thích hợp cho những ai muốn thư giãn, dạo bộ quanh hồ hoặc thưởng thức cà phê tại các quán ven hồ.\\r\\nHoạt động trong Tour Hà Nội:\\r\\nThưởng thức ẩm thực Hà Nội: Không thể thiếu khi tham gia tour Hà Nội là việc thưởng thức các món ăn đặc trưng như phở, bún thang, bún chả, cốm làng Vòng, và các loại chè truyền thống.\\r\\nTham quan các chợ truyền thống: Chợ Đồng Xuân, chợ Hàng Da, và chợ đêm Hà Nội là những nơi bạn có thể mua sắm đồ lưu niệm hoặc các sản phẩm thủ công độc đáo.\\r\\nDạo thuyền trên Hồ Tây hoặc Hồ Hoàn Kiếm: Trải nghiệm dạo thuyền giúp bạn cảm nhận không gian yên bình và lãng mạn của Hà Nội.\\r\\nThời gian lý tưởng cho Tour Hà Nội:\\r\\nHà Nội có bốn mùa rõ rệt, và mỗi mùa đều mang một vẻ đẹp đặc trưng:\\r\\n\\r\\nMùa xuân (tháng 1 – tháng 3): Thời tiết mát mẻ, cây cối đâm chồi nảy lộc, thích hợp cho việc tham quan.\\r\\nMùa hè (tháng 5 – tháng 8): Thời tiết ấm áp, phù hợp để tham quan các hồ, công viên và thưởng thức món ăn đường phố.\\r\\nMùa thu (tháng 9 – tháng 11): Mùa thu Hà Nội nổi tiếng với không khí mát mẻ, là thời điểm lý tưởng để dạo chơi và tận hưởng vẻ đẹp của các con phố cổ.\\r\\nMùa đông (tháng 12 – tháng 2): Mùa đông Hà Nội có khí lạnh, thích hợp cho những ai yêu thích sự yên tĩnh và lãng mạn.\', \'Active\', \'2025-01-17\', \'TP.Hồ Chí Minh\', \'Day 1:Hà Nội Day2:Hồ\', 1, \'Gia đình\', \'2 ngày 1 đêm\', 1900000, \'Máy bay\', \'Bắc\'),\r\n\r\n', 'Hoạt động', '2025-03-17', 'TP.Hồ Chí Minh', 'Day 1:Hà Nội \r\nDay2:Hồ', 1, 'Gia đình', '2 ngày 1 đêm', 2000000, 'Máy bay', 'Bắc'),
+(46, 9, 'Hà Nội', 'Hiện đạid', 2400000, '45', 30, 10, 'Hà Nội, thủ đô của Việt Nam, nổi bật với sự kết hợp hài hòa giữa vẻ đẹp cổ kính và sự phát triển hiện đại. Nếu bạn có dịp đến thăm Hà Nội, một tour tham quan sẽ là cách tuyệt vời để khám phá những điểm đến nổi bật và tìm hiểu về lịch sử, văn hóa, cũng như ẩm thực đặc sắc của thành phố này.\r\nCác điểm tham quan nổi bật trong Tour Hà Nội:\r\n- Hoàn Kiếm và Hồ Gươm:Đây là biểu tượng của Hà Nội, gắn liền với câu chuyện lịch sử và truyền thuyết về thanh gươm. Du khách có thể tham quan đền Ngọc Sơn, tháp Rùa, và đi dạo quanh hồ để tận hưởng không gian yên bình giữa lòng thành phố.\r\n- Khu phố cổ Hà Nội:Khu phố cổ là nơi lưu giữ nét đẹp truyền thống của Hà Nội với những ngôi nhà cổ, các con phố nhỏ hẹp và các cửa hàng bán đồ thủ công, đặc sản. Đây cũng là nơi bạn có thể thưởng thức nhiều món ăn đặc sản như phở, bún chả, nem rán.\r\n- Lăng Chủ tịch Hồ Chí Minh:Lăng Hồ Chí Minh là nơi an nghỉ của Chủ tịch Hồ Chí Minh, vị lãnh tụ vĩ đại của dân tộc Việt Nam. Đây là một trong những điểm đến không thể thiếu trong hành trình khám phá Hà Nội.\r\n- Chùa Một Cột:Đây là ngôi chùa nổi tiếng với kiến trúc độc đáo, được xây dựng trên một cột đá duy nhất, mang đậm dấu ấn văn hóa Phật giáo của Hà Nội.\r\n- Bảo tàng Dân tộc học Việt Nam:Một trong những bảo tàng nổi bật tại Hà Nội, nơi lưu giữ và trưng bày các hiện vật, hình ảnh về các dân tộc và nền văn hóa đa dạng của Việt Nam.\r\n- Văn Miếu – Quốc Tử Giám:Là trường đại học đầu tiên của Việt Nam, Văn Miếu không chỉ có giá trị lịch sử mà còn là biểu tượng của nền giáo dục Việt Nam xưa.\r\n- Hồ Tây:Hồ Tây là hồ lớn nhất và đẹp nhất Hà Nội, thích hợp cho những ai muốn thư giãn, dạo bộ quanh hồ hoặc thưởng thức cà phê tại các quán ven hồ.\r\nHoạt động trong Tour Hà Nội:\r\n- Thưởng thức ẩm thực Hà Nội: Không thể thiếu khi tham gia tour Hà Nội là việc thưởng thức các món ăn đặc trưng như phở, bún thang, bún chả, cốm làng Vòng, và các loại chè truyền thống.\r\n- Tham quan các chợ truyền thống: Chợ Đồng Xuân, chợ Hàng Da, và chợ đêm Hà Nội là những nơi bạn có thể mua sắm đồ lưu niệm hoặc các sản phẩm thủ công độc đáo.\r\n- Dạo thuyền trên Hồ Tây hoặc Hồ Hoàn Kiếm: Trải nghiệm dạo thuyền giúp bạn cảm nhận không gian yên bình và lãng mạn của Hà Nội.\r\nThời gian lý tưởng cho Tour Hà Nội:\r\n- Hà Nội có bốn mùa rõ rệt, và mỗi mùa đều mang một vẻ đẹp đặc trưng:\r\nMùa xuân (tháng 1 – tháng 3): Thời tiết mát mẻ, cây cối đâm chồi nảy lộc, thích hợp cho việc tham quan.\r\nMùa hè (tháng 5 – tháng 8): Thời tiết ấm áp, phù hợp để tham quan các hồ, công viên và thưởng thức món ăn đường phố.\r\nMùa thu (tháng 9 – tháng 11): Mùa thu Hà Nội nổi tiếng với không khí mát mẻ, là thời điểm lý tưởng để dạo chơi và tận hưởng vẻ đẹp của các con phố cổ.\r\nMùa đông (tháng 12 – tháng 2): Mùa đông Hà Nội có khí lạnh, thích hợp cho những ai yêu thích sự yên tĩnh và lãng mạn.\r\n\r\n', 'Hoạt động', '2025-03-17', 'TP.Hồ Chí Minh', 'Day 1:Hà Nội \r\nDay2:Hồ', 1, 'Gia đình', '2 ngày 1 đêm', 2000000, 'Máy bay', 'Bắc'),
 (47, 9, 'Đà Nẵng', 'Cổ đại', 1900000, '40', 30, 10, 'Đà Nẵng, thành phố ven biển xinh đẹp của miền Trung Việt Nam, nổi bật với những bãi biển dài, cảnh quan thiên nhiên tuyệt đẹp, các di tích lịch sử, và ẩm thực đặc sắc. Tour Đà Nẵng là cơ hội tuyệt vời để khám phá một trong những thành phố năng động và phát triển bậc nhất của Việt Nam, nơi kết hợp giữa vẻ đẹp hiện đại và truyền thống.\r\nCác điểm tham quan nổi bật trong Tour Đà Nẵng:\r\nBà Nà Hills:Bà Nà Hills là một trong những điểm du lịch nổi tiếng nhất tại Đà Nẵng, đặc biệt với cáp treo đạt kỷ lục thế giới về chiều dài. Bạn sẽ được thưởng ngoạn vẻ đẹp hùng vĩ của núi rừng và tham quan Cầu Vàng - cây cầu với đôi bàn tay khổng lồ nâng đỡ, tạo nên một khung cảnh độc đáo và ấn tượng.\r\nCầu Rồng:Cầu Rồng là một trong những biểu tượng nổi bật của Đà Nẵng. Đặc biệt, vào mỗi cuối tuần, cầu Rồng có thể phun lửa và phun nước, tạo nên một cảnh tượng tuyệt vời thu hút nhiều du khách.\r\nBãi biển Mỹ Khê:Với bờ cát trắng mịn và làn nước trong xanh, Mỹ Khê là một trong những bãi biển đẹp nhất của Đà Nẵng, nơi du khách có thể thư giãn, tắm biển, tham gia các hoạt động thể thao dưới nước, hoặc thưởng thức các món hải sản tươi ngon.\r\nNgũ Hành Sơn:Ngũ Hành Sơn là một nhóm năm ngọn núi đá vôi nổi bật, được đặt theo tên của các yếu tố trong ngũ hành (Kim, Mộc, Thủy, Hỏa, Thổ). Du khách có thể tham quan các chùa, động, và thưởng ngoạn toàn cảnh Đà Nẵng từ trên cao.\r\nChùa Linh Ứng:Chùa Linh Ứng nằm trên bán đảo Sơn Trà, là một trong những ngôi chùa nổi tiếng với tượng Phật Bà Quan Âm cao nhất Việt Nam. Không gian yên tĩnh và cảnh quan tuyệt đẹp tại đây sẽ khiến bạn cảm thấy thư giãn và tĩnh tâm.\r\nCông viên Châu Á - Asia Park:Là khu vui chơi giải trí lớn với các trò chơi hấp dẫn, Asia Park đặc biệt nổi bật với Vòng quay mặt trời (Sun Wheel) cao nhất Việt Nam, từ đây du khách có thể nhìn ngắm toàn cảnh thành phố Đà Nẵng.\r\nCổ Viện Chàm:Cổ Viện Chàm là nơi trưng bày các hiện vật văn hóa Chămpa cổ xưa, giúp du khách hiểu thêm về nền văn minh Chămpa từng phát triển mạnh mẽ tại miền Trung Việt Nam.\r\nHoạt động trong Tour Đà Nẵng:Tham quan các điểm di tích lịch sử: Khám phá các ngôi chùa, di tích và bảo tàng như Chùa Linh Ứng, Cổ Viện Chàm, để tìm hiểu về lịch sử và văn hóa đặc sắc của Đà Nẵng và miền Trung.Thưởng thức ẩm thực Đà Nẵng: Đà Nẵng nổi tiếng với các món ăn đặc sản như mì Quảng, bún chả cá, bánh tráng cuốn thịt heo, hải sản tươi sống. Đừng quên ghé qua các quán ăn ven biển để thưởng thức những món ngon.Trải nghiệm các hoạt động thể thao: Đà Nẵng có rất nhiều hoạt động thú vị như lướt sóng, chèo thuyền kayak, và các trò chơi thể thao dưới nước tại các bãi biển.\r\nThời gian lý tưởng cho Tour Đà Nẵng:\r\nMùa xuân (tháng 1 – tháng 3): Thời tiết mát mẻ và dễ chịu, rất thích hợp cho việc tham quan.\r\nMùa hè (tháng 5 – tháng 8): Thời gian lý tưởng để tắm biển và tham gia các hoạt động thể thao ngoài trời.\r\nMùa thu (tháng 9 – tháng 11): Thời tiết dễ chịu, không quá nóng và ít mưa, phù hợp để tham quan các điểm du lịch.\r\nMùa đông (tháng 12 – tháng 2): Mùa lạnh, thích hợp cho những ai muốn tránh cái cái nóng của mùa hè và tận hưởng không khí trong lành.', 'Hoạt động', '2025-03-25', 'TP.Hồ Chí Minh', 'Day 1:Đà nẵng', 1, 'Theo đoàn', '2 ngày 1 đêm', 0, 'Máy bay', 'Nam'),
 (48, 9, 'Huế', 'Hiện đại', 1000000, '30', 12, 1, 'thành phố cổ kính nằm bên dòng sông Hương, là một trong những điểm du lịch hấp dẫn nhất ở miền Trung Việt Nam. Nổi bật với di sản văn hóa phong phú, những công trình lịch sử, và cảnh sắc thiên nhiên đẹp như tranh vẽ, Huế luôn thu hút du khách với vẻ đẹp trầm mặc, huyền bí và lãng mạn. Tour Huế là cơ hội tuyệt vời để bạn khám phá những nét đặc sắc của vùng đất cố đô này.\\r\\n\\r\\nCác điểm tham quan nổi bật trong Tour Huế:\\r\\nKinh Thành Huế (Hoàng Cung):\\r\\n\\r\\nKinh Thành Huế là di sản văn hóa thế giới được UNESCO công nhận, là nơi vua Gia Long xây dựng trong thế kỷ 19, là trung tâm chính trị và văn hóa của triều đại Nguyễn. Bạn sẽ được tham quan Ngọ Môn, Cửu Đỉnh, Đại Nội, Điện Thái Hòa và nhiều công trình kiến trúc khác trong khu vực hoàng cung này.\\r\\nLăng Tẩm các vua Nguyễn:\\r\\n\\r\\nHuế nổi tiếng với các lăng tẩm của các vua triều Nguyễn, mỗi lăng có một kiến trúc riêng biệt và ẩn chứa câu chuyện lịch sử thú vị. Các lăng nổi tiếng như Lăng Khải Định, Lăng Minh Mạng, Lăng Gia Long, hay Lăng Tự Đức đều mang đậm dấu ấn kiến trúc cổ kính và sự trang nghiêm của triều đại Nguyễn.\\r\\nChùa Thiên Mụ:\\r\\n\\r\\nChùa Thiên Mụ là ngôi chùa cổ nhất và nổi tiếng nhất ở Huế, nằm trên đồi Hà Khê bên bờ sông Hương. Đây là một trong những biểu tượng của Huế, với kiến trúc độc đáo và tầm nhìn tuyệt đẹp ra sông Hương.\\r\\nSông Hương:\\r\\n\\r\\nSông Hương là một phần không thể thiếu trong Tour Huế, du khách có thể đi thuyền trên sông, tận hưởng cảnh đẹp hai bên bờ sông, chiêm ngưỡng các làng nghề truyền thống và thưởng thức những làn điệu ca Huế đặc sắc.\\r\\nChợ Đông Ba:\\r\\n\\r\\nChợ Đông Ba là chợ truyền thống lâu đời của Huế, nơi du khách có thể tìm mua những sản phẩm thủ công mỹ nghệ, đồ lưu niệm, quà tặng và các món ăn đặc sản nổi tiếng của Huế như bánh bèo, bánh nậm, cơm hến.\\r\\nCầu Trường Tiền:\\r\\n\\r\\nCầu Trường Tiền là biểu tượng của thành phố Huế, một cây cầu lịch sử nối liền hai bờ sông Hương. Cầu được xây dựng từ thời Pháp thuộc, mang một vẻ đẹp cổ kính, đặc biệt khi về đêm, ánh đèn lấp lánh phản chiếu trên mặt nước tạo nên cảnh tượng tuyệt đẹp.\\r\\nLàng nghề truyền thống Huế:\\r\\n\\r\\nHuế nổi tiếng với nhiều làng nghề truyền thống như làng nón lá Phú Cam, làng gốm Thanh Tiên, hay làng tranh dân gian. Bạn có thể tham quan các làng nghề này để tìm hiểu về quá trình sản xuất các sản phẩm thủ công mỹ nghệ độc đáo của Huế.\\r\\nHoạt động trong Tour Huế:\\r\\nTham quan các di tích lịch sử: Khám phá Kinh Thành Huế, các lăng tẩm của các vua Nguyễn, và các ngôi chùa, di tích văn hóa đặc sắc.\\r\\nThưởng thức ẩm thực Huế: Huế là thiên đường ẩm thực với các món ăn đặc trưng như bánh bèo, bánh nậm, bánh canh, cơm hến, bánh huế. Du khách có thể thưởng thức các món ăn truyền thống ngay tại các quán ăn, nhà hàng trong thành phố.\\r\\nTrải nghiệm văn hóa ca Huế: Ca Huế, loại hình âm nhạc truyền thống của Huế, là một phần không thể thiếu trong các tour tham quan. Bạn có thể nghe ca Huế trên sông Hương hoặc tại các nhà hát.\\r\\nThời gian lý tưởng cho Tour Huế:\\r\\nMùa xuân (tháng 1 – tháng 3): Thời tiết mát mẻ, dễ chịu, là thời điểm lý tưởng để tham quan các di tích và thưởng thức ẩm thực Huế.\\r\\nMùa hè (tháng 4 – tháng 6): Thời tiết nóng, thích hợp cho những ai muốn khám phá các bãi biển gần Huế như Lăng Cô.\\r\\nMùa thu (tháng 9 – tháng 11): Mùa mưa ở Huế, nhưng cũng là thời điểm Huế có khí hậu mát mẻ và ít khách du lịch, thích hợp cho những ai muốn tránh đám đông.\\r\\nMùa đông (tháng 12 – tháng 2): Huế trở nên lạnh và sương mù, tạo ra một không gian lãng mạn và huyền bí, phù hợp cho những chuyến du lịch nghỉ dưỡng.', 'Hoạt động', '2025-03-21', 'TP.Hồ Chí Minh', 'Lịch trình ngày 1:\r\nLịch trình ngày 2:', 1, 'Theo nhóm nhỏ', '2 ngày 1 đêm', 900000, 'Xe khách', 'Trung'),
 (49, 9, 'Sapa', 'Hiện đại', 3100000, '40', 40, 10, 'Sapa, một thị trấn nhỏ nằm ở phía Tây Bắc Việt Nam, nổi tiếng với những cảnh quan thiên nhiên hùng vĩ, văn hóa độc đáo của các dân tộc thiểu số, và khí hậu mát mẻ quanh năm. Đây là một điểm đến lý tưởng cho những ai yêu thích khám phá thiên nhiên, tận hưởng không khí trong lành và tìm hiểu về các phong tục tập quán đặc sắc của các cộng đồng dân tộc như H\\\'mông, Dao, Tày, Giáy. Tour Sapa mang đến cho du khách những trải nghiệm tuyệt vời về một vùng đất đầy bí ẩn và vẻ đẹp thiên nhiên.\\r\\n\\r\\nCác điểm tham quan nổi bật trong Tour Sapa:\\r\\nFansipan – Nóc nhà của Đông Dương:\\r\\n\\r\\nFansipan là đỉnh núi cao nhất Đông Dương, với độ cao 3.143m. Du khách có thể tham gia các tour leo núi, hoặc nếu không muốn leo, có thể đi cáp treo để chiêm ngưỡng toàn cảnh thiên nhiên hùng vĩ của Sapa từ trên cao.\\r\\nThị trấn Sapa:\\r\\n\\r\\nThị trấn Sapa nổi bật với những ngôi nhà có kiến trúc Pháp cổ, các khu chợ địa phương và không gian yên bình. Du khách có thể tản bộ dọc các con phố để cảm nhận vẻ đẹp thơ mộng của thị trấn này, thưởng thức các món ăn đặc sản và mua sắm các sản phẩm thủ công.\\r\\nBản Cát Cát:\\r\\n\\r\\nBản Cát Cát là một trong những bản làng của người H\\\'mông, nơi bạn có thể tìm hiểu về đời sống và văn hóa của người dân tộc thiểu số. Tại đây, bạn có thể tham quan các ngôi nhà truyền thống, xem các hoạt động sản xuất thổ cẩm, dệt vải và thưởng thức các món ăn đặc trưng.\\r\\nThung lũng Mường Hoa:\\r\\n\\r\\nThung lũng Mường Hoa nổi tiếng với những cánh đồng lúa bậc thang xanh mướt, những con suối trong vắt và những bãi đá cổ với những hình vẽ kỳ lạ. Đây là nơi lý tưởng để chụp ảnh và thưởng thức cảnh đẹp thiên nhiên hoang sơ.\\r\\nBản Tả Phìn:\\r\\n\\r\\nBản Tả Phìn là nơi sinh sống của người Dao Đỏ, nổi tiếng với nghề thêu tay và các sản phẩm thủ công mỹ nghệ. Du khách có thể tham gia các hoạt động tìm hiểu về văn hóa địa phương, ngắm cảnh và mua sắm các sản phẩm thủ công độc đáo.\\r\\nHồ Sapa:\\r\\n\\r\\nHồ Sapa là một trong những điểm du lịch nổi tiếng của thị trấn. Bạn có thể đi dạo quanh hồ, thư giãn và tận hưởng không khí trong lành của vùng núi cao.\\r\\nChợ Sapa:\\r\\n\\r\\nChợ Sapa là nơi tụ tập của các dân tộc thiểu số, đặc biệt là vào cuối tuần. Du khách có thể tìm mua các sản phẩm thủ công truyền thống như thổ cẩm, vòng tay, trang sức, và thưởng thức các món ăn đặc sản địa phương như thịt trâu gác bếp, xôi ngũ sắc.\\r\\nHoạt động trong Tour Sapa:\\r\\nTrekking và leo núi: Khám phá các bản làng xa xôi, leo núi Fansipan, hoặc trekking qua những con đường mòn, các thửa ruộng bậc thang.\\r\\nTham quan các bản làng: Ghé thăm các bản làng của người H\\\'mông, Dao, Tày, Giáy để tìm hiểu về đời sống và văn hóa đặc sắc của các dân tộc thiểu số.\\r\\nTrải nghiệm ẩm thực Sapa: Sapa nổi tiếng với các món ăn đặc sản như thịt trâu gác bếp, cá hồi Sapa, xôi ngũ sắc, măng rừng, và rượu cần.\\r\\nThăm các khu chợ: Chợ Sapa, chợ Tả Phìn, chợ Cát Cát… là những nơi bạn có thể mua sắm các sản phẩm thổ cẩm, đồ lưu niệm độc đáo.\\r\\nThời gian lý tưởng cho Tour Sapa:\\r\\nMùa xuân (tháng 1 – tháng 3): Đây là mùa hoa mận, hoa đào nở rộ, khung cảnh đẹp như tranh vẽ, thích hợp cho những ai muốn tận hưởng không khí mát mẻ và cảnh sắc tươi mới.\\r\\nMùa hè (tháng 4 – tháng 6): Thời gian lý tưởng để tham gia trekking, leo núi và khám phá thiên nhiên. Sapa vào mùa hè có khí hậu mát mẻ và dễ chịu, rất thích hợp cho các hoạt động ngoài trời.\\r\\nMùa thu (tháng 9 – tháng 11): Đây là mùa lúa chín, các cánh đồng lúa bậc thang ở Sapa khoác lên mình màu vàng óng ả. Đây là thời điểm tuyệt vời để thưởng thức cảnh sắc thiên nhiên tuyệt đẹp.\\r\\nMùa đông (tháng 12 – tháng 2): Sapa vào mùa đông có thể rất lạnh, thậm chí có tuyết rơi, tạo nên một không gian huyền bí và lãng mạn, rất thích hợp cho những ai yêu thích sự yên tĩnh và muốn trải nghiệm khí hậu lạnh.', 'Hoạt động', '2025-03-18', 'TP.Hồ Chí Minh', 'Lịch trình ngày 1:\r\nLịch trình ngày 2:\r\nLịch trình ngày 3:', 1, 'Theo đoàn', '3 ngày 2 đêm', 2900000, 'Du thuyền', 'Bắc'),
@@ -7480,7 +7536,8 @@ INSERT INTO `tour` (`id`, `idks`, `Name`, `Style`, `Price`, `Child_price_percen`
 (101, 36, 'Tour Hungary', 'Hiện đại', 28000000, '30', 40, 10, 'Hungary hấp dẫn du khách bằng vẻ đẹp vừa cổ điển vừa năng động, nổi bật với Budapest – một trong những thủ đô đẹp nhất châu Âu. Bạn sẽ được chiêm ngưỡng tòa nhà Quốc hội tráng lệ, tắm khoáng nóng truyền thống tại Széchenyi, dạo bộ trên cầu Chain Bridge và ngắm thành phố lung linh khi về đêm. Hungary còn nổi tiếng với món súp gulyás, bánh ngọt truyền thống và văn hóa cà phê đậm chất Đông Âu. Một hành trình phù hợp cho người muốn trải nghiệm sâu sắc văn hóa và lịch sử Trung Âu.', 'Hoạt động', '', 'TP.Hồ Chí Minh', 'Ngày 1: Đến Budapest – Dạo phố cổ Buda\r\nSáng:\r\n\r\nXe đón tại sân bay Budapest Ferenc Liszt.\r\n\r\nTham quan khu Buda cổ kính:\r\n\r\nPháo đài Ngư phủ (Fisherman’s Bastion) – điểm ngắm toàn cảnh sông Danube tuyệt đẹp.\r\n\r\nNhà thờ Matthias – kiến trúc Gothic độc đáo.\r\n\r\nLâu đài Buda Castle – cung điện Hoàng gia xưa.\r\n\r\nTrưa:\r\n\r\nThưởng thức đặc sản goulash (súp bò Hungary).\r\n\r\nChiều:\r\n\r\nDạo bộ tại Cầu Xích Széchenyi – nối liền Buda và Pest.\r\n\r\nGhé đồi Gellért ngắm toàn cảnh thành phố.\r\n\r\nTối:\r\n\r\nDu thuyền sông Danube ngắm thành phố lên đèn lung linh.\r\n\r\nĂn tối và nghỉ đêm tại khách sạn ở Budapest.\r\n\r\nNgày 2: Pest – Tòa nhà Quốc hội – Tắm khoáng nóng\r\nSáng:\r\n\r\nTham quan Pest hiện đại:\r\n\r\nTòa nhà Quốc hội Hungary – một trong những tòa nhà quốc hội đẹp nhất thế giới.\r\n\r\nQuảng trường Anh hùng (Heroes\' Square), Công viên Thành phố (Városliget).\r\n\r\nNhà hát Opera Budapest, Đại lộ Andrássy.\r\n\r\nTrưa:\r\n\r\nĂn trưa tại nhà hàng cổ Budapest.\r\n\r\nChiều:\r\n\r\nTrải nghiệm tắm khoáng nóng truyền thống tại Gellért Spa hoặc Széchenyi Spa – một trong những spa nước nóng lâu đời nhất châu Âu.\r\n\r\nTối:\r\n\r\nĂn tối tại nhà hàng truyền thống Hungary, thưởng thức nhạc dân gian sống động.\r\n\r\nNghỉ đêm tại Budapest.\r\n\r\nNgày 3: Mua sắm – Tạm biệt Budapest\r\nSáng:\r\n\r\nĂn sáng, sau đó tự do mua sắm tại:\r\n\r\nPhố Váci utca – phố đi bộ sầm uất với cửa hàng lưu niệm, thời trang, ẩm thực.\r\n\r\nChợ Trung tâm (Great Market Hall) – đặc sản, đồ thủ công, rượu Tokaji.\r\n\r\nTrưa:\r\n\r\nDùng bữa tại nhà hàng địa phương.\r\n\r\nChiều:\r\n\r\nXe đưa đoàn ra sân bay, kết thúc hành trình.\r\n\r\n🎁 Đặc sản Hungary nên mua:\r\nPaprika (ớt bột đặc trưng) – linh hồn ẩm thực Hungary.\r\n\r\nRượu vang Tokaji, mật ong, pha lê Herend.\r\n\r\nĐồ da thủ công, bánh kẹp lá quế (Kürtőskalács).', 1, 'Theo đoàn', '3 ngày 2 đêm', 25000000, 'Máy bay', 'Ngoài nước'),
 (102, 24, 'Tour Hy Lạp', 'Hiện đại', 35000000, '30', 30, 10, 'Hy Lạp là điểm đến mê hoặc với di tích cổ đại, biển xanh ngọc và bầu trời ngập nắng. Athens – thủ đô lịch sử – mang dấu ấn huy hoàng với đền Parthenon, quảng trường cổ Agora và bảo tàng Acropolis. Nhưng Hy Lạp không chỉ có quá khứ – bạn còn có thể thư giãn tại đảo Santorini trắng xanh nổi tiếng, khám phá Mykonos sôi động hay Crete giàu truyền thống. Tour Hy Lạp là sự kết hợp hoàn hảo giữa văn hóa, nghỉ dưỡng và ẩm thực Địa Trung Hải thơm ngon.', 'Hoạt động', '', 'TP.Hồ Chí Minh', 'Ngày 1: Athens – Khám phá thủ đô cổ đại\r\nSáng:\r\n\r\nXe đón tại sân bay Athens International.\r\n\r\nTham quan Acropolis:\r\n\r\nĐền Parthenon – công trình nổi tiếng nhất của Hy Lạp cổ đại.\r\n\r\nThư viện Hadrian và Đền Athena Nike.\r\n\r\nBảo tàng Acropolis – nơi lưu giữ các hiện vật quý giá của nền văn minh cổ đại.\r\n\r\nDạo bước qua Plaka, khu phố cổ kính dưới chân Acropolis.\r\n\r\nTrưa:\r\n\r\nĂn trưa tại nhà hàng truyền thống, thưởng thức Souvlaki (thịt nướng xiên) và Greek Salad.\r\n\r\nChiều:\r\n\r\nTham quan Cổng Hadrian và Đền Olympian Zeus.\r\n\r\nTản bộ tại Syntagma Square, xem nghi thức đổi g guards trước tòa nhà Quốc hội.\r\n\r\nTối:\r\n\r\nDùng bữa tối tại nhà hàng nổi tiếng, thưởng thức các món hải sản tươi ngon.\r\n\r\nNghỉ đêm tại khách sạn ở Athens.\r\n\r\nNgày 2: Athens – Santorini – Đảo thiên đường\r\nSáng:\r\n\r\nĂn sáng tại khách sạn.\r\n\r\nKhởi hành đến Santorini bằng máy bay hoặc tàu cao tốc (~1 giờ bay).\r\n\r\nĐến Santorini, tham quan:\r\n\r\nOia – ngôi làng nổi tiếng với những ngôi nhà trắng và mái vòm xanh, là nơi lý tưởng để chụp ảnh.\r\n\r\nThị trấn Fira – thủ đô của Santorini, với những con phố nhỏ và các cửa hàng lưu niệm.\r\n\r\nBãi biển cát đen Kamari hoặc Bãi biển Perissa – nơi có những bãi biển độc đáo với cát đen từ núi lửa.\r\n\r\nTrưa:\r\n\r\nĂn trưa tại nhà hàng với view tuyệt đẹp ra biển.\r\n\r\nChiều:\r\n\r\nTham quan Làng Pyrgos – một trong những ngôi làng cổ nhất trên đảo, khám phá những con phố hẹp và yên bình.\r\n\r\nDừng chân tại Red Beach – bãi biển cát đỏ nổi tiếng, tận hưởng cảnh biển đẹp.\r\n\r\nTối:\r\n\r\nNgắm hoàng hôn tại Oia – đây là điểm ngắm hoàng hôn đẹp nhất Santorini.\r\n\r\nĂn tối tại nhà hàng ven biển và nghỉ đêm tại Santorini.\r\n\r\nNgày 3: Santorini – Athens – Mua sắm – Rời Hy Lạp\r\nSáng:\r\n\r\nĂn sáng tại khách sạn, tự do tham quan Santorini.\r\n\r\nTham quan Hầm rượu Santorini – nơi sản xuất rượu vang nổi tiếng, thử các loại rượu vang đặc sản.\r\n\r\nTrưa:\r\n\r\nĂn trưa tại một trong những nhà hàng nổi tiếng trên đảo.\r\n\r\nChiều:\r\n\r\nTự do mua sắm tại Fira, nơi có nhiều cửa hàng thủ công mỹ nghệ và đồ lưu niệm.\r\n\r\nXe đưa ra sân bay Santorini, bay về Athens.\r\n\r\nTối:\r\n\r\nTiếp tục chuyến bay hoặc tàu từ Athens trở về.\r\n\r\n🎁 Đặc sản Hy Lạp nên mua:\r\nRượu vang Santorini (Assyrtiko).\r\n\r\nOuzo – loại rượu đặc trưng của Hy Lạp.\r\n\r\nDầu olive, mật ong.\r\n\r\nCác sản phẩm thủ công như quần áo dệt tay, đồ gốm và đồ trang sức.', 1, 'Theo đoàn', '3 ngày 2 đêm', 30000000, 'Máy bay', 'Ngoài nước'),
 (103, 19, 'Tour Châu Á – Việt Nam, Thái Lan, Singapore', 'Hiện đại', 50000000, '30', 50, 10, 'Cùng trải nghiệm tour du lịch vòng quanh các quốc gia Châu Á đang phát triển, nơi cảnh sắc và sự hiện đại đều có thể đáp ứng nhu cầu của bạn. Điểm xuất phát bắt đầu từ Việt Nam, nơi có cảnh sắc thiên nhiên hùng vỹ. Đến Thái Lan, vùng đất thiêng liêng nhưng cũng không kém phần sống động. Điểm kết thúc của hành trình là Singapore, đất nước nhỏ bé nhưng vô cùng hiện đại, các địa điểm du lịch nổi tiếng trong thành phố với cuộc sống nhộn nhịp sẽ giúp bạn thấy hứng thú hơn với chuyến đi.', 'Hoạt động', '', 'TP.Hồ Chí Minh', 'Ngày 1: Đến Hà Nội (Việt Nam) – Khám phá thủ đô\r\nSáng:\r\n\r\nĐến sân bay Nội Bài, xe đón và đưa đoàn về trung tâm thành phố Hà Nội.\r\n\r\nTham quan Hồ Hoàn Kiếm, dạo quanh khu vực Phố Cổ.\r\n\r\nTham quan Đền Ngọc Sơn trên hồ Hoàn Kiếm, Tháp Rùa.\r\n\r\nTrưa:\r\n\r\nThưởng thức phở Hà Nội, một trong những món ăn đặc trưng của Việt Nam.\r\n\r\nChiều:\r\n\r\nTham quan Lăng Chủ tịch Hồ Chí Minh, Chùa Một Cột, Văn Miếu Quốc Tử Giám.\r\n\r\nTự do tham quan mua sắm tại Chợ Đồng Xuân hoặc Hàng Ngang – Hàng Đào.\r\n\r\nTối:\r\n\r\nĂn tối tại nhà hàng địa phương và nghỉ đêm tại khách sạn ở Hà Nội.\r\n\r\nNgày 2: Hà Nội – Bay đến Bangkok (Thái Lan)\r\nSáng:\r\n\r\nĂn sáng tại khách sạn.\r\n\r\nXe đưa ra sân bay Nội Bài để bay đến Bangkok (khoảng 2 giờ bay).\r\n\r\nTrưa:\r\n\r\nĐến Bangkok, xe đón đoàn và ăn trưa tại nhà hàng địa phương.\r\n\r\nChiều:\r\n\r\nTham quan Chùa Wat Arun (Chùa Bình Minh) – ngôi chùa nổi tiếng với kiến trúc độc đáo.\r\n\r\nTham quan Cung điện Hoàng gia Thái Lan, Chùa Wat Phra Kaew (Chùa Phật Ngọc).\r\n\r\nDạo thuyền trên sông Chao Phraya, thưởng ngoạn phong cảnh Bangkok.\r\n\r\nTối:\r\n\r\nThưởng thức bữa tối với lẩu Thái hoặc pad Thai tại nhà hàng nổi tiếng.\r\n\r\nNghỉ đêm tại khách sạn ở Bangkok.\r\n\r\nNgày 3: Bangkok – Khám phá Thái Lan\r\nSáng:\r\n\r\nTham quan Chùa Wat Pho (Chùa Phật Ngủ) – ngôi chùa có tượng Phật dài 46m.\r\n\r\nGhé thăm Chợ Nổi Damnoen Saduak hoặc Chợ Chatuchak (tùy lịch trình).\r\n\r\nTrưa:\r\n\r\nĂn trưa tại nhà hàng, thưởng thức các món ăn Thái Lan đặc trưng.\r\n\r\nChiều:\r\n\r\nTham quan Trung tâm thương mại Siam Paragon, MBK Center.\r\n\r\nTự do mua sắm tại các trung tâm mua sắm nổi tiếng của Bangkok.\r\n\r\nTối:\r\n\r\nThưởng thức bữa tối tại nhà hàng và nghỉ đêm tại khách sạn ở Bangkok.\r\n\r\nNgày 4: Bay đến Singapore – Khám phá thành phố hiện đại\r\nSáng:\r\n\r\nĂn sáng tại khách sạn, sau đó bay từ Bangkok đến Singapore (khoảng 2 giờ bay).\r\n\r\nTrưa:\r\n\r\nĐến Singapore, tham quan Marina Bay Sands – tổ hợp nghỉ dưỡng, mua sắm, và casino nổi tiếng.\r\n\r\nTham quan Gardens by the Bay với Supertree Grove, Flower Dome và Cloud Forest.\r\n\r\nChiều:\r\n\r\nTham quan Merlion Park, chụp ảnh cùng Tượng Merlion – biểu tượng của Singapore.\r\n\r\nDạo quanh Chinatown và tham quan Chùa Răng Phật.\r\n\r\nTối:\r\n\r\nThưởng thức bữa tối tại Hawker Centre, nơi có các món ăn đường phố nổi tiếng.\r\n\r\nDạo chơi tại Clark Quay, tận hưởng không khí sôi động của Singapore về đêm.\r\n\r\nNgày 5: Singapore – Khám phá những điểm đến nổi bật\r\nSáng:\r\n\r\nTham quan Sentosa Island: Universal Studios Singapore, S.E.A. Aquarium hoặc Adventure Cove Waterpark (tùy sở thích).\r\n\r\nTham quan Bảo tàng ArtScience tại Marina Bay Sands.\r\n\r\nTrưa:\r\n\r\nDùng bữa trưa tại Raffles Hotel hoặc một trong những nhà hàng đặc sắc ở Singapore.\r\n\r\nChiều:\r\n\r\nTham quan Khu vườn tuyệt vời (Gardens by the Bay) và trải nghiệm SkyPark tại Marina Bay Sands.\r\n\r\nTối:\r\n\r\nDùng bữa tối và tự do tham quan hoặc mua sắm tại các trung tâm thương mại như Orchard Road.\r\n\r\nNghỉ đêm tại khách sạn ở Singapore.\r\n\r\nNgày 6: Mua sắm – Rời Singapore\r\nSáng:\r\n\r\nTự do mua sắm hoặc tham quan Singapore Zoo, Night Safari (tùy thời gian).\r\n\r\nTrưa:\r\n\r\nĂn trưa tại nhà hàng, sau đó xe đưa đoàn ra sân bay.\r\n\r\nKết thúc tour, chào tạm biệt Singapore và quay về.\r\n\r\n🎁 Đặc sản nên mua trong Tour:\r\nViệt Nam: Gạo tám Thái Bình, Mật ong, Cà phê Việt.\r\n\r\nThái Lan: Tượng Phật nhỏ, Lụa Thái, Thực phẩm Thái (Gia vị, nước mắm, gia vị chấm).\r\n\r\nSingapore: Chocolate Royce, Rượu Singapore Sling, Kẹo đặc sản.', 1, 'Theo đoàn', '6 ngày 5 đêm', 0, 'Máy bay', 'Ngoài nước'),
-(104, 26, 'Tour Châu Âu – Anh, Pháp, Đức, Ý', 'Hiện đại', 60000000, '30', 30, 10, 'Tour du lịch mang đến cho du khách cái nhìn tổng quan về xứ sở Châu Âu xinh đẹp, nơi có các danh lam thắng cảnh như Tháp đồng hồ, Tháp Effel, Tháp nghiêng Pisa, … hay những nền ẩm thực nổi tiếng như Pháp, Ý sẽ làm cho thực khách có những trải nghiệm tuyệt vời và khó quên.', 'Hoạt động', '', 'TP.Hồ Chí Minh', 'Ngày 1: Đến London (Anh) – Khám phá thủ đô nước Anh\r\nSáng:\r\n\r\nĐến sân bay Heathrow hoặc Gatwick, xe đón đoàn đưa về khách sạn.\r\n\r\nTham quan Cung điện Buckingham – nơi ở của Nữ hoàng.\r\n\r\nCông viên St. James – khu vườn yên tĩnh ngay gần Cung điện Buckingham.\r\n\r\nChợ Borough – nơi bán các món ăn đặc trưng của Anh.\r\n\r\nTrưa:\r\n\r\nDùng bữa tại nhà hàng địa phương.\r\n\r\nChiều:\r\n\r\nTham quan Big Ben, Tháp đồng hồ Elizabeth, Cầu Tháp London.\r\n\r\nTham quan Bảo tàng Anh (British Museum) – với những hiện vật lịch sử quý giá từ các nền văn minh cổ đại.\r\n\r\nTối:\r\n\r\nThưởng thức bữa tối tại West End và xem một vở kịch nổi tiếng tại Theatre Royal.\r\n\r\nNghỉ đêm tại khách sạn ở London.\r\n\r\nNgày 2: London – Paris (Pháp)\r\nSáng:\r\n\r\nĂn sáng tại khách sạn, sau đó di chuyển đến Ga Eurostar để đi tàu cao tốc Eurostar từ London đến Paris (khoảng 2 giờ 15 phút).\r\n\r\nTrưa:\r\n\r\nĐến Paris, ăn trưa tại nhà hàng Pháp truyền thống.\r\n\r\nChiều:\r\n\r\nTham quan Tháp Eiffel – biểu tượng của Paris. Đưa bạn lên đỉnh tháp để ngắm toàn cảnh thành phố.\r\n\r\nTham quan Nhà thờ Đức Bà Paris.\r\n\r\nDạo bộ trên Champs-Élysées và chụp ảnh tại Cổng Khải Hoàn (Arc de Triomphe).\r\n\r\nTối:\r\n\r\nDùng bữa tối tại nhà hàng trên Tháp Eiffel hoặc một nhà hàng Pháp nổi tiếng.\r\n\r\nNghỉ đêm tại khách sạn ở Paris.\r\n\r\nNgày 3: Paris – Khám phá thêm Paris\r\nSáng:\r\n\r\nTham quan Bảo tàng Louvre – chiêm ngưỡng tác phẩm nổi tiếng như Mona Lisa, Vénus de Milo.\r\n\r\nDạo chơi tại Jardin des Tuileries và Place de la Concorde.\r\n\r\nTrưa:\r\n\r\nDùng bữa trưa tại một quán cà phê Parisian.\r\n\r\nChiều:\r\n\r\nTham quan Montmartre, nơi có Nhà thờ Sacré-Cœur và quang cảnh tuyệt đẹp của thành phố.\r\n\r\nDạo quanh khu phố Le Marais và thưởng thức các món ăn ngọt ngào tại Boulangeries.\r\n\r\nTối:\r\n\r\nThưởng thức bữa tối tại nhà hàng truyền thống Pháp.\r\n\r\nTự do khám phá Paris về đêm hoặc tham gia một tour thuyền trên sông Seine.\r\n\r\nNgày 4: Paris – Berlin (Đức)\r\nSáng:\r\n\r\nĂn sáng tại khách sạn, sau đó di chuyển đến sân bay để bay tới Berlin (khoảng 1 giờ 30 phút).\r\n\r\nTrưa:\r\n\r\nĐến Berlin, ăn trưa tại nhà hàng địa phương.\r\n\r\nChiều:\r\n\r\nTham quan Cổng Brandenburg – biểu tượng của sự thống nhất Đức.\r\n\r\nBức tường Berlin – tìm hiểu về lịch sử chia cắt nước Đức.\r\n\r\nTham quan Cung điện Charlottenburg và Đảo các bảo tàng (Museum Island).\r\n\r\nTối:\r\n\r\nThưởng thức bữa tối tại một nhà hàng Đức truyền thống.\r\n\r\nNghỉ đêm tại khách sạn ở Berlin.\r\n\r\nNgày 5: Berlin – Rome (Ý)\r\nSáng:\r\n\r\nĂn sáng tại khách sạn, di chuyển đến sân bay Berlin Tegel để bay đến Rome (khoảng 2 giờ bay).\r\n\r\nTrưa:\r\n\r\nĐến Rome, ăn trưa tại nhà hàng Ý nổi tiếng.\r\n\r\nChiều:\r\n\r\nTham quan Colosseum – đấu trường La Mã vĩ đại.\r\n\r\nTham quan Đấu trường La Mã và Di tích Roman Forum.\r\n\r\nQuảng trường Piazza Venezia và Đài tưởng niệm Vittorio Emanuele II.\r\n\r\nTối:\r\n\r\nDùng bữa tối tại một nhà hàng truyền thống với các món pasta, pizza hoặc gelato.\r\n\r\nNghỉ đêm tại khách sạn ở Rome.\r\n\r\nNgày 6: Rome – Khám phá thêm Rome\r\nSáng:\r\n\r\nTham quan Thánh đường St. Peter tại Vatican – nơi có Bức tường Sistine nổi tiếng.\r\n\r\nTham quan Vườn Vatican và Bảo tàng Vatican.\r\n\r\nTrưa:\r\n\r\nĂn trưa tại một nhà hàng địa phương ở khu vực Trastevere.\r\n\r\nChiều:\r\n\r\nDạo quanh Phố cổ Rome, tham quan Đài phun nước Trevi.\r\n\r\nTham quan Đài phun nước Tây Ban Nha và Quảng trường Navona.\r\n\r\nTối:\r\n\r\nThưởng thức bữa tối tại Trattoria hoặc một nhà hàng Ý truyền thống.\r\n\r\nNghỉ đêm tại khách sạn ở Rome.\r\n\r\nNgày 7: Rome – Mua sắm & Tự do\r\nSáng:\r\n\r\nTự do mua sắm tại Via del Corso, Spanish Steps, hoặc các khu mua sắm nổi tiếng.\r\n\r\nTrưa:\r\n\r\nDùng bữa trưa tại một nhà hàng địa phương.\r\n\r\nChiều:\r\n\r\nTự do tham quan thêm hoặc thư giãn tại một quán cà phê nổi tiếng.\r\n\r\nTối:\r\n\r\nChuyến bay trở về.\r\n\r\nNgày 8: Rời Rome\r\nSáng:\r\n\r\nDi chuyển ra sân bay Fiumicino hoặc Ciampino để bay về.\r\n\r\n🎁 Đặc sản nên mua trong Tour:\r\nAnh: Tea, Scone, Cà phê đen.\r\n\r\nPháp: Rượu vang Bordeaux, Bánh Macaron, Pho mát.\r\n\r\nĐức: Rượu vang Đức, Bia Đức, Sô cô la Đức.\r\n\r\nÝ: Rượu vang Ý, Dầu olive, Pasta tươi, Giày da Ý.', 1, 'Gia đình', '8 ngày 7 đêm', 58000000, 'Máy bay', 'Ngoài nước');
+(104, 26, 'Tour Châu Âu – Anh, Pháp, Đức, Ý', 'Hiện đại', 60000000, '30', 30, 10, 'Tour du lịch mang đến cho du khách cái nhìn tổng quan về xứ sở Châu Âu xinh đẹp, nơi có các danh lam thắng cảnh như Tháp đồng hồ, Tháp Effel, Tháp nghiêng Pisa, … hay những nền ẩm thực nổi tiếng như Pháp, Ý sẽ làm cho thực khách có những trải nghiệm tuyệt vời và khó quên.', 'Hoạt động', '', 'TP.Hồ Chí Minh', 'Ngày 1: Đến London (Anh) – Khám phá thủ đô nước Anh\r\nSáng:\r\n\r\nĐến sân bay Heathrow hoặc Gatwick, xe đón đoàn đưa về khách sạn.\r\n\r\nTham quan Cung điện Buckingham – nơi ở của Nữ hoàng.\r\n\r\nCông viên St. James – khu vườn yên tĩnh ngay gần Cung điện Buckingham.\r\n\r\nChợ Borough – nơi bán các món ăn đặc trưng của Anh.\r\n\r\nTrưa:\r\n\r\nDùng bữa tại nhà hàng địa phương.\r\n\r\nChiều:\r\n\r\nTham quan Big Ben, Tháp đồng hồ Elizabeth, Cầu Tháp London.\r\n\r\nTham quan Bảo tàng Anh (British Museum) – với những hiện vật lịch sử quý giá từ các nền văn minh cổ đại.\r\n\r\nTối:\r\n\r\nThưởng thức bữa tối tại West End và xem một vở kịch nổi tiếng tại Theatre Royal.\r\n\r\nNghỉ đêm tại khách sạn ở London.\r\n\r\nNgày 2: London – Paris (Pháp)\r\nSáng:\r\n\r\nĂn sáng tại khách sạn, sau đó di chuyển đến Ga Eurostar để đi tàu cao tốc Eurostar từ London đến Paris (khoảng 2 giờ 15 phút).\r\n\r\nTrưa:\r\n\r\nĐến Paris, ăn trưa tại nhà hàng Pháp truyền thống.\r\n\r\nChiều:\r\n\r\nTham quan Tháp Eiffel – biểu tượng của Paris. Đưa bạn lên đỉnh tháp để ngắm toàn cảnh thành phố.\r\n\r\nTham quan Nhà thờ Đức Bà Paris.\r\n\r\nDạo bộ trên Champs-Élysées và chụp ảnh tại Cổng Khải Hoàn (Arc de Triomphe).\r\n\r\nTối:\r\n\r\nDùng bữa tối tại nhà hàng trên Tháp Eiffel hoặc một nhà hàng Pháp nổi tiếng.\r\n\r\nNghỉ đêm tại khách sạn ở Paris.\r\n\r\nNgày 3: Paris – Khám phá thêm Paris\r\nSáng:\r\n\r\nTham quan Bảo tàng Louvre – chiêm ngưỡng tác phẩm nổi tiếng như Mona Lisa, Vénus de Milo.\r\n\r\nDạo chơi tại Jardin des Tuileries và Place de la Concorde.\r\n\r\nTrưa:\r\n\r\nDùng bữa trưa tại một quán cà phê Parisian.\r\n\r\nChiều:\r\n\r\nTham quan Montmartre, nơi có Nhà thờ Sacré-Cœur và quang cảnh tuyệt đẹp của thành phố.\r\n\r\nDạo quanh khu phố Le Marais và thưởng thức các món ăn ngọt ngào tại Boulangeries.\r\n\r\nTối:\r\n\r\nThưởng thức bữa tối tại nhà hàng truyền thống Pháp.\r\n\r\nTự do khám phá Paris về đêm hoặc tham gia một tour thuyền trên sông Seine.\r\n\r\nNgày 4: Paris – Berlin (Đức)\r\nSáng:\r\n\r\nĂn sáng tại khách sạn, sau đó di chuyển đến sân bay để bay tới Berlin (khoảng 1 giờ 30 phút).\r\n\r\nTrưa:\r\n\r\nĐến Berlin, ăn trưa tại nhà hàng địa phương.\r\n\r\nChiều:\r\n\r\nTham quan Cổng Brandenburg – biểu tượng của sự thống nhất Đức.\r\n\r\nBức tường Berlin – tìm hiểu về lịch sử chia cắt nước Đức.\r\n\r\nTham quan Cung điện Charlottenburg và Đảo các bảo tàng (Museum Island).\r\n\r\nTối:\r\n\r\nThưởng thức bữa tối tại một nhà hàng Đức truyền thống.\r\n\r\nNghỉ đêm tại khách sạn ở Berlin.\r\n\r\nNgày 5: Berlin – Rome (Ý)\r\nSáng:\r\n\r\nĂn sáng tại khách sạn, di chuyển đến sân bay Berlin Tegel để bay đến Rome (khoảng 2 giờ bay).\r\n\r\nTrưa:\r\n\r\nĐến Rome, ăn trưa tại nhà hàng Ý nổi tiếng.\r\n\r\nChiều:\r\n\r\nTham quan Colosseum – đấu trường La Mã vĩ đại.\r\n\r\nTham quan Đấu trường La Mã và Di tích Roman Forum.\r\n\r\nQuảng trường Piazza Venezia và Đài tưởng niệm Vittorio Emanuele II.\r\n\r\nTối:\r\n\r\nDùng bữa tối tại một nhà hàng truyền thống với các món pasta, pizza hoặc gelato.\r\n\r\nNghỉ đêm tại khách sạn ở Rome.\r\n\r\nNgày 6: Rome – Khám phá thêm Rome\r\nSáng:\r\n\r\nTham quan Thánh đường St. Peter tại Vatican – nơi có Bức tường Sistine nổi tiếng.\r\n\r\nTham quan Vườn Vatican và Bảo tàng Vatican.\r\n\r\nTrưa:\r\n\r\nĂn trưa tại một nhà hàng địa phương ở khu vực Trastevere.\r\n\r\nChiều:\r\n\r\nDạo quanh Phố cổ Rome, tham quan Đài phun nước Trevi.\r\n\r\nTham quan Đài phun nước Tây Ban Nha và Quảng trường Navona.\r\n\r\nTối:\r\n\r\nThưởng thức bữa tối tại Trattoria hoặc một nhà hàng Ý truyền thống.\r\n\r\nNghỉ đêm tại khách sạn ở Rome.\r\n\r\nNgày 7: Rome – Mua sắm & Tự do\r\nSáng:\r\n\r\nTự do mua sắm tại Via del Corso, Spanish Steps, hoặc các khu mua sắm nổi tiếng.\r\n\r\nTrưa:\r\n\r\nDùng bữa trưa tại một nhà hàng địa phương.\r\n\r\nChiều:\r\n\r\nTự do tham quan thêm hoặc thư giãn tại một quán cà phê nổi tiếng.\r\n\r\nTối:\r\n\r\nChuyến bay trở về.\r\n\r\nNgày 8: Rời Rome\r\nSáng:\r\n\r\nDi chuyển ra sân bay Fiumicino hoặc Ciampino để bay về.\r\n\r\n🎁 Đặc sản nên mua trong Tour:\r\nAnh: Tea, Scone, Cà phê đen.\r\n\r\nPháp: Rượu vang Bordeaux, Bánh Macaron, Pho mát.\r\n\r\nĐức: Rượu vang Đức, Bia Đức, Sô cô la Đức.\r\n\r\nÝ: Rượu vang Ý, Dầu olive, Pasta tươi, Giày da Ý.', 1, 'Gia đình', '8 ngày 7 đêm', 58000000, 'Máy bay', 'Ngoài nước'),
+(105, 9, 'Phú Quốc - Bãi Sao', 'Sinh thái', 2000, '0', 10, 5, '- Tham quan các điểm nổi bật: Sunset Sanato, Grand World, VinWonders, Safari, Nhà tù Phú Quốc, Làng chài Rạch Vẹm.\r\n- Trải nghiệm lặn ngắm san hô tại Hòn Móng Tay, Hòn Gầm Ghì.\r\n- Thưởng thức ẩm thực biển tươi sống.\r\n- Check-in tại các điểm sống ảo nổi tiếng như Cầu Hoàng Hôn, Bãi Sao, Dinh Cậu.', 'Hoạt động', '', 'TP.Hồ Chí Minh', 'Ngày 1: Đến Phú Quốc – Sunset Sanato – Dinh Cậu\r\nSáng: Đón tại sân bay Phú Quốc, đưa về khách sạn nghỉ ngơi.\r\nTrưa: Ăn trưa với đặc sản Phú Quốc.\r\nChiều:Tham quan Sunset Sanato – địa điểm check-in nổi tiếng.Viếng Dinh Cậu – biểu tượng tâm linh của ngư dân đảo.\r\nTối: Ăn tối hải sản, tự do khám phá chợ đêm Dương Đông.\r\n\r\nNgày 2: Bắc đảo – VinWonders / Safari – Grand World\r\nSáng: Ăn sáng tại khách sạn.Khởi hành đi Bắc đảo.Tham quan VinWonders (hoặc Vinpearl Safari nếu chọn gói).\r\nTrưa: Ăn trưa tại Vinpearl hoặc nhà hàng địa phương.\r\nChiều:Tham quan Grand World: Bảo tàng gấu Teddy, Venice thu nhỏ, show diễn Sắc màu Venice.\r\nTối: Ăn tối, về khách sạn nghỉ ngơi.\r\n\r\nNgày 3: Nam đảo – Cáp treo Hòn Thơm – Lặn san hô\r\nSáng: Ăn sáng và khởi hành đi Nam đảo.Tham quan Nhà tù Phú Quốc.Đi cáp treo 3 dây vượt biển dài nhất thế giới đến Hòn Thơm.\r\nTrưa: Ăn trưa buffet tại Hòn Thơm.\r\nChiều:Lặn ngắm san hô tại Hòn Móng Tay, Hòn Gầm Ghì (nếu thời tiết cho phép).\r\nTối: Ăn tối tại nhà hàng, tự do khám phá Phú Quốc về đêm.\r\n\r\nNgày 4: Tạm biệt Phú Quốc\r\nSáng: Ăn sáng, tự do tắm biển hoặc mua sắm đặc sản: nước mắm, hải sản khô, tiêu đen.\r\nTrưa: Trả phòng, ra sân bay. Kết thúc tour.', 1, 'Theo nhóm nhỏ', '4 ngày 3 đêm', 0, 'Xe khách', 'Nam');
 
 -- --------------------------------------------------------
 
@@ -7553,7 +7610,8 @@ INSERT INTO `tour_images` (`Sr_no`, `id_tour`, `Image`, `Thumb`) VALUES
 (102, 101, 'hungary.png', ''),
 (103, 102, 'hylap.jpg', ''),
 (104, 103, 'tourchaua.jpg', ''),
-(105, 104, 'tourchauau.jpg', '');
+(105, 104, 'tourchauau.jpg', ''),
+(106, 105, 'phus.jpg', '');
 
 -- --------------------------------------------------------
 
@@ -7604,7 +7662,7 @@ INSERT INTO `tour_schedule` (`id`, `id_tour`, `Name`, `Date`, `Schedule`, `Locat
 (193, 59, 'Tour Quy Nhơn - Kỳ Co - Eo Gió', '2025-07-10 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh', 1),
 (194, 59, 'Tour Quy Nhơn - Kỳ Co - Eo Gió', '2025-07-10 00:00:00', '3 ngày 2 đêm', 'TP.Hồ Chí Minh', 1),
 (197, 47, 'Đà Nẵng', '2025-03-25 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
-(201, 46, 'Hà Nội', '2025-07-24 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
+(201, 46, 'Hà Nội', '2025-03-17 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
 (202, 66, 'Tour Sài Gòn - Địa đạo Củ Chi', '2025-10-01 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
 (203, 66, 'Tour Sài Gòn - Địa đạo Củ Chi', '2025-10-01 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
 (204, 66, 'Tour Sài Gòn - Địa đạo Củ Chi', '2025-10-01 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
@@ -7715,7 +7773,10 @@ INSERT INTO `tour_schedule` (`id`, `id_tour`, `Name`, `Date`, `Schedule`, `Locat
 (355, 103, 'Tour Châu Á – Việt Nam, Thái Lan, Singapore', '2025-05-30 00:00:00', '6 ngày 5 đêm', 'TP.Hồ Chí Minh', 1),
 (357, 104, 'Tour Châu Âu – Anh, Pháp, Đức, Ý', '2025-05-31 00:00:00', '8 ngày 7 đêm', 'TP.Hồ Chí Minh', 1),
 (358, 104, 'Tour Châu Âu – Anh, Pháp, Đức, Ý', '2025-06-07 00:00:00', '8 ngày 7 đêm', 'TP.Hồ Chí Minh', 1),
-(359, 104, 'Tour Châu Âu – Anh, Pháp, Đức, Ý', '2025-06-27 00:00:00', '8 ngày 7 đêm', 'TP.Hồ Chí Minh', 1);
+(359, 104, 'Tour Châu Âu – Anh, Pháp, Đức, Ý', '2025-06-27 00:00:00', '8 ngày 7 đêm', 'TP.Hồ Chí Minh', 1),
+(361, 105, 'Phú Quốc - Bãi Sao', '0000-00-00 00:00:00', '4 ngày 3 đêm', 'TP.Hồ Chí Minh', 1),
+(362, 105, 'Phú Quốc - Bãi Sao', '0000-00-00 00:00:00', '4 ngày 3 đêm', 'TP.Hồ Chí Minh', 1),
+(363, 105, 'Phú Quốc - Bãi Sao', '0000-00-00 00:00:00', '4 ngày 3 đêm', 'TP.Hồ Chí Minh', 1);
 
 -- --------------------------------------------------------
 
@@ -7813,6 +7874,12 @@ ALTER TABLE `assignment_tour`
   ADD PRIMARY KEY (`idass`),
   ADD KEY `fk_id_toursche` (`id_toursche`),
   ADD KEY `fk_employid1` (`employid`);
+
+--
+-- Chỉ mục cho bảng `auto_update_log`
+--
+ALTER TABLE `auto_update_log`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Chỉ mục cho bảng `booking_details_ks`
@@ -8087,7 +8154,7 @@ ALTER TABLE `wishlist`
 -- AUTO_INCREMENT cho bảng `activity_logs`
 --
 ALTER TABLE `activity_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=409;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=435;
 
 --
 -- AUTO_INCREMENT cho bảng `admin`
@@ -8111,7 +8178,7 @@ ALTER TABLE `booking_details_ks`
 -- AUTO_INCREMENT cho bảng `booking_detail_tour`
 --
 ALTER TABLE `booking_detail_tour`
-  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=137;
+  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=144;
 
 --
 -- AUTO_INCREMENT cho bảng `booking_orderks`
@@ -8123,7 +8190,7 @@ ALTER TABLE `booking_orderks`
 -- AUTO_INCREMENT cho bảng `booking_ordertour`
 --
 ALTER TABLE `booking_ordertour`
-  MODIFY `Booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=253;
+  MODIFY `Booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=260;
 
 --
 -- AUTO_INCREMENT cho bảng `chat_rooms`
@@ -8141,13 +8208,13 @@ ALTER TABLE `customer_assignment`
 -- AUTO_INCREMENT cho bảng `departure_dates`
 --
 ALTER TABLE `departure_dates`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=306;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=309;
 
 --
 -- AUTO_INCREMENT cho bảng `departure_time`
 --
 ALTER TABLE `departure_time`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=358;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=362;
 
 --
 -- AUTO_INCREMENT cho bảng `deposit_hotel`
@@ -8195,7 +8262,7 @@ ALTER TABLE `leave_requests`
 -- AUTO_INCREMENT cho bảng `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 
 --
 -- AUTO_INCREMENT cho bảng `news`
@@ -8207,13 +8274,13 @@ ALTER TABLE `news`
 -- AUTO_INCREMENT cho bảng `participant`
 --
 ALTER TABLE `participant`
-  MODIFY `idpar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=158;
+  MODIFY `idpar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=166;
 
 --
 -- AUTO_INCREMENT cho bảng `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
 
 --
 -- AUTO_INCREMENT cho bảng `rating_reviews_ks`
@@ -8291,19 +8358,19 @@ ALTER TABLE `tichdiem`
 -- AUTO_INCREMENT cho bảng `tour`
 --
 ALTER TABLE `tour`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
 
 --
 -- AUTO_INCREMENT cho bảng `tour_images`
 --
 ALTER TABLE `tour_images`
-  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
+  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
 
 --
 -- AUTO_INCREMENT cho bảng `tour_schedule`
 --
 ALTER TABLE `tour_schedule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=360;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=364;
 
 --
 -- AUTO_INCREMENT cho bảng `user_credit`
