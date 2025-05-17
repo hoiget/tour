@@ -425,7 +425,7 @@ function loadBookingData(event) {
         const hours = Math.floor((remainingMinutes % 1440) / 60); // Lấy phần giờ còn lại
         const minutes = remainingMinutes % 60; // Lấy phần phút còn lại
 
-        cancelButton = `<button style="width:340px;" class="btn cancel" onclick="huydontour(${event.Booking_id}, ${event.participants}, ${event.Tour_id})">Hủy đơn</button>`;
+        cancelButton = `<button style="width:340px;" class="btn cancel" onclick="huydontour(${event.Booking_id}, ${event.participants}, ${event.Tour_id},  '${event.Datetime}')">Hủy đơn</button>`;
 
         countdownText = `<p style="color: red; font-weight: bold;">Thời gian còn lại để hủy và sửa: ${days} ngày ${hours} giờ ${minutes} phút</p>`;
 
@@ -469,6 +469,7 @@ function xemtrangthai() {
                             <p><strong>Thời gian đặt:</strong> ${event.booking_time}</p>
                             <input type="hidden" name="participants" value="${event.participants}" readonly>
                             <input type="hidden" name="idtour" value="${event.Tour_id}" readonly>
+                            <input type="date" hidden name="ngaykhoihanh" value="${event.Datetime}" readonly>
                     `;
 
                     // Trạng thái thanh toán
@@ -512,7 +513,7 @@ function xemtrangthai() {
                                             type: 'GET',
                                             dataType: 'json',
                                             success: function (res) {
-                                                console.log(res);
+                                             
                                                 if (res.code === "00" && res.data) {
                                                     const checkoutUrl = res.data.checkoutUrl;
                                                     $(`#${qrContainerId}`).html(`<a style="text-decoration:none;color:white;" href="${checkoutUrl}" target="_blank">Thanh toán</a>`);
@@ -534,6 +535,11 @@ function xemtrangthai() {
                         eventHtml += '<button class="btn cancel">Đã hủy</button>';
                         if (event.Payment_status == '2') {
                             eventHtml += '<button class="btn review">Chưa hoàn tiền</button>';
+                        }
+                    }else if (event.refund == '2') {
+                        eventHtml += '<button class="btn cancel">Đã hủy</button>';
+                        if (event.Payment_status == '1') {
+                            eventHtml += '<button class="btn review">Quá thời gian thanh toán</button>';
                         }
                     }
 
@@ -609,10 +615,12 @@ function addToGoogleCalendar(tourName, tourDate, tourTime, tourLocation, dayDepa
 }
 
 
-function huydontour(idve, participants, idtour) {
-    fetch(`./api/api.php?action=huydontour&id=${idve}&participants=${participants}&idtour=${idtour}`)
+function huydontour(idve, participants, idtour,datetime) {
+   
+    fetch(`./api/api.php?action=huydontour&id=${idve}&participants=${participants}&idtour=${idtour}&ngaykhoihanh=${datetime}`)
         .then(response => response.text())
         .then(data => {
+            console.log(data);
             if (data === 'gui') {
                 openPopup('Hủy đơn thành công', '');
                 setTimeout(() => {
@@ -989,7 +997,7 @@ $(document).ready(function() {
 </script>
 
 <script>
-    // Chọn sao
+   
     const stars = document.querySelectorAll('.star');
     const reviewInput = document.getElementById('review');
     const submitBtn = document.getElementById('submit-btn');

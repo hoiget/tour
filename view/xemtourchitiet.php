@@ -33,8 +33,9 @@
 
 .image img {
     width: 100%; /* Đảm bảo hình ảnh chiếm toàn bộ chiều rộng của .image */
-    height: auto; /* Để hình ảnh giữ tỷ lệ gốc */
+    height: 500px; /* Để hình ảnh giữ tỷ lệ gốc */
     border-radius: 8px;
+
 }
 
 .details {

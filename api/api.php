@@ -1387,48 +1387,69 @@ ORDER BY
             echo json_encode($res); // Trả về dữ liệu dạng JSON
         }
         exit;
-    } elseif ($action == "xemtrangthai") {
-        $user_id = $_SESSION['id'];
-        $query = "
-     SELECT 
-        booking_ordertour.*,
-        booking_detail_tour.*,
-        departure_time.*,
-        booking_ordertour.created_at AS booking_time,
-        payments.*,
-        payments.id AS idpayment
-    FROM 
-        booking_ordertour 
-    LEFT JOIN 
-        booking_detail_tour ON booking_ordertour.Booking_id = booking_detail_tour.Booking_id
-    LEFT JOIN
-        departure_time ON booking_ordertour.Departure_id = departure_time.id
-    LEFT JOIN
-        user_credit ON booking_ordertour.User_id = user_credit.id 
-    LEFT JOIN
-        payments ON booking_ordertour.Booking_id =  payments.idbook
-    WHERE 
-        user_credit.id ='$user_id'
-";
+    }elseif ($action == "xemtrangthai") {
+    $user_id = $_SESSION['id'];
+    $today = date('Y-m-d');
 
-        // Thực hiện truy vấn
-        $result = $conn->query($query);
+    // ✅ Tự động cập nhật: chỉ chạy 1 lần/ngày
+    $check = $conn->query("SELECT last_update FROM auto_update_log WHERE id = 1");
+    $row = $check->fetch_assoc();
+    $last_update = $row['last_update'];
 
-        $res = [];
-        if ($result && $result->num_rows > 0) {
-            // Lấy từng dòng dữ liệu
-            while ($row = $result->fetch_assoc()) {
-                $res[] = $row;
-            }
+    if ($last_update < $today) {
+        // Cập nhật đơn quá hạn 2 ngày trước khởi hành mà chưa thanh toán
+        $sql = "UPDATE booking_ordertour 
+                SET refund = 2 
+                WHERE Payment_status = 1 
+                  AND refund = 0 
+                  AND DATE_SUB(Datetime, INTERVAL 2 DAY) < ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $today);
+        $stmt->execute();
+
+        // Cập nhật ngày chạy gần nhất
+        $conn->query("UPDATE auto_update_log SET last_update = '$today' WHERE id = 1");
+    }
+
+    // ✅ Truy vấn trạng thái booking cho user hiện tại
+    $query = "
+        SELECT 
+            booking_ordertour.*,
+            booking_detail_tour.*,
+            departure_time.*,
+            booking_ordertour.created_at AS booking_time,
+            payments.*,
+            payments.id AS idpayment
+        FROM 
+            booking_ordertour 
+        LEFT JOIN 
+            booking_detail_tour ON booking_ordertour.Booking_id = booking_detail_tour.Booking_id
+        LEFT JOIN
+            departure_time ON booking_ordertour.Departure_id = departure_time.id
+        LEFT JOIN
+            user_credit ON booking_ordertour.User_id = user_credit.id 
+        LEFT JOIN
+            payments ON booking_ordertour.Booking_id =  payments.idbook
+        WHERE 
+            user_credit.id = '$user_id'
+    ";
+
+    $result = $conn->query($query);
+    $res = [];
+    if ($result && $result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $res[] = $row;
         }
+    }
 
-        if (empty($res)) {
-            echo json_encode(["message" => "No tour found for the given ID"]);
-        } else {
-            echo json_encode($res); // Trả về dữ liệu dạng JSON
-        }
-        exit;
-    } elseif ($action == "xemtoursua") {
+    if (empty($res)) {
+        echo json_encode(["message" => "No tour found for the given ID"]);
+    } else {
+        echo json_encode($res);
+    }
+    exit;
+}
+ elseif ($action == "xemtoursua") {
         $user_id = $_SESSION['id'];
         $id = $_GET['idt'];
         $query = "
@@ -1509,11 +1530,13 @@ ORDER BY
         $id = $_GET['id'];
         $tt = 1;
         $participants=$_GET['participants'];
-        $idtour=$_GET['idtour'];    
+        $idtour=$_GET['idtour'];  
+        $nkh = $_GET['ngaykhoihanh'];
+
         // Kiểm tra xem người dùng đã tồn tại trong cơ sở dữ liệu chưa
 
         $insert_query = "UPDATE booking_ordertour  SET refund='$tt' Where Booking_id= '$id'";
-        $order_query = "UPDATE departure_time SET Orders = Orders - $participants WHERE id_tour = '$idtour'";
+        $order_query = "UPDATE departure_time SET Orders = Orders - $participants WHERE (id_tour = '$idtour' and ngaykhoihanh = '$nkh')";
         if ($conn->query($insert_query) === TRUE && $conn->query($order_query) === TRUE) {
             echo 'gui';
         } else {

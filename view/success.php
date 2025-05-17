@@ -96,7 +96,7 @@ $orderCode = $_GET['orderCode']; // Hoặc lấy từ GET, tùy vào cách nhậ
 $numbersOnly = preg_replace('/\D/', '', $orderCode); // Loại bỏ tất cả ký tự không phải số
 $firstTwoDigits = substr($numbersOnly, 0, 3);
 // Kiểm tra nếu payment thành công (mã trạng thái trả về từ API thành công, có thể thay đổi theo cấu trúc trả về)
-if ($_GET['status'] == 'SUCCESS') {
+if ($_GET['status'] == 'PAID') {
     // Kết nối cơ sở dữ liệu
    
 
