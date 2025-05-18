@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="./assets/css/layout.css">
+<link rel="stylesheet" href="./assets/css/layout1.css">
 
 <style>
     .editable {
@@ -263,57 +263,64 @@ width: 55%;
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
   <script>
-    // Slider navigation logic
-    const slider = document.querySelector('.slider');
+  const slider = document.querySelector('.slider');
 
-    function activate(e) {
-      const items = document.querySelectorAll('.item');
-      if (e.target.matches('.next')) {
-        slider.append(items[0]);
-      } else if (e.target.matches('.prev')) {
-        slider.prepend(items[items.length - 1]);
-      }
+  function activate(e) {
+    const items = document.querySelectorAll('.item');
+    if (e.target.matches('.next')) {
+      slider.append(items[0]);
+    } else if (e.target.matches('.prev')) {
+      slider.prepend(items[items.length - 1]);
     }
+  }
 
-    document.addEventListener('click', activate, false);
+  document.addEventListener('click', activate, false);
 
-    // AJAX function to dynamically load slides
-    function xemlayout() {
-      $.ajax({
-        url: './api/api.php?action=xemlayout',
-        type: 'GET',
-        dataType: 'json', // Automatically parses JSON string into an object/array
-        success: function (response) {
-          if (Array.isArray(response) && response.length > 0) {
-            let eventHtml = '';
-            response.forEach(function (tour) {
-              eventHtml += `
-                <li class='item' style="background-image: url('./assets/img/tour/${tour.Image}')">
-                  <div class='content'>
-                   <h1 data-i18n="tours">Tour du lịch</h1>
-                    <h2 class='title' style="color:white">${tour.Name}</h2>
-                    <p class='description' style=" color: #FFFFFF;font-size:18px">${tour.Thumb}</p>
-                     <a href="index.php?idtour=${tour.id}&xemdanhgiatour=${tour.id}&xemdanhgiarating=${tour.id}"><button data-i18n="seeMore">Xem thêm</button></a>
-                  </div>
-                </li>`;
-            });
-            $('#xemlayout').html(eventHtml);
-          } else {
-            $('#xemlayout').html('<div class="col">No information found.</div>');
-          }
-        },
-        error: function (xhr, status, error) {
-          console.error('Error fetching data:', error);
-          $('#xemlayout').html('<div class="col">An error occurred while loading the data.</div>');
+  function xemlayout() {
+    $.ajax({
+      url: './api/api.php?action=xemlayout',
+      type: 'GET',
+      dataType: 'json',
+      success: function (response) {
+        if (Array.isArray(response) && response.length > 0) {
+          let eventHtml = '';
+          response.forEach(function (tour) {
+            eventHtml += `
+              <li class='item' style="background-image: url('./assets/img/tour/${tour.Image}');">
+              
+                <div class='content'>
+                  <h1 data-i18n="tours">Tour du lịch</h1>
+                  <h2 class='title' style="color:white">${tour.Name}</h2>
+                  <p class='description' style=" color: #FFFFFF;font-size:18px">${tour.Thumb}</p>
+                  <a href="index.php?idtour=${tour.id}&xemdanhgiatour=${tour.id}&xemdanhgiarating=${tour.id}">
+                    <button data-i18n="seeMore">Xem thêm</button>
+                  </a>
+                </div>
+              </li>`;
+          });
+          $('#xemlayout').html(eventHtml);
+        } else {
+          $('#xemlayout').html('<div class="col">No information found.</div>');
         }
-      });
-    }
-
-    // Initialize on document ready
-    $(document).ready(function () {
-      xemlayout();
+      },
+      error: function (xhr, status, error) {
+        console.error('Error fetching data:', error);
+        $('#xemlayout').html('<div class="col">An error occurred while loading the data.</div>');
+      }
     });
-  </script>
+  }
+
+  $(document).ready(function () {
+    xemlayout();
+
+    // Auto-next every 5 seconds
+    setInterval(() => {
+      const nextBtn = document.querySelector('.btn.next');
+      if (nextBtn) nextBtn.click();
+    }, 5000);
+  });
+</script>
+
 </section><!-- /Hero Section -->
     <section id="tim" class="tim">
   

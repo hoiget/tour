@@ -411,7 +411,7 @@ button:hover {
     <center>
       <button type="button" onclick="prevStep()">Quay lại</button>
       
-    <button type="submit" id="book-button" onclick="dattourfull()">Đặt tour</button>
+    <button type="submit" id="book-button">Đặt tour</button>
     </center>
   </div>
 
@@ -760,20 +760,21 @@ function xemdattour() {
       }
     });
   }
-  function dattourfull() {
+  
     // Lấy giá trị từ input type="date"
-    if (!selectedMethod) {
-      openPopup("Vui lòng chọn phương thức thanh toán!","");
-        return;
-    }
+   
 
   
 
     
     $(document).ready(function () {
+      
     $('#dattourfull').submit(function (e) {
         e.preventDefault(); // Ngăn chặn hành động mặc định của form
-
+ if (!selectedMethod) {
+      openPopup("Vui lòng chọn phương thức thanh toán!","");
+        return;
+    }
         let formData = new FormData(this); // Chuyển form thành FormData
 
         // Thêm dữ liệu hành khách từ form động
@@ -798,7 +799,7 @@ function xemdattour() {
                     openPopup('Thông báo', 'Đặt thành công!');
                     setTimeout(function () {
                         window.location.href = 'index.php?xemdattour';
-                    }, 2000);
+                    }, 1000);
                 } else if (response === 'missing_data') {
                     openPopup('Thông báo', 'Dữ liệu còn thiếu. Vui lòng kiểm tra lại!');
                 }else if (response === 'missing_data1') {
@@ -820,7 +821,7 @@ function xemdattour() {
     });
 });
 
-}
+
 
 
 $(document).ready(function() {
