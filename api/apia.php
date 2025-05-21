@@ -2563,7 +2563,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         departure_time.*,
         participant.*,
         tour.id AS tourid,
-        tour.Child_price_percen
+        tour.Child_price_percen,
+        user_credit.TenNH,user_credit.SoNH,
+        user_credit.id AS iduser
         
     FROM 
         booking_ordertour 
@@ -2575,6 +2577,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         participant ON booking_ordertour.Booking_id = participant.idbook
     LEFT JOIN
         tour ON booking_ordertour.Tour_id = tour.id
+    LEFT JOIN
+        user_credit ON booking_ordertour.User_id = user_credit.id
         
     WHERE 
         booking_ordertour.Booking_id = '$id' OR departure_time.id = '$id'

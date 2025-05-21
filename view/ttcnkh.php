@@ -188,6 +188,23 @@ function get_user_info() {
                             <label for="email" class="form-label">Email</label>
                             <input type="text" class="form-control" id="EM" name="EM" value="${event.Email}" readonly>
                         </div>
+                    </div>
+                      <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label for="dob" class="form-label" title="Bắt buộc">Tên ngân hàng <span style="color:red" title="Bắt buộc">*<span></label>
+                            <input type="text" class="form-control" id="tennh" name="tennh" value="${event.TenNH}">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label" title="Bắt buộc dùng để hoàn tiền">Số tài khoản ngân hàng <span style="color:red" title="Bắt buộc">*Bắt buộc dùng để hoàn tiền<span></label>
+                           <div style="position: relative;">
+                            <input type="password" class="form-control" id="stk" name="stk"  maxlength="16" oninput="this.value = this.value.replace(/[^0-9]/g, '')" value="${event.SoNH}" >
+                            <span onclick="toggleSTK()" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer;">
+                                👁️
+                            </span>
+                            </div>
+
+                        </div>
+                       
                     </div>`;
                 });
                 $('#ttcn').html(eventHtml);
@@ -207,6 +224,17 @@ function get_user_info() {
         }
     });
 }
+
+function toggleSTK() {
+  const input = document.getElementById("stk");
+  if (input.type === "password") {
+    input.type = "text";
+  } else {
+    input.type = "password";
+  }
+}
+
+
 function xemdiem() {
     $.ajax({
         url: './api/api.php?action=xemdiem',

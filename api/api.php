@@ -267,6 +267,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $address = $_POST['dc'];    // Địa chỉ
         $birthdate = $_POST['ns'];  // Ngày sinh
         $phone1 = $_POST['phone']; 
+        $tennh = $_POST['tennh']; 
+        $stk = $_POST['stk']; 
         // Kiểm tra nếu các trường bắt buộc rỗng
         if (empty($username) || empty($email) || empty($phone1)) {
             echo 'missing_data';
@@ -274,7 +276,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         // Cập nhật thông tin người dùng
-        $update_query = "UPDATE user_credit SET Name = ?, Address = ?, Datetime = ?, sdt= ? WHERE Email = ? OR sdt = ?";
+        $update_query = "UPDATE user_credit SET Name = ?, Address = ?, Datetime = ?, sdt= ?,TenNH = ?,SoNH = ? WHERE Email = ? OR sdt = ?";
         $stmt = $conn->prepare($update_query);
 
         // Kiểm tra nếu không chuẩn bị được câu truy vấn
@@ -284,7 +286,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         // Bind các tham số vào câu truy vấn
-        $stmt->bind_param("ssssss", $username, $address, $birthdate,$phone1, $email, $phone);
+        $stmt->bind_param("sssssssi", $username, $address, $birthdate,$phone1,$tennh,$stk, $email, $phone);
 
         // Thực thi câu truy vấn
         if ($stmt->execute()) {
@@ -849,7 +851,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $email = $_SESSION['Email']; // Lấy email từ session
         $phone = $_SESSION['sdt'];
         $logintype= $_SESSION['login_type']; // Lấy loại đăng nhập từ session
-        $query = "SELECT Email,Name,Address,sdt,Datetime FROM user_credit where (Email='$email' OR sdt='$phone') AND login_type='$logintype'";
+        $query = "SELECT Email,Name,Address,sdt,Datetime,TenNH,SoNH FROM user_credit where (Email='$email' OR sdt='$phone') AND login_type='$logintype'";
         $result = $conn->query($query);
 
         $users = [];

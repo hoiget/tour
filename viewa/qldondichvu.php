@@ -443,6 +443,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['Booking_id'])) {
     transform: translateY(-2px);
 }
 
+#stk{
+    border:none;
+    font-weight: bold;
+
+}
 
 
 
@@ -1009,7 +1014,24 @@ function openRatingModal1(Id) {
                                 </div>
                             </div>
                         </div>
-
+                        <div class="pricing-info">
+                            <h3>Thông tin tài khoản ngân hàng</h3>
+                            <div class="form-row">
+                                <div>
+                                    <label for="price">Tên ngân hàng: ${item.TenNH}</label>
+                                </div>
+                                 <div>
+                                    <div style="position: relative;">
+                            <input type="password" class="form-control" id="stk" name="stk"  maxlength="16" oninput="this.value = this.value.replace(/[^0-9]/g, '')" value="${item.SoNH}" readonly>
+                            <span onclick="toggleSTK()" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer;">
+                                👁️
+                            </span>
+                            </div>
+                                </div>
+                               
+                            </div>
+                        </div>
+                        <br><br>
                         <!-- Thông tin thành viên tham gia -->
                         <div class="participant-info">
                             <h3>Thông tin thành viên tham gia</h3>
@@ -1184,6 +1206,24 @@ function openRatingModalxem(Id) {
                             </div>
                         </div>
                         <br><br>
+                         <div class="pricing-info">
+                            <h3>Thông tin tài khoản ngân hàng</h3>
+                            <div class="form-row">
+                                <div>
+                                    <label for="price">Tên ngân hàng: ${item.TenNH}</label>
+                                </div>
+                                 <div>
+                                    <div style="position: relative;">
+                            <input type="password" class="form-control" id="stk" name="stk"  maxlength="16" oninput="this.value = this.value.replace(/[^0-9]/g, '')" value="${item.SoNH}" readonly>
+                            <span onclick="toggleSTK()" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer;">
+                                👁️
+                            </span>
+                            </div>
+                                </div>
+                               
+                            </div>
+                        </div>
+                        <br><br>
                         <!-- Thông tin thành viên tham gia -->
                         <div class="participant-info">
                             <h3>Thông tin thành viên tham gia</h3>
@@ -1236,6 +1276,14 @@ function openRatingModalxem(Id) {
             $('#xemtour').html('<div class="col">Đã xảy ra lỗi khi tải dữ liệu.</div>');
         }
     });
+}
+function toggleSTK() {
+  const input = document.getElementById("stk");
+  if (input.type === "password") {
+    input.type = "text";
+  } else {
+    input.type = "password";
+  }
 }
 function capnhathoadon() {
     $('#capnhathoadon').submit(function (e) {
