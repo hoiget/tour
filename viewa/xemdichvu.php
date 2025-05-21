@@ -204,6 +204,12 @@
         padding: 12px; /* Điều chỉnh khoảng cách khi màn hình nhỏ */
     }
 }
+  .description {
+    white-space: nowrap; /* Không cho phép xuống dòng */
+    overflow: hidden; /* Ẩn nội dung vượt quá */
+    text-overflow: ellipsis; /* Thêm dấu "..." khi nội dung bị cắt */
+    max-width: 200px; /* Đặt độ rộng tối đa của cột (tùy chỉnh theo nhu cầu) */
+}
 
     </style>
 
@@ -280,7 +286,7 @@ document.addEventListener('DOMContentLoaded', applyResponsiveTableHeaders);
                     <td>${event.Date}</td>
                     <td>${event.Schedule}</td>
                     <td>${event.Locations}</td>
-                    <td>${event.Itinerary}</td>
+                    <td class="description">${event.Itinerary}</td>
                     
                   
                     `;

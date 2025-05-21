@@ -265,7 +265,7 @@ if(isset($_REQUEST['dattour'])){
 }if(isset($_REQUEST['vietqr'])){
     $show = false;
     include_once("view/payos.php");
-  }if(isset($_REQUEST['cancel'])){
+  }if(isset($_REQUEST['cancell'])){
     $show = false;
     include_once("view/cancel.php");
   }if(isset($_REQUEST['success'])){

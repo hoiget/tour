@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
--- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th5 17, 2025 lúc 04:18 AM
--- Phiên bản máy phục vụ: 10.4.32-MariaDB
--- Phiên bản PHP: 8.2.12
+-- Máy chủ: sql300.byetcluster.com
+-- Thời gian đã tạo: Th5 20, 2025 lúc 07:42 AM
+-- Phiên bản máy phục vụ: 10.6.19-MariaDB
+-- Phiên bản PHP: 7.2.22
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -18,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Cơ sở dữ liệu: `tour`
+-- Cơ sở dữ liệu: `if0_37668659_tour`
 --
 
 -- --------------------------------------------------------
@@ -465,7 +466,40 @@ INSERT INTO `activity_logs` (`id`, `user_id`, `action_type`, `description`, `use
 (431, 1, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-05-17 08:22:27'),
 (432, 1, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-17 08:22:34'),
 (433, 1, 'logout', 'Khách hàng đăng xuất khỏi hệ thống', 'user', '2025-05-17 08:39:31'),
-(434, 1, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-17 08:39:37');
+(434, 1, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-17 08:39:37'),
+(435, 1, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-17 09:25:26'),
+(436, 1, 'logout', 'Khách hàng đăng xuất khỏi hệ thống', 'user', '2025-05-17 09:29:28'),
+(437, 1, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-17 09:29:34'),
+(438, 1, 'Update', 'Cập nhật tour ID:105 Phú Quốc - Bãi Sao', 'employees', '2025-05-17 09:30:14'),
+(439, 1, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-05-17 09:30:22'),
+(440, 1, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-17 09:30:37'),
+(441, 1, 'logout', 'Khách hàng đăng xuất khỏi hệ thống', 'user', '2025-05-17 09:33:43'),
+(442, 27, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-17 09:38:15'),
+(443, 27, 'logout', 'Khách hàng đăng xuất khỏi hệ thống', 'user', '2025-05-17 09:39:49'),
+(444, 1, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-18 00:02:36'),
+(445, 1, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-18 08:56:43'),
+(446, 27, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-18 10:20:25'),
+(447, 27, 'logout', 'Khách hàng đăng xuất khỏi hệ thống', 'user', '2025-05-18 10:21:04'),
+(448, NULL, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-20 13:05:10'),
+(449, 38, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-20 13:05:26'),
+(450, 1, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-20 13:16:03'),
+(451, 1, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-20 13:18:20'),
+(452, 1, 'logout', 'Khách hàng đăng xuất khỏi hệ thống', 'user', '2025-05-20 13:18:45'),
+(453, 38, 'logout', 'Khách hàng đăng xuất khỏi hệ thống', 'user', '2025-05-20 13:44:38'),
+(454, 27, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-20 13:48:13'),
+(455, 1, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-20 14:15:40'),
+(456, 1, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-20 18:05:46'),
+(457, 1, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-20 18:17:42'),
+(458, 1, 'Update', 'Cập nhật tour ID:105 Phú Quốc - Bãi Sao', 'employees', '2025-05-20 18:18:44'),
+(459, 1, 'logout', 'Khách hàng đăng xuất khỏi hệ thống', 'user', '2025-05-20 18:19:27'),
+(460, 1, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-20 18:20:34'),
+(461, 1, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-05-20 18:28:08'),
+(462, 1, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-20 18:28:15'),
+(463, 1, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-05-20 18:34:41'),
+(464, 3, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-20 18:34:49'),
+(465, 3, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-05-20 18:35:47'),
+(466, 1, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-20 18:37:49'),
+(467, 1, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-20 18:42:12');
 
 -- --------------------------------------------------------
 
@@ -503,7 +537,8 @@ CREATE TABLE `assignment_tour` (
 --
 
 INSERT INTO `assignment_tour` (`idass`, `id_toursche`, `employid`) VALUES
-(39, 171, 3);
+(39, 171, 3),
+(40, 364, 3);
 
 -- --------------------------------------------------------
 
@@ -521,7 +556,7 @@ CREATE TABLE `auto_update_log` (
 --
 
 INSERT INTO `auto_update_log` (`id`, `last_update`) VALUES
-(1, '2025-05-17');
+(1, '2025-05-20');
 
 -- --------------------------------------------------------
 
@@ -584,9 +619,13 @@ INSERT INTO `booking_detail_tour` (`Sr_no`, `Booking_id`, `Tour_name`, `Price`, 
 (124, 240, 'Tour Quy Nhơn - Kỳ Co - Eo Gió', '3100000', '4090000', 'Emaiop', '0999999999', 'TP BÌNH THUẬN', 'Aquasun Hotel', '1000000'),
 (134, 250, 'Huế', '900000', '1900000', 'Phan Hung', '0736278299', 'sssss', 'Aquasun Hotel', '1000000'),
 (139, 255, 'Tour Cát Bà', '1900000', '3470000', 'Phuc Hung', '0987389890', 'sssss', 'Khách Sạn Tre Xanh', '1000000'),
-(140, 256, 'Tour phú Quốc - Sunset Sanato - Bãi Sao', '2000', '1002000', 'Phuc Hung', '0987389890', 'sssss', 'Aquasun Hotel', '1000000'),
-(142, 258, 'Tour phú Quốc,Sunset,Bãi', '2000', '2000', 'Phuc Hung', '0987389890', 'sssss', 'Aquasun Hotel', '1000000'),
-(143, 259, 'Phú Quốc - Bãi Sao', '2000', '2000', 'Phuc Hung', '0987389890', 'sssss', 'Aquasun Hotel', '1000000');
+(143, 259, 'Phú Quốc - Bãi Sao', '2000', '2000', 'Phuc Hung', '0987389890', 'sssss', 'Aquasun Hotel', '1000000'),
+(148, 264, 'Tour Lâm Đồng', '5000000', '5000000', 'Phuc Hung', '0987389890', 'sssss', 'Luxury Stay Da Nang', '1000000'),
+(149, 265, 'Tour Cát Bà', '1900000', '2900000', 'Phan Hung', '0736278299', 'sssss', 'Khách Sạn Tre Xanh', '1000000'),
+(150, 266, 'Tour Cần Thơ', '1500000', '2490000', 'Đăng Hưng Lê', '0743143377', '', 'Khách Sạn Hương Quê', '1000000'),
+(152, 268, 'Tour Áo', '28000000', '28000000', 'Đăng Hưng Lê', '0743143377', '', 'Sapa Horizon Hotel', '1000000'),
+(153, 269, 'Tour Cần Thơ', '1500000', '1500000', 'Phuc Hung', '0987389890', 'sssss', 'Khách Sạn Hương Quê', '1000000'),
+(154, 270, 'Phú Quốc - Bãi Sao', '10000', '10000', 'Phuc Hung', '0987389890', 'sssss', 'Aquasun Hotel', '1000000');
 
 -- --------------------------------------------------------
 
@@ -651,9 +690,13 @@ INSERT INTO `booking_ordertour` (`Booking_id`, `User_id`, `Tour_id`, `Departure_
 (240, 32, 59, 104, 'Máy bay', '2', '1', 1, '2025-05-02', 1, '2025-04-24 07:36:59'),
 (250, 27, 48, 135, 'Xe khách', '2', '1', 1, '2025-05-01', 1, '2025-04-26 07:48:32'),
 (255, 1, 79, 250, 'Xe khách', '2', '1', 0, '2025-05-31', 2, '2025-05-17 08:04:17'),
-(256, 1, 105, 359, 'Xe khách', '2', '1', 1, '2025-05-31', 1, '2025-05-17 08:05:58'),
-(258, 1, 105, 359, 'Xe khách', '2', '1', 0, '2025-05-31', 1, '2025-05-17 08:10:28'),
-(259, 1, 105, 359, 'Xe khách', '2', '1', 1, '2025-05-28', 1, '2025-05-17 08:22:57');
+(259, 1, 105, 359, 'Xe khách', '2', '1', 1, '2025-05-28', 1, '2025-05-17 08:22:57'),
+(264, 1, 88, 290, 'Xe khách', '2', '1', 0, '2025-05-23', 1, '2025-05-18 08:57:29'),
+(265, 27, 79, 250, 'Xe khách', '2', '1', 0, '2025-05-31', 1, '2025-05-18 10:20:56'),
+(266, 38, 78, 245, 'Xe khách', '2', '1', 0, '2025-05-22', 1, '2025-05-20 13:06:56'),
+(268, 38, 100, 338, 'Máy bay', '2', '1', 0, '2025-05-23', 1, '2025-05-20 13:34:39'),
+(269, 1, 78, 245, 'Xe khách', '2', '1', 0, '2025-05-22', 1, '2025-05-20 18:08:58'),
+(270, 1, 105, 359, 'Xe khách', '2', '1', 0, '2025-05-28', 1, '2025-05-20 18:39:05');
 
 -- --------------------------------------------------------
 
@@ -896,7 +939,8 @@ INSERT INTO `departure_dates` (`id`, `tour_id`, `departure_date`, `is_available`
 (305, 104, '2025-06-27', 1),
 (306, 105, '2025-05-31', 1),
 (307, 105, '2025-05-28', 1),
-(308, 105, '2025-06-08', 1);
+(308, 105, '2025-06-08', 1),
+(309, 105, '2025-05-11', 1);
 
 -- --------------------------------------------------------
 
@@ -1016,11 +1060,11 @@ INSERT INTO `departure_time` (`id`, `id_tour`, `Day_depart`, `ngaykhoihanh`, `Or
 (241, 77, '2 ngày 1 đêm', '2025-06-20', 0),
 (242, 77, '2 ngày 1 đêm', '2025-07-26', 0),
 (243, 77, '2 ngày 1 đêm', '2025-11-13', 0),
-(245, 78, '2 ngày 1 đêm', '2025-05-31', 0),
+(245, 78, '2 ngày 1 đêm', '2025-05-31', 1),
 (246, 78, '2 ngày 1 đêm', '2025-06-01', 0),
-(247, 78, '2 ngày 1 đêm', '2025-05-22', 0),
+(247, 78, '2 ngày 1 đêm', '2025-05-22', 2),
 (248, 78, '2 ngày 1 đêm', '2025-10-23', 0),
-(250, 79, '2 ngày 1 đêm', '2025-05-31', 2),
+(250, 79, '2 ngày 1 đêm', '2025-05-31', 3),
 (251, 79, '2 ngày 1 đêm', '2025-05-22', 0),
 (252, 79, '2 ngày 1 đêm', '2025-06-07', 0),
 (253, 79, '2 ngày 1 đêm', '2025-07-25', 0),
@@ -1048,7 +1092,7 @@ INSERT INTO `departure_time` (`id`, `id_tour`, `Day_depart`, `ngaykhoihanh`, `Or
 (286, 87, '2 ngày 1 đêm', '2025-05-24', 0),
 (287, 87, '2 ngày 1 đêm', '2025-05-31', 0),
 (288, 87, '2 ngày 1 đêm', '2025-06-08', 0),
-(290, 88, '2 ngày 1 đêm', '2025-05-23', 0),
+(290, 88, '2 ngày 1 đêm', '2025-05-23', 1),
 (291, 88, '2 ngày 1 đêm', '2025-05-31', 0),
 (292, 88, '2 ngày 1 đêm', '2025-06-08', 0),
 (294, 89, '2 ngày 1 đêm', '2025-05-30', 0),
@@ -1084,7 +1128,7 @@ INSERT INTO `departure_time` (`id`, `id_tour`, `Day_depart`, `ngaykhoihanh`, `Or
 (334, 99, '3 ngày 2 đêm', '2025-05-27', 0),
 (335, 99, '3 ngày 2 đêm', '2025-06-07', 0),
 (336, 99, '3 ngày 2 đêm', '2025-07-25', 0),
-(338, 100, '3 ngày 2 đêm', '2025-05-23', 0),
+(338, 100, '3 ngày 2 đêm', '2025-05-23', 1),
 (339, 100, '3 ngày 2 đêm', '2025-05-31', 0),
 (340, 100, '3 ngày 2 đêm', '2025-06-08', 0),
 (342, 101, '3 ngày 2 đêm', '2025-05-31', 0),
@@ -1101,8 +1145,9 @@ INSERT INTO `departure_time` (`id`, `id_tour`, `Day_depart`, `ngaykhoihanh`, `Or
 (356, 104, '8 ngày 7 đêm', '2025-06-07', 0),
 (357, 104, '8 ngày 7 đêm', '2025-06-27', 0),
 (359, 105, '4 ngày 3 đêm', '2025-05-31', 2),
-(360, 105, '4 ngày 3 đêm', '2025-05-28', 0),
-(361, 105, '4 ngày 3 đêm', '2025-06-08', 0);
+(360, 105, '4 ngày 3 đêm', '2025-05-28', 5),
+(361, 105, '4 ngày 3 đêm', '2025-06-08', 0),
+(362, 105, '4 ngày 3 đêm', '2025-05-11', 10);
 
 -- --------------------------------------------------------
 
@@ -1222,7 +1267,7 @@ INSERT INTO `employees` (`id`, `Employee_code`, `Name`, `Username`, `Password`, 
 (10, 'QLNV9', 'Anh Tuấn', 'Anh Tuấn', '64730b8e3578cc2d327d6e59b451aa9b', 'NV9@gmail.com', '0736282900', 'SAFAS', 'QL', '2025-03-19 17:00:00'),
 (11, 'CSNV5', 'Linh Thị Nam', 'Linh Thị Nam', '5a7ed5b2b0b57c3ac01da4e0853bf778', 'NV5@gmail.com', '0704678654', 'TP Hồ Chí Minh', 'CSKH', '2025-03-13 17:00:00'),
 (12, 'HDNV8', 'Đinh Gia Phú', 'Đinh Gia Phú', 'd8a2c8ccdd578f416808e866664b6dea', 'NV8@gmail.com', '0763728782', 'Gò Vấp', 'HDV', '2025-04-21 17:00:00'),
-(63, 'QLNV001', 'Nguyễn Văn A', 'nguyenvana', 'e10adc3949ba59abbe56e057f20f883e', 'nguyenvana@example.com', '0900000001', 'Hà Nội', 'QL', '2025-04-28 06:34:29'),
+(63, 'QLNV001', 'Nguyễn Văn A', 'nguyenvana', 'e10adc3949ba59abbe56e057f20f883e', 'nguyenvana@example.com', '0900000001', 'Hà Nội', 'QL', '2025-03-02 07:34:29'),
 (64, 'CSNV001', 'Trần Thị B', 'tranthib', 'e10adc3949ba59abbe56e057f20f883e', 'tranthib@example.com', '0900000002', 'Hồ Chí Minh', 'CSKH', '2025-04-28 06:34:29'),
 (65, 'HDNV001', 'Lê Văn C', 'levanc', 'e10adc3949ba59abbe56e057f20f883e', 'levanc@example.com', '0900000003', 'Đà Nẵng', 'HDV', '2025-04-28 06:34:29'),
 (66, 'CSNV002', 'Phạm Thị D', 'phamthid', 'e10adc3949ba59abbe56e057f20f883e', 'phamthid@example.com', '0900000004', 'Hải Phòng', 'CSKH', '2025-04-28 06:34:29'),
@@ -1466,9 +1511,13 @@ INSERT INTO `participant` (`idpar`, `idbook`, `hoten`, `ngaysinh`, `gioitinh`, `
 (155, 250, 'sss', '2003-06-26', 'Nam', 'Người lớn'),
 (160, 255, 'Phú', '2000-07-17', 'Nam', 'Người lớn'),
 (161, 255, 'Ema', '2019-07-17', 'Nữ', 'Trẻ em (từ 2 -> 11 tuổi)'),
-(162, 256, 'Phú Hùng', '2000-05-17', 'Nam', 'Người lớn'),
-(164, 258, 'zzz', '1999-07-17', 'Nam', 'Người lớn'),
-(165, 259, 'aa', '2003-06-17', 'Nam', 'Người lớn');
+(165, 259, 'aa', '2003-06-17', 'Nam', 'Người lớn'),
+(170, 264, 'ab', '2000-11-04', 'Nam', 'Người lớn'),
+(171, 265, 'sss', '2003-03-18', 'Nam', 'Người lớn'),
+(172, 266, 'Lê Đăng Hưng', '2001-02-22', 'Nam', 'Người lớn'),
+(174, 268, 'Lê Đăng Hưng', '2002-12-22', 'Nam', 'Người lớn'),
+(175, 269, 'ab', '2000-11-02', 'Nam', 'Người lớn'),
+(176, 270, 'Phuc hung', '2000-09-11', 'Nam', 'Người lớn');
 
 -- --------------------------------------------------------
 
@@ -1498,9 +1547,13 @@ INSERT INTO `payments` (`id`, `user_id`, `idbook`, `method`, `created_at`) VALUE
 (78, 32, 240, 'vnpay', '2025-04-24 00:37:00'),
 (84, 27, 250, 'vnpay', '2025-04-26 00:48:32'),
 (89, 1, 255, 'vnpay', '2025-05-17 01:04:17'),
-(90, 1, 256, 'vietqr', '2025-05-17 01:05:58'),
-(92, 1, 258, 'vietqr', '2025-05-17 01:10:28'),
-(93, 1, 259, 'vietqr', '2025-05-17 01:22:57');
+(93, 1, 259, 'vietqr', '2025-05-17 01:22:57'),
+(98, 1, 264, 'vietqr', '2025-05-18 01:57:29'),
+(99, 27, 265, 'vnpay', '2025-05-18 03:20:56'),
+(100, 38, 266, 'cash', '2025-05-20 06:06:56'),
+(102, 38, 268, 'vnpay', '2025-05-20 06:34:39'),
+(103, 1, 269, 'vietqr', '2025-05-20 11:08:58'),
+(104, 1, 270, 'vietqr', '2025-05-20 11:39:05');
 
 -- --------------------------------------------------------
 
@@ -1546,7 +1599,12 @@ CREATE TABLE `rating_reviewtour` (
 --
 
 INSERT INTO `rating_reviewtour` (`Sr_no`, `Booking_id`, `Tour_id`, `Rating`, `Review`, `Username`, `Datetime`) VALUES
-(18, 232, 50, 5, 'sss', 'Phuc Hung', '2025-04-07');
+(18, 232, 50, 5, 'sss', 'Phuc Hung', '2025-04-07'),
+(19, NULL, 105, 4, 'Biển Bãi Sao đẹp xuất sắc, nước trong xanh, cát trắng mịn như bột! Lịch trình hợp lý, hướng dẫn viên nhiệt tình. Gia đình mình rất hài lòng!', 'Nguyễn Thị Mai', '2025-05-15'),
+(20, NULL, 105, 5, 'Tour tổ chức chuyên nghiệp, xe đưa đón đúng giờ. Bãi Sao đúng là thiên đường nghỉ dưỡng. Mỗi tội hơi đông vào cuối tuần.', 'Trần Văn Hùng', '2025-05-15'),
+(21, NULL, 105, 5, 'Chuyến đi quá tuyệt vời! Được ngắm san hô, tắm biển và ăn hải sản tươi sống ngay trên bãi biển. Mình sẽ quay lại lần nữa!', 'Lê Thanh Tùng', '2025-05-15'),
+(22, NULL, 105, 5, 'Cảnh đẹp, nhân viên phục vụ chu đáo. Tuy nhiên phần ăn trưa hơi ít món, mong lần sau cải thiện. Tổng thể vẫn rất đáng tiền.', 'Phạm Quỳnh Anh', '2025-05-15'),
+(23, NULL, 105, 4, 'Lần đầu đến Phú Quốc và đã phải lòng Bãi Sao. Tour mang lại trải nghiệm tuyệt vời từ dịch vụ đến phong cảnh. Rất đáng để thử!', 'Hoàng Đức Minh', '2025-05-15');
 
 -- --------------------------------------------------------
 
@@ -1851,22 +1909,32 @@ CREATE TABLE `salaries` (
 --
 
 INSERT INTO `salaries` (`id`, `employee_id`, `month_year`, `allowance`, `basic_salary`, `total_salary`) VALUES
-(42, 1, '2025-04', 100000.00, 9400000.00, 9500000.00),
-(43, 2, '2025-04', 100000.00, 8000000.00, 8100000.00),
-(44, 3, '2025-04', 0.00, 7000000.00, 7000000.00),
-(45, 7, '2025-04', 0.00, 7000000.00, 7000000.00),
-(46, 8, '2025-04', 0.00, 7000000.00, 7000000.00),
-(47, 9, '2025-04', 0.00, 8000000.00, 8000000.00),
-(48, 10, '2025-04', 0.00, 10000000.00, 10000000.00),
-(49, 11, '2025-04', 0.00, 8000000.00, 8000000.00),
-(50, 1, '2025-03', 0.00, 9700000.00, 10000000.00),
-(51, 2, '2025-03', 0.00, 8000000.00, 8000000.00),
-(52, 3, '2025-03', 0.00, 7000000.00, 7000000.00),
-(53, 7, '2025-03', 0.00, 7000000.00, 7000000.00),
-(54, 8, '2025-03', 0.00, 7000000.00, 7000000.00),
-(55, 9, '2025-03', 0.00, 8000000.00, 8000000.00),
-(56, 10, '2025-03', 0.00, 10000000.00, 10000000.00),
-(57, 11, '2025-03', 0.00, 8000000.00, 8000000.00);
+(42, 1, '2025-04', '100000.00', '9400000.00', '9500000.00'),
+(43, 2, '2025-04', '100000.00', '8000000.00', '8100000.00'),
+(44, 3, '2025-04', '0.00', '7000000.00', '7000000.00'),
+(45, 7, '2025-04', '0.00', '7000000.00', '7000000.00'),
+(46, 8, '2025-04', '0.00', '7000000.00', '7000000.00'),
+(47, 9, '2025-04', '0.00', '8000000.00', '8000000.00'),
+(48, 10, '2025-04', '0.00', '10000000.00', '10000000.00'),
+(49, 11, '2025-04', '0.00', '8000000.00', '8000000.00'),
+(50, 1, '2025-03', '0.00', '9700000.00', '10000000.00'),
+(51, 2, '2025-03', '0.00', '8000000.00', '8000000.00'),
+(52, 3, '2025-03', '0.00', '7000000.00', '7000000.00'),
+(53, 7, '2025-03', '0.00', '7000000.00', '7000000.00'),
+(54, 8, '2025-03', '0.00', '7000000.00', '7000000.00'),
+(55, 9, '2025-03', '0.00', '8000000.00', '8000000.00'),
+(56, 10, '2025-03', '0.00', '10000000.00', '10000000.00'),
+(57, 11, '2025-03', '0.00', '8000000.00', '8000000.00'),
+(58, 1, '2025-05', '0.00', '10000000.00', '10000000.00'),
+(59, 2, '2025-05', '0.00', '8000000.00', '8000000.00'),
+(60, 3, '2025-05', '0.00', '7000000.00', '7000000.00'),
+(61, 7, '2025-05', '0.00', '7000000.00', '7000000.00'),
+(62, 8, '2025-05', '0.00', '7000000.00', '7000000.00'),
+(63, 9, '2025-05', '0.00', '8000000.00', '8000000.00'),
+(64, 10, '2025-05', '0.00', '10000000.00', '10000000.00'),
+(65, 11, '2025-05', '0.00', '8000000.00', '8000000.00'),
+(66, 63, '2025-04', '0.00', '10000000.00', '10000000.00'),
+(67, 63, '2025-05', '0.00', '10000000.00', '10000000.00');
 
 -- --------------------------------------------------------
 
@@ -7447,7 +7515,8 @@ INSERT INTO `tichdiem` (`idtd`, `idkh`, `hangTV`, `diem`, `sotour`) VALUES
 (37, 34, 'New', 100, 0),
 (38, 35, 'New', 100, 0),
 (39, 36, 'New', 100, 0),
-(40, 37, 'New', 100, 0);
+(40, 37, 'New', 100, 0),
+(41, 38, 'New', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -7537,7 +7606,7 @@ INSERT INTO `tour` (`id`, `idks`, `Name`, `Style`, `Price`, `Child_price_percen`
 (102, 24, 'Tour Hy Lạp', 'Hiện đại', 35000000, '30', 30, 10, 'Hy Lạp là điểm đến mê hoặc với di tích cổ đại, biển xanh ngọc và bầu trời ngập nắng. Athens – thủ đô lịch sử – mang dấu ấn huy hoàng với đền Parthenon, quảng trường cổ Agora và bảo tàng Acropolis. Nhưng Hy Lạp không chỉ có quá khứ – bạn còn có thể thư giãn tại đảo Santorini trắng xanh nổi tiếng, khám phá Mykonos sôi động hay Crete giàu truyền thống. Tour Hy Lạp là sự kết hợp hoàn hảo giữa văn hóa, nghỉ dưỡng và ẩm thực Địa Trung Hải thơm ngon.', 'Hoạt động', '', 'TP.Hồ Chí Minh', 'Ngày 1: Athens – Khám phá thủ đô cổ đại\r\nSáng:\r\n\r\nXe đón tại sân bay Athens International.\r\n\r\nTham quan Acropolis:\r\n\r\nĐền Parthenon – công trình nổi tiếng nhất của Hy Lạp cổ đại.\r\n\r\nThư viện Hadrian và Đền Athena Nike.\r\n\r\nBảo tàng Acropolis – nơi lưu giữ các hiện vật quý giá của nền văn minh cổ đại.\r\n\r\nDạo bước qua Plaka, khu phố cổ kính dưới chân Acropolis.\r\n\r\nTrưa:\r\n\r\nĂn trưa tại nhà hàng truyền thống, thưởng thức Souvlaki (thịt nướng xiên) và Greek Salad.\r\n\r\nChiều:\r\n\r\nTham quan Cổng Hadrian và Đền Olympian Zeus.\r\n\r\nTản bộ tại Syntagma Square, xem nghi thức đổi g guards trước tòa nhà Quốc hội.\r\n\r\nTối:\r\n\r\nDùng bữa tối tại nhà hàng nổi tiếng, thưởng thức các món hải sản tươi ngon.\r\n\r\nNghỉ đêm tại khách sạn ở Athens.\r\n\r\nNgày 2: Athens – Santorini – Đảo thiên đường\r\nSáng:\r\n\r\nĂn sáng tại khách sạn.\r\n\r\nKhởi hành đến Santorini bằng máy bay hoặc tàu cao tốc (~1 giờ bay).\r\n\r\nĐến Santorini, tham quan:\r\n\r\nOia – ngôi làng nổi tiếng với những ngôi nhà trắng và mái vòm xanh, là nơi lý tưởng để chụp ảnh.\r\n\r\nThị trấn Fira – thủ đô của Santorini, với những con phố nhỏ và các cửa hàng lưu niệm.\r\n\r\nBãi biển cát đen Kamari hoặc Bãi biển Perissa – nơi có những bãi biển độc đáo với cát đen từ núi lửa.\r\n\r\nTrưa:\r\n\r\nĂn trưa tại nhà hàng với view tuyệt đẹp ra biển.\r\n\r\nChiều:\r\n\r\nTham quan Làng Pyrgos – một trong những ngôi làng cổ nhất trên đảo, khám phá những con phố hẹp và yên bình.\r\n\r\nDừng chân tại Red Beach – bãi biển cát đỏ nổi tiếng, tận hưởng cảnh biển đẹp.\r\n\r\nTối:\r\n\r\nNgắm hoàng hôn tại Oia – đây là điểm ngắm hoàng hôn đẹp nhất Santorini.\r\n\r\nĂn tối tại nhà hàng ven biển và nghỉ đêm tại Santorini.\r\n\r\nNgày 3: Santorini – Athens – Mua sắm – Rời Hy Lạp\r\nSáng:\r\n\r\nĂn sáng tại khách sạn, tự do tham quan Santorini.\r\n\r\nTham quan Hầm rượu Santorini – nơi sản xuất rượu vang nổi tiếng, thử các loại rượu vang đặc sản.\r\n\r\nTrưa:\r\n\r\nĂn trưa tại một trong những nhà hàng nổi tiếng trên đảo.\r\n\r\nChiều:\r\n\r\nTự do mua sắm tại Fira, nơi có nhiều cửa hàng thủ công mỹ nghệ và đồ lưu niệm.\r\n\r\nXe đưa ra sân bay Santorini, bay về Athens.\r\n\r\nTối:\r\n\r\nTiếp tục chuyến bay hoặc tàu từ Athens trở về.\r\n\r\n🎁 Đặc sản Hy Lạp nên mua:\r\nRượu vang Santorini (Assyrtiko).\r\n\r\nOuzo – loại rượu đặc trưng của Hy Lạp.\r\n\r\nDầu olive, mật ong.\r\n\r\nCác sản phẩm thủ công như quần áo dệt tay, đồ gốm và đồ trang sức.', 1, 'Theo đoàn', '3 ngày 2 đêm', 30000000, 'Máy bay', 'Ngoài nước'),
 (103, 19, 'Tour Châu Á – Việt Nam, Thái Lan, Singapore', 'Hiện đại', 50000000, '30', 50, 10, 'Cùng trải nghiệm tour du lịch vòng quanh các quốc gia Châu Á đang phát triển, nơi cảnh sắc và sự hiện đại đều có thể đáp ứng nhu cầu của bạn. Điểm xuất phát bắt đầu từ Việt Nam, nơi có cảnh sắc thiên nhiên hùng vỹ. Đến Thái Lan, vùng đất thiêng liêng nhưng cũng không kém phần sống động. Điểm kết thúc của hành trình là Singapore, đất nước nhỏ bé nhưng vô cùng hiện đại, các địa điểm du lịch nổi tiếng trong thành phố với cuộc sống nhộn nhịp sẽ giúp bạn thấy hứng thú hơn với chuyến đi.', 'Hoạt động', '', 'TP.Hồ Chí Minh', 'Ngày 1: Đến Hà Nội (Việt Nam) – Khám phá thủ đô\r\nSáng:\r\n\r\nĐến sân bay Nội Bài, xe đón và đưa đoàn về trung tâm thành phố Hà Nội.\r\n\r\nTham quan Hồ Hoàn Kiếm, dạo quanh khu vực Phố Cổ.\r\n\r\nTham quan Đền Ngọc Sơn trên hồ Hoàn Kiếm, Tháp Rùa.\r\n\r\nTrưa:\r\n\r\nThưởng thức phở Hà Nội, một trong những món ăn đặc trưng của Việt Nam.\r\n\r\nChiều:\r\n\r\nTham quan Lăng Chủ tịch Hồ Chí Minh, Chùa Một Cột, Văn Miếu Quốc Tử Giám.\r\n\r\nTự do tham quan mua sắm tại Chợ Đồng Xuân hoặc Hàng Ngang – Hàng Đào.\r\n\r\nTối:\r\n\r\nĂn tối tại nhà hàng địa phương và nghỉ đêm tại khách sạn ở Hà Nội.\r\n\r\nNgày 2: Hà Nội – Bay đến Bangkok (Thái Lan)\r\nSáng:\r\n\r\nĂn sáng tại khách sạn.\r\n\r\nXe đưa ra sân bay Nội Bài để bay đến Bangkok (khoảng 2 giờ bay).\r\n\r\nTrưa:\r\n\r\nĐến Bangkok, xe đón đoàn và ăn trưa tại nhà hàng địa phương.\r\n\r\nChiều:\r\n\r\nTham quan Chùa Wat Arun (Chùa Bình Minh) – ngôi chùa nổi tiếng với kiến trúc độc đáo.\r\n\r\nTham quan Cung điện Hoàng gia Thái Lan, Chùa Wat Phra Kaew (Chùa Phật Ngọc).\r\n\r\nDạo thuyền trên sông Chao Phraya, thưởng ngoạn phong cảnh Bangkok.\r\n\r\nTối:\r\n\r\nThưởng thức bữa tối với lẩu Thái hoặc pad Thai tại nhà hàng nổi tiếng.\r\n\r\nNghỉ đêm tại khách sạn ở Bangkok.\r\n\r\nNgày 3: Bangkok – Khám phá Thái Lan\r\nSáng:\r\n\r\nTham quan Chùa Wat Pho (Chùa Phật Ngủ) – ngôi chùa có tượng Phật dài 46m.\r\n\r\nGhé thăm Chợ Nổi Damnoen Saduak hoặc Chợ Chatuchak (tùy lịch trình).\r\n\r\nTrưa:\r\n\r\nĂn trưa tại nhà hàng, thưởng thức các món ăn Thái Lan đặc trưng.\r\n\r\nChiều:\r\n\r\nTham quan Trung tâm thương mại Siam Paragon, MBK Center.\r\n\r\nTự do mua sắm tại các trung tâm mua sắm nổi tiếng của Bangkok.\r\n\r\nTối:\r\n\r\nThưởng thức bữa tối tại nhà hàng và nghỉ đêm tại khách sạn ở Bangkok.\r\n\r\nNgày 4: Bay đến Singapore – Khám phá thành phố hiện đại\r\nSáng:\r\n\r\nĂn sáng tại khách sạn, sau đó bay từ Bangkok đến Singapore (khoảng 2 giờ bay).\r\n\r\nTrưa:\r\n\r\nĐến Singapore, tham quan Marina Bay Sands – tổ hợp nghỉ dưỡng, mua sắm, và casino nổi tiếng.\r\n\r\nTham quan Gardens by the Bay với Supertree Grove, Flower Dome và Cloud Forest.\r\n\r\nChiều:\r\n\r\nTham quan Merlion Park, chụp ảnh cùng Tượng Merlion – biểu tượng của Singapore.\r\n\r\nDạo quanh Chinatown và tham quan Chùa Răng Phật.\r\n\r\nTối:\r\n\r\nThưởng thức bữa tối tại Hawker Centre, nơi có các món ăn đường phố nổi tiếng.\r\n\r\nDạo chơi tại Clark Quay, tận hưởng không khí sôi động của Singapore về đêm.\r\n\r\nNgày 5: Singapore – Khám phá những điểm đến nổi bật\r\nSáng:\r\n\r\nTham quan Sentosa Island: Universal Studios Singapore, S.E.A. Aquarium hoặc Adventure Cove Waterpark (tùy sở thích).\r\n\r\nTham quan Bảo tàng ArtScience tại Marina Bay Sands.\r\n\r\nTrưa:\r\n\r\nDùng bữa trưa tại Raffles Hotel hoặc một trong những nhà hàng đặc sắc ở Singapore.\r\n\r\nChiều:\r\n\r\nTham quan Khu vườn tuyệt vời (Gardens by the Bay) và trải nghiệm SkyPark tại Marina Bay Sands.\r\n\r\nTối:\r\n\r\nDùng bữa tối và tự do tham quan hoặc mua sắm tại các trung tâm thương mại như Orchard Road.\r\n\r\nNghỉ đêm tại khách sạn ở Singapore.\r\n\r\nNgày 6: Mua sắm – Rời Singapore\r\nSáng:\r\n\r\nTự do mua sắm hoặc tham quan Singapore Zoo, Night Safari (tùy thời gian).\r\n\r\nTrưa:\r\n\r\nĂn trưa tại nhà hàng, sau đó xe đưa đoàn ra sân bay.\r\n\r\nKết thúc tour, chào tạm biệt Singapore và quay về.\r\n\r\n🎁 Đặc sản nên mua trong Tour:\r\nViệt Nam: Gạo tám Thái Bình, Mật ong, Cà phê Việt.\r\n\r\nThái Lan: Tượng Phật nhỏ, Lụa Thái, Thực phẩm Thái (Gia vị, nước mắm, gia vị chấm).\r\n\r\nSingapore: Chocolate Royce, Rượu Singapore Sling, Kẹo đặc sản.', 1, 'Theo đoàn', '6 ngày 5 đêm', 0, 'Máy bay', 'Ngoài nước'),
 (104, 26, 'Tour Châu Âu – Anh, Pháp, Đức, Ý', 'Hiện đại', 60000000, '30', 30, 10, 'Tour du lịch mang đến cho du khách cái nhìn tổng quan về xứ sở Châu Âu xinh đẹp, nơi có các danh lam thắng cảnh như Tháp đồng hồ, Tháp Effel, Tháp nghiêng Pisa, … hay những nền ẩm thực nổi tiếng như Pháp, Ý sẽ làm cho thực khách có những trải nghiệm tuyệt vời và khó quên.', 'Hoạt động', '', 'TP.Hồ Chí Minh', 'Ngày 1: Đến London (Anh) – Khám phá thủ đô nước Anh\r\nSáng:\r\n\r\nĐến sân bay Heathrow hoặc Gatwick, xe đón đoàn đưa về khách sạn.\r\n\r\nTham quan Cung điện Buckingham – nơi ở của Nữ hoàng.\r\n\r\nCông viên St. James – khu vườn yên tĩnh ngay gần Cung điện Buckingham.\r\n\r\nChợ Borough – nơi bán các món ăn đặc trưng của Anh.\r\n\r\nTrưa:\r\n\r\nDùng bữa tại nhà hàng địa phương.\r\n\r\nChiều:\r\n\r\nTham quan Big Ben, Tháp đồng hồ Elizabeth, Cầu Tháp London.\r\n\r\nTham quan Bảo tàng Anh (British Museum) – với những hiện vật lịch sử quý giá từ các nền văn minh cổ đại.\r\n\r\nTối:\r\n\r\nThưởng thức bữa tối tại West End và xem một vở kịch nổi tiếng tại Theatre Royal.\r\n\r\nNghỉ đêm tại khách sạn ở London.\r\n\r\nNgày 2: London – Paris (Pháp)\r\nSáng:\r\n\r\nĂn sáng tại khách sạn, sau đó di chuyển đến Ga Eurostar để đi tàu cao tốc Eurostar từ London đến Paris (khoảng 2 giờ 15 phút).\r\n\r\nTrưa:\r\n\r\nĐến Paris, ăn trưa tại nhà hàng Pháp truyền thống.\r\n\r\nChiều:\r\n\r\nTham quan Tháp Eiffel – biểu tượng của Paris. Đưa bạn lên đỉnh tháp để ngắm toàn cảnh thành phố.\r\n\r\nTham quan Nhà thờ Đức Bà Paris.\r\n\r\nDạo bộ trên Champs-Élysées và chụp ảnh tại Cổng Khải Hoàn (Arc de Triomphe).\r\n\r\nTối:\r\n\r\nDùng bữa tối tại nhà hàng trên Tháp Eiffel hoặc một nhà hàng Pháp nổi tiếng.\r\n\r\nNghỉ đêm tại khách sạn ở Paris.\r\n\r\nNgày 3: Paris – Khám phá thêm Paris\r\nSáng:\r\n\r\nTham quan Bảo tàng Louvre – chiêm ngưỡng tác phẩm nổi tiếng như Mona Lisa, Vénus de Milo.\r\n\r\nDạo chơi tại Jardin des Tuileries và Place de la Concorde.\r\n\r\nTrưa:\r\n\r\nDùng bữa trưa tại một quán cà phê Parisian.\r\n\r\nChiều:\r\n\r\nTham quan Montmartre, nơi có Nhà thờ Sacré-Cœur và quang cảnh tuyệt đẹp của thành phố.\r\n\r\nDạo quanh khu phố Le Marais và thưởng thức các món ăn ngọt ngào tại Boulangeries.\r\n\r\nTối:\r\n\r\nThưởng thức bữa tối tại nhà hàng truyền thống Pháp.\r\n\r\nTự do khám phá Paris về đêm hoặc tham gia một tour thuyền trên sông Seine.\r\n\r\nNgày 4: Paris – Berlin (Đức)\r\nSáng:\r\n\r\nĂn sáng tại khách sạn, sau đó di chuyển đến sân bay để bay tới Berlin (khoảng 1 giờ 30 phút).\r\n\r\nTrưa:\r\n\r\nĐến Berlin, ăn trưa tại nhà hàng địa phương.\r\n\r\nChiều:\r\n\r\nTham quan Cổng Brandenburg – biểu tượng của sự thống nhất Đức.\r\n\r\nBức tường Berlin – tìm hiểu về lịch sử chia cắt nước Đức.\r\n\r\nTham quan Cung điện Charlottenburg và Đảo các bảo tàng (Museum Island).\r\n\r\nTối:\r\n\r\nThưởng thức bữa tối tại một nhà hàng Đức truyền thống.\r\n\r\nNghỉ đêm tại khách sạn ở Berlin.\r\n\r\nNgày 5: Berlin – Rome (Ý)\r\nSáng:\r\n\r\nĂn sáng tại khách sạn, di chuyển đến sân bay Berlin Tegel để bay đến Rome (khoảng 2 giờ bay).\r\n\r\nTrưa:\r\n\r\nĐến Rome, ăn trưa tại nhà hàng Ý nổi tiếng.\r\n\r\nChiều:\r\n\r\nTham quan Colosseum – đấu trường La Mã vĩ đại.\r\n\r\nTham quan Đấu trường La Mã và Di tích Roman Forum.\r\n\r\nQuảng trường Piazza Venezia và Đài tưởng niệm Vittorio Emanuele II.\r\n\r\nTối:\r\n\r\nDùng bữa tối tại một nhà hàng truyền thống với các món pasta, pizza hoặc gelato.\r\n\r\nNghỉ đêm tại khách sạn ở Rome.\r\n\r\nNgày 6: Rome – Khám phá thêm Rome\r\nSáng:\r\n\r\nTham quan Thánh đường St. Peter tại Vatican – nơi có Bức tường Sistine nổi tiếng.\r\n\r\nTham quan Vườn Vatican và Bảo tàng Vatican.\r\n\r\nTrưa:\r\n\r\nĂn trưa tại một nhà hàng địa phương ở khu vực Trastevere.\r\n\r\nChiều:\r\n\r\nDạo quanh Phố cổ Rome, tham quan Đài phun nước Trevi.\r\n\r\nTham quan Đài phun nước Tây Ban Nha và Quảng trường Navona.\r\n\r\nTối:\r\n\r\nThưởng thức bữa tối tại Trattoria hoặc một nhà hàng Ý truyền thống.\r\n\r\nNghỉ đêm tại khách sạn ở Rome.\r\n\r\nNgày 7: Rome – Mua sắm & Tự do\r\nSáng:\r\n\r\nTự do mua sắm tại Via del Corso, Spanish Steps, hoặc các khu mua sắm nổi tiếng.\r\n\r\nTrưa:\r\n\r\nDùng bữa trưa tại một nhà hàng địa phương.\r\n\r\nChiều:\r\n\r\nTự do tham quan thêm hoặc thư giãn tại một quán cà phê nổi tiếng.\r\n\r\nTối:\r\n\r\nChuyến bay trở về.\r\n\r\nNgày 8: Rời Rome\r\nSáng:\r\n\r\nDi chuyển ra sân bay Fiumicino hoặc Ciampino để bay về.\r\n\r\n🎁 Đặc sản nên mua trong Tour:\r\nAnh: Tea, Scone, Cà phê đen.\r\n\r\nPháp: Rượu vang Bordeaux, Bánh Macaron, Pho mát.\r\n\r\nĐức: Rượu vang Đức, Bia Đức, Sô cô la Đức.\r\n\r\nÝ: Rượu vang Ý, Dầu olive, Pasta tươi, Giày da Ý.', 1, 'Gia đình', '8 ngày 7 đêm', 58000000, 'Máy bay', 'Ngoài nước'),
-(105, 9, 'Phú Quốc - Bãi Sao', 'Sinh thái', 2000, '0', 10, 5, '- Tham quan các điểm nổi bật: Sunset Sanato, Grand World, VinWonders, Safari, Nhà tù Phú Quốc, Làng chài Rạch Vẹm.\r\n- Trải nghiệm lặn ngắm san hô tại Hòn Móng Tay, Hòn Gầm Ghì.\r\n- Thưởng thức ẩm thực biển tươi sống.\r\n- Check-in tại các điểm sống ảo nổi tiếng như Cầu Hoàng Hôn, Bãi Sao, Dinh Cậu.', 'Hoạt động', '', 'TP.Hồ Chí Minh', 'Ngày 1: Đến Phú Quốc – Sunset Sanato – Dinh Cậu\r\nSáng: Đón tại sân bay Phú Quốc, đưa về khách sạn nghỉ ngơi.\r\nTrưa: Ăn trưa với đặc sản Phú Quốc.\r\nChiều:Tham quan Sunset Sanato – địa điểm check-in nổi tiếng.Viếng Dinh Cậu – biểu tượng tâm linh của ngư dân đảo.\r\nTối: Ăn tối hải sản, tự do khám phá chợ đêm Dương Đông.\r\n\r\nNgày 2: Bắc đảo – VinWonders / Safari – Grand World\r\nSáng: Ăn sáng tại khách sạn.Khởi hành đi Bắc đảo.Tham quan VinWonders (hoặc Vinpearl Safari nếu chọn gói).\r\nTrưa: Ăn trưa tại Vinpearl hoặc nhà hàng địa phương.\r\nChiều:Tham quan Grand World: Bảo tàng gấu Teddy, Venice thu nhỏ, show diễn Sắc màu Venice.\r\nTối: Ăn tối, về khách sạn nghỉ ngơi.\r\n\r\nNgày 3: Nam đảo – Cáp treo Hòn Thơm – Lặn san hô\r\nSáng: Ăn sáng và khởi hành đi Nam đảo.Tham quan Nhà tù Phú Quốc.Đi cáp treo 3 dây vượt biển dài nhất thế giới đến Hòn Thơm.\r\nTrưa: Ăn trưa buffet tại Hòn Thơm.\r\nChiều:Lặn ngắm san hô tại Hòn Móng Tay, Hòn Gầm Ghì (nếu thời tiết cho phép).\r\nTối: Ăn tối tại nhà hàng, tự do khám phá Phú Quốc về đêm.\r\n\r\nNgày 4: Tạm biệt Phú Quốc\r\nSáng: Ăn sáng, tự do tắm biển hoặc mua sắm đặc sản: nước mắm, hải sản khô, tiêu đen.\r\nTrưa: Trả phòng, ra sân bay. Kết thúc tour.', 1, 'Theo nhóm nhỏ', '4 ngày 3 đêm', 0, 'Xe khách', 'Nam');
+(105, 9, 'Phú Quốc - Bãi Sao', 'Sinh thái', 10000, '0', 10, 5, '- Tham quan các điểm nổi bật: Sunset Sanato, Grand World, VinWonders, Safari, Nhà tù Phú Quốc, Làng chài Rạch Vẹm.\r\n- Trải nghiệm lặn ngắm san hô tại Hòn Móng Tay, Hòn Gầm Ghì.\r\n- Thưởng thức ẩm thực biển tươi sống.\r\n- Check-in tại các điểm sống ảo nổi tiếng như Cầu Hoàng Hôn, Bãi Sao, Dinh Cậu.', 'Hoạt động', '', 'TP.Hồ Chí Minh', 'Ngày 1: Đến Phú Quốc – Sunset Sanato – Dinh Cậu\r\nSáng: Đón tại sân bay Phú Quốc, đưa về khách sạn nghỉ ngơi.\r\nTrưa: Ăn trưa với đặc sản Phú Quốc.\r\nChiều:Tham quan Sunset Sanato – địa điểm check-in nổi tiếng.Viếng Dinh Cậu – biểu tượng tâm linh của ngư dân đảo.\r\nTối: Ăn tối hải sản, tự do khám phá chợ đêm Dương Đông.\r\n\r\nNgày 2: Bắc đảo – VinWonders / Safari – Grand World\r\nSáng: Ăn sáng tại khách sạn.Khởi hành đi Bắc đảo.Tham quan VinWonders (hoặc Vinpearl Safari nếu chọn gói).\r\nTrưa: Ăn trưa tại Vinpearl hoặc nhà hàng địa phương.\r\nChiều:Tham quan Grand World: Bảo tàng gấu Teddy, Venice thu nhỏ, show diễn Sắc màu Venice.\r\nTối: Ăn tối, về khách sạn nghỉ ngơi.\r\n\r\nNgày 3: Nam đảo – Cáp treo Hòn Thơm – Lặn san hô\r\nSáng: Ăn sáng và khởi hành đi Nam đảo.Tham quan Nhà tù Phú Quốc.Đi cáp treo 3 dây vượt biển dài nhất thế giới đến Hòn Thơm.\r\nTrưa: Ăn trưa buffet tại Hòn Thơm.\r\nChiều:Lặn ngắm san hô tại Hòn Móng Tay, Hòn Gầm Ghì (nếu thời tiết cho phép).\r\nTối: Ăn tối tại nhà hàng, tự do khám phá Phú Quốc về đêm.\r\n\r\nNgày 4: Tạm biệt Phú Quốc\r\nSáng: Ăn sáng, tự do tắm biển hoặc mua sắm đặc sản: nước mắm, hải sản khô, tiêu đen.\r\nTrưa: Trả phòng, ra sân bay. Kết thúc tour.', 1, 'Theo nhóm nhỏ', '4 ngày 3 đêm', 0, 'Xe khách', 'Nam');
 
 -- --------------------------------------------------------
 
@@ -7776,7 +7845,8 @@ INSERT INTO `tour_schedule` (`id`, `id_tour`, `Name`, `Date`, `Schedule`, `Locat
 (359, 104, 'Tour Châu Âu – Anh, Pháp, Đức, Ý', '2025-06-27 00:00:00', '8 ngày 7 đêm', 'TP.Hồ Chí Minh', 1),
 (361, 105, 'Phú Quốc - Bãi Sao', '0000-00-00 00:00:00', '4 ngày 3 đêm', 'TP.Hồ Chí Minh', 1),
 (362, 105, 'Phú Quốc - Bãi Sao', '0000-00-00 00:00:00', '4 ngày 3 đêm', 'TP.Hồ Chí Minh', 1),
-(363, 105, 'Phú Quốc - Bãi Sao', '0000-00-00 00:00:00', '4 ngày 3 đêm', 'TP.Hồ Chí Minh', 1);
+(363, 105, 'Phú Quốc - Bãi Sao', '0000-00-00 00:00:00', '4 ngày 3 đêm', 'TP.Hồ Chí Minh', 1),
+(364, 105, 'Phú Quốc - Bãi Sao', '2025-05-11 00:00:00', '4 ngày 3 đêm', 'TP.Hồ Chí Minh', 4);
 
 -- --------------------------------------------------------
 
@@ -7820,7 +7890,8 @@ INSERT INTO `user_credit` (`id`, `Name`, `Address`, `Email`, `sdt`, `profile`, `
 (34, 'sss', 'TP BÌNH THUẬN', 'sv12@gmail.com', '0819289892', NULL, '619ce14ca2272f0a86e86c3df935928f', '2002-07-25', NULL, NULL, 0, 0, NULL, ''),
 (35, 'Phú', 'TP BÌNH THUẬN', 'sv43@gmail.com', '0988888889', NULL, '619ce14ca2272f0a86e86c3df935928f', '2010-02-11', NULL, NULL, 0, 0, NULL, ''),
 (36, 'media', 'TP BÌNH THUẬN', 'media@gmail.com', '0920200002', NULL, '619ce14ca2272f0a86e86c3df935928f', '1997-11-25', NULL, NULL, 0, 0, NULL, ''),
-(37, 'media1', 'TP BÌNH THUẬN', 'media1@gmail.com', '0920200004', 'Untitled Workspace.png', '619ce14ca2272f0a86e86c3df935928f', '1997-11-25', NULL, NULL, 0, 0, NULL, '');
+(37, 'media1', 'TP BÌNH THUẬN', 'media1@gmail.com', '0920200004', 'Untitled Workspace.png', '619ce14ca2272f0a86e86c3df935928f', '1997-11-25', NULL, NULL, 0, 0, NULL, ''),
+(38, 'Đăng Hưng Lê', '', 'ledanghung.13012002@gmail.com', '0743143377', NULL, '', '0000-00-00', NULL, NULL, 0, 0, NULL, 'google');
 
 -- --------------------------------------------------------
 
@@ -8154,7 +8225,7 @@ ALTER TABLE `wishlist`
 -- AUTO_INCREMENT cho bảng `activity_logs`
 --
 ALTER TABLE `activity_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=435;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=468;
 
 --
 -- AUTO_INCREMENT cho bảng `admin`
@@ -8166,7 +8237,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT cho bảng `assignment_tour`
 --
 ALTER TABLE `assignment_tour`
-  MODIFY `idass` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `idass` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT cho bảng `booking_details_ks`
@@ -8178,7 +8249,7 @@ ALTER TABLE `booking_details_ks`
 -- AUTO_INCREMENT cho bảng `booking_detail_tour`
 --
 ALTER TABLE `booking_detail_tour`
-  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=144;
+  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=155;
 
 --
 -- AUTO_INCREMENT cho bảng `booking_orderks`
@@ -8190,7 +8261,7 @@ ALTER TABLE `booking_orderks`
 -- AUTO_INCREMENT cho bảng `booking_ordertour`
 --
 ALTER TABLE `booking_ordertour`
-  MODIFY `Booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=260;
+  MODIFY `Booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=271;
 
 --
 -- AUTO_INCREMENT cho bảng `chat_rooms`
@@ -8208,13 +8279,13 @@ ALTER TABLE `customer_assignment`
 -- AUTO_INCREMENT cho bảng `departure_dates`
 --
 ALTER TABLE `departure_dates`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=309;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=310;
 
 --
 -- AUTO_INCREMENT cho bảng `departure_time`
 --
 ALTER TABLE `departure_time`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=362;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=363;
 
 --
 -- AUTO_INCREMENT cho bảng `deposit_hotel`
@@ -8274,13 +8345,13 @@ ALTER TABLE `news`
 -- AUTO_INCREMENT cho bảng `participant`
 --
 ALTER TABLE `participant`
-  MODIFY `idpar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=166;
+  MODIFY `idpar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=177;
 
 --
 -- AUTO_INCREMENT cho bảng `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
 
 --
 -- AUTO_INCREMENT cho bảng `rating_reviews_ks`
@@ -8292,7 +8363,7 @@ ALTER TABLE `rating_reviews_ks`
 -- AUTO_INCREMENT cho bảng `rating_reviewtour`
 --
 ALTER TABLE `rating_reviewtour`
-  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `Sr_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT cho bảng `rentals`
@@ -8340,7 +8411,7 @@ ALTER TABLE `rooms_images`
 -- AUTO_INCREMENT cho bảng `salaries`
 --
 ALTER TABLE `salaries`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT cho bảng `schedule`
@@ -8352,7 +8423,7 @@ ALTER TABLE `schedule`
 -- AUTO_INCREMENT cho bảng `tichdiem`
 --
 ALTER TABLE `tichdiem`
-  MODIFY `idtd` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `idtd` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT cho bảng `tour`
@@ -8370,13 +8441,13 @@ ALTER TABLE `tour_images`
 -- AUTO_INCREMENT cho bảng `tour_schedule`
 --
 ALTER TABLE `tour_schedule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=364;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=365;
 
 --
 -- AUTO_INCREMENT cho bảng `user_credit`
 --
 ALTER TABLE `user_credit`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT cho bảng `wishlist`

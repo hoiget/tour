@@ -41,8 +41,9 @@
 .details {
     width: 40%; /* Chiếm 50% chiều rộng của container */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    height: 550px;
+    height: auto;
     padding-left:10px;
+    padding-bottom:10px;
 }
 
 .details1 {
@@ -366,6 +367,7 @@ function xemdanhgiarating() {
         const event = response[0]; // Lấy phần tử đầu tiên
         let departureDates = event.ngaykhoihanh ? event.ngaykhoihanh.split(', ') : [];
         let ordersInfo = event.orders_info ? event.orders_info.split(', ') : [];
+    
 
         // Chuyển ordersInfo thành object { "YYYY-MM-DD": số lượt đặt }
         let ordersMap = {};
@@ -390,7 +392,25 @@ function xemdanhgiarating() {
                     <ul>
                         <li><strong>Mã tour:</strong> ${event.idtour}</li>
                         <li><strong>Kiểu tour:</strong> ${event.Style}</li>
-                        <li><strong>Số người tham gia:</strong> ${event.Max_participant} (tối thiểu: ${event.Min_participant} người)</li>
+                        <li><strong>Số người tham gia:</strong> 
+                        ${event.Max_participant} (tối thiểu: ${event.Min_participant} người) <br> <div class="departure-box">
+                        `
+                         departureDates.forEach(date => {
+            let parts = date.split('-'); // Tách năm, tháng, ngày
+            let formattedDate = `${parts[2]}/${parts[1]}`; // Định dạng lại thành DD/MM
+
+            // Chuyển đổi thành định dạng Date để so sánh với ngày hiện tại
+            let departureDate = new Date(parts[0], parts[1] - 1, parts[2]);
+            let today = new Date();
+            today.setHours(0, 0, 0, 0); // Đặt giờ về 0 để so sánh chính xác
+
+            let isPast = departureDate < today ? 'past-date' : ''; // Nếu ngày nhỏ hơn hôm nay, thêm class 'past-date'
+
+            let ordersCount = ordersMap[date] || 0; // Lấy số lượt đặt từ object `ordersMap`
+            let slotsLeft = parseInt(event.Max_participant) - ordersCount;
+            eventHtml += `<span class="departure-date ${isPast}">${formattedDate} (lượt đặt còn lại là ${slotsLeft} người)</span>`;
+        });
+                 eventHtml +=`</div></li>
                         <li><strong>Thời gian:</strong> ${event.timetour}</li>
                         <li><strong>Khởi hành:</strong>
                             <div class="departure-box">`;
@@ -408,7 +428,7 @@ function xemdanhgiarating() {
             let isPast = departureDate < today ? 'past-date' : ''; // Nếu ngày nhỏ hơn hôm nay, thêm class 'past-date'
 
             let ordersCount = ordersMap[date] || 0; // Lấy số lượt đặt từ object `ordersMap`
-
+           
             eventHtml += `<span class="departure-date ${isPast}">${formattedDate} (${ordersCount} lượt đặt)</span>`;
         });
 

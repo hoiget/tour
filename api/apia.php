@@ -127,16 +127,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo 'missing_data';
             exit;
         }
-        $check_query = "SELECT * FROM employees WHERE Employee_code = ?";
-        $stmt1 = $conn->prepare($check_query);
-        $stmt1->bind_param("s", $ma);
-        $stmt1->execute();
-        $result1 = $stmt1->get_result();
-    
-        if ($result1->num_rows > 0) {
-            echo 'user_exists1';
-            exit;
-        }
+       
         $prefix = substr($ma, 0, 2); // Lấy 2 ký tự đầu
         switch ($prefix) {
             case 'QL':
@@ -892,89 +883,87 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $conn->rollback();
             echo 'insert_error: ' . $e->getMessage();
         }
-    } elseif ($action == "capnhathdv") {
-        $ma = $_POST['id']; // ID lịch trình
-        $hdv = $_POST['hdv1']; // ID hướng dẫn viên
-        $date = new DateTime($_POST['date']); // Ngày mới chọn
+    }elseif ($action == "capnhathdv") {
+    $ma = $_POST['id']; // ID lịch trình
+    $hdv_list = $_POST['hdv1']; // Danh sách HDV, có thể là mảng
+    $date = new DateTime($_POST['date']); // Ngày mới chọn
+    $formatted_date = $date->format('Y-m-d');
 
-        // 📌 Tìm lịch trình gần nhất TRƯỚC ngày chọn
+    if (!is_array($hdv_list)) {
+        $hdv_list = [$hdv_list]; // nếu chỉ 1 HDV thì gói lại thành mảng
+    }
+
+    foreach ($hdv_list as $hdv) {
+        // Convert hdv sang int để đảm bảo an toàn
+        $hdv = (int)$hdv;
+
+        // -- Tìm lịch trình gần nhất trước ngày chọn
         $check_schedule_query = "SELECT tour_schedule.Date, tour_schedule.Schedule 
                                  FROM assignment_tour 
                                  INNER JOIN tour_schedule ON tour_schedule.id = assignment_tour.id_toursche 
                                  WHERE assignment_tour.employid = ? AND tour_schedule.Date < ? 
                                  ORDER BY tour_schedule.Date DESC LIMIT 1";
-
         $stmt = $conn->prepare($check_schedule_query);
-        $formatted_date = $date->format('Y-m-d'); // Chuyển ngày thành định dạng SQL
         $stmt->bind_param("is", $hdv, $formatted_date);
         $stmt->execute();
         $result = $stmt->get_result();
 
         if ($row = $result->fetch_assoc()) {
-            $last_schedule_date = new DateTime($row['Date']); // Ngày bắt đầu lịch trình trước đó
-
-            // 🔍 Tính số ngày của lịch trình trước đó
+            $last_schedule_date = new DateTime($row['Date']);
             preg_match('/(\d+) ngày/', $row['Schedule'], $match);
-            $last_schedule_days = isset($match[1]) ? (int) $match[1] : 1; // Mặc định 1 ngày nếu không tìm thấy
-
-            // 📆 Tính ngày kết thúc của lịch trình trước đó
+            $last_schedule_days = isset($match[1]) ? (int)$match[1] : 1;
             $last_schedule_end_date = clone $last_schedule_date;
             $last_schedule_end_date->modify("+{$last_schedule_days} days");
 
-            // ❌ Nếu ngày mới chọn nằm trong khoảng làm việc trước đó => Báo lỗi
             if ($date <= $last_schedule_end_date) {
-                echo "schedule_conflict|Nhân viên đang có lịch hẹn từ ngày " . $last_schedule_date->format('d/m/Y') .
-                    " đến ngày " . $last_schedule_end_date->format('d/m/Y');
+                echo "schedule_conflict|Nhân viên đang có lịch từ " . $last_schedule_date->format('d/m/Y') .
+                    " đến " . $last_schedule_end_date->format('d/m/Y');
                 exit;
             }
         }
 
-        // ✅ Kiểm tra trùng lịch
+        // -- Kiểm tra trùng ngày cho cùng HDV
         $check_duplicate_query = "SELECT * FROM assignment_tour 
                                   INNER JOIN tour_schedule ON tour_schedule.id = assignment_tour.id_toursche 
                                   WHERE DATE(tour_schedule.Date) = DATE(?) 
                                   AND assignment_tour.employid = ? 
-                                  AND assignment_tour.id_toursche != ?
-                                  ";
+                                  AND assignment_tour.id_toursche != ?";
         $stmt = $conn->prepare($check_duplicate_query);
         $stmt->bind_param("sii", $formatted_date, $hdv, $ma);
         $stmt->execute();
         $result = $stmt->get_result();
-
         if ($result->num_rows > 0) {
-            echo 'duplicate_date'; // 🚨 Nhân viên đã có lịch vào ngày này
+            echo 'duplicate_date';
             exit;
         }
 
-        // ✅ Kiểm tra nếu đã có lịch trình này trong `assignment_tour`
-        $check_query = "SELECT idass FROM assignment_tour WHERE id_toursche = ?";
-        $stmt = $conn->prepare($check_query);
-        $stmt->bind_param("i", $ma);
+        // -- Kiểm tra nếu HDV đã có trong assignment_tour của lịch trình
+        $check_exist_query = "SELECT * FROM assignment_tour WHERE id_toursche = ? AND employid = ?";
+        $stmt = $conn->prepare($check_exist_query);
+        $stmt->bind_param("ii", $ma, $hdv);
         $stmt->execute();
         $result = $stmt->get_result();
 
-        if ($row = $result->fetch_assoc()) {
-            // 🔄 Nếu đã tồn tại, cập nhật employid
-            $update_query = "UPDATE assignment_tour SET employid = ? WHERE id_toursche = ?";
-            $stmt = $conn->prepare($update_query);
-            $stmt->bind_param("ii", $hdv, $ma);
-            if ($stmt->execute()) {
-                echo 'update_success';
-            } else {
-                echo 'error_update';
-            }
+        if ($result->num_rows > 0) {
+            echo 'already_assigned';
+            exit;
         } else {
-            // ➕ Nếu chưa có, thêm mới
+            // Thêm mới
             $insert_query = "INSERT INTO assignment_tour (id_toursche, employid) VALUES (?, ?)";
             $stmt = $conn->prepare($insert_query);
             $stmt->bind_param("ii", $ma, $hdv);
-            if ($stmt->execute()) {
-                echo 'insert_success';
-            } else {
+            if (!$stmt->execute()) {
                 echo 'error_insert';
+                exit;
             }
         }
-    } elseif ($action == "thaytglv") {
+    }
+
+    echo 'insert_success';
+    exit;
+}
+
+elseif ($action == "thaytglv") {
         $ma = $_POST['id'];
 
         $date = $_POST['dat']; // Nội dung
@@ -2405,8 +2394,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         echo json_encode($users); // Trả về JSON
         exit;
     } elseif ($action == "xemlichtrinh") {
-        // 1. Lấy danh sách tour
-        $query = "SELECT 
+    // 1. Lấy danh sách tour sắp tới
+ $query = "SELECT 
             tour_schedule.*, 
             tour_schedule.id AS idsh, 
             assignment_tour.*, 
@@ -2421,38 +2410,53 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         WHERE departure_time.ngaykhoihanh > NOW()
         GROUP BY tour_schedule.id 
         ORDER BY departure_time.ngaykhoihanh ASC";
-    
-        $result = $conn->query($query);
-    
-        $users = [];
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                // 2. Kiểm tra từng tour
-                $tourDate = new DateTime($row['ngaykhoihanh']);
-                $now = new DateTime();
-                $now->setTime(0, 0, 0); // cắt giờ phút giây
-                $diff = $now->diff($tourDate)->days;
-    
-                if ($diff == 1) { // Cách đúng 1 ngày
-                    if ($row['Orders'] < 10) {
-                        // Update trạng thái = 3 (Lịch trình bị hủy)
-                        $update = "UPDATE tour_schedule SET Trangthai = 3 WHERE id = " . intval($row['idsh']);
-                        $conn->query($update);
-                        $row['Trangthai'] = 3; // cập nhật luôn trên dữ liệu trả về
-                    } else {
-                        // Update trạng thái = 2 (Sắp khởi hành)
-                        $update = "UPDATE tour_schedule SET Trangthai = 2 WHERE id = " . intval($row['idsh']);
-                        $conn->query($update);
-                        $row['Trangthai'] = 2;
-                    }
+
+    $result = $conn->query($query);
+    $users = [];
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $tour_id = $row['idsh'];
+
+            // 2. Kiểm tra trạng thái theo ngày và số người đặt
+            $tourDate = new DateTime($row['ngaykhoihanh']);
+            $now = new DateTime();
+            $now->setTime(0, 0, 0);
+            $diff = $now->diff($tourDate)->days;
+
+            if ($diff == 1) {
+                if ($row['Orders'] < 10) {
+                    $update = "UPDATE tour_schedule SET Trangthai = 3 WHERE id = $tour_id";
+                    $conn->query($update);
+                    $row['Trangthai'] = 3;
+                } else {
+                    $update = "UPDATE tour_schedule SET Trangthai = 2 WHERE id = $tour_id";
+                    $conn->query($update);
+                    $row['Trangthai'] = 2;
                 }
-                $users[] = $row; // Lưu vào mảng kết quả
             }
+
+            // 3. Lấy danh sách HDV gán vào lịch trình
+            $hdv_query = "SELECT e.id, e.Name 
+                          FROM assignment_tour at
+                          INNER JOIN employees e ON at.employid = e.id
+                          WHERE at.id_toursche = $tour_id";
+            $hdv_result = $conn->query($hdv_query);
+            $guides = [];
+            while ($hdv = $hdv_result->fetch_assoc()) {
+                $guides[] = $hdv;
+            }
+
+            $row['guides'] = $guides;
+
+            $users[] = $row;
         }
-    
-        echo json_encode($users);
-        exit;
     }
+
+    echo json_encode($users);
+    exit;
+}
+
      elseif ($action == "xemlichtrinh1") {
         $id = $_GET['id'];
         $query = "SELECT tour_schedule.*,assignment_tour.*,employees.Name AS emna,employees.id AS idem FROM tour_schedule LEFT JOIN assignment_tour ON tour_schedule.id=assignment_tour.id_toursche 
@@ -3034,46 +3038,66 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         }
         exit;
     }elseif ($action == "timtour") {
-        // Lấy giá trị từ tham số GET
-        $code = $_GET['MAT'];
-        $date = isset($_GET['date']) ? $_GET['date'] : '';
-    
-        // Bắt đầu truy vấn
-        $query = "SELECT 
-            tour_schedule.*, 
-            tour_schedule.id AS idsh, 
-            assignment_tour.*, 
-            employees.Name AS emna, 
-            employees.id AS idem, 
-            departure_time.*, 
-            departure_time.id AS iddp
-        FROM tour_schedule
-        LEFT JOIN assignment_tour ON tour_schedule.id = assignment_tour.id_toursche
-        LEFT JOIN employees ON assignment_tour.employid = employees.id
-        LEFT JOIN departure_time ON tour_schedule.Date = departure_time.ngaykhoihanh
-        WHERE (tour_schedule.id_tour = '$code' OR tour_schedule.Name LIKE '%$code%')";
-    
-        // Nếu có ngày khởi hành được nhập, thêm điều kiện lọc
-        if (!empty($date)) {
-            $query .= " AND tour_schedule.Date = '$date'";
-        }
-    
-        $query .= " GROUP BY tour_schedule.id 
-                    ORDER BY departure_time.ngaykhoihanh ASC";
-    
-        $result = $conn->query($query);
-    
-        $users = [];
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $users[] = $row; // Lưu từng bản ghi vào mảng
-            }
-        }
-    
-        // Trả về dữ liệu JSON
-        echo json_encode($users);
-        exit;
+    $code = $_GET['MAT'];
+    $date = isset($_GET['date']) ? $_GET['date'] : '';
+
+    // Dùng prepared statements để bảo mật
+    $params = [];
+    $types = '';
+    $where = "(tour_schedule.id_tour = ? OR tour_schedule.Name LIKE ?)";
+    $params[] = $code;
+    $params[] = "%$code%";
+    $types .= "ss";
+
+    if (!empty($date)) {
+        $where .= " AND tour_schedule.Date = ?";
+        $params[] = $date;
+        $types .= "s";
     }
+
+    $query = "SELECT 
+                tour_schedule.*, 
+                tour_schedule.id AS idsh, 
+                departure_time.*, 
+                departure_time.id AS iddp
+              FROM tour_schedule
+              LEFT JOIN departure_time ON tour_schedule.Date = departure_time.ngaykhoihanh
+              WHERE $where
+              GROUP BY tour_schedule.id 
+              ORDER BY tour_schedule.Date ASC";
+
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param($types, ...$params);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $tours = [];
+
+    while ($row = $result->fetch_assoc()) {
+        $tourId = $row['idsh'];
+        // Lấy danh sách HDV theo lịch trình này
+        $guideQuery = "SELECT e.id, e.Name 
+                       FROM assignment_tour a 
+                       INNER JOIN employees e ON a.employid = e.id 
+                       WHERE a.id_toursche = ?";
+        $guideStmt = $conn->prepare($guideQuery);
+        $guideStmt->bind_param("i", $tourId);
+        $guideStmt->execute();
+        $guideResult = $guideStmt->get_result();
+
+        $guides = [];
+        while ($g = $guideResult->fetch_assoc()) {
+            $guides[] = $g;
+        }
+
+        $row['guides'] = $guides;
+        $tours[] = $row;
+    }
+
+    echo json_encode($tours);
+    exit;
+}
+
     
     elseif ($action == "xoalichtrinh") {
         $id = $_GET['id'];
