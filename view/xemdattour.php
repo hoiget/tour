@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['Booking_id'])) {
    
     // Nội dung PDF
     $itinerary = $orderData['Itinerary'];
-    $days = preg_split('/\bNGÀY (\d+):/u', $itinerary, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+    $days = preg_split('/\bNgày (\d+):/u', $itinerary, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
     
     $html = '<h1 style="text-align:center; color:#004085;">Chi tiết đặt tour</h1>';
     $html .= '<center><h1 class="title" style="text-align:center;   font-size: 30px; /* Cỡ chữ */

@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Máy chủ: sql300.byetcluster.com
--- Thời gian đã tạo: Th5 20, 2025 lúc 07:42 AM
--- Phiên bản máy phục vụ: 10.6.19-MariaDB
--- Phiên bản PHP: 7.2.22
+-- Máy chủ: 127.0.0.1
+-- Thời gian đã tạo: Th5 21, 2025 lúc 10:42 AM
+-- Phiên bản máy phục vụ: 10.4.32-MariaDB
+-- Phiên bản PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Cơ sở dữ liệu: `if0_37668659_tour`
+-- Cơ sở dữ liệu: `tour`
 --
 
 -- --------------------------------------------------------
@@ -499,7 +498,26 @@ INSERT INTO `activity_logs` (`id`, `user_id`, `action_type`, `description`, `use
 (464, 3, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-20 18:34:49'),
 (465, 3, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-05-20 18:35:47'),
 (466, 1, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-20 18:37:49'),
-(467, 1, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-20 18:42:12');
+(467, 1, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-20 18:42:12'),
+(468, 1, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-21 13:07:18'),
+(469, 1, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-21 14:08:17'),
+(470, 1, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-05-21 14:42:24'),
+(471, 3, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-21 14:42:30'),
+(472, 3, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-05-21 14:42:40'),
+(473, 1, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-21 14:42:50'),
+(474, 1, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-05-21 14:43:04'),
+(475, 3, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-21 14:43:09'),
+(476, 3, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-05-21 14:43:25'),
+(477, 1, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-21 14:43:32'),
+(478, 1, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-05-21 14:43:40'),
+(479, 8, 'login', 'Đăng nhập vào hệ thống', 'employees', '2025-05-21 14:46:15'),
+(480, 8, 'logout', 'Nhân viên đăng xuất khỏi hệ thống', 'employees', '2025-05-21 14:46:21'),
+(481, 1, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-21 14:58:44'),
+(482, 1, 'logout', 'Khách hàng đăng xuất khỏi hệ thống', 'user', '2025-05-21 15:00:16'),
+(483, 27, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-21 15:04:43'),
+(484, 27, 'logout', 'Khách hàng đăng xuất khỏi hệ thống', 'user', '2025-05-21 15:30:59'),
+(485, 1, 'login', 'Đăng nhập vào hệ thống', 'user', '2025-05-21 15:31:09'),
+(486, 1, 'logout', 'Khách hàng đăng xuất khỏi hệ thống', 'user', '2025-05-21 15:31:34');
 
 -- --------------------------------------------------------
 
@@ -538,7 +556,23 @@ CREATE TABLE `assignment_tour` (
 
 INSERT INTO `assignment_tour` (`idass`, `id_toursche`, `employid`) VALUES
 (39, 171, 3),
-(40, 364, 3);
+(40, 364, 3),
+(43, 340, 1),
+(44, 340, 12),
+(45, 340, 80),
+(46, 257, 8),
+(47, 257, 87),
+(48, 272, 81),
+(49, 272, 83),
+(50, 272, 85),
+(51, 272, 96),
+(52, 272, 98),
+(53, 272, 100),
+(54, 272, 101),
+(55, 262, 69),
+(56, 262, 71),
+(57, 262, 74),
+(58, 257, 3);
 
 -- --------------------------------------------------------
 
@@ -556,7 +590,7 @@ CREATE TABLE `auto_update_log` (
 --
 
 INSERT INTO `auto_update_log` (`id`, `last_update`) VALUES
-(1, '2025-05-20');
+(1, '2025-05-21');
 
 -- --------------------------------------------------------
 
@@ -693,9 +727,9 @@ INSERT INTO `booking_ordertour` (`Booking_id`, `User_id`, `Tour_id`, `Departure_
 (259, 1, 105, 359, 'Xe khách', '2', '1', 1, '2025-05-28', 1, '2025-05-17 08:22:57'),
 (264, 1, 88, 290, 'Xe khách', '2', '1', 0, '2025-05-23', 1, '2025-05-18 08:57:29'),
 (265, 27, 79, 250, 'Xe khách', '2', '1', 0, '2025-05-31', 1, '2025-05-18 10:20:56'),
-(266, 38, 78, 245, 'Xe khách', '2', '1', 0, '2025-05-22', 1, '2025-05-20 13:06:56'),
+(266, 38, 78, 245, 'Xe khách', '2', '1', 2, '2025-05-22', 1, '2025-05-20 13:06:56'),
 (268, 38, 100, 338, 'Máy bay', '2', '1', 0, '2025-05-23', 1, '2025-05-20 13:34:39'),
-(269, 1, 78, 245, 'Xe khách', '2', '1', 0, '2025-05-22', 1, '2025-05-20 18:08:58'),
+(269, 1, 78, 245, 'Xe khách', '2', '1', 2, '2025-05-22', 1, '2025-05-20 18:08:58'),
 (270, 1, 105, 359, 'Xe khách', '2', '1', 0, '2025-05-28', 1, '2025-05-20 18:39:05');
 
 -- --------------------------------------------------------
@@ -1262,7 +1296,7 @@ INSERT INTO `employees` (`id`, `Employee_code`, `Name`, `Username`, `Password`, 
 (2, 'CSNV2', 'Nguyễn Thị Linh', 'Nguyễn Thị Linh', 'f3b5124e0a3c80acff2e15ad64d4860b', 'NV2@gmail.com', '0738939003', 'sjfnjkasn', 'CSKH', '2025-01-02 17:00:00'),
 (3, 'HDNV3', 'Phan Anh Tiến', 'Phan Anh Tiến', 'fd23bdb93d20ed16f1f7293e2b6ad6ad', 'NV3@gmail.com', '0978478389', 'NV3', 'HDV', '2025-01-10 17:00:00'),
 (7, 'HDNV4', 'Tuấn Nam', 'Tuấn Nam', 'fc36a43b3c227816a575a54c451a87a7', 'NV4@gmail.com', '0783993893', 'NV4', 'HDV', '2025-01-12 17:00:00'),
-(8, 'HDP', 'Phú', 'Phú', 'e6354b14257db8ac7760967c51d04a96', 'sv@gmail.com', '0757564567', 'ádknasdnkjasndđs', 'HDV', '2025-03-09 17:00:00'),
+(8, 'HDP', 'Phú', 'Phú', '625bdb2d231fbc84dcdee3921cfe7f07', 'sv@gmail.com', '0757564567', 'ádknasdnkjasndđs', 'HDV', '2025-05-20 17:00:00'),
 (9, 'CSNV6', 'Vĩnh Tiến', 'Vĩnh Tiến', '22bc78e39a11ee3834f1fcaa09c59dee', 'NV6@gmail.com', '0757564567', 'ádknasdnkjasndđs', 'CSKH', '2024-03-07 17:00:00'),
 (10, 'QLNV9', 'Anh Tuấn', 'Anh Tuấn', '64730b8e3578cc2d327d6e59b451aa9b', 'NV9@gmail.com', '0736282900', 'SAFAS', 'QL', '2025-03-19 17:00:00'),
 (11, 'CSNV5', 'Linh Thị Nam', 'Linh Thị Nam', '5a7ed5b2b0b57c3ac01da4e0853bf778', 'NV5@gmail.com', '0704678654', 'TP Hồ Chí Minh', 'CSKH', '2025-03-13 17:00:00'),
@@ -1909,32 +1943,32 @@ CREATE TABLE `salaries` (
 --
 
 INSERT INTO `salaries` (`id`, `employee_id`, `month_year`, `allowance`, `basic_salary`, `total_salary`) VALUES
-(42, 1, '2025-04', '100000.00', '9400000.00', '9500000.00'),
-(43, 2, '2025-04', '100000.00', '8000000.00', '8100000.00'),
-(44, 3, '2025-04', '0.00', '7000000.00', '7000000.00'),
-(45, 7, '2025-04', '0.00', '7000000.00', '7000000.00'),
-(46, 8, '2025-04', '0.00', '7000000.00', '7000000.00'),
-(47, 9, '2025-04', '0.00', '8000000.00', '8000000.00'),
-(48, 10, '2025-04', '0.00', '10000000.00', '10000000.00'),
-(49, 11, '2025-04', '0.00', '8000000.00', '8000000.00'),
-(50, 1, '2025-03', '0.00', '9700000.00', '10000000.00'),
-(51, 2, '2025-03', '0.00', '8000000.00', '8000000.00'),
-(52, 3, '2025-03', '0.00', '7000000.00', '7000000.00'),
-(53, 7, '2025-03', '0.00', '7000000.00', '7000000.00'),
-(54, 8, '2025-03', '0.00', '7000000.00', '7000000.00'),
-(55, 9, '2025-03', '0.00', '8000000.00', '8000000.00'),
-(56, 10, '2025-03', '0.00', '10000000.00', '10000000.00'),
-(57, 11, '2025-03', '0.00', '8000000.00', '8000000.00'),
-(58, 1, '2025-05', '0.00', '10000000.00', '10000000.00'),
-(59, 2, '2025-05', '0.00', '8000000.00', '8000000.00'),
-(60, 3, '2025-05', '0.00', '7000000.00', '7000000.00'),
-(61, 7, '2025-05', '0.00', '7000000.00', '7000000.00'),
-(62, 8, '2025-05', '0.00', '7000000.00', '7000000.00'),
-(63, 9, '2025-05', '0.00', '8000000.00', '8000000.00'),
-(64, 10, '2025-05', '0.00', '10000000.00', '10000000.00'),
-(65, 11, '2025-05', '0.00', '8000000.00', '8000000.00'),
-(66, 63, '2025-04', '0.00', '10000000.00', '10000000.00'),
-(67, 63, '2025-05', '0.00', '10000000.00', '10000000.00');
+(42, 1, '2025-04', 100000.00, 9400000.00, 9500000.00),
+(43, 2, '2025-04', 100000.00, 8000000.00, 8100000.00),
+(44, 3, '2025-04', 0.00, 7000000.00, 7000000.00),
+(45, 7, '2025-04', 0.00, 7000000.00, 7000000.00),
+(46, 8, '2025-04', 0.00, 7000000.00, 7000000.00),
+(47, 9, '2025-04', 0.00, 8000000.00, 8000000.00),
+(48, 10, '2025-04', 0.00, 10000000.00, 10000000.00),
+(49, 11, '2025-04', 0.00, 8000000.00, 8000000.00),
+(50, 1, '2025-03', 0.00, 9700000.00, 10000000.00),
+(51, 2, '2025-03', 0.00, 8000000.00, 8000000.00),
+(52, 3, '2025-03', 0.00, 7000000.00, 7000000.00),
+(53, 7, '2025-03', 0.00, 7000000.00, 7000000.00),
+(54, 8, '2025-03', 0.00, 7000000.00, 7000000.00),
+(55, 9, '2025-03', 0.00, 8000000.00, 8000000.00),
+(56, 10, '2025-03', 0.00, 10000000.00, 10000000.00),
+(57, 11, '2025-03', 0.00, 8000000.00, 8000000.00),
+(58, 1, '2025-05', 0.00, 10000000.00, 10000000.00),
+(59, 2, '2025-05', 0.00, 8000000.00, 8000000.00),
+(60, 3, '2025-05', 0.00, 7000000.00, 7000000.00),
+(61, 7, '2025-05', 0.00, 7000000.00, 7000000.00),
+(62, 8, '2025-05', 0.00, 7000000.00, 7000000.00),
+(63, 9, '2025-05', 0.00, 8000000.00, 8000000.00),
+(64, 10, '2025-05', 0.00, 10000000.00, 10000000.00),
+(65, 11, '2025-05', 0.00, 8000000.00, 8000000.00),
+(66, 63, '2025-04', 0.00, 10000000.00, 10000000.00),
+(67, 63, '2025-05', 0.00, 10000000.00, 10000000.00);
 
 -- --------------------------------------------------------
 
@@ -7765,10 +7799,9 @@ INSERT INTO `tour_schedule` (`id`, `id_tour`, `Name`, `Date`, `Schedule`, `Locat
 (245, 77, 'Tour Úc', '2025-11-13 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
 (247, 78, 'Tour Cần Thơ', '2025-05-31 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
 (248, 78, 'Tour Cần Thơ', '2025-06-01 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
-(249, 78, 'Tour Cần Thơ', '2025-05-22 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
 (250, 78, 'Tour Cần Thơ', '2025-10-23 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
 (252, 79, 'Tour Cát Bà', '2025-05-31 00:00:00', '2 ngày 1 đêm', 'Hà Nội', 1),
-(253, 79, 'Tour Cát Bà', '2025-05-22 00:00:00', '2 ngày 1 đêm', 'Hà Nội', 1),
+(253, 79, 'Tour Cát Bà', '2025-05-22 00:00:00', '2 ngày 1 đêm', 'Hà Nội', 3),
 (254, 79, 'Tour Cát Bà', '2025-06-07 00:00:00', '2 ngày 1 đêm', 'Hà Nội', 1),
 (255, 79, 'Tour Cát Bà', '2025-07-25 00:00:00', '2 ngày 1 đêm', 'Hà Nội', 1),
 (257, 80, 'Tour Đài Loan', '2025-05-23 00:00:00', '2 ngày 1 đêm', 'TP.Hồ Chí Minh', 1),
@@ -7862,6 +7895,8 @@ CREATE TABLE `user_credit` (
   `sdt` varchar(255) NOT NULL,
   `profile` varchar(255) DEFAULT NULL,
   `Password` varchar(255) NOT NULL,
+  `TenNH` text NOT NULL,
+  `SoNH` varchar(200) DEFAULT NULL,
   `Datetime` date NOT NULL,
   `reset_token` varchar(255) DEFAULT NULL,
   `token_expiry` datetime DEFAULT NULL,
@@ -7875,23 +7910,23 @@ CREATE TABLE `user_credit` (
 -- Đang đổ dữ liệu cho bảng `user_credit`
 --
 
-INSERT INTO `user_credit` (`id`, `Name`, `Address`, `Email`, `sdt`, `profile`, `Password`, `Datetime`, `reset_token`, `token_expiry`, `failed_attempts`, `is_locked`, `unlock_token`, `login_type`) VALUES
-(1, 'Phuc Hung', 'sssss', 'phuc@gmail.com', '0987389890', 'pt.png', 'cb0343fa02f5e80de7ed84427f227af1', '2001-10-11', NULL, NULL, 0, 0, NULL, ''),
-(12, 'Skappa', 'TP BÌNH THUẬN', 'Skappa@gmail.com', '0738393890', 'tt.jpg', 'b9f85712cd4de962ab308c6e2b550bea', '2001-06-15', NULL, NULL, 0, 0, NULL, ''),
-(13, 'ma', 'TP BÌNH THUẬN', 'ma@gmail.com', '0756383989', 'qrh.PNG', '619ce14ca2272f0a86e86c3df935928f', '2004-10-22', NULL, NULL, 0, 0, NULL, ''),
-(17, 'ssss', 'ss', 'phucss@gmail.com', '0983928928', 'Đặt tour.jpg', '619ce14ca2272f0a86e86c3df935928f', '2022-07-01', NULL, NULL, 0, 0, NULL, ''),
-(20, 'sss', 'TP BÌNH THUẬN', 'sssss@gmail.com', '0838290920', 'qrh.PNG', '619ce14ca2272f0a86e86c3df935928f', '1999-06-25', NULL, NULL, 0, 0, NULL, ''),
-(27, 'Phan Hung', 'sssss', 'comonhay@gmail.com', '0736278299', 'gallery-6.jpg', '619ce14ca2272f0a86e86c3df935928f', '1996-07-07', NULL, NULL, 0, 0, NULL, 'google'),
-(29, 'Phuc Dang', 'zf', 'phucdang756@gmail.com', '0973873893', 'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=3857178607907583&height=50&width=50&ext=1746581799&hash=AbYKqbCWzxb4NVGUlyeFfy5e', '', '2004-03-07', NULL, NULL, 0, 0, NULL, 'facebook'),
-(30, 'Phuc Dang', '', 'phucdang756@gmail.com', '0141058698', NULL, '', '0000-00-00', NULL, NULL, 0, 0, NULL, 'google'),
-(31, 'Skappa567', 'ádds', 'Skappa567@gmail.com', '0988888888', 'class.jpg', '619ce14ca2272f0a86e86c3df935928f', '2004-02-22', NULL, NULL, 0, 0, NULL, ''),
-(32, 'Emaiop', 'TP BÌNH THUẬN', 'Emaiop@gmail.com', '0999999999', 'Untitled Workspace.png', '619ce14ca2272f0a86e86c3df935928f', '2004-07-24', NULL, NULL, 0, 0, NULL, ''),
-(33, 'skappa', 'TP BÌNH THUẬN', 'as@gmail.com', '0719289098', 'Untitled Workspace.png', '619ce14ca2272f0a86e86c3df935928f', '2001-02-25', NULL, NULL, 0, 0, NULL, ''),
-(34, 'sss', 'TP BÌNH THUẬN', 'sv12@gmail.com', '0819289892', NULL, '619ce14ca2272f0a86e86c3df935928f', '2002-07-25', NULL, NULL, 0, 0, NULL, ''),
-(35, 'Phú', 'TP BÌNH THUẬN', 'sv43@gmail.com', '0988888889', NULL, '619ce14ca2272f0a86e86c3df935928f', '2010-02-11', NULL, NULL, 0, 0, NULL, ''),
-(36, 'media', 'TP BÌNH THUẬN', 'media@gmail.com', '0920200002', NULL, '619ce14ca2272f0a86e86c3df935928f', '1997-11-25', NULL, NULL, 0, 0, NULL, ''),
-(37, 'media1', 'TP BÌNH THUẬN', 'media1@gmail.com', '0920200004', 'Untitled Workspace.png', '619ce14ca2272f0a86e86c3df935928f', '1997-11-25', NULL, NULL, 0, 0, NULL, ''),
-(38, 'Đăng Hưng Lê', '', 'ledanghung.13012002@gmail.com', '0743143377', NULL, '', '0000-00-00', NULL, NULL, 0, 0, NULL, 'google');
+INSERT INTO `user_credit` (`id`, `Name`, `Address`, `Email`, `sdt`, `profile`, `Password`, `TenNH`, `SoNH`, `Datetime`, `reset_token`, `token_expiry`, `failed_attempts`, `is_locked`, `unlock_token`, `login_type`) VALUES
+(1, 'Phuc Hung', 'sssss', 'phuc@gmail.com', '0987389890', 'pt.png', 'cb0343fa02f5e80de7ed84427f227af1', 'MBBANK', '0918289828982898', '2001-10-11', NULL, NULL, 0, 0, NULL, ''),
+(12, 'Skappa', 'TP BÌNH THUẬN', 'Skappa@gmail.com', '0738393890', 'tt.jpg', 'b9f85712cd4de962ab308c6e2b550bea', '', NULL, '2001-06-15', NULL, NULL, 0, 0, NULL, ''),
+(13, 'ma', 'TP BÌNH THUẬN', 'ma@gmail.com', '0756383989', 'qrh.PNG', '619ce14ca2272f0a86e86c3df935928f', '', NULL, '2004-10-22', NULL, NULL, 0, 0, NULL, ''),
+(17, 'ssss', 'ss', 'phucss@gmail.com', '0983928928', 'Đặt tour.jpg', '619ce14ca2272f0a86e86c3df935928f', '', NULL, '2022-07-01', NULL, NULL, 0, 0, NULL, ''),
+(20, 'sss', 'TP BÌNH THUẬN', 'sssss@gmail.com', '0838290920', 'qrh.PNG', '619ce14ca2272f0a86e86c3df935928f', '', NULL, '1999-06-25', NULL, NULL, 0, 0, NULL, ''),
+(27, 'Phan Hung', 'sssss', 'comonhay@gmail.com', '0736278299', 'gallery-6.jpg', '619ce14ca2272f0a86e86c3df935928f', 'MBBANK', '2147483647232222', '1996-07-07', NULL, NULL, 0, 0, NULL, 'google'),
+(29, 'Phuc Dang', 'zf', 'phucdang756@gmail.com', '0973873893', 'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=3857178607907583&height=50&width=50&ext=1746581799&hash=AbYKqbCWzxb4NVGUlyeFfy5e', '', '', NULL, '2004-03-07', NULL, NULL, 0, 0, NULL, 'facebook'),
+(30, 'Phuc Dang', '', 'phucdang756@gmail.com', '0141058698', NULL, '', '', NULL, '0000-00-00', NULL, NULL, 0, 0, NULL, 'google'),
+(31, 'Skappa567', 'ádds', 'Skappa567@gmail.com', '0988888888', 'class.jpg', '619ce14ca2272f0a86e86c3df935928f', '', NULL, '2004-02-22', NULL, NULL, 0, 0, NULL, ''),
+(32, 'Emaiop', 'TP BÌNH THUẬN', 'Emaiop@gmail.com', '0999999999', 'Untitled Workspace.png', '619ce14ca2272f0a86e86c3df935928f', '', NULL, '2004-07-24', NULL, NULL, 0, 0, NULL, ''),
+(33, 'skappa', 'TP BÌNH THUẬN', 'as@gmail.com', '0719289098', 'Untitled Workspace.png', '619ce14ca2272f0a86e86c3df935928f', '', NULL, '2001-02-25', NULL, NULL, 0, 0, NULL, ''),
+(34, 'sss', 'TP BÌNH THUẬN', 'sv12@gmail.com', '0819289892', NULL, '619ce14ca2272f0a86e86c3df935928f', '', NULL, '2002-07-25', NULL, NULL, 0, 0, NULL, ''),
+(35, 'Phú', 'TP BÌNH THUẬN', 'sv43@gmail.com', '0988888889', NULL, '619ce14ca2272f0a86e86c3df935928f', '', NULL, '2010-02-11', NULL, NULL, 0, 0, NULL, ''),
+(36, 'media', 'TP BÌNH THUẬN', 'media@gmail.com', '0920200002', NULL, '619ce14ca2272f0a86e86c3df935928f', '', NULL, '1997-11-25', NULL, NULL, 0, 0, NULL, ''),
+(37, 'media1', 'TP BÌNH THUẬN', 'media1@gmail.com', '0920200004', 'Untitled Workspace.png', '619ce14ca2272f0a86e86c3df935928f', '', NULL, '1997-11-25', NULL, NULL, 0, 0, NULL, ''),
+(38, 'Đăng Hưng Lê', '', 'ledanghung.13012002@gmail.com', '0743143377', NULL, '', '', NULL, '0000-00-00', NULL, NULL, 0, 0, NULL, 'google');
 
 -- --------------------------------------------------------
 
@@ -8225,7 +8260,7 @@ ALTER TABLE `wishlist`
 -- AUTO_INCREMENT cho bảng `activity_logs`
 --
 ALTER TABLE `activity_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=468;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=487;
 
 --
 -- AUTO_INCREMENT cho bảng `admin`
@@ -8237,7 +8272,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT cho bảng `assignment_tour`
 --
 ALTER TABLE `assignment_tour`
-  MODIFY `idass` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `idass` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT cho bảng `booking_details_ks`
