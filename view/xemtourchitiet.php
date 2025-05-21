@@ -429,7 +429,7 @@ function xemdanhgiarating() {
 
             let ordersCount = ordersMap[date] || 0; // Lấy số lượt đặt từ object `ordersMap`
            
-            eventHtml += `<span class="departure-date ${isPast}">${formattedDate} (${ordersCount} lượt đặt)</span>`;
+            eventHtml += `<span class="departure-date ${isPast}">${formattedDate}</span>`;
         });
 
         eventHtml += `</div></li>
