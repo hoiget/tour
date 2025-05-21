@@ -536,6 +536,9 @@ function xemtrangthai() {
                         if (event.Payment_status == '2') {
                             eventHtml += '<button class="btn review">Chưa hoàn tiền</button>';
                         }
+                         if (event.Payment_status == '3') {
+                            eventHtml += '<button class="btn review">Đã hoàn tiền</button>';
+                        }
                     }else if (event.refund == '2') {
                         eventHtml += '<button class="btn cancel">Đã hủy</button>';
                         if (event.Payment_status == '1') {

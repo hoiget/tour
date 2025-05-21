@@ -2657,10 +2657,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     elseif ($action == "xacnhantour") {
 
         $id = $_GET['id'];
-        $trangthai = "2";
+        $trangthai = "3";
         // Kiểm tra xem người dùng đã tồn tại trong cơ sở dữ liệu chưa
 
-        $insert_query = "UPDATE booking_ordertour SET Booking_status ='$trangthai' WHERE Booking_id = '$id'";
+        $insert_query = "UPDATE booking_ordertour SET Payment_status ='$trangthai' WHERE Booking_id = '$id'";
 
 
         if ($conn->query($insert_query) === TRUE) {

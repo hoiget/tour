@@ -545,6 +545,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['Booking_id'])) {
                     <option value="" selected>Tất cả</option>
                     <option value="1">Chưa thanh toán</option>
                     <option value="2">Đã thanh toán</option>
+                     <option value="3">Đã hoàn tiền</option>
                   
                     <!-- Các vùng khác -->
                 </select>
@@ -660,9 +661,12 @@ $(document).ajaxComplete(function() {
                     `;
 
                     if (event.refund == '1') {
-                        eventHtml += '<td><span style="color:red">Hủy đơn</span>';
+                        eventHtml += '<td><span style="color:red">Hủy đơn</span><br>';
                         if (event.Payment_status == '2') {
                             eventHtml += '<br><span style="color:orange;">Chưa hoàn tiền</span></td>';
+                        }
+                        else if (event.Payment_status == '3') {
+                            eventHtml += '<br><span style="color:green;">Đã hoàn tiền</span></td>';
                         }
                     } else if (event.Booking_status == '1') {
                         eventHtml += '<td><span style="color:green">Chưa xác nhận</span></td>';
@@ -749,6 +753,9 @@ function searchkh(event) {
                    if(event.Payment_status =='2'){
                        eventHtml += '<br><span style="color:orange;">Chưa hoàn tiền</span></td>' 
                    }
+                    else if (event.Payment_status == '3') {
+                            eventHtml += '<br><span style="color:green;">Đã hoàn tiền</span></td>';
+                        }
                }else if(event.Booking_status == '1'){
                    
                     eventHtml += '<td><span style="color:green">Chưa xác nhận</span></td>' 
@@ -834,6 +841,9 @@ function locdanhsach(year, month = null,vung = null,from_date = null, to_date = 
                         eventHtml += '<td><span style="color:red">Hủy đơn</span>';
                         if (event.Payment_status == '2') {
                             eventHtml += '<br><span style="color:orange;">Chưa hoàn tiền</span></td>';
+                        }
+                         else if (event.Payment_status == '3') {
+                            eventHtml += '<br><span style="color:green;">Đã hoàn tiền</span></td>';
                         }
                     } else if (event.Booking_status == '1') {
                         eventHtml += '<td><span style="color:green">Chưa xác nhận</span></td>';

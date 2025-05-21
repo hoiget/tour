@@ -226,7 +226,7 @@
     type: 'GET',
     dataType: 'json',
     success: function (response) {
-      console.log(response);
+   
 
       if (Array.isArray(response) && response.length > 0) {
         var html = '';
@@ -294,7 +294,7 @@
     type: 'GET',
     dataType: 'json',
     success: function (response) {
-      console.log(response);
+    
       if (Array.isArray(response) && response.length > 0) {
         var html = '';
         response.forEach(function (tour) {
@@ -483,7 +483,7 @@ function capnhathdv() {
       contentType: false,
       processData: false,
       success: function (response) {
-        console.log(response);
+      
         if (response === 'update_success' || response === 'insert_success') {
           openPopup('Thông báo', 'Cập nhật thành công');
           setTimeout(function () {
