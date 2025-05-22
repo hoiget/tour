@@ -219,7 +219,7 @@ $(document).ready(function () {
         type: 'POST',
         data: $('#guitouryeucau').serialize(),
         success: function (response) {
-            console.log(response);
+           
             if (response.trim() === 'Phản hồi của bạn đã được gửi thành công!') {
                 openPopup('Thông báo', 'Phản hồi của bạn đã được gửi thành công!');
                 setTimeout(function () {

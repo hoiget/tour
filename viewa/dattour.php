@@ -569,7 +569,7 @@ function xemdattour() {
             contentType: false, // Bắt buộc để FormData hoạt động đúng
             processData: false, // Không xử lý dữ liệu FormData thành chuỗi
             success: function (response) {
-                console.log(response);
+               
                 if (response === 'insert_success') {
                     openPopup('Thông báo', 'Đặt thành công!');
                     setTimeout(function () {

@@ -576,7 +576,7 @@ loginForm.addEventListener("submit", (e) => {
         type: 'GET',
         dataType: 'json', // Tự động phân tích chuỗi JSON thành object/mảng
         success: function(response) {
-          console.log(response)
+         
             if (Array.isArray(response) && response.length > 0) {
                 var events = response;
                 var eventHtml = '';
@@ -626,7 +626,7 @@ function xemdiem() {
         type: 'GET',
         dataType: 'json', // Tự động phân tích chuỗi JSON thành object/mảng
         success: function(response) {
-          console.log(response)
+         
             if (Array.isArray(response) && response.length > 0) {
                 var events = response;
                 var eventHtml = '';
@@ -794,7 +794,7 @@ function xemdattour() {
             contentType: false, // Bắt buộc để FormData hoạt động đúng
             processData: false, // Không xử lý dữ liệu FormData thành chuỗi
             success: function (response) {
-                console.log(response);
+               ;
                 if (response === 'insert_success') {
                     openPopup('Thông báo', 'Đặt thành công!');
                     setTimeout(function () {

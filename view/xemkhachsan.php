@@ -462,7 +462,7 @@ function timKiemThongTinks(name, price, area, adult, children, checkin, checkout
         type: 'GET',
         dataType: 'json',
         success: function (response) {
-            console.log(response);
+          
             if (Array.isArray(response) && response.length > 0) {
                 var tourHtml = response.map(tour => `
                     <div class="tour-cards">

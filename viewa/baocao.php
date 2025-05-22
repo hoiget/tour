@@ -150,7 +150,7 @@ $(document).ready(function(){
             processData: false,
             contentType: false,
             success: function(response){
-                console.log(response); // In phản hồi server trong console để kiểm tra
+            
                 if (response.includes("✅ Báo cáo đã được gửi thành công!")) {
                     $("#responseMessage").text(response).css("color", "green");
                 } 

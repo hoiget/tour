@@ -204,7 +204,7 @@ function phancong() {
             contentType: false, // Bắt buộc khi sử dụng FormData
             processData: false, // Ngăn jQuery xử lý dữ liệu
             success: function (response) {
-                console.log(response); // Để kiểm tra chính xác dữ liệu phản hồi
+              
                 if (response === 'Phân công thành công') {
                     openPopup('Thông báo', 'Phân công thành công');
                     setTimeout(function () {

@@ -534,7 +534,7 @@ function goiYTours() {
         type: 'GET',
         dataType: 'json',
         success: function (response) {
-            console.log(response);
+          
             let tourHtml = "";
             if (Array.isArray(response) && response.length > 0) {
                 tourHtml += `<div class="row">`;

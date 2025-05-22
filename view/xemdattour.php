@@ -450,7 +450,7 @@ function xemtrangthai() {
         type: 'GET',
         dataType: 'json',
         success: function (response) {
-            console.log(response);
+        
             if (Array.isArray(response) && response.length > 0) {
                 let eventHtml = '';
 
@@ -623,7 +623,7 @@ function huydontour(idve, participants, idtour,datetime) {
     fetch(`./api/api.php?action=huydontour&id=${idve}&participants=${participants}&idtour=${idtour}&ngaykhoihanh=${datetime}`)
         .then(response => response.text())
         .then(data => {
-            console.log(data);
+          
             if (data === 'gui') {
                 openPopup('Hủy đơn thành công', '');
                 setTimeout(() => {
@@ -786,7 +786,7 @@ function openRatingModal1(Id) {
         type: 'GET',
         dataType: 'json',
         success: function(response) {
-            console.log(response)
+           
             if (response && response.length > 0) {
                 var item = response[0]; // Lấy thông tin chung từ bản ghi đầu tiên
                 var detailsHtml = `
@@ -939,7 +939,7 @@ function xoapar(id, idtour, booking_id, adult_price, child_rate) {
     fetch(`./api/api.php?action=xoapar&id=${id}&idtour=${idtour}&booking_id=${booking_id}&adult_price=${adult_price}&child_rate=${child_rate}`)
         .then(response => response.text())
         .then(data => {
-            console.log(data);
+           
             if (data === 'gui') {
                 openPopup('Xóa thành viên tham gia thành công', '');
                 
@@ -1067,7 +1067,7 @@ $(document).ready(function() {
         fetch(`./api/api.php?action=laythongtindanhgia&danhgia=${tourId}`)
             .then(response => response.json())
             .then(data => {
-                console.log(data)
+               
                 if (data && data[0]) {
                     document.getElementById('dg').innerHTML = `
                         <h5>Tên tour: ${data[0].Tour_name}</h5>

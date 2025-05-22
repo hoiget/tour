@@ -92,7 +92,7 @@
                 url: './api/api.php',
                 data: $(this).serialize(),
                 success: function(response) {
-                  console.log(response)
+                 
                     if(response === 'update_success'){
                         openPopup('Thông báo','cập nhật thành công')
                         setTimeout(function() {
@@ -125,7 +125,7 @@
             processData: false, // Không xử lý dữ liệu
             contentType: false, // Không đặt kiểu nội dung mặc định
             success: function(response) {
-                console.log(response);
+               ;
                 if (response === 'update_success') {
                     openPopup('Thông báo', 'Cập nhật thành công');
                     setTimeout(function() {
@@ -152,7 +152,7 @@ function get_user_info() {
         type: 'GET',
         dataType: 'json',
         success: function(response) {
-            console.log(response)
+           
             if (Array.isArray(response) && response.length > 0) {
                 var events = response;
                 var eventHtml = '';
@@ -241,7 +241,7 @@ function xemdiem() {
         type: 'GET',
         dataType: 'json', // Tự động phân tích chuỗi JSON thành object/mảng
         success: function(response) {
-          console.log(response)
+         
             if (Array.isArray(response) && response.length > 0) {
                 var events = response;
                 var eventHtml = '';

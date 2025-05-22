@@ -172,7 +172,7 @@ function xemks() {
       type: 'GET',
       dataType: 'json',
       success: function (response) {
-       console.log(response)
+      
         if (Array.isArray(response) && response.length > 0) {
           const event = response[0]; // Lấy phần tử đầu tiên
           const eventHtml = `
@@ -278,7 +278,7 @@ function xemks() {
                 url: './api/api.php',
                 data: $(this).serialize(),
                 success: function(response) {
-                  console.log(response)
+                 
                     if (response === 'insert_success') {
                         openPopup('Thông báo', 'Cập nhật thành công!');
                         setTimeout(function() {

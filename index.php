@@ -464,6 +464,7 @@ Thông tin cá nhân của khách hàng sẽ được lưu trữ trong thời gi
 
 <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
 <df-messenger
+  intent="WELCOME"
   chat-title="Chat"
   agent-id="6ba7722e-f169-4c21-a783-8bb322ff9377"
   language-code="vi"
