@@ -78,7 +78,14 @@ p {
 }
 
    </style>
-  
+  <script>
+  // Xóa các query params khỏi URL trên thanh địa chỉ
+  if (window.history.replaceState) {
+    const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+    window.history.replaceState(null, "", cleanUrl);
+  }
+</script>
+
   <body>
     <div class="main-box">
       <h4 class="payment-title">Thanh toán thất bại</h4>
@@ -89,5 +96,4 @@ p {
       <a href="index.php?xemdattour" id="return-page-btn" class="btn">Trở về trang Tạo Link thanh toán</a>
     </div>
   </body>
-
 

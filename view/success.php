@@ -76,6 +76,13 @@ p {
 }
 
    </style>
+<script>
+  // Xóa các query params khỏi URL trên thanh địa chỉ
+  if (window.history.replaceState) {
+    const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+    window.history.replaceState(null, "", cleanUrl);
+  }
+</script>
 
   <body>
     <div class="main-box">
@@ -96,7 +103,7 @@ $orderCode = $_GET['orderCode']; // Hoặc lấy từ GET, tùy vào cách nhậ
 $numbersOnly = preg_replace('/\D/', '', $orderCode); // Loại bỏ tất cả ký tự không phải số
 $firstTwoDigits = substr($numbersOnly, 0, 3);
 // Kiểm tra nếu payment thành công (mã trạng thái trả về từ API thành công, có thể thay đổi theo cấu trúc trả về)
-if ($_GET['status'] == 'PAID') {
+if ($_GET['status'] == 'PAID' && $_GET['cancel'] == 'false') {
     // Kết nối cơ sở dữ liệu
    
 
@@ -124,7 +131,7 @@ if ($_GET['status'] == 'PAID') {
     } else {
         echo "Lỗi chuẩn bị câu truy vấn: " . $conn->error;
     }
-
+include_once("xuatpayos.php");
     // Đóng kết nối
     $conn->close();
 } else {

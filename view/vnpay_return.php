@@ -229,7 +229,7 @@
                             if ($_GET['vnp_ResponseCode'] == '00') {
                                 $booking_id = $_GET['vnp_TxnRef'];
                                 $sotien= $_GET['vnp_Amount'] /100 ;
-
+                             
                                 $status = '2';
                            
                                 $booking_id = $_GET['vnp_TxnRef'];
@@ -268,6 +268,8 @@
                                     });
                                 });
                             </script>";
+                            include_once("xuatvnpay.php");
+
                             } else {
                                 echo "<span style='color:red'>GD không thành công</span>";
                             }

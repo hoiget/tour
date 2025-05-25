@@ -141,13 +141,15 @@ if (isset($_SESSION['login_time']) && ($currentTime - $_SESSION['login_time'] > 
                                     <li><a href="index.php?tour&mien=Ngoài nước" data-i18n="Overseas Tour">Tour nước ngoài</a></li>
                                     <?php if(isset($_SESSION['Email']) || isset($_SESSION['sdt'])) { ?>
                                     <li><a href="index.php?custom_tour" data-i18n="Tour on request">Tour theo yêu cầu</a></li>
-                                    <li><a href="index.php?thuexe" data-i18n="Car rental on demand">Thuê xe theo yêu cầu</a></li>
                                     <?php }?>
 
                                 </ul>          
                             </li>
                             <li><a href="index.php?ks" data-i18n="hotels">Khách sạn</a></li>
-                          
+                           <?php if(isset($_SESSION['Email']) || isset($_SESSION['sdt'])) { ?>
+                                    
+                                    <li><a href="index.php?thuexe" data-i18n="Car rental on demand">Thuê xe theo yêu cầu</a></li>
+                              <?php }?>
 
                         </ul>
                     </li>
@@ -468,6 +470,8 @@ Thông tin cá nhân của khách hàng sẽ được lưu trữ trong thời gi
   chat-title="Chat"
   agent-id="6ba7722e-f169-4c21-a783-8bb322ff9377"
   language-code="vi"
+  wait-open="true"  
+  suppress="true"  
 ></df-messenger>
 
 </body>
