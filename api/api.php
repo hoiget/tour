@@ -6,6 +6,15 @@ include_once("connect.php");
 require 'send_email.php';
 require '../log/log_helper.php';
 
+define('ENCRYPTION_KEY', 'your-32-byte-secret-key-1234567890!@#$'); // Tự tạo key 32 ký tự nhé
+
+function encryptData($plaintext, $key = ENCRYPTION_KEY) {
+    $iv = openssl_random_pseudo_bytes(16);
+    $ciphertext = openssl_encrypt($plaintext, 'AES-256-CBC', $key, 0, $iv);
+    return base64_encode($iv . $ciphertext);
+}
+
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $inputJSON = file_get_contents("php://input");
     $input = json_decode($inputJSON, true);
@@ -260,41 +269,56 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     
     
-    elseif ($action == "updatettcn") {
-        $username = $_POST['name']; // Tên tài khoản
-        $email = $_SESSION['Email']; // Lấy email từ session
-        $phone = $_SESSION['sdt'];  // Lấy số điện thoại từ session
-        $address = $_POST['dc'];    // Địa chỉ
-        $birthdate = $_POST['ns'];  // Ngày sinh
-        $phone1 = $_POST['phone']; 
-        $tennh = $_POST['tennh']; 
-        $stk = $_POST['stk']; 
-        // Kiểm tra nếu các trường bắt buộc rỗng
-        if (empty($username) || empty($email) || empty($phone1)) {
-            echo 'missing_data';
-            exit;
-        }
+  elseif ($action == "updatettcn") {
+    $username = $_POST['name'];
+    $email = $_SESSION['Email'];
+    $phone = $_SESSION['sdt'];
+    $address = $_POST['dc'];
+    $birthdate = $_POST['ns'];
+    $phone1 = $_POST['phone'];
+    $tennh = $_POST['tennh'];
+    $stk = $_POST['stk'];
 
-        // Cập nhật thông tin người dùng
-        $update_query = "UPDATE user_credit SET Name = ?, Address = ?, Datetime = ?, sdt= ?,TenNH = ?,SoNH = ? WHERE Email = ? OR sdt = ?";
+    if (empty($username) || empty($email) || empty($phone1)) {
+        echo 'missing_data';
+        exit;
+    }
+
+    // Mã hóa stk mới
+    $encrypted_stk = encryptData($stk);
+
+  
+    // Lấy SoNH từ DB
+    $check_query = "SELECT SoNH FROM user_credit WHERE Email = ? OR sdt = ?";
+    $stmt_check = $conn->prepare($check_query);
+    $stmt_check->bind_param("ss", $email, $phone);
+    $stmt_check->execute();
+    $stmt_check->bind_result($SoNH_in_db);
+    $stmt_check->fetch();
+    $stmt_check->close();
+
+    // So sánh trực tiếp 2 chuỗi đã mã hóa
+    $update_stk = ($stk !== $SoNH_in_db);
+
+    // Câu truy vấn UPDATE
+    if ($update_stk) {
+        $update_query = "UPDATE user_credit SET Name = ?, Address = ?, Datetime = ?, sdt = ?, TenNH = ?, SoNH = ? WHERE Email = ? OR sdt = ?";
         $stmt = $conn->prepare($update_query);
+        $stmt->bind_param("sssssssi", $username, $address, $birthdate, $phone1, $tennh, $encrypted_stk, $email, $phone);
+    } else {
+        $update_query = "UPDATE user_credit SET Name = ?, Address = ?, Datetime = ?, sdt = ?, TenNH = ? WHERE Email = ? OR sdt = ?";
+        $stmt = $conn->prepare($update_query);
+        $stmt->bind_param("ssssssi", $username, $address, $birthdate, $phone1, $tennh, $email, $phone);
+    }
 
-        // Kiểm tra nếu không chuẩn bị được câu truy vấn
-        if (!$stmt) {
-            echo 'query_error';
-            exit;
-        }
+    if (!$stmt) {
+        echo 'query_error';
+        exit;
+    }
 
-        // Bind các tham số vào câu truy vấn
-        $stmt->bind_param("sssssssi", $username, $address, $birthdate,$phone1,$tennh,$stk, $email, $phone);
-
-        // Thực thi câu truy vấn
-        if ($stmt->execute()) {
-            echo 'update_success'; // Thành công
-        } else {
-            echo 'update_error'; // Lỗi
-        }
-    } elseif ($action == "updateanh") {
+    echo $stmt->execute() ? 'update_success' : 'update_error';
+}
+elseif ($action == "updateanh") {
         $email = $_SESSION['Email']; // Lấy email từ session
         $phone = $_SESSION['sdt'];  // Lấy số điện thoại từ session
         $file = $_FILES['anh']['tmp_name'];
@@ -1451,6 +1475,7 @@ ORDER BY
     }
     exit;
 }
+
  elseif ($action == "xemtoursua") {
         $user_id = $_SESSION['id'];
         $id = $_GET['idt'];

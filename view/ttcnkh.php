@@ -83,6 +83,10 @@
 
            
     </div>
+  <?php 
+
+
+  ?>
     <script>
        function updatettcn() {
         $('#updatettcn').submit(function(e) {
@@ -159,7 +163,7 @@ function get_user_info() {
                 events.forEach(function(event) {
                     // Tính tuổi
                     let tuoi = calculateAge(event.Datetime);
-
+                   
                     eventHtml += `
                     <div class="row mb-3">
                         <div class="col-md-4">
@@ -189,7 +193,7 @@ function get_user_info() {
                             <input type="text" class="form-control" id="EM" name="EM" value="${event.Email}" readonly>
                         </div>
                     </div>
-                      <div class="row mb-3" hidden>
+                      <div class="row mb-3">
                         <div class="col-md-4">
                             <label for="dob" class="form-label" title="Bắt buộc">Tên ngân hàng <span style="color:red" title="Bắt buộc">*<span></label>
                             <input type="text" class="form-control" id="tennh" name="tennh" value="${event.TenNH}">

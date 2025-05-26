@@ -732,7 +732,7 @@ function searchkh(event) {
             data: { action: 'timkhMT', KH: searchValue }, // Gửi mã nhân viên tìm kiếm qua GET
             dataType: 'json', // Kết quả trả về là JSON
             success: function(response) {
-                console.log(response)
+             
                 if (Array.isArray(response) && response.length > 0) {
                     var events = response;
                     var eventHtml = '';
@@ -817,7 +817,7 @@ function locdanhsach(year, month = null,vung = null,from_date = null, to_date = 
         type: 'GET',
         dataType: 'json',
         success: function(response) {
-            console.log(response)
+          
             if (Array.isArray(response) && response.length > 0) {
                 var today = new Date();
                 var eventHtml = '';
@@ -920,7 +920,7 @@ function openRatingModal1(Id) {
         type: 'GET',
         dataType: 'json',
         success: function(response) {
-            console.log(response)
+           
             if (response && response.length > 0) {
                 var item = response[0]; // Lấy thông tin chung từ bản ghi đầu tiên
                 var detailsHtml = `
@@ -1013,7 +1013,11 @@ function openRatingModal1(Id) {
                                     <input type="text" id="total-price" name="" value="${item.Total_pay}" >
                                 </div>
                             </div>
-                        </div>
+                        </div>`
+                        if(item.refund == '1' && item.Payment_status == '2'){
+                           
+                     
+                    detailsHtml +=`
                         <div class="pricing-info">
                             <h3>Thông tin tài khoản ngân hàng</h3>
                             <div class="form-row">
@@ -1030,8 +1034,9 @@ function openRatingModal1(Id) {
                                 </div>
                                
                             </div>
-                        </div>
-                        <br><br>
+                        </div><br><br>`
+                        }
+                         detailsHtml +=` 
                         <!-- Thông tin thành viên tham gia -->
                         <div class="participant-info">
                             <h3>Thông tin thành viên tham gia</h3>
@@ -1093,7 +1098,7 @@ function xoapar(id, idtour, booking_id, adult_price, child_rate) {
     fetch(`./api/apia.php?action=xoapar&id=${id}&idtour=${idtour}&booking_id=${booking_id}&adult_price=${adult_price}&child_rate=${child_rate}`)
         .then(response => response.text())
         .then(data => {
-            console.log(data);
+          
             if (data === 'gui') {
                 openPopup('Xóa thành viên tham gia thành công', '');
                 setTimeout(() => {
@@ -1120,7 +1125,7 @@ function openRatingModalxem(Id) {
         type: 'GET',
         dataType: 'json',
         success: function(response) {
-            console.log(response)
+          
             if (response && response.length > 0) {
                 var item = response[0]; // Lấy thông tin chung từ bản ghi đầu tiên
                 var detailsHtml = `
@@ -1205,8 +1210,13 @@ function openRatingModalxem(Id) {
                                 </div>
                             </div>
                         </div>
-                        <br><br>
-                         <div class="pricing-info">
+                        <br><br>`
+
+                        if(item.refund == '1' && item.Payment_status == '2'){
+                           
+                     
+                    detailsHtml +=`
+                        <div class="pricing-info">
                             <h3>Thông tin tài khoản ngân hàng</h3>
                             <div class="form-row">
                                 <div>
@@ -1222,9 +1232,10 @@ function openRatingModalxem(Id) {
                                 </div>
                                
                             </div>
-                        </div>
-                        <br><br>
-                        <!-- Thông tin thành viên tham gia -->
+                        </div><br><br>`
+                        }
+                     
+                         detailsHtml +=` <!-- Thông tin thành viên tham gia -->
                         <div class="participant-info">
                             <h3>Thông tin thành viên tham gia</h3>
                 `;
