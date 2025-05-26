@@ -6,13 +6,6 @@ include_once("connect.php");
 require 'send_email.php';
 require '../log/log_helper.php';
 
-define('ENCRYPTION_KEY', 'your-32-byte-secret-key-1234567890!@#$'); // Tự tạo key 32 ký tự nhé
-
-function encryptData($plaintext, $key = ENCRYPTION_KEY) {
-    $iv = openssl_random_pseudo_bytes(16);
-    $ciphertext = openssl_encrypt($plaintext, 'AES-256-CBC', $key, 0, $iv);
-    return base64_encode($iv . $ciphertext);
-}
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -276,40 +269,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $address = $_POST['dc'];
     $birthdate = $_POST['ns'];
     $phone1 = $_POST['phone'];
-    $tennh = $_POST['tennh'];
-    $stk = $_POST['stk'];
+   
 
     if (empty($username) || empty($email) || empty($phone1)) {
         echo 'missing_data';
         exit;
     }
 
-    // Mã hóa stk mới
-    $encrypted_stk = encryptData($stk);
 
-  
-    // Lấy SoNH từ DB
-    $check_query = "SELECT SoNH FROM user_credit WHERE Email = ? OR sdt = ?";
-    $stmt_check = $conn->prepare($check_query);
-    $stmt_check->bind_param("ss", $email, $phone);
-    $stmt_check->execute();
-    $stmt_check->bind_result($SoNH_in_db);
-    $stmt_check->fetch();
-    $stmt_check->close();
-
-    // So sánh trực tiếp 2 chuỗi đã mã hóa
-    $update_stk = ($stk !== $SoNH_in_db);
 
     // Câu truy vấn UPDATE
-    if ($update_stk) {
-        $update_query = "UPDATE user_credit SET Name = ?, Address = ?, Datetime = ?, sdt = ?, TenNH = ?, SoNH = ? WHERE Email = ? OR sdt = ?";
+   
+        $update_query = "UPDATE user_credit SET Name = ?, Address = ?, Datetime = ?, sdt = ? WHERE Email = ? OR sdt = ?";
         $stmt = $conn->prepare($update_query);
-        $stmt->bind_param("sssssssi", $username, $address, $birthdate, $phone1, $tennh, $encrypted_stk, $email, $phone);
-    } else {
-        $update_query = "UPDATE user_credit SET Name = ?, Address = ?, Datetime = ?, sdt = ?, TenNH = ? WHERE Email = ? OR sdt = ?";
-        $stmt = $conn->prepare($update_query);
-        $stmt->bind_param("ssssssi", $username, $address, $birthdate, $phone1, $tennh, $email, $phone);
-    }
+        $stmt->bind_param("ssssss", $username, $address, $birthdate, $phone1, $email, $phone);
+   
 
     if (!$stmt) {
         echo 'query_error';

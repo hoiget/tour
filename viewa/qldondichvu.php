@@ -679,11 +679,19 @@ $(document).ajaxComplete(function() {
                         eventHtml += '<td><span style="color:green">Xác nhận</span></td>';
                     }
 
-                    eventHtml += `<td>
-                        <div class="action-buttons">
-                            <button class="btn edit" onclick="xacnhan('${event.Booking_id}')">✔</button>
-                    `;
-
+                   
+                    eventHtml +=`<td>
+                       <div class="action-buttons">
+                      `;
+                       if(event.refund == '1'){
+                            if(event.Payment_status =='2'){
+                                eventHtml += '<button class="btn edit" onclick="xacnhan('+event.Booking_id+')">✔</button>' 
+                            }
+                                
+                        } 
+                          
+                         
+                          
                     // Chỉ hiển thị nút "Sửa tour" nếu đơn đặt trong vòng 2 ngày
                     if (dayDiff <= 2) {
                         eventHtml += `
@@ -771,9 +779,16 @@ function searchkh(event) {
                    
                     eventHtml +=`<td>
                        <div class="action-buttons">
-                           <button class="btn edit" onclick="xacnhan('${event.Booking_id}')">✔</button>
+                      `;
+                       if(event.refund == '1'){
+                            if(event.Payment_status =='2'){
+                                eventHtml += '<button class="btn edit" onclick="xacnhan('+event.Booking_id+')">✔</button>' 
+                            }
+                                
+                        } 
+                          
                          
-                            <button style="width:50px;height:30px" id="btn-sua" class="btn edit" data-bs-toggle="modal" data-bs-target="#ratingModal" onclick="openRatingModal1('${event.Booking_id}')">Sửa tour</button>
+                           eventHtml +=`  <button style="width:50px;height:30px" id="btn-sua" class="btn edit" data-bs-toggle="modal" data-bs-target="#ratingModal" onclick="openRatingModal1('${event.Booking_id}')">Sửa tour</button>
                             <button style="width:100px;height:30px" id="btn-xem" class="btn xem" data-bs-toggle="modal" data-bs-target="#ratingModalxem" onclick="openRatingModalxem('${event.Booking_id}')">Xem chi tiết</button>
                             <button class="exportPdfBtn" data-booking-id="${event.Booking_id}">Xuất PDF</button> 
                            
@@ -1014,28 +1029,7 @@ function openRatingModal1(Id) {
                                 </div>
                             </div>
                         </div>`
-                        if(item.refund == '1' && item.Payment_status == '2'){
-                           
-                     
-                    detailsHtml +=`
-                        <div class="pricing-info">
-                            <h3>Thông tin tài khoản ngân hàng</h3>
-                            <div class="form-row">
-                                <div>
-                                    <label for="price">Tên ngân hàng: ${item.TenNH}</label>
-                                </div>
-                                 <div>
-                                    <div style="position: relative;">
-                            <input type="password" class="form-control" id="stk" name="stk"  maxlength="16" oninput="this.value = this.value.replace(/[^0-9]/g, '')" value="${item.SoNH}" readonly>
-                            <span onclick="toggleSTK()" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer;">
-                                👁️
-                            </span>
-                            </div>
-                                </div>
-                               
-                            </div>
-                        </div><br><br>`
-                        }
+                      
                          detailsHtml +=` 
                         <!-- Thông tin thành viên tham gia -->
                         <div class="participant-info">
@@ -1212,28 +1206,6 @@ function openRatingModalxem(Id) {
                         </div>
                         <br><br>`
 
-                        if(item.refund == '1' && item.Payment_status == '2'){
-                           
-                     
-                    detailsHtml +=`
-                        <div class="pricing-info">
-                            <h3>Thông tin tài khoản ngân hàng</h3>
-                            <div class="form-row">
-                                <div>
-                                    <label for="price">Tên ngân hàng: ${item.TenNH}</label>
-                                </div>
-                                 <div>
-                                    <div style="position: relative;">
-                            <input type="password" class="form-control" id="stk" name="stk"  maxlength="16" oninput="this.value = this.value.replace(/[^0-9]/g, '')" value="${item.SoNH}" readonly>
-                            <span onclick="toggleSTK()" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer;">
-                                👁️
-                            </span>
-                            </div>
-                                </div>
-                               
-                            </div>
-                        </div><br><br>`
-                        }
                      
                          detailsHtml +=` <!-- Thông tin thành viên tham gia -->
                         <div class="participant-info">

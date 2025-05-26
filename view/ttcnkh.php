@@ -96,7 +96,7 @@
                 url: './api/api.php',
                 data: $(this).serialize(),
                 success: function(response) {
-                 
+                 console.log(response)
                     if(response === 'update_success'){
                         openPopup('Thông báo','cập nhật thành công')
                         setTimeout(function() {
@@ -193,21 +193,7 @@ function get_user_info() {
                             <input type="text" class="form-control" id="EM" name="EM" value="${event.Email}" readonly>
                         </div>
                     </div>
-                      <div class="row mb-3">
-                        <div class="col-md-4">
-                            <label for="dob" class="form-label" title="Bắt buộc">Tên ngân hàng <span style="color:red" title="Bắt buộc">*<span></label>
-                            <input type="text" class="form-control" id="tennh" name="tennh" value="${event.TenNH}">
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label" title="Bắt buộc dùng để hoàn tiền">Số tài khoản ngân hàng <span style="color:red" title="Bắt buộc">*Bắt buộc dùng để hoàn tiền<span></label>
-                           <div style="position: relative;">
-                            <input type="password" class="form-control" id="stk" name="stk"  maxlength="16" oninput="this.value = this.value.replace(/[^0-9]/g, '')" value="${event.SoNH}" >
-                            <span onclick="toggleSTK()" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer;">
-                                👁️
-                            </span>
-                            </div>
-
-                        </div>
+                     
                        
                     </div>`;
                 });

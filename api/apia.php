@@ -4,24 +4,7 @@ session_start();
 
 include_once("connect.php");
 require '../log/log_helper.php';
-define('ENCRYPTION_KEY', 'your-32-byte-secret-key-1234567890!@#$'); // Tự tạo key 32 ký tự nhé
 
-function decryptData($ciphertext_base64, $key = ENCRYPTION_KEY) {
-      $data = base64_decode($ciphertext_base64);
-    if (empty($ciphertext_base64)) {
-        return ""; // Trả về chuỗi rỗng nếu dữ liệu rỗng
-    }elseif (strlen($data) < 16) {
-        // Dữ liệu base64 decode ra chưa đủ 16 bytes để lấy IV, trả về luôn (không giải mã)
-        return $ciphertext_base64;
-    }
-    else{
-        $data = base64_decode($ciphertext_base64);
-            $iv = substr($data, 0, 16);
-            $ciphertext = substr($data, 16);
-            return openssl_decrypt($ciphertext, 'AES-256-CBC', $key, 0, $iv);
-    }
-  
-}
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     $action = $_POST['action'];
@@ -2610,9 +2593,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
        if ($result && $result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             // Giải mã số tài khoản nếu có
-            if (!empty($row['SoNH'])) {
-                $row['SoNH'] = decryptData($row['SoNH']);
-            }
+            
             $res[] = $row;
         }
     }
